@@ -9,6 +9,7 @@ moduleDependencies {
         domain()
         presentation()
     }
+    database()
     predictions {
         domain()
     }

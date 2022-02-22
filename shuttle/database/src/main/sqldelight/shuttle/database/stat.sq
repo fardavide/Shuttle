@@ -1,0 +1,24 @@
+insertApp:
+    INSERT OR IGNORE INTO app(id)
+    VALUES (?);
+
+insertLocationStat:
+    INSERT OR REPLACE INTO locationStat(appId, latitude, longitude, count)
+    VALUES (?, ?, ?, ?);
+
+insertTimeStat:
+    INSERT OR REPLACE INTO timeStat(appId, time, count)
+    VALUES (?, ?, ?);
+
+findMostUsedAppsIds:
+    SELECT id
+    FROM app
+    LEFT OUTER JOIN locationStat ON locationStat.appId = app.id
+        AND
+        (locationStat.latitude >= ? AND locationStat.latitude <= ?)
+        AND
+        (locationStat.longitude >= ? AND locationStat.longitude <= ?)
+    LEFT OUTER JOIN timeStat ON timeStat.appId = app.id
+        AND
+        (timeStat.time >= ? AND timeStat.time <= ?)
+    ORDER BY IFNULL(locationStat.count, 0) + IFNULL(timeStat.count, 0) DESC;

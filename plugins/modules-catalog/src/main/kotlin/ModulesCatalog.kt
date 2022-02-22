@@ -5,6 +5,7 @@ import org.gradle.api.Project
 abstract class ModulesCatalog(project: Project): ModuleCatalog(project, ":shuttle:shuttle-")
 
 val ModulesCatalog.apps get() = AppsModuleCatalog(project)
+fun ModulesCatalog.database() = create("database")
 fun ModulesCatalog.design() = create("design")
 fun ModulesCatalog.di() = create("di")
 val ModulesCatalog.predictions get() = PredictionsModuleCatalog(project)

@@ -1,0 +1,7 @@
+CREATE TABLE timeStat (
+    appId TEXT NOT NULL,
+    time INTEGER NOT NULL,
+    count INTEGER NOT NULL,
+
+    PRIMARY KEY (appId, time)
+);

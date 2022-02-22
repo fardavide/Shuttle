@@ -1,0 +1,8 @@
+CREATE TABLE locationStat (
+    appId TEXT NOT NULL,
+    latitude REAL NOT NULL,
+    longitude REAL NOT NULL,
+    count INTEGER NOT NULL,
+
+    PRIMARY KEY (appId, latitude, longitude)
+);
