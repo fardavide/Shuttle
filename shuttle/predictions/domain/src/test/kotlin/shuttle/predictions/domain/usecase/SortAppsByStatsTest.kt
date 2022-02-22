@@ -1,19 +1,20 @@
 package shuttle.predictions.domain.usecase
 
-import com.soywiz.klock.Time
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
-import shuttle.apps.domain.model.AppId
-import shuttle.apps.domain.model.AppModel
-import shuttle.apps.domain.model.AppName
-import shuttle.predictions.domain.model.Constraints
-import shuttle.stats.domain.model.AppStats
-import shuttle.stats.domain.model.Location
-import shuttle.stats.domain.model.LocationCounter
-import shuttle.stats.domain.model.TimeCounter
+import shuttle.predictions.domain.testdata.TestData.AllApps
+import shuttle.predictions.domain.testdata.TestData.AnotherLocation
+import shuttle.predictions.domain.testdata.TestData.AnotherTime
+import shuttle.predictions.domain.testdata.TestData.CurrentLocation
+import shuttle.predictions.domain.testdata.TestData.CurrentTime
+import shuttle.predictions.domain.testdata.TestData.ProtonMail
+import shuttle.predictions.domain.testdata.TestData.Shuttle
+import shuttle.predictions.domain.testdata.TestData.Telegram
+import shuttle.predictions.domain.testdata.TestData.TestConstraints
+import shuttle.predictions.domain.testdata.TestData.buildAppStats
 import shuttle.stats.domain.model.withCount
-import kotlin.test.*
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class SortAppsByStatsTest {
 
@@ -98,39 +99,5 @@ class SortAppsByStatsTest {
 
         // then
         assertEquals(expected, result)
-    }
-
-    companion object TestData {
-
-        private val CurrentLocation = Location(latitude = 10.0, longitude = 20.0)
-        private val AnotherLocation = Location(latitude = 21.0, longitude = 31.0)
-
-        private val CurrentTime = Time(hour = 14)
-        private val AnotherTime = Time(hour = 6)
-
-        private val TestConstraints = Constraints(
-            location = CurrentLocation,
-            time = CurrentTime
-        )
-
-        val ProtonMail = AppModel(AppId("proton.protonmail"), AppName("ProtonMail"))
-        val Shuttle = AppModel(AppId("forface.shuttle"), AppName("Shuttle"))
-        val Telegram = AppModel(AppId("telegram"), AppName("Telegram"))
-
-        val AllApps = listOf(
-            ProtonMail,
-            Shuttle,
-            Telegram
-        )
-
-        fun buildAppStats(
-            app: AppModel,
-            locationCounters: List<LocationCounter> = emptyList(),
-            timeCounters: List<TimeCounter> = emptyList()
-        ) = AppStats(
-            app.id,
-            locationCounters = locationCounters,
-            timeCounters = timeCounters
-        )
     }
 }
