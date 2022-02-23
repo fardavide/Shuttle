@@ -22,7 +22,7 @@ class StatsRepositoryImpl(
     private val statDataSource: StatDataSource
 ) : StatsRepository {
 
-    override fun observeMostUsedApps(
+    override fun observeSuggestedApps(
         startLocation: Location,
         endLocation: Location,
         startTime: Time,

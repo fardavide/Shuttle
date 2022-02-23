@@ -1,4 +1,4 @@
-package shuttle.stats.domain.usecase
+package shuttle.predictions.domain.usecase
 
 import shuttle.stats.domain.model.Location
 import shuttle.stats.domain.model.LocationRange
@@ -6,7 +6,7 @@ import shuttle.stats.domain.model.LocationRange
 /**
  * Converts [Location] to [LocationRange], using meters as span
  */
-class LocationToLocationRange(
+internal class LocationToLocationRange(
     private val metersToLatitude: MetersToLatitude,
     private val metersToLongitude: MetersToLongitude
 ) {

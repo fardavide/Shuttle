@@ -12,6 +12,7 @@ moduleDependencies {
     database()
     predictions {
         domain()
+        presentation()
     }
     stats {
         data()

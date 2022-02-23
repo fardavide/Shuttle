@@ -10,7 +10,7 @@ import shuttle.stats.domain.model.Location
 
 interface StatsRepository {
 
-    fun observeMostUsedApps(
+    fun observeSuggestedApps(
         startLocation: Location,
         endLocation: Location,
         startTime: Time,

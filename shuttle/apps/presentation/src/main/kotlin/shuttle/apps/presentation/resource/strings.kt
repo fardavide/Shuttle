@@ -1,6 +1,6 @@
 package shuttle.apps.presentation.resource
 
-internal object Strings {
+object AppsStrings {
 
     const val AppIconContentDescription = "Application icon"
 }

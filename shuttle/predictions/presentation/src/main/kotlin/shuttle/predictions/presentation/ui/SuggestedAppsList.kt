@@ -1,8 +1,9 @@
 @file:Suppress("UnnecessaryVariable")
 
-package shuttle.apps.presentation.ui
+package shuttle.predictions.presentation.ui
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -18,41 +19,48 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import coil.compose.rememberImagePainter
 import org.koin.androidx.compose.getViewModel
+import shuttle.apps.domain.model.AppId
 import shuttle.apps.presentation.model.AppUiModel
 import shuttle.apps.presentation.resource.AppsStrings
-import shuttle.apps.presentation.viewmodel.AllAppsListViewModel
 import shuttle.design.Dimens
+import shuttle.predictions.presentation.viewmodel.SuggestedAppsListViewModel
+import shuttle.predictions.presentation.viewmodel.SuggestedAppsListViewModel.Action
+import shuttle.predictions.presentation.viewmodel.SuggestedAppsListViewModel.State
 
 @Composable
-fun AllAppsListPage() {
-    val viewModel: AllAppsListViewModel = getViewModel()
+fun SuggestedAppsListPage() {
+    val viewModel: SuggestedAppsListViewModel = getViewModel()
 
     val s by viewModel.state.collectAsState()
     when (val state = s) {
-        AllAppsListViewModel.State.Loading -> {}
-        is AllAppsListViewModel.State.Data -> AllAppsList(state.apps)
-        is AllAppsListViewModel.State.Error -> TODO()
+        State.Loading -> {}
+        is State.Data -> SuggestedAppsList(state.apps) { viewModel.submit(Action.OnAppClicked(it)) }
+        is State.Error -> TODO()
+        is State.RequestOpenApp -> LocalContext.current.startActivity(state.intent)
     }
 }
 
 @Composable
-internal fun AllAppsList(
-    apps: List<AppUiModel>
+internal fun SuggestedAppsList(
+    apps: List<AppUiModel>,
+    onAppClicked: (AppId) -> Unit
 ) {
     LazyColumn(contentPadding = PaddingValues(Dimens.Margin.Large)) {
         items(apps) {
-            AppListItem(it)
+            AppIconItem(it, onAppClicked)
         }
     }
 }
 
 @Composable
-internal fun AppListItem(
-    app: AppUiModel
+internal fun AppIconItem(
+    app: AppUiModel,
+    onAppClicked: (AppId) -> Unit
 ) {
-    Row(modifier = Modifier.padding(vertical = Dimens.Margin.Medium)) {
+    Row(modifier = Modifier.padding(vertical = Dimens.Margin.Medium).clickable { onAppClicked(app.id) }) {
         Image(
             painter = rememberImagePainter(data = app.icon),
             contentDescription = AppsStrings.AppIconContentDescription,

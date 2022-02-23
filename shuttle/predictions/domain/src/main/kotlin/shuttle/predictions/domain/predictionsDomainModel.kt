@@ -1,13 +1,17 @@
 package shuttle.predictions.domain
 
-import kotlinx.coroutines.Dispatchers
 import org.koin.dsl.module
-import shuttle.predictions.domain.usecase.GetSuggestedApps
-import shuttle.predictions.domain.usecase.SortAppsByStats
+import shuttle.predictions.domain.usecase.LocationToLocationRange
+import shuttle.predictions.domain.usecase.MetersToLatitude
+import shuttle.predictions.domain.usecase.MetersToLongitude
+import shuttle.predictions.domain.usecase.ObserveSuggestedApps
+import shuttle.predictions.domain.usecase.ObserveSuggestedAppsImpl
 
 val predictionsDomainModule = module {
 
-    factory { GetSuggestedApps(getAllInstalledApps = get(), getAllAppsStats = get(), sortAppsByStats = get()) }
-    factory { SortAppsByStats(computationDispatcher = Dispatchers.Default) }
+    factory { LocationToLocationRange(metersToLatitude = get(), metersToLongitude = get()) }
+    factory { MetersToLatitude() }
+    factory { MetersToLongitude() }
+    factory<ObserveSuggestedApps> { ObserveSuggestedAppsImpl(statsRepository = get(), locationToLocationRange = get()) }
 
 }

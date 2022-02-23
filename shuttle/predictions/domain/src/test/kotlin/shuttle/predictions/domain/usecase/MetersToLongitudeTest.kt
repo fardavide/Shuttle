@@ -1,4 +1,4 @@
-package shuttle.stats.domain.usecase
+package shuttle.predictions.domain.usecase
 
 import kotlin.test.Test
 import kotlin.test.assertEquals

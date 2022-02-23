@@ -1,8 +1,8 @@
-package shuttle.stats.domain.usecase
+package shuttle.predictions.domain.usecase
 
 import kotlin.math.cos
 
-class MetersToLongitude {
+internal class MetersToLongitude {
 
     operator fun invoke(meters: Int, latitude: Double): Double =
         meters / (111_111.00 / cos(latitude))

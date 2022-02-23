@@ -1,4 +1,4 @@
-package shuttle.stats.domain.usecase
+package shuttle.predictions.domain.usecase
 
 import io.mockk.every
 import io.mockk.mockk

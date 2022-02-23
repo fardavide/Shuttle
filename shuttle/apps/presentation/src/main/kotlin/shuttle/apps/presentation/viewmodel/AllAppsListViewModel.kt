@@ -6,34 +6,24 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.stateIn
-import shuttle.apps.domain.AppsRepository
-import shuttle.apps.domain.model.AppModel
 import shuttle.apps.domain.usecase.GetAllInstalledApps
+import shuttle.apps.presentation.mapper.AppUiModelMapper
 import shuttle.apps.presentation.model.AppUiModel
-import shuttle.apps.presentation.util.GetIconForApp
 
 internal class AllAppsListViewModel(
-    private val getAllInstalledApps: GetAllInstalledApps,
-    private val getIconForApp: GetIconForApp
+    private val appUiModelMapper: AppUiModelMapper,
+    private val getAllInstalledApps: GetAllInstalledApps
 ) : ViewModel() {
 
     val state: StateFlow<State> =
         flow {
-            val state = getAllInstalledApps().map(::toUiModels)
+            val state = getAllInstalledApps().map(appUiModelMapper::toUiModels)
                 .fold(
                     ifRight = State::Data,
                     ifLeft = { State.Error("Unknown") }
                 )
             emit(state)
         }.stateIn(viewModelScope, SharingStarted.Eagerly, State.Loading)
-
-    private fun toUiModels(appModels: Collection<AppModel>): List<AppUiModel> =
-        appModels.map(::toUiModel)
-
-    private fun toUiModel(appModel: AppModel) = AppUiModel(
-        name = appModel.name.value,
-        icon = getIconForApp(appModel.id)
-    )
 
     sealed interface State {
 
