@@ -22,52 +22,27 @@ class StatDataSourceTest : DatabaseTest() {
     )
 
     @Test
-    fun `increment Location counter when app was not stored`() = runTest(dispatcher) {
+    fun `increment counter when app was not stored`() = runTest(dispatcher) {
         // given
         val expectedCount = 1L
 
         // when
-        dataSource.incrementCounter(FirstAppId, ExactLatitude, ExactLongitude)
+        dataSource.incrementCounter(FirstAppId, ExactLatitude, ExactLongitude, ExactTime)
 
         // then
         verify { queries.insertLocationStat(FirstAppId, ExactLatitude, ExactLongitude, expectedCount) }
     }
 
     @Test
-    fun `increment Location counter when app was already stored`() = runTest(dispatcher) {
+    fun `increment counter when app was already stored`() = runTest(dispatcher) {
         // given
         val expectedCount = 2L
 
         // when
-        dataSource.incrementCounter(FirstAppId, ExactLatitude, ExactLongitude)
-        dataSource.incrementCounter(FirstAppId, ExactLatitude, ExactLongitude)
+        dataSource.incrementCounter(FirstAppId, ExactLatitude, ExactLongitude, ExactTime)
+        dataSource.incrementCounter(FirstAppId, ExactLatitude, ExactLongitude, ExactTime)
 
         // then
         verify { queries.insertLocationStat(FirstAppId, ExactLatitude, ExactLongitude, expectedCount) }
-    }
-
-    @Test
-    fun `increment Time counter when app was not stored`() = runTest(dispatcher) {
-        // given
-        val expectedCount = 1L
-
-        // when
-        dataSource.incrementCounter(FirstAppId, ExactTime)
-
-        // then
-        verify { queries.insertTimeStat(FirstAppId, ExactTime, expectedCount) }
-    }
-
-    @Test
-    fun `increment Time counter when app was already stored`() = runTest(dispatcher) {
-        // given
-        val expectedCount = 2L
-
-        // when
-        dataSource.incrementCounter(FirstAppId, ExactTime)
-        dataSource.incrementCounter(FirstAppId, ExactTime)
-
-        // then
-        verify { queries.insertTimeStat(FirstAppId, ExactTime, expectedCount) }
     }
 }

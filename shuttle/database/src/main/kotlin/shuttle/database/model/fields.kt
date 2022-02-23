@@ -10,4 +10,4 @@ value class DatabaseLatitude(val value: Double)
 value class DatabaseLongitude(val value: Double)
 
 @JvmInline
-value class DatabaseTime(val value: Long)
+value class DatabaseTime(val minute: Int)

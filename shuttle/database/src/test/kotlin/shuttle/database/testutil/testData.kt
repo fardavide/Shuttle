@@ -5,9 +5,9 @@ import shuttle.database.model.DatabaseLatitude
 import shuttle.database.model.DatabaseLongitude
 import shuttle.database.model.DatabaseTime
 
-val ExactTime = DatabaseTime(100L)
-val RangeStartTime = DatabaseTime(90L)
-val RangeEndTime = DatabaseTime(110L)
+val ExactTime = DatabaseTime(100)
+val RangeStartTime = DatabaseTime(90)
+val RangeEndTime = DatabaseTime(110)
 val ExactLatitude = DatabaseLatitude(20.0)
 val RangeStartLatitude = DatabaseLatitude(10.0)
 val RangeEndLatitude = DatabaseLatitude(30.0)

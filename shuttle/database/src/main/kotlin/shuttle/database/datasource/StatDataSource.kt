@@ -21,8 +21,13 @@ interface StatDataSource {
         startTime: DatabaseTime,
         endTime: DatabaseTime
     ): Flow<List<DatabaseAppId>>
-    suspend fun incrementCounter(appId: DatabaseAppId, latitude: DatabaseLatitude, longitude: DatabaseLongitude)
-    suspend fun incrementCounter(appId: DatabaseAppId, time: DatabaseTime)
+
+    suspend fun incrementCounter(
+        appId: DatabaseAppId,
+        latitude: DatabaseLatitude,
+        longitude: DatabaseLongitude,
+        time: DatabaseTime
+    )
 }
 
 internal class StatDataSourceImpl(
@@ -49,35 +54,41 @@ internal class StatDataSourceImpl(
     override suspend fun incrementCounter(
         appId: DatabaseAppId,
         latitude: DatabaseLatitude,
-        longitude: DatabaseLongitude
+        longitude: DatabaseLongitude,
+        time: DatabaseTime
     ) {
         statQueries.suspendTransaction(ioDispatcher) {
-            insertApp(appId)
-            val previousCount = findLocationStat(appId, latitude, longitude)
-                .executeAsOneOrNull()
-                ?.count
-                ?: 0
-            insertLocationStat(
-                appId = appId,
-                latitude = latitude,
-                longitude = longitude,
-                count = previousCount + 1
-            )
+            incrementLocationCounter(appId, latitude, longitude)
+            incrementTimeCounter(appId, time)
         }
     }
 
-    override suspend fun incrementCounter(appId: DatabaseAppId, time: DatabaseTime) {
-        statQueries.suspendTransaction(ioDispatcher) {
-            insertApp(appId)
-            val previousCount = findTimeStat(appId, time)
-                .executeAsOneOrNull()
-                ?.count
-                ?: 0
-            insertTimeStat(
-                appId = appId,
-                time = time,
-                count = previousCount + 1
-            )
-        }
+    private fun StatQueries.incrementLocationCounter(
+        appId: DatabaseAppId,
+        latitude: DatabaseLatitude,
+        longitude: DatabaseLongitude
+    ) {
+        val previousCount = findLocationStat(appId, latitude, longitude)
+            .executeAsOneOrNull()
+            ?.count
+            ?: 0
+        insertLocationStat(
+            appId = appId,
+            latitude = latitude,
+            longitude = longitude,
+            count = previousCount + 1
+        )
+    }
+
+    private fun StatQueries.incrementTimeCounter(appId: DatabaseAppId, time: DatabaseTime) {
+        val previousCount = findTimeStat(appId, time)
+            .executeAsOneOrNull()
+            ?.count
+            ?: 0
+        insertTimeStat(
+            appId = appId,
+            time = time,
+            count = previousCount + 1
+        )
     }
 }
