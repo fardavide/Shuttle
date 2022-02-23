@@ -10,15 +10,23 @@ insertTimeStat:
     INSERT OR REPLACE INTO timeStat(appId, time, count)
     VALUES (?, ?, ?);
 
+findLocationStat:
+    SELECT * FROM locationStat
+    WHERE appId = ? AND latitude = ? AND longitude = ?;
+
+findTimeStat:
+    SELECT * FROM timeStat
+    WHERE appId = ? AND time = ?;
+
 findMostUsedAppsIds:
     SELECT id
     FROM app
     LEFT OUTER JOIN locationStat ON locationStat.appId = app.id
         AND
-        (locationStat.latitude >= ? AND locationStat.latitude <= ?)
+        (locationStat.latitude >= :startLatitude AND locationStat.latitude <= :endLatitude)
         AND
-        (locationStat.longitude >= ? AND locationStat.longitude <= ?)
+        (locationStat.longitude >= :startLongitude AND locationStat.longitude <= :endLongitude)
     LEFT OUTER JOIN timeStat ON timeStat.appId = app.id
         AND
-        (timeStat.time >= ? AND timeStat.time <= ?)
-    ORDER BY IFNULL(locationStat.count, 0) + IFNULL(timeStat.count, 0) DESC;
+        (timeStat.time >= :startTime AND timeStat.time <= :endTime)
+    ORDER BY IFNULL(locationStat.count, 0) DESC, IFNULL(timeStat.count, 0) DESC;

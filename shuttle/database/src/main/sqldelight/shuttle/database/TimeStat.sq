@@ -1,6 +1,9 @@
+import shuttle.database.model.DatabaseAppId;
+import shuttle.database.model.DatabaseTime;
+
 CREATE TABLE timeStat (
-    appId TEXT NOT NULL,
-    time INTEGER NOT NULL,
+    appId TEXT AS DatabaseAppId NOT NULL,
+    time INTEGER AS DatabaseTime NOT NULL,
     count INTEGER NOT NULL,
 
     PRIMARY KEY (appId, time)

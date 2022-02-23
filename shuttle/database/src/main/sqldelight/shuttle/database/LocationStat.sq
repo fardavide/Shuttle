@@ -1,7 +1,11 @@
+import shuttle.database.model.DatabaseAppId;
+import shuttle.database.model.DatabaseLatitude;
+import shuttle.database.model.DatabaseLongitude;
+
 CREATE TABLE locationStat (
-    appId TEXT NOT NULL,
-    latitude REAL NOT NULL,
-    longitude REAL NOT NULL,
+    appId TEXT AS DatabaseAppId NOT NULL,
+    latitude REAL AS DatabaseLatitude NOT NULL,
+    longitude REAL AS DatabaseLongitude NOT NULL,
     count INTEGER NOT NULL,
 
     PRIMARY KEY (appId, latitude, longitude)
