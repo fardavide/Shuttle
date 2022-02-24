@@ -7,6 +7,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import shuttle.predictions.presentation.ui.LocationPermissionsScreen
@@ -32,9 +36,12 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun App() {
+    var currentScreen by rememberSaveable {
+        mutableStateOf(LocationPermissions)
+    }
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = LocationPermissions) {
-        composable(LocationPermissions) { LocationPermissionsScreen { navController.navigate(Suggestions) } }
+    NavHost(navController = navController, startDestination = currentScreen) {
+        composable(LocationPermissions) { LocationPermissionsScreen { currentScreen = Suggestions } }
         composable(Suggestions) { SuggestedAppsListPage() }
     }
 }
