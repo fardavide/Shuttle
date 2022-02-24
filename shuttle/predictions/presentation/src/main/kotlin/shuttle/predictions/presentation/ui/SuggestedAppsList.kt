@@ -60,7 +60,7 @@ internal fun AppIconItem(
     app: AppUiModel,
     onAppClicked: (AppId) -> Unit
 ) {
-    Row(modifier = Modifier.padding(vertical = Dimens.Margin.Medium).clickable { onAppClicked(app.id) }) {
+    Row(modifier = Modifier.padding(vertical = Dimens.Margin.Small).clickable { onAppClicked(app.id) }) {
         Image(
             painter = rememberImagePainter(data = app.icon),
             contentDescription = AppsStrings.AppIconContentDescription,
