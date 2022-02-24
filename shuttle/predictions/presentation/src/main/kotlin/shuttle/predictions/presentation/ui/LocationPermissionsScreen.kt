@@ -5,9 +5,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Button
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -65,10 +65,10 @@ internal fun RequestPermissions(state: LocationPermissionsState.Pending, onPermi
 
         Text(
             text = textToShow,
-            style = MaterialTheme.typography.h5,
+            style = MaterialTheme.typography.headlineMedium,
             textAlign = TextAlign.Justify,
         )
-        Row(horizontalArrangement = Arrangement.End,) {
+        Row(horizontalArrangement = Arrangement.End) {
             Button(onClick = onPermissionRequest) {
                 Text(buttonText)
             }

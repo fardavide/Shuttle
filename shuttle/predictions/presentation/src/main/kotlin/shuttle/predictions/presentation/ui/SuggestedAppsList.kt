@@ -2,18 +2,20 @@
 
 package shuttle.predictions.presentation.ui
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.GridCells
+import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -44,11 +46,16 @@ fun SuggestedAppsListPage() {
 }
 
 @Composable
+@OptIn(ExperimentalFoundationApi::class)
 internal fun SuggestedAppsList(
     apps: List<AppUiModel>,
     onAppClicked: (AppId) -> Unit
 ) {
-    LazyColumn(contentPadding = PaddingValues(Dimens.Margin.Large)) {
+    val minCellSize = Dimens.Icon.Large + Dimens.Margin.Large
+    LazyVerticalGrid(
+        cells = GridCells.Adaptive(minCellSize),
+        modifier = Modifier.padding(Dimens.Margin.Small)
+    ) {
         items(apps, key = { app -> app.id.value }) {
             AppIconItem(it, onAppClicked)
         }
@@ -60,17 +67,23 @@ internal fun AppIconItem(
     app: AppUiModel,
     onAppClicked: (AppId) -> Unit
 ) {
-    Row(modifier = Modifier.padding(vertical = Dimens.Margin.Small).clickable { onAppClicked(app.id) }) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .padding(Dimens.Margin.Small)
+            .fillMaxWidth()
+            .clickable { onAppClicked(app.id) }
+    ) {
         Image(
             painter = rememberImagePainter(data = app.icon),
             contentDescription = AppsStrings.AppIconContentDescription,
             modifier = Modifier.size(Dimens.Icon.Large)
         )
-        Spacer(modifier = Modifier.width(Dimens.Margin.Large))
+        Spacer(modifier = Modifier.height(Dimens.Margin.Small))
         Text(
             text = app.name,
-            style = MaterialTheme.typography.h5,
-            modifier = Modifier.align(Alignment.CenterVertically)
+            maxLines = 1,
+            style = MaterialTheme.typography.titleMedium
         )
     }
 }
