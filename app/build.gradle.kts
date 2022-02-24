@@ -14,6 +14,7 @@ shuttleAndroid {
 moduleDependencies {
 
     apps.presentation()
+    design()
     di()
     predictions.presentation()
 }

@@ -1,4 +1,4 @@
-package studio.forface.shuttle.ui.theme
+package shuttle.design
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle

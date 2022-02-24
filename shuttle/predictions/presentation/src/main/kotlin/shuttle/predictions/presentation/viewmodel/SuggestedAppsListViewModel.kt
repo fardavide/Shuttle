@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
@@ -38,7 +37,7 @@ internal class SuggestedAppsListViewModel(
     private lateinit var cachedCoordinates: Coordinates
 
     init {
-        observeCurrentCoordinates().debounce(5000).flatMapLatest { coordinates ->
+        observeCurrentCoordinates().flatMapLatest { coordinates ->
             cachedCoordinates = coordinates
             observeSuggestedApps(coordinates = coordinates).map { either ->
                 either.map(appUiModelMapper::toUiModels)

@@ -13,11 +13,11 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
+import shuttle.design.ShuttleTheme
 import shuttle.predictions.presentation.ui.LocationPermissionsScreen
 import shuttle.predictions.presentation.ui.SuggestedAppsListPage
 import studio.forface.shuttle.Destination.LocationPermissions
 import studio.forface.shuttle.Destination.Suggestions
-import studio.forface.shuttle.ui.theme.ShuttleTheme
 
 class MainActivity : ComponentActivity() {
 

@@ -1,4 +1,4 @@
-package studio.forface.shuttle.ui.theme
+package shuttle.design
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme

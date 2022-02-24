@@ -1,4 +1,4 @@
-package studio.forface.shuttle.ui.theme
+package shuttle.design
 
 import androidx.compose.ui.graphics.Color
 
