@@ -10,6 +10,7 @@ moduleDependencies {
         domain()
         presentation()
     }
+    coordinates.domain()
     design()
     predictions.domain()
     stats.domain()

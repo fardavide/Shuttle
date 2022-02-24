@@ -1,6 +1,7 @@
 package shuttle.stats.domain.model
 
 import com.soywiz.klock.Time
+import shuttle.coordinates.domain.model.Location
 
 sealed interface StatsCounter {
 

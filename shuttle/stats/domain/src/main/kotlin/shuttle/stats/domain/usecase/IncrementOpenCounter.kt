@@ -2,8 +2,8 @@ package shuttle.stats.domain.usecase
 
 import com.soywiz.klock.Time
 import shuttle.apps.domain.model.AppId
+import shuttle.coordinates.domain.model.Location
 import shuttle.stats.domain.StatsRepository
-import shuttle.stats.domain.model.Location
 
 class IncrementOpenCounter(
     private val statsRepository: StatsRepository

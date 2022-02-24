@@ -5,6 +5,7 @@ plugins {
 moduleDependencies {
 
     apps.domain()
+    coordinates.domain()
     database()
     stats.domain()
 }

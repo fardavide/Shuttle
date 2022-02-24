@@ -1,11 +1,5 @@
 plugins {
-    kotlin("jvm")
-}
-
-moduleDependencies {
-
-    apps.domain()
-    coordinates.domain()
+    id("shuttle.kotlin")
 }
 
 dependencies {

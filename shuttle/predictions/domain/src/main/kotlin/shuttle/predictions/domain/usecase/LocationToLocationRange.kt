@@ -1,6 +1,6 @@
 package shuttle.predictions.domain.usecase
 
-import shuttle.stats.domain.model.Location
+import shuttle.coordinates.domain.model.Location
 import shuttle.stats.domain.model.LocationRange
 
 /**

@@ -2,7 +2,7 @@ package shuttle.predictions.domain.usecase
 
 import io.mockk.every
 import io.mockk.mockk
-import shuttle.stats.domain.model.Location
+import shuttle.coordinates.domain.model.Location
 import shuttle.stats.domain.model.LocationRange
 import kotlin.test.Test
 import kotlin.test.assertEquals

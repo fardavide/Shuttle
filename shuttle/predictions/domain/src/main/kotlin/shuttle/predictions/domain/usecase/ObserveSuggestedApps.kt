@@ -7,15 +7,15 @@ import com.soywiz.klock.plus
 import kotlinx.coroutines.flow.Flow
 import shuttle.apps.domain.error.GenericError
 import shuttle.apps.domain.model.AppModel
-import shuttle.predictions.domain.model.Constraints
+import shuttle.coordinates.domain.model.Coordinates
+import shuttle.coordinates.domain.model.Location
+import shuttle.predictions.domain.model.DefaultValuesSpans
 import shuttle.stats.domain.StatsRepository
-import shuttle.stats.domain.model.DefaultValuesSpans
-import shuttle.stats.domain.model.Location
 
 interface ObserveSuggestedApps {
 
-    operator fun invoke(constraints: Constraints): Flow<Either<GenericError, List<AppModel>>> =
-        this(constraints.location, constraints.time)
+    operator fun invoke(coordinates: Coordinates): Flow<Either<GenericError, List<AppModel>>> =
+        this(coordinates.location, coordinates.time)
 
     operator fun invoke(
         location: Location,

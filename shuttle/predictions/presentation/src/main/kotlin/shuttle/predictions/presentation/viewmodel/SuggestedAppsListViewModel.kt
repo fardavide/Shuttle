@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 import shuttle.apps.domain.model.AppId
 import shuttle.apps.presentation.mapper.AppUiModelMapper
 import shuttle.apps.presentation.model.AppUiModel
-import shuttle.predictions.domain.model.Constraints
+import shuttle.coordinates.domain.model.Coordinates
 import shuttle.predictions.domain.usecase.ObserveSuggestedApps
 import shuttle.stats.domain.usecase.IncrementOpenCounter
 
@@ -32,7 +32,7 @@ internal class SuggestedAppsListViewModel(
         MutableStateFlow(State.Loading)
 
     init {
-        observeSuggestedApps(constraints = TODO("Get constraints")).map { either ->
+        observeSuggestedApps(coordinates = TODO("Get constraints")).map { either ->
             either.map(appUiModelMapper::toUiModels)
                 .fold(
                     ifRight = State::Data,
@@ -52,8 +52,8 @@ internal class SuggestedAppsListViewModel(
     }
 
     private suspend fun onAppClicked(appId: AppId): State {
-        val constraints: Constraints = TODO("Get constraints")
-        incrementOpenCounter(appId, constraints.location, constraints.time)
+        val coordinates: Coordinates = TODO("Get constraints")
+        incrementOpenCounter(appId, coordinates.location, coordinates.time)
         val intent = packageManager.getLaunchIntentForPackage(appId.value)!!
         return State.RequestOpenApp(intent)
     }

@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 import shuttle.apps.domain.error.GenericError
 import shuttle.apps.domain.model.AppId
 import shuttle.apps.domain.model.AppModel
-import shuttle.stats.domain.model.Location
+import shuttle.coordinates.domain.model.Location
 
 interface StatsRepository {
 
