@@ -21,6 +21,7 @@ dependencies {
     implementation(libs.bundles.base)
     implementation(libs.bundles.compose)
 
+    implementation(libs.accompanist.permissions)
     implementation(libs.androidx.lifecycle.viewModel)
     implementation(libs.koin.android)
 

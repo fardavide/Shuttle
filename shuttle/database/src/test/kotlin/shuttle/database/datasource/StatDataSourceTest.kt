@@ -4,13 +4,12 @@ import io.mockk.spyk
 import io.mockk.verify
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
-
 import org.junit.Test
+import shuttle.database.testdata.TestData.ExactLatitude
+import shuttle.database.testdata.TestData.ExactLongitude
+import shuttle.database.testdata.TestData.ExactTime
+import shuttle.database.testdata.TestData.FirstAppId
 import shuttle.database.testutil.DatabaseTest
-import shuttle.database.testutil.ExactLatitude
-import shuttle.database.testutil.ExactLongitude
-import shuttle.database.testutil.ExactTime
-import shuttle.database.testutil.FirstAppId
 
 class StatDataSourceTest : DatabaseTest() {
 

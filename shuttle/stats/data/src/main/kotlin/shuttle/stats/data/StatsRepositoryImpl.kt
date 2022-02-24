@@ -38,9 +38,10 @@ class StatsRepositoryImpl(
         ).map { appStatsList ->
             either {
                 val allInstalledApp = appsRepository.getAllInstalledApps().bind()
-                appStatsList.map { appDatabaseId ->
-                    allInstalledApp.first { it.id.toDatabaseAppId() == appDatabaseId }
+                val appsFromStats = appStatsList.map { databaseAppId ->
+                    allInstalledApp.first { it.id.toDatabaseAppId() == databaseAppId }
                 }
+                appsFromStats + (allInstalledApp.filterNot { it in appsFromStats })
             }
         }
 
@@ -56,5 +57,5 @@ class StatsRepositoryImpl(
 
 private fun AppId.toDatabaseAppId() = DatabaseAppId(value)
 private fun Location.databaseLatitude() = DatabaseLatitude(latitude)
-private fun Location.databaseLongitude() = DatabaseLongitude(latitude)
+private fun Location.databaseLongitude() = DatabaseLongitude(longitude)
 private fun Time.toDatabaseTime() = DatabaseTime(minute)

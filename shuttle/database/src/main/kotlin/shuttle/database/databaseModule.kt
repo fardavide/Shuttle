@@ -12,10 +12,9 @@ import studio.forface.shuttle.database.Database
 
 val databaseModule = module {
 
-    single<SqlDriver> { AndroidSqliteDriver(context = get(), schema = Database.Schema) }
+    single<SqlDriver> { AndroidSqliteDriver(context = get(), schema = Database.Schema, name = "shuttle.db") }
     single {
         val driver: SqlDriver = get()
-        Database.Schema.create(driver)
         Database(driver = driver, appAdapter = get(), locationStatAdapter = get(), timeStatAdapter = get())
     }
 

@@ -16,6 +16,7 @@ fun AppsModuleCatalog.data() = create("data")
 fun AppsModuleCatalog.domain() = create("domain")
 fun AppsModuleCatalog.presentation() = create("presentation")
 
+fun CoordinatesModuleCatalog.data() = create("data")
 fun CoordinatesModuleCatalog.domain() = create("domain")
 
 fun PredictionsModuleCatalog.domain() = create("domain")

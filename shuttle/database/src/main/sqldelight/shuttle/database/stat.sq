@@ -30,3 +30,16 @@ findMostUsedAppsIds:
         AND
         (timeStat.time >= :startTime AND timeStat.time <= :endTime)
     ORDER BY IFNULL(locationStat.count, 0) DESC, IFNULL(timeStat.count, 0) DESC;
+
+findMostUsedAppsIdsDebug:
+    SELECT id, locationStat.count AS locationCount, timeStat.count AS timeCount
+    FROM app
+    LEFT OUTER JOIN locationStat ON locationStat.appId = app.id
+        AND
+        (locationStat.latitude >= :startLatitude AND locationStat.latitude <= :endLatitude)
+        AND
+        (locationStat.longitude >= :startLongitude AND locationStat.longitude <= :endLongitude)
+    LEFT OUTER JOIN timeStat ON timeStat.appId = app.id
+        AND
+        (timeStat.time >= :startTime AND timeStat.time <= :endTime)
+    ORDER BY IFNULL(locationStat.count, 0) DESC, IFNULL(timeStat.count, 0) DESC;

@@ -7,6 +7,8 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -15,13 +17,15 @@ import shuttle.apps.domain.model.AppId
 import shuttle.apps.presentation.mapper.AppUiModelMapper
 import shuttle.apps.presentation.model.AppUiModel
 import shuttle.coordinates.domain.model.Coordinates
-import shuttle.predictions.domain.usecase.ObserveSuggestedApps
+import shuttle.coordinates.domain.usecase.ObserveCurrentCoordinates
+import shuttle.predictions.domain.usecase.ObserveSuggestedAppsByCoordinates
 import shuttle.stats.domain.usecase.IncrementOpenCounter
 
 internal class SuggestedAppsListViewModel(
     private val appUiModelMapper: AppUiModelMapper,
     private val incrementOpenCounter: IncrementOpenCounter,
-    observeSuggestedApps: ObserveSuggestedApps,
+    observeCurrentCoordinates: ObserveCurrentCoordinates,
+    observeSuggestedApps: ObserveSuggestedAppsByCoordinates,
     private val packageManager: PackageManager
 ) : ViewModel() {
 
@@ -31,13 +35,18 @@ internal class SuggestedAppsListViewModel(
     private val mutableState: MutableStateFlow<State> =
         MutableStateFlow(State.Loading)
 
+    private lateinit var cachedCoordinates: Coordinates
+
     init {
-        observeSuggestedApps(coordinates = TODO("Get constraints")).map { either ->
-            either.map(appUiModelMapper::toUiModels)
-                .fold(
-                    ifRight = State::Data,
-                    ifLeft = { State.Error("Unknown") }
-                )
+        observeCurrentCoordinates().debounce(5000).flatMapLatest { coordinates ->
+            cachedCoordinates = coordinates
+            observeSuggestedApps(coordinates = coordinates).map { either ->
+                either.map(appUiModelMapper::toUiModels)
+                    .fold(
+                        ifRight = State::Data,
+                        ifLeft = { State.Error("Unknown") }
+                    )
+            }
         }.onEach { mutableState.emit(it) }
             .launchIn(viewModelScope)
     }
@@ -52,8 +61,7 @@ internal class SuggestedAppsListViewModel(
     }
 
     private suspend fun onAppClicked(appId: AppId): State {
-        val coordinates: Coordinates = TODO("Get constraints")
-        incrementOpenCounter(appId, coordinates.location, coordinates.time)
+        incrementOpenCounter(appId, cachedCoordinates)
         val intent = packageManager.getLaunchIntentForPackage(appId.value)!!
         return State.RequestOpenApp(intent)
     }

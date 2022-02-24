@@ -49,7 +49,7 @@ internal fun SuggestedAppsList(
     onAppClicked: (AppId) -> Unit
 ) {
     LazyColumn(contentPadding = PaddingValues(Dimens.Margin.Large)) {
-        items(apps) {
+        items(apps, key = { app -> app.id.value }) {
             AppIconItem(it, onAppClicked)
         }
     }

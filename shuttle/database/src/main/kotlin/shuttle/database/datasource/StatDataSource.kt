@@ -58,6 +58,7 @@ internal class StatDataSourceImpl(
         time: DatabaseTime
     ) {
         statQueries.suspendTransaction(ioDispatcher) {
+            insertApp(appId)
             incrementLocationCounter(appId, latitude, longitude)
             incrementTimeCounter(appId, time)
         }

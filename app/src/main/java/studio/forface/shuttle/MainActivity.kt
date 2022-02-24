@@ -6,11 +6,13 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import shuttle.apps.presentation.ui.AllAppsListPage
+import androidx.navigation.compose.rememberNavController
+import shuttle.predictions.presentation.ui.LocationPermissionsScreen
+import shuttle.predictions.presentation.ui.SuggestedAppsListPage
+import studio.forface.shuttle.Destination.LocationPermissions
+import studio.forface.shuttle.Destination.Suggestions
 import studio.forface.shuttle.ui.theme.ShuttleTheme
 
 class MainActivity : ComponentActivity() {
@@ -21,16 +23,18 @@ class MainActivity : ComponentActivity() {
             ShuttleTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background) {
-                    AllAppsListPage()
+                    App()
                 }
             }
         }
     }
 }
 
-@Preview(showBackground = true)
 @Composable
-fun DefaultPreview() {
-    ShuttleTheme {
+fun App() {
+    val navController = rememberNavController()
+    NavHost(navController = navController, startDestination = LocationPermissions) {
+        composable(LocationPermissions) { LocationPermissionsScreen { navController.navigate(Suggestions) } }
+        composable(Suggestions) { SuggestedAppsListPage() }
     }
 }

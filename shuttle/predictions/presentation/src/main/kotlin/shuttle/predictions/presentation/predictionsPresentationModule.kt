@@ -6,5 +6,13 @@ import shuttle.predictions.presentation.viewmodel.SuggestedAppsListViewModel
 
 val predictionsPresentationModule = module {
 
-    viewModel { SuggestedAppsListViewModel(appUiModelMapper = get(), observeSuggestedApps = get()) }
+    viewModel {
+        SuggestedAppsListViewModel(
+            appUiModelMapper = get(),
+            incrementOpenCounter = get(),
+            observeCurrentCoordinates = get(),
+            observeSuggestedApps = get(),
+            packageManager = get()
+        )
+    }
 }
