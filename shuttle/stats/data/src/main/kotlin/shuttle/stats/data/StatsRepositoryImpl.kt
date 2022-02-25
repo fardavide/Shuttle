@@ -4,6 +4,7 @@ import arrow.core.Either
 import arrow.core.computations.either
 import com.soywiz.klock.Time
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import shuttle.apps.domain.AppsRepository
 import shuttle.apps.domain.error.GenericError
@@ -12,7 +13,6 @@ import shuttle.apps.domain.model.AppModel
 import shuttle.coordinates.domain.model.Location
 import shuttle.database.datasource.StatDataSource
 import shuttle.database.model.DatabaseAppId
-import shuttle.database.model.DatabaseAppStat
 import shuttle.database.model.DatabaseLatitude
 import shuttle.database.model.DatabaseLongitude
 import shuttle.database.model.DatabaseTime
@@ -20,7 +20,8 @@ import shuttle.stats.domain.StatsRepository
 
 class StatsRepositoryImpl(
     private val appsRepository: AppsRepository,
-    private val statDataSource: StatDataSource
+    private val statDataSource: StatDataSource,
+    private val sortAppStatsByCounts: SortAppStatsByCounts,
 ) : StatsRepository {
 
     override fun observeSuggestedApps(
@@ -29,30 +30,25 @@ class StatsRepositoryImpl(
         startTime: Time,
         endTime: Time
     ): Flow<Either<GenericError, List<AppModel>>> =
-        statDataSource.findAllStats(
-            startLatitude = startLocation.databaseLatitude(),
-            endLatitude = endLocation.databaseLatitude(),
-            startLongitude = endLocation.databaseLongitude(),
-            endLongitude = endLocation.databaseLongitude(),
-            startTime = startTime.toDatabaseTime(),
-            endTime = endTime.toDatabaseTime()
-        ).map { appStatsList ->
-            val sortedAppsIds = appStatsList.groupBy { it.appId }.toList()
-                .sortedByDescending { (appId, stats) ->
-                    stats.sumOf { stat ->
-                        when (stat) {
-                            is DatabaseAppStat.ByLocation -> stat.count * 100_000
-                            is DatabaseAppStat.ByTime -> stat.count
-                        }
-                    }
-                }.map { it.first }
+        combine(
+            appsRepository.observeAllInstalledApps(),
+            statDataSource.findAllStats(
+                startLatitude = startLocation.databaseLatitude(),
+                endLatitude = endLocation.databaseLatitude(),
+                startLongitude = endLocation.databaseLongitude(),
+                endLongitude = endLocation.databaseLongitude(),
+                startTime = startTime.toDatabaseTime(),
+                endTime = endTime.toDatabaseTime()
+            ).map { sortAppStatsByCounts(it) }
+        ) { installedApp, sortedAppsIds ->
             either {
-                val allInstalledApp = appsRepository.getAllInstalledApps()
+                val allInstalledApp = installedApp
                     .bind()
                     .toMutableList()
+
                 // It's ok to have an app in stats, but from the installed list, as an app can be uninstalled
-                val appsFromStats = sortedAppsIds.mapNotNull { databaseAppId ->
-                    allInstalledApp.pop { it.id.toDatabaseAppId() == databaseAppId }
+                val appsFromStats = sortedAppsIds.mapNotNull { appId ->
+                    allInstalledApp.pop { it.id == appId }
                 }
                 appsFromStats + allInstalledApp
             }
