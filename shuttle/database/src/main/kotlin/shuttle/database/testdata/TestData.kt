@@ -9,6 +9,8 @@ object TestData {
 
     val ExactTime = DatabaseTime(100)
     val RangeStartTime = DatabaseTime(90)
+    val RangeMidFirstTime = DatabaseTime(92)
+    val RangeMidSecondTime = DatabaseTime(94)
     val RangeEndTime = DatabaseTime(110)
     val ExactLatitude = DatabaseLatitude(20.0)
     val RangeStartLatitude = DatabaseLatitude(10.0)

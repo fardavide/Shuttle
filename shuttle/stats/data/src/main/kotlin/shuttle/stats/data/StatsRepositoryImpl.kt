@@ -12,6 +12,7 @@ import shuttle.apps.domain.model.AppModel
 import shuttle.coordinates.domain.model.Location
 import shuttle.database.datasource.StatDataSource
 import shuttle.database.model.DatabaseAppId
+import shuttle.database.model.DatabaseAppStat
 import shuttle.database.model.DatabaseLatitude
 import shuttle.database.model.DatabaseLongitude
 import shuttle.database.model.DatabaseTime
@@ -28,7 +29,7 @@ class StatsRepositoryImpl(
         startTime: Time,
         endTime: Time
     ): Flow<Either<GenericError, List<AppModel>>> =
-        statDataSource.observeMostUsedAppsIds(
+        statDataSource.findAllStats(
             startLatitude = startLocation.databaseLatitude(),
             endLatitude = endLocation.databaseLatitude(),
             startLongitude = endLocation.databaseLongitude(),
@@ -36,12 +37,21 @@ class StatsRepositoryImpl(
             startTime = startTime.toDatabaseTime(),
             endTime = endTime.toDatabaseTime()
         ).map { appStatsList ->
+            val sortedAppsIds = appStatsList.groupBy { it.appId }.toList()
+                .sortedByDescending { (appId, stats) ->
+                    stats.sumOf { stat ->
+                        when (stat) {
+                            is DatabaseAppStat.ByLocation -> stat.count * 100_000
+                            is DatabaseAppStat.ByTime -> stat.count
+                        }
+                    }
+                }.map { it.first }
             either {
                 val allInstalledApp = appsRepository.getAllInstalledApps()
                     .bind()
                     .toMutableList()
                 // It's ok to have an app in stats, but from the installed list, as an app can be uninstalled
-                val appsFromStats = appStatsList.mapNotNull { databaseAppId ->
+                val appsFromStats = sortedAppsIds.mapNotNull { databaseAppId ->
                     allInstalledApp.pop { it.id.toDatabaseAppId() == databaseAppId }
                 }
                 appsFromStats + allInstalledApp

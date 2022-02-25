@@ -1,5 +1,0 @@
-import shuttle.database.model.DatabaseAppId;
-
-CREATE TABLE IF NOT EXISTS app (
-    id TEXT AS DatabaseAppId NOT NULL PRIMARY KEY
-);

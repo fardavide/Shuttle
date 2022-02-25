@@ -4,8 +4,11 @@ import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToList
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+import shuttle.database.FindAllStats
 import shuttle.database.StatQueries
 import shuttle.database.model.DatabaseAppId
+import shuttle.database.model.DatabaseAppStat
 import shuttle.database.model.DatabaseLatitude
 import shuttle.database.model.DatabaseLongitude
 import shuttle.database.model.DatabaseTime
@@ -13,14 +16,14 @@ import shuttle.database.util.suspendTransaction
 
 interface StatDataSource {
 
-    fun observeMostUsedAppsIds(
+    fun findAllStats(
         startLatitude: DatabaseLatitude,
         endLatitude: DatabaseLatitude,
         startLongitude: DatabaseLongitude,
         endLongitude: DatabaseLongitude,
         startTime: DatabaseTime,
         endTime: DatabaseTime
-    ): Flow<List<DatabaseAppId>>
+    ): Flow<List<DatabaseAppStat>>
 
     suspend fun incrementCounter(
         appId: DatabaseAppId,
@@ -35,21 +38,33 @@ internal class StatDataSourceImpl(
     private val ioDispatcher: CoroutineDispatcher
 ): StatDataSource {
 
-    override fun observeMostUsedAppsIds(
+    override fun findAllStats(
         startLatitude: DatabaseLatitude,
         endLatitude: DatabaseLatitude,
         startLongitude: DatabaseLongitude,
         endLongitude: DatabaseLongitude,
         startTime: DatabaseTime,
         endTime: DatabaseTime
-    ): Flow<List<DatabaseAppId>> = statQueries.findMostUsedAppsIds(
+    ): Flow<List<DatabaseAppStat>> = statQueries.findAllStats(
         startLatitude = startLatitude,
         endLatitude = endLatitude,
         startLongitude = startLongitude,
         endLongitude = endLongitude,
         startTime = startTime,
         endTime = endTime
-    ).asFlow().mapToList(ioDispatcher)
+    ).asFlow().mapToList(ioDispatcher).map(::toAppStats)
+
+    private fun toAppStats(items: List<FindAllStats>) = items.map(::toAppStat)
+
+    private fun toAppStat(item: FindAllStats): DatabaseAppStat = when {
+        item.appIdByLocation != null -> {
+            DatabaseAppStat.ByLocation(item.appIdByLocation, requireNotNull(item.countByLocation).toInt())
+        }
+        item.appIdByTime != null -> {
+            DatabaseAppStat.ByTime(item.appIdByTime, requireNotNull(item.countByTime).toInt())
+        }
+        else -> throw AssertionError("item cannot be parsed: $item")
+    }
 
     override suspend fun incrementCounter(
         appId: DatabaseAppId,
@@ -58,7 +73,6 @@ internal class StatDataSourceImpl(
         time: DatabaseTime
     ) {
         statQueries.suspendTransaction(ioDispatcher) {
-            insertApp(appId)
             incrementLocationCounter(appId, latitude, longitude)
             incrementTimeCounter(appId, time)
         }

@@ -15,7 +15,7 @@ val databaseModule = module {
     single<SqlDriver> { AndroidSqliteDriver(context = get(), schema = Database.Schema, name = "shuttle.db") }
     single {
         val driver: SqlDriver = get()
-        Database(driver = driver, appAdapter = get(), locationStatAdapter = get(), timeStatAdapter = get())
+        Database(driver = driver, locationStatAdapter = get(), timeStatAdapter = get())
     }
 
     factory { database.statQueries }
