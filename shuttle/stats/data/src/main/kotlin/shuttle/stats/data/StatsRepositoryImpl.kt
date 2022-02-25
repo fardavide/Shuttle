@@ -37,11 +37,14 @@ class StatsRepositoryImpl(
             endTime = endTime.toDatabaseTime()
         ).map { appStatsList ->
             either {
-                val allInstalledApp = appsRepository.getAllInstalledApps().bind()
-                val appsFromStats = appStatsList.map { databaseAppId ->
-                    allInstalledApp.first { it.id.toDatabaseAppId() == databaseAppId }
+                val allInstalledApp = appsRepository.getAllInstalledApps()
+                    .bind()
+                    .toMutableList()
+                // It's ok to have an app in stats, but from the installed list, as an app can be uninstalled
+                val appsFromStats = appStatsList.mapNotNull { databaseAppId ->
+                    allInstalledApp.pop { it.id.toDatabaseAppId() == databaseAppId }
                 }
-                appsFromStats + (allInstalledApp.filterNot { it in appsFromStats })
+                appsFromStats + allInstalledApp
             }
         }
 
@@ -53,6 +56,12 @@ class StatsRepositoryImpl(
             time = time.toDatabaseTime()
         )
     }
+}
+
+private fun <T> MutableList<T>.pop(predicate: (T) -> Boolean): T? {
+    val index = indexOfFirst(predicate)
+    return if (index > -1) removeAt(index)
+    else null
 }
 
 private fun AppId.toDatabaseAppId() = DatabaseAppId(value)
