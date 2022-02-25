@@ -18,6 +18,73 @@ findTimeStat:
     SELECT * FROM timeStat
     WHERE appId = ? AND time = ?;
 
+findAllStats:
+        SELECT
+            locationStat.appId AS appIdByLocation,
+            NULL AS appIdByTime,
+            SUM(locationStat.count) AS countByLocation,
+            0 AS countByTime
+        FROM locationStat
+        WHERE
+            (locationStat.latitude >= :startLatitude AND locationStat.latitude <= :endLatitude)
+            AND
+            (locationStat.longitude >= :startLongitude AND locationStat.longitude <= :endLongitude)
+        GROUP BY appId
+    UNION ALL
+        SELECT
+            NULL AS appIdByLocation,
+            timeStat.appId AS appIdByTime,
+            0 AS countByLocation,
+            SUM(timeStat.count) AS countByTime
+        FROM timeStat
+        WHERE
+            (timeStat.time >= :startTime AND timeStat.time <= :endTime)
+        GROUP BY appId
+    ORDER BY appIdByLocation, appIdByTime, countByLocation DESC, countByTime DESC;
+
+findAllStats2:
+        SELECT
+            locationStat.appId AS appIdByLocation,
+            NULL AS appIdByTime,
+            SUM(locationStat.count) AS countByLocation,
+            SUM(timeStat.count) AS countByTime
+        FROM locationStat
+        LEFT OUTER JOIN timeStat ON timeStat.appId = locationStat.appId
+        WHERE
+            (locationStat.latitude >= :startLatitude AND locationStat.latitude <= :endLatitude)
+            AND
+            (locationStat.longitude >= :startLongitude AND locationStat.longitude <= :endLongitude)
+        GROUP BY locationStat.appId
+    UNION ALL
+        SELECT
+            NULL AS appIdByLocation,
+            timeStat.appId AS appIdByTime,
+            0 AS countByLocation,
+            SUM(timeStat.count) AS countByTime
+        FROM timeStat
+        LEFT OUTER JOIN locationStat ON locationStat.appId = timeStat.appId
+        WHERE
+            locationStat.appId IS NULL
+            AND
+            (timeStat.time >= :startTime AND timeStat.time <= :endTime)
+        GROUP BY timeStat.appId
+    ORDER BY appIdByLocation, appIdByTime, countByLocation DESC, countByTime DESC;
+
+--     SELECT d.type,
+--              d.color,
+--              c.type,
+--              c.color
+--     FROM dogs d
+--     LEFT JOIN cats c USING(color)
+--     UNION ALL
+--     SELECT d.type,
+--              d.color,
+--              c.type,
+--              c.color
+--     FROM cats c
+--     LEFT JOIN dogs d USING(color)
+--     WHERE d.color IS NULL;
+
 findMostUsedAppsIds:
     SELECT id
     FROM app
@@ -31,15 +98,30 @@ findMostUsedAppsIds:
         (timeStat.time >= :startTime AND timeStat.time <= :endTime)
     ORDER BY IFNULL(locationStat.count, 0) DESC, IFNULL(timeStat.count, 0) DESC;
 
-findMostUsedAppsIdsDebug:
-    SELECT id, locationStat.count AS locationCount, timeStat.count AS timeCount
-    FROM app
-    LEFT OUTER JOIN locationStat ON locationStat.appId = app.id
-        AND
-        (locationStat.latitude >= :startLatitude AND locationStat.latitude <= :endLatitude)
-        AND
-        (locationStat.longitude >= :startLongitude AND locationStat.longitude <= :endLongitude)
-    LEFT OUTER JOIN timeStat ON timeStat.appId = app.id
-        AND
-        (timeStat.time >= :startTime AND timeStat.time <= :endTime)
-    ORDER BY IFNULL(locationStat.count, 0) DESC, IFNULL(timeStat.count, 0) DESC;
+findMostUsedAppsIdsTest:
+        SELECT
+            locationStat.appId AS appIdByLocation,
+            timeStat.appId AS appIdByTime,
+            SUM(locationStat.count) AS countByLocation,
+            SUM(timeStat.count) AS countByTime
+        FROM locationStat
+        LEFT OUTER JOIN timeStat ON locationStat.appId = timeStat.appId
+        WHERE
+            (locationStat.latitude >= :startLatitude AND locationStat.latitude <= :endLatitude)
+            AND
+            (locationStat.longitude >= :startLongitude AND locationStat.longitude <= :endLongitude)
+        GROUP BY locationStat.appId
+    UNION ALL
+        SELECT
+            locationStat.appId AS appIdByLocation,
+            timeStat.appId AS appIdByTime,
+            SUM(locationStat.count) AS countByLocation,
+            SUM(timeStat.count) AS countByTime
+        FROM timeStat
+        LEFT OUTER JOIN locationStat ON timeStat.appId = locationStat.appId
+        WHERE
+            locationStat.appId IS NULL
+            AND
+            (timeStat.time >= :startTime AND timeStat.time <= :endTime)
+        GROUP BY timeStat.appId
+    ORDER BY countByLocation DESC, countByTime DESC;
