@@ -9,8 +9,6 @@ val predictionsPresentationModule = module {
     viewModel {
         SuggestedAppsListViewModel(
             appUiModelMapper = get(),
-            incrementOpenCounter = get(),
-            observeCurrentCoordinates = get(),
             observeSuggestedApps = get(),
             packageManager = get()
         )
