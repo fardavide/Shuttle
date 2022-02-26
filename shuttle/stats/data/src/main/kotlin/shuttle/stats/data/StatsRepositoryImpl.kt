@@ -59,7 +59,7 @@ class StatsRepositoryImpl(
             appId = appId.toDatabaseAppId(),
             latitude = location.databaseLatitude(),
             longitude = location.databaseLongitude(),
-            time = time.toDatabaseTime()
+            time = time.toDatabaseTimeAdjusted()
         )
     }
 }
@@ -73,4 +73,5 @@ private fun <T> MutableList<T>.pop(predicate: (T) -> Boolean): T? {
 private fun AppId.toDatabaseAppId() = DatabaseAppId(value)
 private fun Location.databaseLatitude() = DatabaseLatitude(latitude)
 private fun Location.databaseLongitude() = DatabaseLongitude(longitude)
-private fun Time.toDatabaseTime() = DatabaseTime(minute)
+private fun Time.toDatabaseTime() = DatabaseTime(hour * 60 + minute)
+private fun Time.toDatabaseTimeAdjusted() = DatabaseTime(hourAdjusted * 60 + minute)

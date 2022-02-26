@@ -1,7 +1,7 @@
 package shuttle.predictions.domain.model
 
 import com.soywiz.klock.TimeSpan
-import com.soywiz.klock.minutes
+import com.soywiz.klock.hours
 import shuttle.stats.domain.model.AppStats
 
 /**
@@ -13,5 +13,5 @@ object DefaultValuesSpans {
 
     val Location = 200 // meters
 
-    val Time: TimeSpan = 30.minutes
+    val Time: TimeSpan = 1.hours
 }

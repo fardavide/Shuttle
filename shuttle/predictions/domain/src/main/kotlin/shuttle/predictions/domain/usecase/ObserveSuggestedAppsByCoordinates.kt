@@ -2,8 +2,6 @@ package shuttle.predictions.domain.usecase
 
 import arrow.core.Either
 import com.soywiz.klock.Time
-import com.soywiz.klock.TimeSpan
-import com.soywiz.klock.plus
 import kotlinx.coroutines.flow.Flow
 import shuttle.apps.domain.error.GenericError
 import shuttle.apps.domain.model.AppModel
@@ -25,7 +23,8 @@ interface ObserveSuggestedAppsByCoordinates {
 
 internal class ObserveSuggestedAppsByCoordinatesImpl(
     private val locationToLocationRange: LocationToLocationRange,
-    private val statsRepository: StatsRepository
+    private val statsRepository: StatsRepository,
+    private val timeToTimeRange: TimeToTimeRange
 ) : ObserveSuggestedAppsByCoordinates {
 
     override operator fun invoke(
@@ -33,13 +32,14 @@ internal class ObserveSuggestedAppsByCoordinatesImpl(
         time: Time
     ): Flow<Either<GenericError, List<AppModel>>> {
         val (startLocation, endLocation) = locationToLocationRange(location, DefaultValuesSpans.Location)
+        val (startTime, endTime) = with(timeToTimeRange(time, DefaultValuesSpans.Time)) {
+            start to endInclusive
+        }
         return statsRepository.observeSuggestedApps(
             startLocation = startLocation,
             endLocation = endLocation,
-            startTime = time - DefaultValuesSpans.Time / 2,
-            endTime = time + DefaultValuesSpans.Time / 2
+            startTime = startTime,
+            endTime = endTime
         )
     }
 }
-
-operator fun Time.minus(span: TimeSpan) = Time(this.encoded - span)

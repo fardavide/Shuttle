@@ -7,6 +7,7 @@ import shuttle.predictions.domain.usecase.MetersToLongitude
 import shuttle.predictions.domain.usecase.ObserveSuggestedApps
 import shuttle.predictions.domain.usecase.ObserveSuggestedAppsByCoordinates
 import shuttle.predictions.domain.usecase.ObserveSuggestedAppsByCoordinatesImpl
+import shuttle.predictions.domain.usecase.TimeToTimeRange
 
 val predictionsDomainModule = module {
 
@@ -17,7 +18,9 @@ val predictionsDomainModule = module {
     factory<ObserveSuggestedAppsByCoordinates> {
         ObserveSuggestedAppsByCoordinatesImpl(
             statsRepository = get(),
-            locationToLocationRange = get()
+            locationToLocationRange = get(),
+            timeToTimeRange = get()
         )
     }
+    factory { TimeToTimeRange() }
 }
