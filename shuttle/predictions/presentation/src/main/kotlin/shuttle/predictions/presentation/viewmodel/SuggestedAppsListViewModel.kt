@@ -4,13 +4,14 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import shuttle.apps.domain.model.AppId
 import shuttle.apps.presentation.mapper.AppUiModelMapper
@@ -29,10 +30,11 @@ internal class SuggestedAppsListViewModel(
 ) : ViewModel() {
 
     val state: StateFlow<State>
-        get() = mutableState.asStateFlow()
+        get() = mutableState
+            .stateIn(viewModelScope, SharingStarted.Lazily, State.Loading)
 
-    private val mutableState: MutableStateFlow<State> =
-        MutableStateFlow(State.Loading)
+    private val mutableState: MutableSharedFlow<State> =
+        MutableSharedFlow(replay = 2)
 
     private lateinit var cachedCoordinates: Coordinates
 
