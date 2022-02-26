@@ -8,13 +8,16 @@ import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.soywiz.klock.DateTime
 import com.soywiz.klock.Time
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.isActive
 import shuttle.coordinates.domain.CoordinatesRepository
 import shuttle.coordinates.domain.model.Coordinates
@@ -23,7 +26,8 @@ import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 
 internal class CoordinatesRepositoryImpl(
-    private val fusedLocationClient: FusedLocationProviderClient
+    private val fusedLocationClient: FusedLocationProviderClient,
+    appScope: CoroutineScope
 ) : CoordinatesRepository {
 
     @SuppressLint("MissingPermission")
@@ -48,8 +52,12 @@ internal class CoordinatesRepositoryImpl(
         }
     }
 
-    override fun observeCurrentCoordinates(): Flow<Coordinates> =
+    private val coordinatesSharedFlow =
         combine(locationFlow, timeFlow) { location, time -> Coordinates(location, time) }
+            .shareIn(appScope, SharingStarted.Eagerly)
+
+    override fun observeCurrentCoordinates(): Flow<Coordinates> =
+        coordinatesSharedFlow
 
     companion object {
 

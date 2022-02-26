@@ -6,7 +6,7 @@ import shuttle.coordinates.domain.model.Coordinates
 import shuttle.coordinates.domain.model.Location
 import shuttle.stats.domain.StatsRepository
 
-class IncrementOpenCounter(
+class IncrementOpenCounterByCoordinates(
     private val statsRepository: StatsRepository
 ) {
 

@@ -13,6 +13,7 @@ shuttleAndroid {
 
 moduleDependencies {
 
+    accessibility()
     apps.presentation()
     design()
     di()

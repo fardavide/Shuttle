@@ -19,11 +19,11 @@ import shuttle.apps.presentation.model.AppUiModel
 import shuttle.coordinates.domain.model.Coordinates
 import shuttle.coordinates.domain.usecase.ObserveCurrentCoordinates
 import shuttle.predictions.domain.usecase.ObserveSuggestedAppsByCoordinates
-import shuttle.stats.domain.usecase.IncrementOpenCounter
+import shuttle.stats.domain.usecase.IncrementOpenCounterByCoordinates
 
 internal class SuggestedAppsListViewModel(
     private val appUiModelMapper: AppUiModelMapper,
-    private val incrementOpenCounter: IncrementOpenCounter,
+    private val incrementOpenCounter: IncrementOpenCounterByCoordinates,
     observeCurrentCoordinates: ObserveCurrentCoordinates,
     observeSuggestedApps: ObserveSuggestedAppsByCoordinates,
     private val packageManager: PackageManager

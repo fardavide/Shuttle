@@ -7,6 +7,6 @@ import shuttle.coordinates.domain.CoordinatesRepository
 
 val coordinatesDataModule = module {
 
-    factory<CoordinatesRepository> { CoordinatesRepositoryImpl(fusedLocationClient = get()) }
+    single<CoordinatesRepository> { CoordinatesRepositoryImpl(fusedLocationClient = get(), appScope = get()) }
     factory { LocationServices.getFusedLocationProviderClient(get<Context>()) }
 }

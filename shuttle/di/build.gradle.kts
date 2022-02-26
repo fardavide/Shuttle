@@ -4,6 +4,7 @@ plugins {
 
 moduleDependencies {
 
+    accessibility()
     apps {
         data()
         domain()

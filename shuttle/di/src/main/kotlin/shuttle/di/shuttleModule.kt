@@ -1,5 +1,6 @@
 package shuttle.di
 
+import shuttle.accessibility.accessibilityModule
 import shuttle.apps.data.appsDataModule
 import shuttle.apps.domain.appsDomainModule
 import shuttle.apps.presentation.appsPresentationModule
@@ -12,7 +13,8 @@ import shuttle.stats.data.statsDataModule
 import shuttle.stats.domain.statsDomainModule
 
 val shuttleModule =
-    appsDataModule + appsDomainModule + appsPresentationModule +
+    accessibilityModule +
+        appsDataModule + appsDomainModule + appsPresentationModule +
         coordinatesDomainModule + coordinatesDataModule +
         databaseModule +
         predictionsDomainModule + predictionsPresentationModule +

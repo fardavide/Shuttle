@@ -4,6 +4,7 @@ import org.gradle.api.Project
 
 abstract class ModulesCatalog(project: Project): ModuleCatalog(project, ":shuttle:shuttle-")
 
+fun ModulesCatalog.accessibility() = create("accessibility")
 val ModulesCatalog.apps get() = AppsModuleCatalog(project)
 val ModulesCatalog.coordinates get() = CoordinatesModuleCatalog(project)
 fun ModulesCatalog.database() = create("database")

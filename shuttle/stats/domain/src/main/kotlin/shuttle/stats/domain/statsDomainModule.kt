@@ -1,10 +1,10 @@
 package shuttle.stats.domain
 
 import org.koin.dsl.module
-import shuttle.stats.domain.usecase.IncrementOpenCounter
+import shuttle.stats.domain.usecase.IncrementOpenCounterByCoordinates
 
 val statsDomainModule = module {
 
-    factory { IncrementOpenCounter(statsRepository = get()) }
+    factory { IncrementOpenCounterByCoordinates(statsRepository = get()) }
 
 }
