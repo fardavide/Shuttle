@@ -23,6 +23,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import coil.compose.rememberImagePainter
 import org.koin.androidx.compose.getViewModel
 import shuttle.apps.domain.model.AppId
@@ -85,6 +86,7 @@ internal fun AppIconItem(
             text = app.name,
             maxLines = 1,
             textAlign = TextAlign.Center,
+            overflow = TextOverflow.Ellipsis,
             style = MaterialTheme.typography.titleMedium,
             modifier = Modifier.fillMaxWidth()
         )
