@@ -5,6 +5,7 @@ import com.squareup.sqldelight.runtime.coroutines.mapToList
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import shuttle.database.App
 import shuttle.database.FindAllStats
 import shuttle.database.StatQueries
 import shuttle.database.model.DatabaseAppId
@@ -16,6 +17,8 @@ import shuttle.database.util.suspendTransaction
 
 interface StatDataSource {
 
+    fun findAllApps(): Flow<List<App>>
+
     fun findAllStats(
         startLatitude: DatabaseLatitude,
         endLatitude: DatabaseLatitude,
@@ -24,6 +27,8 @@ interface StatDataSource {
         startTime: DatabaseTime,
         endTime: DatabaseTime
     ): Flow<List<DatabaseAppStat>>
+
+    suspend fun insert(apps: List<App>)
 
     suspend fun incrementCounter(
         appId: DatabaseAppId,
@@ -37,6 +42,9 @@ internal class StatDataSourceImpl(
     private val statQueries: StatQueries,
     private val ioDispatcher: CoroutineDispatcher
 ): StatDataSource {
+
+    override fun findAllApps(): Flow<List<App>> =
+        statQueries.findAllApps().asFlow().mapToList(ioDispatcher)
 
     override fun findAllStats(
         startLatitude: DatabaseLatitude,
@@ -64,6 +72,14 @@ internal class StatDataSourceImpl(
             DatabaseAppStat.ByTime(item.appIdByTime, requireNotNull(item.countByTime).toInt())
         }
         else -> throw AssertionError("item cannot be parsed: $item")
+    }
+
+    override suspend fun insert(apps: List<App>) {
+        statQueries.suspendTransaction(ioDispatcher) {
+            for (app in apps) {
+                insertApp(app.id, app.name)
+            }
+        }
     }
 
     override suspend fun incrementCounter(

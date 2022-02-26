@@ -10,5 +10,5 @@ val appsPresentationModule = module {
 
     factory { GetIconForApp(packageManager = get()) }
     factory { AppUiModelMapper(getIconForApp = get()) }
-    viewModel { AllAppsListViewModel(appUiModelMapper = get(), getAllInstalledApps = get()) }
+    viewModel { AllAppsListViewModel(appUiModelMapper = get(), observeAllInstalledApps = get()) }
 }

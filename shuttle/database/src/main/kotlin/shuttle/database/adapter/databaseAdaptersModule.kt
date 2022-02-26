@@ -3,6 +3,7 @@ package shuttle.database.adapter
 import com.squareup.sqldelight.ColumnAdapter
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
+import shuttle.database.App
 import shuttle.database.LocationStat
 import shuttle.database.TimeStat
 import shuttle.database.model.DatabaseAppId
@@ -17,6 +18,7 @@ internal val databaseAdaptersModule = module {
     factory<ColumnAdapter<DatabaseLongitude, Double>>(Qualifier.LongitudeAdapter) { LongitudeAdapter() }
     factory<ColumnAdapter<DatabaseTime, Long>>(Qualifier.TimeAdapter) { TimeAdapter() }
 
+    factory { App.Adapter(idAdapter = get(Qualifier.IdAdapter)) }
     factory {
         LocationStat.Adapter(
             appIdAdapter = get(Qualifier.IdAdapter),

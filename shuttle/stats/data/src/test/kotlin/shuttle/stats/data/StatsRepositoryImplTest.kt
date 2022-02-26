@@ -15,6 +15,7 @@ import shuttle.apps.domain.model.AppName
 import shuttle.coordinates.domain.model.Location
 import shuttle.database.datasource.StatDataSource
 import shuttle.database.model.DatabaseAppId
+import shuttle.database.model.DatabaseAppStat
 import shuttle.database.model.DatabaseLatitude
 import shuttle.database.model.DatabaseLongitude
 import shuttle.database.model.DatabaseTime
@@ -30,18 +31,19 @@ import kotlin.test.assertEquals
 class StatsRepositoryImplTest {
 
     private val appsRepository: AppsRepository = mockk {
-        coEvery { getAllInstalledApps() } returns AllAppsIds.map(::buildAppModel).right()
+        coEvery { observeAllInstalledApps() } returns flowOf(AllAppsIds.map(::buildAppModel).right())
     }
     private val statDataSource: StatDataSource = mockk()
     private val repository = StatsRepositoryImpl(
         appsRepository = appsRepository,
-        statDataSource = statDataSource
+        statDataSource = statDataSource,
+        sortAppStatsByCounts = mockk()
     )
 
     @Test
     fun `returns all the suggested apps plus all the installed apps`() = runTest {
         // given
-        everyStatDataSourceObserveMostUsedAppsIds() returns flowOf(listOf(FourthAppId, FifthAppId))
+        everyStatDataSourceFindAllStats() returns flowOf(listOf(FourthAppId, FifthAppId).map(::buildLocationAppStats))
         val expected = listOf(FourthAppId, FifthAppId, FirstAppId, SecondAppId, ThirdAppId)
             .map(::buildAppModel)
             .right()
@@ -57,7 +59,7 @@ class StatsRepositoryImplTest {
     @Test
     fun `returns all the installed apps if no suggested`() = runTest {
         // given
-        everyStatDataSourceObserveMostUsedAppsIds() returns flowOf(emptyList())
+        everyStatDataSourceFindAllStats() returns flowOf(emptyList())
         val expected = listOf(FirstAppId, SecondAppId, ThirdAppId, FourthAppId, FifthAppId)
             .map(::buildAppModel)
             .right()
@@ -70,8 +72,8 @@ class StatsRepositoryImplTest {
         assertEquals(expected, result)
     }
 
-    private fun everyStatDataSourceObserveMostUsedAppsIds() = every {
-        statDataSource.observeMostUsedAppsIds(
+    private fun everyStatDataSourceFindAllStats() = every {
+        statDataSource.findAllStats(
             DatabaseLatitude(any()),
             DatabaseLatitude(any()),
             DatabaseLongitude(any()),
@@ -91,6 +93,11 @@ class StatsRepositoryImplTest {
         fun buildAppModel(databaseAppId: DatabaseAppId) = AppModel(
             id = AppId(databaseAppId.value),
             name = AppName(databaseAppId.value)
+        )
+
+        fun buildLocationAppStats(databaseAppId: DatabaseAppId) = DatabaseAppStat.ByLocation(
+            appId = databaseAppId,
+            count = 0
         )
     }
 }

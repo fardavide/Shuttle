@@ -7,6 +7,5 @@ import shuttle.apps.domain.model.AppModel
 
 interface AppsRepository {
 
-    suspend fun getAllInstalledApps(): Either<GenericError, List<AppModel>>
     fun observeAllInstalledApps(): Flow<Either<GenericError, List<AppModel>>>
 }

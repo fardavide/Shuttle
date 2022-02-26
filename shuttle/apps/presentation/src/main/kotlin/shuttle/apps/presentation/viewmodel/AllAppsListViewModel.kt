@@ -4,25 +4,24 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import shuttle.apps.domain.usecase.GetAllInstalledApps
+import shuttle.apps.domain.usecase.ObserveAllInstalledApps
 import shuttle.apps.presentation.mapper.AppUiModelMapper
 import shuttle.apps.presentation.model.AppUiModel
 
 internal class AllAppsListViewModel(
     private val appUiModelMapper: AppUiModelMapper,
-    private val getAllInstalledApps: GetAllInstalledApps
+    observeAllInstalledApps: ObserveAllInstalledApps
 ) : ViewModel() {
 
     val state: StateFlow<State> =
-        flow {
-            val state = getAllInstalledApps().map(appUiModelMapper::toUiModels)
+        observeAllInstalledApps().map { list ->
+            list.map(appUiModelMapper::toUiModels)
                 .fold(
                     ifRight = State::Data,
                     ifLeft = { State.Error("Unknown") }
                 )
-            emit(state)
         }.stateIn(viewModelScope, SharingStarted.Eagerly, State.Loading)
 
     sealed interface State {

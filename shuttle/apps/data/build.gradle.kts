@@ -5,6 +5,7 @@ plugins {
 moduleDependencies {
 
     apps.domain()
+    database()
 }
 
 dependencies {

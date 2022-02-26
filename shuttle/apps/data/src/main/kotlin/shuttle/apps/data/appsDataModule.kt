@@ -6,5 +6,11 @@ import shuttle.apps.domain.AppsRepository
 
 val appsDataModule = module {
 
-    factory<AppsRepository> { AppsRepositoryImpl(packageManager = get(), ioDispatcher = Dispatchers.IO) }
+    factory<AppsRepository> {
+        AppsRepositoryImpl(
+            packageManager = get(),
+            statsDataSource = get(),
+            ioDispatcher = Dispatchers.IO
+        )
+    }
 }

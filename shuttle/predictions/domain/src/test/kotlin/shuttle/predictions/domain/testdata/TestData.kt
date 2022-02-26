@@ -6,9 +6,6 @@ import shuttle.apps.domain.model.AppModel
 import shuttle.apps.domain.model.AppName
 import shuttle.coordinates.domain.model.Coordinates
 import shuttle.coordinates.domain.model.Location
-import shuttle.stats.domain.model.AppStats
-import shuttle.stats.domain.model.LocationCounter
-import shuttle.stats.domain.model.TimeCounter
 
 object TestData {
 
@@ -33,13 +30,4 @@ object TestData {
         Telegram
     )
 
-    fun buildAppStats(
-        app: AppModel,
-        locationCounters: List<LocationCounter> = emptyList(),
-        timeCounters: List<TimeCounter> = emptyList()
-    ) = AppStats(
-        app.id,
-        locationCounters = locationCounters,
-        timeCounters = timeCounters
-    )
 }
