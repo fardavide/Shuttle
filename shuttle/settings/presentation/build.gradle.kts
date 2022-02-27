@@ -4,12 +4,23 @@ plugins {
 
 shuttleAndroid.useCompose()
 
+moduleDependencies {
+
+    apps {
+        domain()
+        presentation()
+    }
+    design()
+    settings.domain()
+}
+
 dependencies {
 
     implementation(libs.bundles.base)
     implementation(libs.bundles.compose)
 
-    implementation(libs.androidx.lifecycle.runtime)
+    implementation(libs.androidx.lifecycle.viewModel)
+    implementation(libs.koin.android)
 
     debugImplementation(libs.compose.uiTooling)
 

@@ -1,13 +1,13 @@
 package shuttle.settings.domain.usecase
 
 import kotlinx.coroutines.flow.Flow
-import shuttle.apps.domain.usecase.ObserveAllInstalledApps
+import shuttle.settings.domain.SettingsRepository
 import shuttle.settings.domain.model.AppBlacklistSetting
 
 class ObserveAppsBlacklistSettings(
-    private val observeAllInstalledApps: ObserveAllInstalledApps
+    private val settingsRepository: SettingsRepository
 ) {
 
     operator fun invoke(): Flow<List<AppBlacklistSetting>> =
-        TODO("Not implemented")
+        settingsRepository.observeAppsBlacklistSettings()
 }

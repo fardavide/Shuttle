@@ -50,7 +50,7 @@ internal class SuggestedAppsListViewModel(
         }
     }
 
-    private suspend fun onAppClicked(appId: AppId): State {
+    private fun onAppClicked(appId: AppId): State {
         val intent = packageManager.getLaunchIntentForPackage(appId.value)!!
         return State.RequestOpenApp(intent)
     }

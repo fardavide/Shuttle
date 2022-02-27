@@ -8,9 +8,10 @@ val appsDataModule = module {
 
     factory<AppsRepository> {
         AppsRepositoryImpl(
-            packageManager = get(),
             dataSource = get(),
-            ioDispatcher = Dispatchers.IO
+            packageManager = get(),
+            ioDispatcher = Dispatchers.IO,
+            isBlacklisted = get()
         )
     }
 }

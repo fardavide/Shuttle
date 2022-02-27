@@ -6,7 +6,6 @@ moduleDependencies {
 
     apps.domain()
     coordinates.domain()
-    settings.domain()
 }
 
 dependencies {

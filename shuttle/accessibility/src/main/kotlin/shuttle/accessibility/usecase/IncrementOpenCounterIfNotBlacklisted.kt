@@ -10,12 +10,14 @@ import kotlinx.coroutines.launch
 import shuttle.apps.domain.model.AppId
 import shuttle.coordinates.domain.model.Coordinates
 import shuttle.coordinates.domain.usecase.ObserveCurrentCoordinates
+import shuttle.settings.domain.usecase.IsBlacklisted
 import shuttle.stats.domain.usecase.IncrementOpenCounterByCoordinates
 
-class IncrementOpenCounter(
+class IncrementOpenCounterIfNotBlacklisted(
+    private val appScope: CoroutineScope,
     private val incrementOpenCounterByCoordinates: IncrementOpenCounterByCoordinates,
-    observeCoordinates: ObserveCurrentCoordinates,
-    private val appScope: CoroutineScope
+    private val isBlacklisted: IsBlacklisted,
+    observeCoordinates: ObserveCurrentCoordinates
 ) {
 
     private val coordinatesState = observeCoordinates()
@@ -24,8 +26,10 @@ class IncrementOpenCounter(
 
     operator fun invoke(appId: AppId) {
         appScope.launch {
-            val coordinates = coordinatesState.awaitCoordinates()
-            incrementOpenCounterByCoordinates(appId, coordinates)
+            if (isBlacklisted(appId).not()) {
+                val coordinates = coordinatesState.awaitCoordinates()
+                incrementOpenCounterByCoordinates(appId, coordinates)
+            }
         }
     }
 

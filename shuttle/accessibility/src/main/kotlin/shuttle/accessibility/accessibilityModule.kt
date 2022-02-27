@@ -1,15 +1,16 @@
 package shuttle.accessibility
 
 import org.koin.dsl.module
-import shuttle.accessibility.usecase.IncrementOpenCounter
+import shuttle.accessibility.usecase.IncrementOpenCounterIfNotBlacklisted
 
 val accessibilityModule = module {
 
     single {
-        IncrementOpenCounter(
+        IncrementOpenCounterIfNotBlacklisted(
+            appScope = get(),
             incrementOpenCounterByCoordinates = get(),
-            observeCoordinates = get(),
-            appScope = get()
+            isBlacklisted = get(),
+            observeCoordinates = get()
         )
     }
 }

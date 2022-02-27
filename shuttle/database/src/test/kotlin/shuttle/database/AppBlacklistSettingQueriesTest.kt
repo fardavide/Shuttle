@@ -30,7 +30,7 @@ class AppBlacklistSettingQueriesTest : DatabaseTest() {
     fun `returns false if setting is not found`() = runTest {
         // given
         insertApps(1)
-        val expected = listOf(FindAllAppsWithBlacklistSetting(FirstAppId, 0))
+        val expected = listOf(FindAllAppsWithBlacklistSetting(FirstAppId, FirstAppId.value, 0))
 
         // when
         val result = queries.findAllAppsWithBlacklistSetting()
@@ -45,7 +45,7 @@ class AppBlacklistSettingQueriesTest : DatabaseTest() {
         // given
         insertApps(1)
         queries.insertAppBlacklistSetting(FirstAppId, false)
-        val expected = listOf(FindAllAppsWithBlacklistSetting(FirstAppId, 0))
+        val expected = listOf(FindAllAppsWithBlacklistSetting(FirstAppId, FirstAppId.value, 0))
 
         // when
         val result = queries.findAllAppsWithBlacklistSetting()
@@ -60,7 +60,7 @@ class AppBlacklistSettingQueriesTest : DatabaseTest() {
         // given
         insertApps(1)
         queries.insertAppBlacklistSetting(FirstAppId, true)
-        val expected = listOf(FindAllAppsWithBlacklistSetting(FirstAppId, 1))
+        val expected = listOf(FindAllAppsWithBlacklistSetting(FirstAppId, FirstAppId.value, 1))
 
         // when
         val result = queries.findAllAppsWithBlacklistSetting()

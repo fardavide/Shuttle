@@ -14,7 +14,14 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SmallTopAppBar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -30,21 +37,39 @@ import shuttle.apps.domain.model.AppId
 import shuttle.apps.presentation.model.AppUiModel
 import shuttle.apps.presentation.resource.AppsStrings
 import shuttle.design.Dimens
+import shuttle.predictions.presentation.resources.Strings
 import shuttle.predictions.presentation.viewmodel.SuggestedAppsListViewModel
 import shuttle.predictions.presentation.viewmodel.SuggestedAppsListViewModel.Action
 import shuttle.predictions.presentation.viewmodel.SuggestedAppsListViewModel.State
 
 @Composable
-fun SuggestedAppsListPage() {
+@OptIn(ExperimentalMaterial3Api::class)
+fun SuggestedAppsListPage(
+    onSettings: () -> Unit
+) {
     val viewModel: SuggestedAppsListViewModel = getViewModel()
-
     val s by viewModel.state.collectAsState()
-    when (val state = s) {
-        State.Loading -> {}
-        is State.Data -> SuggestedAppsList(state.apps) { viewModel.submit(Action.OnAppClicked(it)) }
-        is State.Error -> TODO()
-        is State.RequestOpenApp -> LocalContext.current.startActivity(state.intent)
-    }
+
+    Scaffold(
+        topBar = {
+            SmallTopAppBar(
+                title = { Text(Strings.ShuttleTitle) },
+                actions = {
+                    IconButton(onClick = onSettings) {
+                        Icon(Icons.Filled.Settings, contentDescription = Strings.SettingsIconContentDescription)
+                    }
+                }
+            )
+        }, content = {
+
+            when (val state = s) {
+                State.Loading -> {}
+                is State.Data -> SuggestedAppsList(state.apps) { viewModel.submit(Action.OnAppClicked(it)) }
+                is State.Error -> TODO()
+                is State.RequestOpenApp -> LocalContext.current.startActivity(state.intent)
+            }
+        }
+    )
 }
 
 @Composable

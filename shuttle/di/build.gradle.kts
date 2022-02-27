@@ -22,6 +22,7 @@ moduleDependencies {
     settings {
         data()
         domain()
+        presentation()
     }
     stats {
         data()

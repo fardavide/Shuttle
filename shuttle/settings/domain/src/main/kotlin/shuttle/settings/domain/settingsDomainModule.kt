@@ -8,8 +8,8 @@ import shuttle.settings.domain.usecase.RemoveFromBlacklist
 
 val settingsDomainModule = module {
 
-    factory { AddToBlacklist(settingsRepository = get()) }
+    factory { AddToBlacklist(settingsRepository = get(), statRepository = get()) }
     factory { IsBlacklisted(settingsRepository = get()) }
-    factory { ObserveAppsBlacklistSettings(observeAllInstalledApps = get()) }
+    factory { ObserveAppsBlacklistSettings(settingsRepository = get()) }
     factory { RemoveFromBlacklist(settingsRepository = get()) }
 }

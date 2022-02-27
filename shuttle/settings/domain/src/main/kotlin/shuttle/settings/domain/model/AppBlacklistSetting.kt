@@ -1,8 +1,8 @@
 package shuttle.settings.domain.model
 
-import shuttle.apps.domain.model.AppId
+import shuttle.apps.domain.model.AppModel
 
 data class AppBlacklistSetting(
-    val appId: AppId,
+    val app: AppModel,
     val inBlacklist: Boolean
 )

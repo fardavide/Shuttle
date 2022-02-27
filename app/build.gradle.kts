@@ -18,6 +18,7 @@ moduleDependencies {
     design()
     di()
     predictions.presentation()
+    settings.presentation()
 }
 
 dependencies {

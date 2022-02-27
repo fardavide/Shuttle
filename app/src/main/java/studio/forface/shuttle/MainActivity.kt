@@ -16,7 +16,9 @@ import androidx.navigation.compose.rememberNavController
 import shuttle.design.ShuttleTheme
 import shuttle.predictions.presentation.ui.LocationPermissionsScreen
 import shuttle.predictions.presentation.ui.SuggestedAppsListPage
+import shuttle.settings.presentation.ui.BlacklistSettingsPage
 import studio.forface.shuttle.Destination.LocationPermissions
+import studio.forface.shuttle.Destination.Settings
 import studio.forface.shuttle.Destination.Suggestions
 
 class MainActivity : ComponentActivity() {
@@ -42,6 +44,7 @@ fun App() {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = currentScreen) {
         composable(LocationPermissions) { LocationPermissionsScreen { currentScreen = Suggestions } }
-        composable(Suggestions) { SuggestedAppsListPage() }
+        composable(Settings) { BlacklistSettingsPage() }
+        composable(Suggestions) { SuggestedAppsListPage(onSettings = { currentScreen = Settings }) }
     }
 }

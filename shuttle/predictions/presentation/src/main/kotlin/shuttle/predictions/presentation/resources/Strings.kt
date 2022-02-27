@@ -2,6 +2,9 @@ package shuttle.predictions.presentation.resources
 
 internal object Strings {
 
+    const val SettingsIconContentDescription = "Settings icon"
+    const val ShuttleTitle = "Shuttle"
+
     object Action {
 
         const val AllowPreciseLocation = "Allow precise location"

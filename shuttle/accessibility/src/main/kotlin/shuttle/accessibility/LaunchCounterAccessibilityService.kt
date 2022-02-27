@@ -4,12 +4,12 @@ import android.accessibilityservice.AccessibilityService
 import android.util.Log
 import android.view.accessibility.AccessibilityEvent
 import org.koin.android.ext.android.inject
-import shuttle.accessibility.usecase.IncrementOpenCounter
+import shuttle.accessibility.usecase.IncrementOpenCounterIfNotBlacklisted
 import shuttle.apps.domain.model.AppId
 
 internal class LaunchCounterAccessibilityService : AccessibilityService() {
 
-    private val incrementOpenCounter: IncrementOpenCounter by inject()
+    private val incrementOpenCounterIfNotBlacklisted: IncrementOpenCounterIfNotBlacklisted by inject()
     private var previousPackageName: CharSequence? = null
 
     override fun onAccessibilityEvent(event: AccessibilityEvent) {
@@ -21,7 +21,7 @@ internal class LaunchCounterAccessibilityService : AccessibilityService() {
             if (isPackageValid(packageName) && isPackageChanged(packageName)) {
                 previousPackageName = packageName
                 Log.d("LaunchCounterAccessibilityService", "Package changed: $packageName")
-                incrementOpenCounter(AppId(event.packageName.toString()))
+                incrementOpenCounterIfNotBlacklisted(AppId(event.packageName.toString()))
             }
         }
     }
