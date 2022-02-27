@@ -24,7 +24,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SmallTopAppBar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -37,6 +36,7 @@ import shuttle.apps.domain.model.AppId
 import shuttle.apps.presentation.model.AppUiModel
 import shuttle.apps.presentation.resource.AppsStrings
 import shuttle.design.Dimens
+import shuttle.design.util.collectAsStateLifecycleAware
 import shuttle.predictions.presentation.resources.Strings
 import shuttle.predictions.presentation.viewmodel.SuggestedAppsListViewModel
 import shuttle.predictions.presentation.viewmodel.SuggestedAppsListViewModel.Action
@@ -48,7 +48,7 @@ fun SuggestedAppsListPage(
     onSettings: () -> Unit
 ) {
     val viewModel: SuggestedAppsListViewModel = getViewModel()
-    val s by viewModel.state.collectAsState()
+    val s by viewModel.state.collectAsStateLifecycleAware()
 
     Scaffold(
         topBar = {

@@ -25,6 +25,8 @@ import shuttle.predictions.presentation.model.LocationPermissionsState.Pending.C
 import shuttle.predictions.presentation.model.LocationPermissionsState.Pending.Init
 import shuttle.predictions.presentation.resources.Strings
 
+private var wasGranted = false
+
 @Composable
 @OptIn(ExperimentalPermissionsApi::class)
 fun LocationPermissionsScreen(onAllPermissionsGranted: () -> Unit) {
@@ -37,7 +39,12 @@ fun LocationPermissionsScreen(onAllPermissionsGranted: () -> Unit) {
     )
 
     when (val state = mapper.toLocationPermissionState(locationPermissionsState)) {
-        AllGranted -> onAllPermissionsGranted()
+        AllGranted -> {
+            if (wasGranted.not()) {
+                wasGranted = true
+                onAllPermissionsGranted()
+            }
+        }
         is LocationPermissionsState.Pending -> RequestPermissions(state) {
             locationPermissionsState.launchMultiplePermissionRequest()
         }
