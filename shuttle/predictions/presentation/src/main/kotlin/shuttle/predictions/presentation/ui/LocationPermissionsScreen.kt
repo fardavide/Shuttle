@@ -1,5 +1,6 @@
 package shuttle.predictions.presentation.ui
 
+import android.os.Build
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -23,6 +24,7 @@ import shuttle.predictions.presentation.model.LocationPermissionsState.AllGrante
 import shuttle.predictions.presentation.model.LocationPermissionsState.Pending.AllDenied
 import shuttle.predictions.presentation.model.LocationPermissionsState.Pending.CoarseOnly
 import shuttle.predictions.presentation.model.LocationPermissionsState.Pending.Init
+import shuttle.predictions.presentation.model.LocationPermissionsState.Pending.MissingBackground
 import shuttle.predictions.presentation.resources.Strings
 
 private var wasGranted = false
@@ -31,12 +33,20 @@ private var wasGranted = false
 @OptIn(ExperimentalPermissionsApi::class)
 fun LocationPermissionsScreen(onAllPermissionsGranted: () -> Unit) {
     val mapper = LocationPermissionsStateMapper()
-    val locationPermissionsState = rememberMultiplePermissionsState(
+    val permissionsList = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
         listOf(
             android.Manifest.permission.ACCESS_COARSE_LOCATION,
             android.Manifest.permission.ACCESS_FINE_LOCATION,
+            android.Manifest.permission.ACCESS_BACKGROUND_LOCATION
         )
-    )
+    } else {
+        listOf(
+            android.Manifest.permission.ACCESS_COARSE_LOCATION,
+            android.Manifest.permission.ACCESS_FINE_LOCATION
+        )
+    }
+
+    val locationPermissionsState = rememberMultiplePermissionsState(permissionsList)
 
     when (val state = mapper.toLocationPermissionState(locationPermissionsState)) {
         AllGranted -> {
@@ -61,6 +71,7 @@ internal fun RequestPermissions(state: LocationPermissionsState.Pending, onPermi
         val textToShow = when (state) {
             Init -> Strings.Message.RequestLocation
             CoarseOnly -> Strings.Message.RequestPreciseLocation
+            MissingBackground -> Strings.Message.RequestBackgroundLocation
             AllDenied -> Strings.Message.LocationFeatureDisabled
         }
 
@@ -96,6 +107,14 @@ fun InitPermissionsPreview() {
 fun CoarseOnlyPermissionsPreview() {
     ShuttleTheme {
         RequestPermissions(state = CoarseOnly, onPermissionRequest = {})
+    }
+}
+
+@Composable
+@Preview(showBackground = true, widthDp = 700, heightDp = 250)
+fun MissingBackgroundOnlyPermissionsPreview() {
+    ShuttleTheme {
+        RequestPermissions(state = MissingBackground, onPermissionRequest = {})
     }
 }
 

@@ -3,7 +3,7 @@ package shuttle.predictions.presentation.model
 internal sealed interface LocationPermissionsState {
 
     /**
-     * Both Coarse and Fine Location Permissions are granted
+     * All Location Permissions are granted: Coarse, Fine and Background, for Android API 29
      */
     object AllGranted : LocationPermissionsState
 
@@ -12,16 +12,21 @@ internal sealed interface LocationPermissionsState {
         /**
          * First time the user sees this feature or the user doesn't want to be asked again
          */
-        object Init : LocationPermissionsState.Pending
+        object Init : Pending
 
         /**
-         * Only Coarse Location Permission is granted, but Fine Location Permission
+         * Only Coarse Location Permission is granted, but Fine and Background Location Permission
          */
-        object CoarseOnly : LocationPermissionsState.Pending
+        object CoarseOnly : Pending
+
+        /**
+         * Background Location Permission is not granted
+         */
+        object MissingBackground : Pending
 
         /**
          * Both Location Permissions have been denied by the user
          */
-        object AllDenied : LocationPermissionsState.Pending
+        object AllDenied : Pending
     }
 }

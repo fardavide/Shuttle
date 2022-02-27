@@ -33,7 +33,7 @@ internal class CoordinatesRepositoryImpl(
     @SuppressLint("MissingPermission")
     private val locationFlow: Flow<Location> = callbackFlow {
         val request = LocationRequest.create()
-            .setFastestInterval(RefreshInterval.inWholeMilliseconds)
+            .setFastestInterval(LocationRefreshInterval.inWholeMilliseconds)
         val callback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {
                 val location = locationResult.lastLocation
@@ -48,7 +48,7 @@ internal class CoordinatesRepositoryImpl(
         while (currentCoroutineContext().isActive) {
             val time = DateTime.now().time
             emit(time)
-            delay(RefreshInterval)
+            delay(TimeRefreshInterval)
         }
     }
 
@@ -61,6 +61,7 @@ internal class CoordinatesRepositoryImpl(
 
     companion object {
 
-        private val RefreshInterval = 1.toDuration(DurationUnit.MINUTES)
+        private val LocationRefreshInterval = 10.toDuration(DurationUnit.MINUTES)
+        private val TimeRefreshInterval = 1.toDuration(DurationUnit.MINUTES)
     }
 }

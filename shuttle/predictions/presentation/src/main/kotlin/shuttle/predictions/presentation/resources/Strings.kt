@@ -17,6 +17,8 @@ internal object Strings {
             "you use them most. Please grant precise location permission, in order to have the best results."
         const val RequestPreciseLocation = "Ops, seems like you granted only granted the approximate location " +
             "permission, this is not enough for the app to work at its best. Please grant precise location permission."
+        const val RequestBackgroundLocation = "Ops, seems like you didn't grant background location permission. " +
+            "Please grant background location permission, in order to correctly update the statistics by location"
         const val LocationFeatureDisabled = "Seems like you didn't grant the location permissions :( so your apps " +
             "will be sorted without considering the usage related to location."
     }
