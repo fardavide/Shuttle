@@ -7,8 +7,11 @@ import android.content.pm.ResolveInfo
 import arrow.core.Either
 import arrow.core.right
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.merge
@@ -53,13 +56,25 @@ class AppsRepositoryImpl(
     private fun observeAndRefreshAppsFromDevice(): Flow<Either<GenericError, List<AppModel>>> =
         flow {
             while (coroutineContext.isActive) {
-                val installedApp = getAllInstalledAppsFromDevice()
-                emit(installedApp)
-                installedApp.map { apps ->
-                    val databaseApps = apps.map { app -> App(DatabaseAppId(app.id.value), app.name.value) }
-                    dataSource.insert(databaseApps)
+                coroutineScope {
+                    val installedAppsFromDeviceDeferred = async { getAllInstalledAppsFromDevice() }
+                    val installedAppsFromCacheDeferred = async { dataSource.findAllApps().first() }
+
+                    val installedAppsFromDeviceEither = installedAppsFromDeviceDeferred.await()
+                    val installedAppsFromCache = installedAppsFromCacheDeferred.await()
+
+                    emit(installedAppsFromDeviceEither)
+                    installedAppsFromDeviceEither.map { installedAppsFromDevice ->
+                        val databaseApps = installedAppsFromDevice.map { app -> App(DatabaseAppId(app.id.value), app.name.value) }
+                        dataSource.insert(databaseApps)
+
+                        val appsToRemove = installedAppsFromCache.filterNot { app ->
+                            app.id.value in installedAppsFromDevice.map { it.id.value }
+                        }
+                        dataSource.delete(appsToRemove)
+                    }
+                    delay(RefreshDelay)
                 }
-                delay(RefreshDelay)
             }
         }
 

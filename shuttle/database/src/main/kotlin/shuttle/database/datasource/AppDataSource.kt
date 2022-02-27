@@ -13,6 +13,7 @@ interface AppDataSource {
     fun findAllApps(): Flow<List<App>>
 
     suspend fun insert(apps: List<App>)
+    suspend fun delete(apps: List<App>)
 }
 
 internal class AppDataSourceImpl(
@@ -28,6 +29,12 @@ internal class AppDataSourceImpl(
             for (app in apps) {
                 insertApp(app.id, app.name)
             }
+        }
+    }
+
+    override suspend fun delete(apps: List<App>) {
+        appQueries.suspendTransaction(ioDispatcher) {
+            deleteApps(apps.map { it.id })
         }
     }
 }

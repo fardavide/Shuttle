@@ -12,3 +12,10 @@ suspend inline fun <T : Transacter> T.suspendTransaction(
         transaction { block() }
     }
 }
+
+suspend inline fun <T : Transacter, R> T.suspendTransactionWithResult(
+    dispatcher: CoroutineDispatcher,
+    crossinline block: T.() -> R
+): R = withContext(dispatcher) {
+    transactionWithResult { block() }
+}

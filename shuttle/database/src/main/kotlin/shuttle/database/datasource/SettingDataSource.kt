@@ -1,9 +1,9 @@
 package shuttle.database.datasource
 
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.withContext
 import shuttle.database.AppBlacklistSettingQueries
 import shuttle.database.model.DatabaseAppId
+import shuttle.database.util.suspendTransactionWithResult
 
 interface SettingDataSource {
 
@@ -15,10 +15,11 @@ internal class SettingDataSourceImpl(
     private val ioDispatcher: CoroutineDispatcher
 ): SettingDataSource {
 
-    override suspend fun isBlacklisted(appId: DatabaseAppId) = withContext(ioDispatcher) {
-        appBlacklistSettingQueries.findAllAppsWithBlacklistSetting()
-            .executeAsList()
-            .find { it.appId == appId }
-            ?.isBlacklisted == 1L
-    }
+    override suspend fun isBlacklisted(appId: DatabaseAppId) =
+        appBlacklistSettingQueries.suspendTransactionWithResult(ioDispatcher) {
+            findAllAppsWithBlacklistSetting()
+                .executeAsList()
+                .find { it.appId == appId }
+                ?.isBlacklisted == 1L
+        }
 }

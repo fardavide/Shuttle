@@ -9,5 +9,9 @@ insertApp:
     INSERT OR REPLACE INTO app(id, name)
     VALUES (?, ?);
 
+deleteApps:
+    DELETE FROM app
+    WHERE app.id IN ?;
+
 findAllApps:
     SELECT * FROM app;
