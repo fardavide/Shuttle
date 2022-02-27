@@ -1,7 +1,3 @@
-insertApp:
-    INSERT OR REPLACE INTO app(id, name)
-    VALUES (?, ?);
-
 insertLocationStat:
     INSERT OR REPLACE INTO locationStat(appId, latitude, longitude, count)
     VALUES (?, ?, ?, ?);
@@ -10,9 +6,6 @@ insertTimeStat:
     INSERT OR REPLACE INTO timeStat(appId, time, count)
     VALUES (?, ?, ?);
 
-    
-findAllApps:
-    SELECT * FROM app;
 
 findLocationStat:
     SELECT * FROM locationStat

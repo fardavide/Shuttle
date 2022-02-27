@@ -9,7 +9,7 @@ val appsDataModule = module {
     factory<AppsRepository> {
         AppsRepositoryImpl(
             packageManager = get(),
-            statsDataSource = get(),
+            dataSource = get(),
             ioDispatcher = Dispatchers.IO
         )
     }

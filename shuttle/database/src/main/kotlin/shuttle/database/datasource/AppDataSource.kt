@@ -1,0 +1,33 @@
+package shuttle.database.datasource
+
+import com.squareup.sqldelight.runtime.coroutines.asFlow
+import com.squareup.sqldelight.runtime.coroutines.mapToList
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.Flow
+import shuttle.database.App
+import shuttle.database.AppQueries
+import shuttle.database.util.suspendTransaction
+
+interface AppDataSource {
+
+    fun findAllApps(): Flow<List<App>>
+
+    suspend fun insert(apps: List<App>)
+}
+
+internal class AppDataSourceImpl(
+    private val appQueries: AppQueries,
+    private val ioDispatcher: CoroutineDispatcher
+): AppDataSource {
+
+    override fun findAllApps(): Flow<List<App>> =
+        appQueries.findAllApps().asFlow().mapToList(ioDispatcher)
+
+    override suspend fun insert(apps: List<App>) {
+        appQueries.suspendTransaction(ioDispatcher) {
+            for (app in apps) {
+                insertApp(app.id, app.name)
+            }
+        }
+    }
+}

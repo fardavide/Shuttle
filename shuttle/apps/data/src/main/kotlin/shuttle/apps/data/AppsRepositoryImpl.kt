@@ -20,7 +20,7 @@ import shuttle.apps.domain.model.AppId
 import shuttle.apps.domain.model.AppModel
 import shuttle.apps.domain.model.AppName
 import shuttle.database.App
-import shuttle.database.datasource.StatDataSource
+import shuttle.database.datasource.AppDataSource
 import shuttle.database.model.DatabaseAppId
 import kotlin.coroutines.coroutineContext
 import kotlin.time.DurationUnit
@@ -28,7 +28,7 @@ import kotlin.time.toDuration
 
 class AppsRepositoryImpl(
     private val packageManager: PackageManager,
-    private val statsDataSource: StatDataSource,
+    private val dataSource: AppDataSource,
     private val ioDispatcher: CoroutineDispatcher
 ) : AppsRepository {
 
@@ -36,7 +36,7 @@ class AppsRepositoryImpl(
         merge(observeAllInstalledAppsFromCache(), observeAndRefreshAppsFromDevice())
 
     private fun observeAllInstalledAppsFromCache(): Flow<Either<GenericError, List<AppModel>>> =
-        statsDataSource.findAllApps().map { list ->
+        dataSource.findAllApps().map { list ->
             list.map { AppModel(AppId(it.id.value), AppName(it.name)) }.right()
         }
 
@@ -47,7 +47,7 @@ class AppsRepositoryImpl(
                 emit(installedApp)
                 installedApp.map { apps ->
                     val databaseApps = apps.map { app -> App(DatabaseAppId(app.id.value), app.name.value) }
-                    statsDataSource.insert(databaseApps)
+                    dataSource.insert(databaseApps)
                 }
                 delay(RefreshDelay)
             }

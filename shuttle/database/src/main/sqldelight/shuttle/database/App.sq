@@ -4,3 +4,10 @@ CREATE TABLE IF NOT EXISTS app (
     id TEXT AS DatabaseAppId NOT NULL PRIMARY KEY,
     name TEXT NOT NULL
 );
+
+insertApp:
+    INSERT OR REPLACE INTO app(id, name)
+    VALUES (?, ?);
+
+findAllApps:
+    SELECT * FROM app;

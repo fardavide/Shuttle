@@ -34,10 +34,16 @@ class StatsRepositoryImplTest {
         coEvery { observeAllInstalledApps() } returns flowOf(AllAppsIds.map(::buildAppModel).right())
     }
     private val statDataSource: StatDataSource = mockk()
+    private val sortAppStatsByCounts: SortAppStatsByCounts = mockk {
+        coEvery { this@mockk(any()) } answers {
+            val stats = firstArg<List<DatabaseAppStat>>()
+            stats.map { AppId(it.appId.value) }
+        }
+    }
     private val repository = StatsRepositoryImpl(
         appsRepository = appsRepository,
         statDataSource = statDataSource,
-        sortAppStatsByCounts = mockk()
+        sortAppStatsByCounts = sortAppStatsByCounts
     )
 
     @Test
