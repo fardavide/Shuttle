@@ -11,6 +11,7 @@ fun ModulesCatalog.database() = create("database")
 fun ModulesCatalog.design() = create("design")
 fun ModulesCatalog.di() = create("di")
 val ModulesCatalog.predictions get() = PredictionsModuleCatalog(project)
+val ModulesCatalog.settings get() = SettingsModuleCatalog(project)
 val ModulesCatalog.stats get() = StatsModuleCatalog(project)
 
 fun AppsModuleCatalog.data() = create("data")
@@ -23,6 +24,10 @@ fun CoordinatesModuleCatalog.domain() = create("domain")
 fun PredictionsModuleCatalog.domain() = create("domain")
 fun PredictionsModuleCatalog.presentation() = create("presentation")
 
+fun SettingsModuleCatalog.data() = create("data")
+fun SettingsModuleCatalog.domain() = create("domain")
+fun SettingsModuleCatalog.presentation() = create("presentation")
+
 fun StatsModuleCatalog.data() = create("data")
 fun StatsModuleCatalog.domain() = create("domain")
 
@@ -30,6 +35,7 @@ fun StatsModuleCatalog.domain() = create("domain")
 class AppsModuleCatalog(project: Project): ModuleCatalog(project, ":shuttle:apps:shuttle-apps-")
 class CoordinatesModuleCatalog(project: Project): ModuleCatalog(project, ":shuttle:coordinates:shuttle-coordinates-")
 class PredictionsModuleCatalog(project: Project): ModuleCatalog(project, ":shuttle:predictions:shuttle-predictions-")
+class SettingsModuleCatalog(project: Project): ModuleCatalog(project, ":shuttle:settings:shuttle-settings-")
 class StatsModuleCatalog(project: Project): ModuleCatalog(project, ":shuttle:stats:shuttle-stats-")
 
 

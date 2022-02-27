@@ -9,14 +9,17 @@ import shuttle.coordinates.domain.coordinatesDomainModule
 import shuttle.database.databaseModule
 import shuttle.predictions.domain.predictionsDomainModule
 import shuttle.predictions.presentation.predictionsPresentationModule
+import shuttle.settings.data.settingsDataModule
+import shuttle.settings.domain.settingsDomainModule
 import shuttle.stats.data.statsDataModule
 import shuttle.stats.domain.statsDomainModule
 
 val shuttleModule =
     accessibilityModule +
         appsDataModule + appsDomainModule + appsPresentationModule +
-        coordinatesDomainModule + coordinatesDataModule +
+        coordinatesDataModule + coordinatesDomainModule +
         databaseModule +
         predictionsDomainModule + predictionsPresentationModule +
+        settingsDataModule + settingsDomainModule +
         statsDataModule + statsDomainModule
 

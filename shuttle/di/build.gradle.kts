@@ -19,6 +19,10 @@ moduleDependencies {
         domain()
         presentation()
     }
+    settings {
+        data()
+        domain()
+    }
     stats {
         data()
         domain()
