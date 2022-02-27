@@ -31,6 +31,8 @@ interface StatDataSource {
         longitude: DatabaseLongitude,
         time: DatabaseTime
     )
+
+    suspend fun deleteAllCountersFor(appId: DatabaseAppId)
 }
 
 internal class StatDataSourceImpl(
@@ -105,5 +107,12 @@ internal class StatDataSourceImpl(
             time = time,
             count = previousCount + 1
         )
+    }
+
+    override suspend fun deleteAllCountersFor(appId: DatabaseAppId) {
+        statQueries.suspendTransaction(ioDispatcher) {
+            deleteLocationStatsForApp(appId)
+            deleteTimeStatsForApp(appId)
+        }
     }
 }

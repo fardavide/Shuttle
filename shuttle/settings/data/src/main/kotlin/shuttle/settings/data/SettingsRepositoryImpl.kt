@@ -11,4 +11,8 @@ class SettingsRepositoryImpl(
 
     override suspend fun isBlacklisted(appId: AppId) =
         settingDataSource.isBlacklisted(DatabaseAppId(appId.value))
+
+    override suspend fun setBlacklisted(appId: AppId, blacklisted: Boolean) {
+        settingDataSource.setBlacklisted(DatabaseAppId(appId.value), blacklisted)
+    }
 }

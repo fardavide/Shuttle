@@ -62,6 +62,10 @@ class StatsRepositoryImpl(
             time = time.toDatabaseTimeAdjusted()
         )
     }
+
+    override suspend fun deleteCountersFor(appId: AppId) {
+        statDataSource.deleteAllCountersFor(appId.toDatabaseAppId())
+    }
 }
 
 private fun <T> MutableList<T>.pop(predicate: (T) -> Boolean): T? {

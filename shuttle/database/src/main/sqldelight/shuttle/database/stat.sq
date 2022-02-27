@@ -6,6 +6,14 @@ insertTimeStat:
     INSERT OR REPLACE INTO timeStat(appId, time, count)
     VALUES (?, ?, ?);
 
+deleteLocationStatsForApp:
+    DELETE FROM locationStat
+    WHERE appId = ?;
+
+deleteTimeStatsForApp:
+    DELETE FROM timeStat
+    WHERE appId = ?;
+
 
 findLocationStat:
     SELECT * FROM locationStat
