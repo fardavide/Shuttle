@@ -1,0 +1,17 @@
+import shuttle.database.model.DatabaseAppId;
+
+CREATE TABLE IF NOT EXISTS appBlacklistSetting (
+    appId TEXT AS DatabaseAppId NOT NULL PRIMARY KEY,
+    isBlacklisted INTEGER AS Boolean NOT NULL
+);
+
+insertAppBlacklistSetting:
+    INSERT OR REPLACE INTO appBlacklistSetting(appId, isBlacklisted)
+    VALUES (?, ?);
+
+findAllAppsWithBlacklistSetting:
+    SELECT
+        id AS appId,
+        IFNULL(isBlacklisted, FALSE) AS isBlacklisted
+    FROM app
+    LEFT OUTER JOIN appBlacklistSetting ON appBlacklistSetting.appId = app.id;
