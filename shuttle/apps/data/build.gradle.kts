@@ -6,6 +6,7 @@ moduleDependencies {
 
     apps.domain()
     database()
+    settings.domain()
 }
 
 dependencies {

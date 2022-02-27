@@ -31,7 +31,7 @@ class StatsRepositoryImpl(
         endTime: Time
     ): Flow<Either<GenericError, List<AppModel>>> =
         combine(
-            appsRepository.observeAllInstalledApps(),
+            appsRepository.observeNotBlacklistedApps(),
             statDataSource.findAllStats(
                 startLatitude = startLocation.databaseLatitude(),
                 endLatitude = endLocation.databaseLatitude(),

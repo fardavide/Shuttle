@@ -5,5 +5,5 @@ import shuttle.settings.domain.SettingsRepository
 
 val settingsDataModule = module {
 
-    factory<SettingsRepository> { SettingsRepositoryImpl() }
+    factory<SettingsRepository> { SettingsRepositoryImpl(settingDataSource = get()) }
 }

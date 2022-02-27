@@ -22,18 +22,28 @@ import shuttle.apps.domain.model.AppName
 import shuttle.database.App
 import shuttle.database.datasource.AppDataSource
 import shuttle.database.model.DatabaseAppId
+import shuttle.settings.domain.usecase.IsBlacklisted
 import kotlin.coroutines.coroutineContext
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 
 class AppsRepositoryImpl(
-    private val packageManager: PackageManager,
     private val dataSource: AppDataSource,
-    private val ioDispatcher: CoroutineDispatcher
+    private val ioDispatcher: CoroutineDispatcher,
+    private val isBlacklisted: IsBlacklisted,
+    private val packageManager: PackageManager,
 ) : AppsRepository {
 
     override fun observeAllInstalledApps(): Flow<Either<GenericError, List<AppModel>>> =
         merge(observeAllInstalledAppsFromCache(), observeAndRefreshAppsFromDevice())
+
+    override fun observeNotBlacklistedApps(): Flow<Either<GenericError, List<AppModel>>> {
+        return observeAllInstalledApps().map { either ->
+            either.map { list ->
+                list.filterNot { isBlacklisted(it.id) }
+            }
+        }
+    }
 
     private fun observeAllInstalledAppsFromCache(): Flow<Either<GenericError, List<AppModel>>> =
         dataSource.findAllApps().map { list ->
