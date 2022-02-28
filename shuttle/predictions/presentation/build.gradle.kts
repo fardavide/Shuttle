@@ -6,14 +6,12 @@ shuttleAndroid.useCompose()
 
 moduleDependencies {
 
-    apps {
-        domain()
-        presentation()
-    }
+    apps.domain()
     design()
     predictions.domain()
     preferences()
     stats.domain()
+    utils.android()
 }
 
 dependencies {

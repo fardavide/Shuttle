@@ -4,6 +4,8 @@ import android.content.Intent
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.glance.GlanceModifier
+import androidx.glance.Image
+import androidx.glance.ImageProvider
 import androidx.glance.action.Action
 import androidx.glance.action.clickable
 import androidx.glance.appwidget.GlanceAppWidget
@@ -20,11 +22,14 @@ import androidx.glance.layout.Spacer
 import androidx.glance.layout.fillMaxWidth
 import androidx.glance.layout.height
 import androidx.glance.layout.padding
+import androidx.glance.layout.size
+import androidx.glance.layout.width
 import androidx.glance.text.Text
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import shuttle.design.Dimens
 import shuttle.predictions.presentation.model.WidgetAppUiModel
+import shuttle.predictions.presentation.resources.Strings
 import shuttle.predictions.presentation.viewmodel.SuggestedAppsWidgetViewModel
 
 class SuggestedAppsWidget : GlanceAppWidget(), KoinComponent {
@@ -55,7 +60,7 @@ class SuggestedAppsWidget : GlanceAppWidget(), KoinComponent {
                 .background(MaterialTheme.colorScheme.background.copy(alpha = 0.78f))
                 .cornerRadius(Dimens.Margin.Large)
         ) {
-            items(apps, itemId = { app -> app.id.hashCode().toLong() }) {
+            items(apps.take(25), itemId = { app -> app.id.hashCode().toLong() }) {
                 AppIconItem(it, onAppClick)
             }
         }
@@ -66,6 +71,7 @@ class SuggestedAppsWidget : GlanceAppWidget(), KoinComponent {
         app: WidgetAppUiModel,
         onAppClick: (Intent) -> Action
     ) {
+        val width = Dimens.Icon.Large
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = GlanceModifier
@@ -74,17 +80,17 @@ class SuggestedAppsWidget : GlanceAppWidget(), KoinComponent {
                 .clickable(onAppClick(app.launchIntent))
         ) {
 
-//            Image(
-//                provider = app.icon,
-//                contentDescription = AppsStrings.AppIconContentDescription,
-//                modifier = GlanceModifier.size(Dimens.Icon.Large)
-//            )
+            Image(
+                provider = ImageProvider(app.icon),
+                contentDescription = Strings.AppIconContentDescription,
+                modifier = GlanceModifier.size(width)
+            )
             Spacer(modifier = GlanceModifier.height(Dimens.Margin.Small))
             Text(
                 text = app.name,
                 maxLines = 1,
 //                style = MaterialTheme.typography.titleMedium,
-                modifier = GlanceModifier.fillMaxWidth()
+                modifier = GlanceModifier.width(width)
             )
         }
     }

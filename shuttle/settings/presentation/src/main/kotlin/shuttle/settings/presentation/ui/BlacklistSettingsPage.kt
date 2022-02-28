@@ -24,10 +24,10 @@ import androidx.compose.ui.Modifier
 import coil.compose.rememberImagePainter
 import org.koin.androidx.compose.getViewModel
 import shuttle.apps.domain.model.AppId
-import shuttle.apps.presentation.resource.AppsStrings
 import shuttle.design.Dimens
 import shuttle.design.util.collectAsStateLifecycleAware
 import shuttle.settings.presentation.model.AppBlacklistSettingUiModel
+import shuttle.settings.presentation.resources.Strings
 import shuttle.settings.presentation.viewmodel.BlacklistSettingsViewModel
 import shuttle.settings.presentation.viewmodel.BlacklistSettingsViewModel.Action
 import shuttle.settings.presentation.viewmodel.BlacklistSettingsViewModel.State
@@ -82,7 +82,7 @@ internal fun AppListItem(
     ) {
         Image(
             painter = rememberImagePainter(data = app.icon),
-            contentDescription = AppsStrings.AppIconContentDescription,
+            contentDescription = Strings.AppIconContentDescription,
             modifier = Modifier.size(Dimens.Icon.Medium)
         )
         Spacer(modifier = Modifier.width(Dimens.Margin.Medium))

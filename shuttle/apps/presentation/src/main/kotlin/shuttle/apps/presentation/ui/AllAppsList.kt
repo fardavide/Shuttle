@@ -21,7 +21,7 @@ import androidx.compose.ui.Modifier
 import coil.compose.rememberImagePainter
 import org.koin.androidx.compose.getViewModel
 import shuttle.apps.presentation.model.AppUiModel
-import shuttle.apps.presentation.resource.AppsStrings
+import shuttle.apps.presentation.resource.Strings
 import shuttle.apps.presentation.viewmodel.AllAppsListViewModel
 import shuttle.design.Dimens
 
@@ -55,7 +55,7 @@ internal fun AppListItem(
     Row(modifier = Modifier.padding(vertical = Dimens.Margin.Medium)) {
         Image(
             painter = rememberImagePainter(data = app.icon),
-            contentDescription = AppsStrings.AppIconContentDescription,
+            contentDescription = Strings.AppIconContentDescription,
             modifier = Modifier.size(Dimens.Icon.Large)
         )
         Spacer(modifier = Modifier.width(Dimens.Margin.Large))

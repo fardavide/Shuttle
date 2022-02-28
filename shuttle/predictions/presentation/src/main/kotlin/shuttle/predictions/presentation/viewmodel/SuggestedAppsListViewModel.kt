@@ -13,9 +13,9 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import shuttle.apps.domain.model.AppId
-import shuttle.apps.presentation.mapper.AppUiModelMapper
-import shuttle.apps.presentation.model.AppUiModel
 import shuttle.predictions.domain.usecase.ObserveSuggestedApps
+import shuttle.predictions.presentation.mapper.AppUiModelMapper
+import shuttle.predictions.presentation.model.AppUiModel
 
 internal class SuggestedAppsListViewModel(
     private val appUiModelMapper: AppUiModelMapper,

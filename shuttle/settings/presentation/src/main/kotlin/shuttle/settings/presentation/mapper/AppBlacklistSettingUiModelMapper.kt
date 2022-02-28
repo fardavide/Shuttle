@@ -1,11 +1,11 @@
 package shuttle.settings.presentation.mapper
 
-import shuttle.apps.presentation.util.GetIconForApp
 import shuttle.settings.domain.model.AppBlacklistSetting
 import shuttle.settings.presentation.model.AppBlacklistSettingUiModel
+import shuttle.util.android.GetIconDrawableForApp
 
 class AppBlacklistSettingUiModelMapper(
-    private val getIconForApp: GetIconForApp
+    private val getIconDrawableForApp: GetIconDrawableForApp
 ) {
 
     fun toUiModel(appBlacklistSetting: AppBlacklistSetting): AppBlacklistSettingUiModel {
@@ -13,7 +13,7 @@ class AppBlacklistSettingUiModelMapper(
         return AppBlacklistSettingUiModel(
             id = appModel.id,
             name = appModel.name.value,
-            icon = getIconForApp(appModel.id),
+            icon = getIconDrawableForApp(appModel.id),
             isBlacklisted = appBlacklistSetting.inBlacklist
         )
     }

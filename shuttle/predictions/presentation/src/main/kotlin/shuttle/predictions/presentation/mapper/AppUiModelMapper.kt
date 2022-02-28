@@ -1,7 +1,7 @@
-package shuttle.apps.presentation.mapper
+package shuttle.predictions.presentation.mapper
 
 import shuttle.apps.domain.model.AppModel
-import shuttle.apps.presentation.model.AppUiModel
+import shuttle.predictions.presentation.model.AppUiModel
 import shuttle.util.android.GetIconDrawableForApp
 
 class AppUiModelMapper(

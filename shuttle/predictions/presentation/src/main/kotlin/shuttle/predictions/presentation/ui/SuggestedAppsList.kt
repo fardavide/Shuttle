@@ -33,10 +33,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import coil.compose.rememberImagePainter
 import org.koin.androidx.compose.getViewModel
 import shuttle.apps.domain.model.AppId
-import shuttle.apps.presentation.model.AppUiModel
-import shuttle.apps.presentation.resource.AppsStrings
 import shuttle.design.Dimens
 import shuttle.design.util.collectAsStateLifecycleAware
+import shuttle.predictions.presentation.model.AppUiModel
 import shuttle.predictions.presentation.resources.Strings
 import shuttle.predictions.presentation.viewmodel.SuggestedAppsListViewModel
 import shuttle.predictions.presentation.viewmodel.SuggestedAppsListViewModel.Action
@@ -107,7 +106,7 @@ private fun AppIconItem(
     ) {
         Image(
             painter = rememberImagePainter(data = app.icon),
-            contentDescription = AppsStrings.AppIconContentDescription,
+            contentDescription = Strings.AppIconContentDescription,
             modifier = Modifier.size(Dimens.Icon.Large)
         )
         Spacer(modifier = Modifier.height(Dimens.Margin.Small))

@@ -3,6 +3,7 @@ package shuttle.predictions.presentation
 import kotlinx.coroutines.MainScope
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
+import shuttle.predictions.presentation.mapper.AppUiModelMapper
 import shuttle.predictions.presentation.mapper.WidgetAppUiModelMapper
 import shuttle.predictions.presentation.viewmodel.SuggestedAppsListViewModel
 import shuttle.predictions.presentation.viewmodel.SuggestedAppsWidgetViewModel
@@ -16,6 +17,7 @@ val predictionsPresentationModule = module {
             packageManager = get()
         )
     }
+    factory { AppUiModelMapper(getIconDrawableForApp = get()) }
     factory {
         SuggestedAppsWidgetViewModel(
             appUiModelMapper = get(),
@@ -23,5 +25,5 @@ val predictionsPresentationModule = module {
             viewModelScope = MainScope()
         )
     }
-    factory { WidgetAppUiModelMapper(getIconForApp = get(), packageManager = get()) }
+    factory { WidgetAppUiModelMapper(getIconForApp = get(), getLaunchIntentForApp = get()) }
 }

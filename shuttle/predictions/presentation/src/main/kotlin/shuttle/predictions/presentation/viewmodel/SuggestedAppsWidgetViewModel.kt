@@ -14,7 +14,7 @@ internal class SuggestedAppsWidgetViewModel(
     private val viewModelScope: CoroutineScope
 ) {
 
-    val state: State = runBlocking {
+    val state: State = runBlocking(viewModelScope.coroutineContext) {
         observeSuggestedApps().map { either ->
             either.fold(
                 ifRight = { list ->

@@ -1,10 +1,10 @@
-package shuttle.apps.presentation.util
+package shuttle.util.android
 
 import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
 import shuttle.apps.domain.model.AppId
 
-class GetIconForApp(
+class GetIconDrawableForApp(
     private val packageManager: PackageManager
 ) {
 

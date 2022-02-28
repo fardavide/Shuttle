@@ -29,6 +29,7 @@ moduleDependencies {
         data()
         domain()
     }
+    utils.android()
 }
 
 dependencies {

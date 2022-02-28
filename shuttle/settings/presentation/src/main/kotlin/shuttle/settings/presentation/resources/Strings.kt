@@ -1,4 +1,4 @@
-package shuttle.apps.presentation.resource
+package shuttle.settings.presentation.resources
 
 object Strings {
 

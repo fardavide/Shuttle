@@ -7,7 +7,6 @@ import shuttle.settings.presentation.viewmodel.BlacklistSettingsViewModel
 
 val settingsPresentationModule = module {
 
-    factory { AppBlacklistSettingUiModelMapper(getIconForApp = get()) }
     viewModel {
         BlacklistSettingsViewModel(
             appUiModelMapper = get(),
@@ -16,4 +15,5 @@ val settingsPresentationModule = module {
             removeFromBlacklist = get()
         )
     }
+    factory { AppBlacklistSettingUiModelMapper(getIconDrawableForApp = get()) }
 }

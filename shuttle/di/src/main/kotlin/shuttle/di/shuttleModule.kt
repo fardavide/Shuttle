@@ -15,6 +15,7 @@ import shuttle.settings.domain.settingsDomainModule
 import shuttle.settings.presentation.settingsPresentationModule
 import shuttle.stats.data.statsDataModule
 import shuttle.stats.domain.statsDomainModule
+import shuttle.util.android.utilsAndroidModule
 
 val shuttleModule =
     accessibilityModule +
@@ -24,5 +25,6 @@ val shuttleModule =
         predictionsDomainModule + predictionsPresentationModule +
         preferencesModule +
         settingsDataModule + settingsDomainModule + settingsPresentationModule +
-        statsDataModule + statsDomainModule
+        statsDataModule + statsDomainModule +
+        utilsAndroidModule
 
