@@ -47,9 +47,6 @@ import shuttle.predictions.presentation.viewmodel.SuggestedAppsListViewModel.Sta
 fun SuggestedAppsListPage(
     onSettings: () -> Unit
 ) {
-    val viewModel: SuggestedAppsListViewModel = getViewModel()
-    val s by viewModel.state.collectAsStateLifecycleAware()
-
     Scaffold(
         topBar = {
             SmallTopAppBar(
@@ -61,20 +58,27 @@ fun SuggestedAppsListPage(
                 }
             )
         }, content = {
-
-            when (val state = s) {
-                State.Loading -> {}
-                is State.Data -> SuggestedAppsList(state.apps) { viewModel.submit(Action.OnAppClicked(it)) }
-                is State.Error -> TODO()
-                is State.RequestOpenApp -> LocalContext.current.startActivity(state.intent)
-            }
+            SuggestedAppsListContent()
         }
     )
 }
 
 @Composable
+fun SuggestedAppsListContent() {
+    val viewModel: SuggestedAppsListViewModel = getViewModel()
+    val s by viewModel.state.collectAsStateLifecycleAware()
+
+    when (val state = s) {
+        State.Loading -> {}
+        is State.Data -> SuggestedAppsList(state.apps) { viewModel.submit(Action.OnAppClicked(it)) }
+        is State.Error -> TODO()
+        is State.RequestOpenApp -> LocalContext.current.startActivity(state.intent)
+    }
+}
+
+@Composable
 @OptIn(ExperimentalFoundationApi::class)
-internal fun SuggestedAppsList(
+private fun SuggestedAppsList(
     apps: List<AppUiModel>,
     onAppClicked: (AppId) -> Unit
 ) {
@@ -90,7 +94,7 @@ internal fun SuggestedAppsList(
 }
 
 @Composable
-internal fun AppIconItem(
+private fun AppIconItem(
     app: AppUiModel,
     onAppClicked: (AppId) -> Unit
 ) {

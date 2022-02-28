@@ -12,6 +12,7 @@ moduleDependencies {
     }
     design()
     predictions.domain()
+    preferences()
     stats.domain()
 }
 
@@ -21,6 +22,7 @@ dependencies {
     implementation(libs.bundles.compose)
 
     implementation(libs.accompanist.permissions)
+    implementation(libs.androidx.glance)
     implementation(libs.androidx.lifecycle.viewModel)
     implementation(libs.koin.android)
 

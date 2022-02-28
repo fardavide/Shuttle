@@ -2,23 +2,14 @@ plugins {
     id("shuttle.android")
 }
 
-moduleDependencies {
-
-    apps.domain()
-    coordinates.domain()
-    predictions.presentation()
-    preferences()
-    settings.domain()
-    stats.domain()
-}
-
 dependencies {
 
     implementation(libs.bundles.base)
-
-    implementation(libs.androidx.glance)
+    implementation(libs.androidx.dataStore.preferences)
     implementation(libs.koin.android)
 
     testImplementation(libs.bundles.test.kotlin)
+    testImplementation(libs.sqlDelight.sqlite)
+
     androidTestImplementation(libs.bundles.test.android)
 }

@@ -23,6 +23,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Shuttle">
 
+        <!-- Accessibility -->
         <service android:name="shuttle.accessibility.LaunchCounterAccessibilityService"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
             android:exported="false">
@@ -33,6 +34,18 @@
                 android:name="android.accessibilityservice"
                 android:resource="@xml/launch_counter_service_config" />
         </service>
+
+        <!-- Widget -->
+        <receiver android:name="shuttle.predictions.presentation.ui.SuggestedAppsWidgetReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/suggested_apps_widget_info" />
+        </receiver>
 
         <activity
             android:name=".MainActivity"

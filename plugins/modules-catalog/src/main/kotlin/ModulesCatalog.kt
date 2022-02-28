@@ -11,6 +11,7 @@ fun ModulesCatalog.database() = create("database")
 fun ModulesCatalog.design() = create("design")
 fun ModulesCatalog.di() = create("di")
 val ModulesCatalog.predictions get() = PredictionsModuleCatalog(project)
+fun ModulesCatalog.preferences() = create("preferences")
 val ModulesCatalog.settings get() = SettingsModuleCatalog(project)
 val ModulesCatalog.stats get() = StatsModuleCatalog(project)
 

@@ -9,6 +9,7 @@ import shuttle.coordinates.domain.coordinatesDomainModule
 import shuttle.database.databaseModule
 import shuttle.predictions.domain.predictionsDomainModule
 import shuttle.predictions.presentation.predictionsPresentationModule
+import shuttle.preferences.preferencesModule
 import shuttle.settings.data.settingsDataModule
 import shuttle.settings.domain.settingsDomainModule
 import shuttle.settings.presentation.settingsPresentationModule
@@ -21,6 +22,7 @@ val shuttleModule =
         coordinatesDataModule + coordinatesDomainModule +
         databaseModule +
         predictionsDomainModule + predictionsPresentationModule +
+        preferencesModule +
         settingsDataModule + settingsDomainModule + settingsPresentationModule +
         statsDataModule + statsDomainModule
 

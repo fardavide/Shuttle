@@ -2,7 +2,6 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.withType
-import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 abstract class ShuttleKotlinPlugin : Plugin<Project> {
@@ -19,7 +18,10 @@ private fun Project.setupKotlinPlugin() {
 
     tasks.withType<KotlinCompile> {
         kotlinOptions {
-            freeCompilerArgs = freeCompilerArgs + listOf("-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi")
+            freeCompilerArgs = freeCompilerArgs + listOf(
+                "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
+                "-opt-in=kotlin.RequiresOptIn"
+            )
         }
     }
 }
