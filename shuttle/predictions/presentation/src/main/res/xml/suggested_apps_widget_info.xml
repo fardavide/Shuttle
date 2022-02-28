@@ -4,7 +4,7 @@
     android:minWidth="36dp"
     android:minHeight="36dp"
     android:resizeMode="horizontal|vertical"
-    android:targetCellHeight="1"
-    android:targetCellWidth="3"
+    android:targetCellHeight="2"
+    android:targetCellWidth="4"
     android:widgetCategory="home_screen"
     android:widgetFeatures="reconfigurable"/>
