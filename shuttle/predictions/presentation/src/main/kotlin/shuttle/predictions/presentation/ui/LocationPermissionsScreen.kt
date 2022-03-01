@@ -37,7 +37,7 @@ fun LocationPermissionsScreen(onAllPermissionsGranted: () -> Unit) {
         listOf(
             android.Manifest.permission.ACCESS_COARSE_LOCATION,
             android.Manifest.permission.ACCESS_FINE_LOCATION,
-            android.Manifest.permission.ACCESS_BACKGROUND_LOCATION
+//            android.Manifest.permission.ACCESS_BACKGROUND_LOCATION
         )
     } else {
         listOf(
