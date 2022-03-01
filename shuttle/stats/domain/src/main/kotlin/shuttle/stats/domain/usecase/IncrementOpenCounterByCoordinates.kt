@@ -1,24 +1,18 @@
 package shuttle.stats.domain.usecase
 
-import com.soywiz.klock.Time
 import shuttle.apps.domain.model.AppId
-import shuttle.coordinates.domain.model.Coordinates
-import shuttle.coordinates.domain.model.Location
+import shuttle.coordinates.domain.model.CoordinatesResult
 import shuttle.stats.domain.StatsRepository
 
 class IncrementOpenCounterByCoordinates(
     private val statsRepository: StatsRepository,
 ) {
 
-    suspend operator fun invoke(appId: AppId, coordinates: Coordinates) {
-        this(appId, coordinates.location, coordinates.time)
-    }
-
-    suspend operator fun invoke(appId: AppId, location: Location, time: Time) {
+    suspend operator fun invoke(appId: AppId, coordinatesResult: CoordinatesResult) {
         statsRepository.incrementCounter(
             appId = appId,
-            location = location,
-            time = time
+            location = coordinatesResult.location.orNull(),
+            time = coordinatesResult.time
         )
     }
 }

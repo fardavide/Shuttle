@@ -6,3 +6,4 @@ data class Coordinates(
     val location: Location,
     val time: Time
 )
+

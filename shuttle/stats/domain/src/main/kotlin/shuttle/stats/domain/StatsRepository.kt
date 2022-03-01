@@ -17,7 +17,7 @@ interface StatsRepository {
         endTime: Time
     ): Flow<Either<GenericError, List<AppModel>>>
 
-    suspend fun incrementCounter(appId: AppId, location: Location, time: Time)
+    suspend fun incrementCounter(appId: AppId, location: Location?, time: Time)
 
     suspend fun deleteCountersFor(appId: AppId)
 }

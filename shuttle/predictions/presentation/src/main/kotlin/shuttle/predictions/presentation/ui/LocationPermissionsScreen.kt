@@ -44,14 +44,24 @@ private var wasGranted = false
 fun LocationPermissionsScreen(onAllPermissionsGranted: () -> Unit) {
     val context = LocalContext.current
     val mapper = LocationPermissionsStateMapper()
-    val permissionsList = listOf(
+    val foregroundPermissionsList = listOf(
         Manifest.permission.ACCESS_COARSE_LOCATION,
         Manifest.permission.ACCESS_FINE_LOCATION
     )
+    val backgroundPermissionsList = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+        listOf(
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_BACKGROUND_LOCATION
+        )
+    } else {
+        foregroundPermissionsList
+    }
 
-    val locationPermissionsState = rememberMultiplePermissionsState(permissionsList)
+    val foregroundLocationPermissionsState = rememberMultiplePermissionsState(foregroundPermissionsList)
+    val backgroundLocationPermissionsState = rememberMultiplePermissionsState(backgroundPermissionsList)
 
-    when (val state = mapper.toLocationPermissionState(locationPermissionsState)) {
+    when (val state = mapper.toLocationPermissionState(backgroundLocationPermissionsState)) {
         AllGranted -> {
             if (wasGranted.not()) {
                 wasGranted = true
@@ -61,7 +71,7 @@ fun LocationPermissionsScreen(onAllPermissionsGranted: () -> Unit) {
         is LocationPermissionsState.Pending -> RequestPermissions(state) {
             when (state) {
                 AllDenied, MissingBackground -> openSettingsPage(context)
-                Init, CoarseOnly -> locationPermissionsState.launchMultiplePermissionRequest()
+                Init, CoarseOnly -> foregroundLocationPermissionsState.launchMultiplePermissionRequest()
             }
         }
     }

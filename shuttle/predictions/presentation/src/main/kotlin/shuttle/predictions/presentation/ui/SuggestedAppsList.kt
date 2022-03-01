@@ -70,7 +70,7 @@ fun SuggestedAppsListContent() {
     when (val state = s) {
         State.Loading -> {}
         is State.Data -> SuggestedAppsList(state.apps) { viewModel.submit(Action.OnAppClicked(it)) }
-        is State.Error -> TODO()
+        is State.Error -> Text(text = state.message)
         is State.RequestOpenApp -> LocalContext.current.startActivity(state.intent)
     }
 }

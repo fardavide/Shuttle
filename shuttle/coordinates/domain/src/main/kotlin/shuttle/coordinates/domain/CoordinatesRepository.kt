@@ -1,9 +1,9 @@
 package shuttle.coordinates.domain
 
 import kotlinx.coroutines.flow.Flow
-import shuttle.coordinates.domain.model.Coordinates
+import shuttle.coordinates.domain.model.CoordinatesResult
 
 interface CoordinatesRepository {
 
-    fun observeCurrentCoordinates(): Flow<Coordinates>
+    fun observeCurrentCoordinates(): Flow<CoordinatesResult>
 }

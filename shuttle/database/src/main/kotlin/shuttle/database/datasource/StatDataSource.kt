@@ -10,6 +10,7 @@ import shuttle.database.StatQueries
 import shuttle.database.model.DatabaseAppId
 import shuttle.database.model.DatabaseAppStat
 import shuttle.database.model.DatabaseLatitude
+import shuttle.database.model.DatabaseLocation
 import shuttle.database.model.DatabaseLongitude
 import shuttle.database.model.DatabaseTime
 import shuttle.database.util.suspendTransaction
@@ -27,8 +28,7 @@ interface StatDataSource {
 
     suspend fun incrementCounter(
         appId: DatabaseAppId,
-        latitude: DatabaseLatitude,
-        longitude: DatabaseLongitude,
+        location: DatabaseLocation?,
         time: DatabaseTime
     )
 
@@ -70,12 +70,13 @@ internal class StatDataSourceImpl(
 
     override suspend fun incrementCounter(
         appId: DatabaseAppId,
-        latitude: DatabaseLatitude,
-        longitude: DatabaseLongitude,
+        location: DatabaseLocation?,
         time: DatabaseTime
     ) {
         statQueries.suspendTransaction(ioDispatcher) {
-            incrementLocationCounter(appId, latitude, longitude)
+            location?.let {
+                incrementLocationCounter(appId, it.latitude, it.longitude)
+            }
             incrementTimeCounter(appId, time)
         }
     }

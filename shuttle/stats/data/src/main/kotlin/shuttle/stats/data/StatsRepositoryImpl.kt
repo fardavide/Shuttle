@@ -14,6 +14,7 @@ import shuttle.coordinates.domain.model.Location
 import shuttle.database.datasource.StatDataSource
 import shuttle.database.model.DatabaseAppId
 import shuttle.database.model.DatabaseLatitude
+import shuttle.database.model.DatabaseLocation
 import shuttle.database.model.DatabaseLongitude
 import shuttle.database.model.DatabaseTime
 import shuttle.stats.domain.StatsRepository
@@ -54,11 +55,10 @@ class StatsRepositoryImpl(
             }
         }
 
-    override suspend fun incrementCounter(appId: AppId, location: Location, time: Time) {
+    override suspend fun incrementCounter(appId: AppId, location: Location?, time: Time) {
         statDataSource.incrementCounter(
             appId = appId.toDatabaseAppId(),
-            latitude = location.databaseLatitude(),
-            longitude = location.databaseLongitude(),
+            location = location?.toDatabaseLocation(),
             time = time.toDatabaseTimeAdjusted()
         )
     }
@@ -77,5 +77,6 @@ private fun <T> MutableList<T>.pop(predicate: (T) -> Boolean): T? {
 private fun AppId.toDatabaseAppId() = DatabaseAppId(value)
 private fun Location.databaseLatitude() = DatabaseLatitude(latitude)
 private fun Location.databaseLongitude() = DatabaseLongitude(longitude)
+private fun Location.toDatabaseLocation() = DatabaseLocation(DatabaseLatitude(latitude), DatabaseLongitude(longitude))
 private fun Time.toDatabaseTime() = DatabaseTime(hour * 60 + minute)
 private fun Time.toDatabaseTimeAdjusted() = DatabaseTime(hourAdjusted * 60 + minute)

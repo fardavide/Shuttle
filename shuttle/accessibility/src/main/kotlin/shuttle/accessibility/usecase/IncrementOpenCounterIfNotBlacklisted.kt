@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import shuttle.apps.domain.model.AppId
-import shuttle.coordinates.domain.model.Coordinates
+import shuttle.coordinates.domain.model.CoordinatesResult
 import shuttle.coordinates.domain.usecase.ObserveCurrentCoordinates
 import shuttle.settings.domain.usecase.IsBlacklisted
 import shuttle.stats.domain.usecase.IncrementOpenCounterByCoordinates
@@ -33,15 +33,15 @@ class IncrementOpenCounterIfNotBlacklisted(
         }
     }
 
-    private suspend fun StateFlow<CoordinatesState>.awaitCoordinates(): Coordinates {
+    private suspend fun StateFlow<CoordinatesState>.awaitCoordinates(): CoordinatesResult {
         val value = value
-        return if (value is CoordinatesState.Ready) value.coordinates
-        else (first { it is CoordinatesState.Ready } as CoordinatesState.Ready).coordinates
+        return if (value is CoordinatesState.Ready) value.coordinatesResult
+        else (first { it is CoordinatesState.Ready } as CoordinatesState.Ready).coordinatesResult
     }
 
     private sealed interface CoordinatesState {
 
         object NotReady : CoordinatesState
-        data class Ready(val coordinates: Coordinates): CoordinatesState
+        data class Ready(val coordinatesResult: CoordinatesResult): CoordinatesState
     }
 }

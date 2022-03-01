@@ -4,7 +4,7 @@ import com.soywiz.klock.Time
 import shuttle.apps.domain.model.AppId
 import shuttle.apps.domain.model.AppModel
 import shuttle.apps.domain.model.AppName
-import shuttle.coordinates.domain.model.Coordinates
+import shuttle.coordinates.domain.model.CoordinatesResult
 import shuttle.coordinates.domain.model.Location
 
 object TestData {
@@ -15,7 +15,7 @@ object TestData {
     val CurrentTime = Time(hour = 14)
     val AnotherTime = Time(hour = 6)
 
-    val TestConstraints = Coordinates(
+    val TestConstraints = CoordinatesResult(
         location = CurrentLocation,
         time = CurrentTime
     )

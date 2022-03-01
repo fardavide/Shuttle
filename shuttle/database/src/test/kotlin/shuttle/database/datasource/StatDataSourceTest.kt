@@ -6,6 +6,7 @@ import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 import shuttle.database.testdata.TestData.ExactLatitude
+import shuttle.database.testdata.TestData.ExactLocation
 import shuttle.database.testdata.TestData.ExactLongitude
 import shuttle.database.testdata.TestData.ExactTime
 import shuttle.database.testdata.TestData.FirstAppId
@@ -26,7 +27,7 @@ class StatDataSourceTest : DatabaseTest() {
         val expectedCount = 1L
 
         // when
-        dataSource.incrementCounter(FirstAppId, ExactLatitude, ExactLongitude, ExactTime)
+        dataSource.incrementCounter(FirstAppId, ExactLocation, ExactTime)
 
         // then
         verify { queries.insertLocationStat(FirstAppId, ExactLatitude, ExactLongitude, expectedCount) }
@@ -38,8 +39,8 @@ class StatDataSourceTest : DatabaseTest() {
         val expectedCount = 2L
 
         // when
-        dataSource.incrementCounter(FirstAppId, ExactLatitude, ExactLongitude, ExactTime)
-        dataSource.incrementCounter(FirstAppId, ExactLatitude, ExactLongitude, ExactTime)
+        dataSource.incrementCounter(FirstAppId, ExactLocation, ExactTime)
+        dataSource.incrementCounter(FirstAppId, ExactLocation, ExactTime)
 
         // then
         verify { queries.insertLocationStat(FirstAppId, ExactLatitude, ExactLongitude, expectedCount) }

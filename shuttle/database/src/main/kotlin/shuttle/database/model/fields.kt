@@ -4,10 +4,4 @@ package shuttle.database.model
 value class DatabaseAppId(val value: String)
 
 @JvmInline
-value class DatabaseLatitude(val value: Double)
-
-@JvmInline
-value class DatabaseLongitude(val value: Double)
-
-@JvmInline
 value class DatabaseTime(val minute: Int)

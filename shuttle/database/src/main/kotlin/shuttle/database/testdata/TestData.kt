@@ -2,6 +2,7 @@ package shuttle.database.testdata
 
 import shuttle.database.model.DatabaseAppId
 import shuttle.database.model.DatabaseLatitude
+import shuttle.database.model.DatabaseLocation
 import shuttle.database.model.DatabaseLongitude
 import shuttle.database.model.DatabaseTime
 
@@ -18,6 +19,7 @@ object TestData {
     val ExactLongitude = DatabaseLongitude(30.0)
     val RangeStartLongitude = DatabaseLongitude(20.0)
     val RangeEndLongitude = DatabaseLongitude(40.0)
+    val ExactLocation = DatabaseLocation(ExactLatitude, ExactLongitude)
 
     val FirstAppId = DatabaseAppId("app 1")
     val SecondAppId = DatabaseAppId("app 2")
