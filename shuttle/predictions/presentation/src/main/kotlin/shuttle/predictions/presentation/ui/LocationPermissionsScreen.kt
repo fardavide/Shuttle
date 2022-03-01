@@ -1,6 +1,13 @@
 package shuttle.predictions.presentation.ui
 
+import android.Manifest
+import android.app.Activity
+import android.content.Context
+import android.content.ContextWrapper
+import android.content.Intent
+import android.net.Uri
 import android.os.Build
+import android.provider.Settings
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,6 +19,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
@@ -26,25 +34,20 @@ import shuttle.predictions.presentation.model.LocationPermissionsState.Pending.C
 import shuttle.predictions.presentation.model.LocationPermissionsState.Pending.Init
 import shuttle.predictions.presentation.model.LocationPermissionsState.Pending.MissingBackground
 import shuttle.predictions.presentation.resources.Strings
+import kotlin.random.Random
+
 
 private var wasGranted = false
 
 @Composable
 @OptIn(ExperimentalPermissionsApi::class)
 fun LocationPermissionsScreen(onAllPermissionsGranted: () -> Unit) {
+    val context = LocalContext.current
     val mapper = LocationPermissionsStateMapper()
-    val permissionsList = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-        listOf(
-            android.Manifest.permission.ACCESS_COARSE_LOCATION,
-            android.Manifest.permission.ACCESS_FINE_LOCATION,
-//            android.Manifest.permission.ACCESS_BACKGROUND_LOCATION
-        )
-    } else {
-        listOf(
-            android.Manifest.permission.ACCESS_COARSE_LOCATION,
-            android.Manifest.permission.ACCESS_FINE_LOCATION
-        )
-    }
+    val permissionsList = listOf(
+        Manifest.permission.ACCESS_COARSE_LOCATION,
+        Manifest.permission.ACCESS_FINE_LOCATION
+    )
 
     val locationPermissionsState = rememberMultiplePermissionsState(permissionsList)
 
@@ -56,7 +59,10 @@ fun LocationPermissionsScreen(onAllPermissionsGranted: () -> Unit) {
             }
         }
         is LocationPermissionsState.Pending -> RequestPermissions(state) {
-            locationPermissionsState.launchMultiplePermissionRequest()
+            when (state) {
+                AllDenied, MissingBackground -> openSettingsPage(context)
+                Init, CoarseOnly -> locationPermissionsState.launchMultiplePermissionRequest()
+            }
         }
     }
 }
@@ -66,23 +72,19 @@ internal fun RequestPermissions(state: LocationPermissionsState.Pending, onPermi
     Column(
         horizontalAlignment = Alignment.End,
         verticalArrangement = Arrangement.SpaceEvenly,
-        modifier = Modifier.fillMaxSize().padding(Dimens.Margin.XXLarge)
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(Dimens.Margin.XXLarge)
     ) {
-        val textToShow = when (state) {
-            Init -> Strings.Message.RequestLocation
-            CoarseOnly -> Strings.Message.RequestPreciseLocation
-            MissingBackground -> Strings.Message.RequestBackgroundLocation
-            AllDenied -> Strings.Message.LocationFeatureDisabled
-        }
-
-        val buttonText = if (state == CoarseOnly) {
-            Strings.Action.AllowPreciseLocation
-        } else {
-            Strings.Action.RequestPermissions
+        val (message, buttonText) = when (state) {
+            Init -> Strings.Message.RequestLocation to Strings.Action.RequestPermissions
+            CoarseOnly -> Strings.Message.RequestPreciseLocation to Strings.Action.AllowPreciseLocation
+            MissingBackground -> Strings.Message.RequestBackgroundLocation to Strings.Action.OpenLocationSettings
+            AllDenied -> Strings.Message.LocationFeatureDisabled to Strings.Action.OpenLocationSettings
         }
 
         Text(
-            text = textToShow,
+            text = message,
             style = MaterialTheme.typography.headlineMedium,
             textAlign = TextAlign.Justify,
         )
@@ -91,6 +93,25 @@ internal fun RequestPermissions(state: LocationPermissionsState.Pending, onPermi
                 Text(buttonText)
             }
         }
+    }
+}
+
+private fun openSettingsPage(context: Context) {
+    val activity: Activity = when (context) {
+        is Activity -> context
+        is ContextWrapper -> context.baseContext as Activity
+        else -> throw IllegalStateException("Context is not an activity")
+    }
+
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+        activity.requestPermissions(
+            arrayOf(Manifest.permission.ACCESS_BACKGROUND_LOCATION),
+            Random.nextInt(0, Int.MAX_VALUE)
+        )
+    } else {
+        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+            .setData(Uri.fromParts("package", activity.packageName, null))
+        activity.startActivity(intent)
     }
 }
 

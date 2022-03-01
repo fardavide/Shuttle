@@ -9,6 +9,7 @@ internal object Strings {
     object Action {
 
         const val AllowPreciseLocation = "Allow precise location"
+        const val OpenLocationSettings = "Open location settings"
         const val RequestPermissions = "Request permissions"
     }
 
