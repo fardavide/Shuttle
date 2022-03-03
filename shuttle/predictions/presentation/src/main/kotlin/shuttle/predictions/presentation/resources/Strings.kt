@@ -13,6 +13,12 @@ internal object Strings {
         const val RequestPermissions = "Request permissions"
     }
 
+    object Error {
+
+        const val Generic = "Something went wrong"
+        const val LocationNotAvailable = "Location is currently not available"
+    }
+
     object Message {
 
         const val RequestLocation = "Shuttle will suggest you the best apps for you, memorizing the location where " +

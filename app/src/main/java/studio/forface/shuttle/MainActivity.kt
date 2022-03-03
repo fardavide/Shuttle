@@ -8,9 +8,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavOptions
 import androidx.navigation.compose.rememberNavController
-import shuttle.design.ShuttleTheme
-import shuttle.predictions.presentation.ui.LocationPermissionsScreen
+import shuttle.design.theme.ShuttleTheme
+import shuttle.predictions.presentation.ui.LocationPermissionsPage
 import shuttle.predictions.presentation.ui.SuggestedAppsListPage
 import shuttle.settings.presentation.ui.BlacklistSettingsPage
 import studio.forface.shuttle.Destination.LocationPermissions
@@ -36,8 +37,12 @@ class MainActivity : ComponentActivity() {
 fun App() {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = LocationPermissions) {
-        composable(LocationPermissions) { LocationPermissionsScreen { navController.navigate(Suggestions) } }
+        composable(LocationPermissions) { LocationPermissionsPage { navController.navigate(Suggestions, PopAll) } }
         composable(Settings) { BlacklistSettingsPage() }
         composable(Suggestions) { SuggestedAppsListPage(onSettings = { navController.navigate(Settings) }) }
     }
 }
+
+private val PopAll: NavOptions = NavOptions.Builder()
+    .setPopUpTo(LocationPermissions.id, inclusive = true)
+    .build()

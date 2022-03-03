@@ -17,6 +17,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -24,8 +25,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
-import shuttle.design.Dimens
-import shuttle.design.ShuttleTheme
+import shuttle.design.theme.Dimens
+import shuttle.design.theme.ShuttleTheme
 import shuttle.predictions.presentation.mapper.LocationPermissionsStateMapper
 import shuttle.predictions.presentation.model.LocationPermissionsState
 import shuttle.predictions.presentation.model.LocationPermissionsState.AllGranted
@@ -33,40 +34,23 @@ import shuttle.predictions.presentation.model.LocationPermissionsState.Pending.A
 import shuttle.predictions.presentation.model.LocationPermissionsState.Pending.CoarseOnly
 import shuttle.predictions.presentation.model.LocationPermissionsState.Pending.Init
 import shuttle.predictions.presentation.model.LocationPermissionsState.Pending.MissingBackground
+import shuttle.predictions.presentation.model.backgroundPermissionsList
+import shuttle.predictions.presentation.model.foregroundPermissionsList
 import shuttle.predictions.presentation.resources.Strings
 import kotlin.random.Random
 
-
-private var wasGranted = false
-
 @Composable
 @OptIn(ExperimentalPermissionsApi::class)
-fun LocationPermissionsScreen(onAllPermissionsGranted: () -> Unit) {
+fun LocationPermissionsPage(onAllPermissionsGranted: () -> Unit) {
     val context = LocalContext.current
     val mapper = LocationPermissionsStateMapper()
-    val foregroundPermissionsList = listOf(
-        Manifest.permission.ACCESS_COARSE_LOCATION,
-        Manifest.permission.ACCESS_FINE_LOCATION
-    )
-    val backgroundPermissionsList = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-        listOf(
-            Manifest.permission.ACCESS_COARSE_LOCATION,
-            Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.ACCESS_BACKGROUND_LOCATION
-        )
-    } else {
-        foregroundPermissionsList
-    }
 
     val foregroundLocationPermissionsState = rememberMultiplePermissionsState(foregroundPermissionsList)
     val backgroundLocationPermissionsState = rememberMultiplePermissionsState(backgroundPermissionsList)
 
     when (val state = mapper.toLocationPermissionState(backgroundLocationPermissionsState)) {
         AllGranted -> {
-            if (wasGranted.not()) {
-                wasGranted = true
-                onAllPermissionsGranted()
-            }
+            LaunchedEffect(key1 = state) { onAllPermissionsGranted() }
         }
         is LocationPermissionsState.Pending -> RequestPermissions(state) {
             when (state) {

@@ -8,6 +8,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavDeepLink
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
+import androidx.navigation.NavOptions
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 
@@ -18,8 +19,10 @@ internal enum class Destination(val id: String) {
     Suggestions("suggestions")
 }
 
-internal fun NavController.navigate(destination: Destination) {
-    navigate(destination.id)
+internal fun NavController.navigate(destination: Destination, navOptions: NavOptions? = null) {
+    if (destination.id != currentDestination?.route) {
+        navigate(destination.id, navOptions)
+    }
 }
 
 internal fun NavGraphBuilder.composable(
