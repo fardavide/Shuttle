@@ -7,7 +7,6 @@ moduleDependencies {
     apps.domain()
     coordinates.domain()
     predictions.presentation()
-    preferences()
     settings.domain()
     stats.domain()
 }

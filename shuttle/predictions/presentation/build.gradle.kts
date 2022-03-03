@@ -9,7 +9,6 @@ moduleDependencies {
     apps.domain()
     design()
     predictions.domain()
-    preferences()
     stats.domain()
     utils.android()
 }
