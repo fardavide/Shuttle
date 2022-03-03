@@ -1,13 +1,5 @@
 package shuttle.permissions.ui
 
-import android.Manifest
-import android.app.Activity
-import android.content.Context
-import android.content.ContextWrapper
-import android.content.Intent
-import android.net.Uri
-import android.os.Build
-import android.provider.Settings
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -37,7 +29,7 @@ import shuttle.permissions.model.LocationPermissionsState.Pending.MissingBackgro
 import shuttle.permissions.model.backgroundPermissionsList
 import shuttle.permissions.model.foregroundPermissionsList
 import shuttle.permissions.resources.Strings
-import kotlin.random.Random
+import shuttle.permissions.util.openLocationPermissionsOrAppSettings
 
 @Composable
 @OptIn(ExperimentalPermissionsApi::class)
@@ -50,12 +42,11 @@ fun LocationPermissionsPage(onAllPermissionsGranted: () -> Unit) {
 
     when (val state = mapper.toLocationPermissionState(backgroundLocationPermissionsState)) {
         AllGranted -> {
-            LaunchedEffect(
-                state) { onAllPermissionsGranted() }
+            LaunchedEffect(state) { onAllPermissionsGranted() }
         }
         is LocationPermissionsState.Pending -> RequestPermissions(state) {
             when (state) {
-                AllDenied, MissingBackground -> openSettingsPage(context)
+                AllDenied, MissingBackground -> openLocationPermissionsOrAppSettings(context)
                 Init, CoarseOnly -> foregroundLocationPermissionsState.launchMultiplePermissionRequest()
             }
         }
@@ -88,25 +79,6 @@ internal fun RequestPermissions(state: LocationPermissionsState.Pending, onPermi
                 Text(buttonText)
             }
         }
-    }
-}
-
-private fun openSettingsPage(context: Context) {
-    val activity: Activity = when (context) {
-        is Activity -> context
-        is ContextWrapper -> context.baseContext as Activity
-        else -> throw IllegalStateException("Context is not an activity")
-    }
-
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-        activity.requestPermissions(
-            arrayOf(Manifest.permission.ACCESS_BACKGROUND_LOCATION),
-            Random.nextInt(0, Int.MAX_VALUE)
-        )
-    } else {
-        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-            .setData(Uri.fromParts("package", activity.packageName, null))
-        activity.startActivity(intent)
     }
 }
 

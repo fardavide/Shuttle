@@ -1,10 +1,6 @@
 package shuttle.settings.presentation.viewmodel
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -15,35 +11,32 @@ import shuttle.settings.domain.usecase.ObserveAppsBlacklistSettings
 import shuttle.settings.domain.usecase.RemoveFromBlacklist
 import shuttle.settings.presentation.mapper.AppBlacklistSettingUiModelMapper
 import shuttle.settings.presentation.model.AppBlacklistSettingUiModel
+import shuttle.settings.presentation.viewmodel.BlacklistSettingsViewModel.Action
+import shuttle.settings.presentation.viewmodel.BlacklistSettingsViewModel.State
+import shuttle.util.android.viewmodel.ShuttleViewModel
 
 internal class BlacklistSettingsViewModel(
     private val appUiModelMapper: AppBlacklistSettingUiModelMapper,
     observeAppsBlacklistSettings: ObserveAppsBlacklistSettings,
     private val addToBlacklist: AddToBlacklist,
     private val removeFromBlacklist: RemoveFromBlacklist
-) : ViewModel() {
-
-    val state: StateFlow<State>
-        get() = mutableState.asStateFlow()
-
-    private val mutableState: MutableStateFlow<State> =
-        MutableStateFlow(State.Loading)
+) : ShuttleViewModel<Action, State>(initialState = State.Loading) {
 
     init {
-        observeAppsBlacklistSettings().map { list ->
-            State.Data(appUiModelMapper.toUiModels(list))
-        }.onEach { mutableState.emit(it) }
+        observeAppsBlacklistSettings()
+            .map { list -> State.Data(appUiModelMapper.toUiModels(list)) }
+            .onEach(::emit)
             .launchIn(viewModelScope)
     }
 
-    fun submit(action: Action) {
+    override fun submit(action: Action) {
         val currentState = state.value as? State.Data ?: return
         viewModelScope.launch {
             val newState = when (action) {
                 is Action.AddToBlacklist -> onAddToBlacklist(currentState, action.appId)
                 is Action.RemoveFromBlacklist -> onRemoveFromBlacklist(currentState, action.appId)
             }
-            mutableState.emit(newState)
+            emit(newState)
         }
     }
 

@@ -12,6 +12,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.rememberNavController
 import shuttle.design.theme.ShuttleTheme
+import shuttle.permissions.ui.AccessibilityPermissionsPage
 import shuttle.permissions.ui.LocationPermissionsPage
 import shuttle.predictions.presentation.ui.SuggestedAppsListPage
 import shuttle.settings.presentation.ui.BlacklistSettingsPage
@@ -47,12 +48,12 @@ private fun App() {
 }
 
 @Composable
-private fun AccessibilityPermissionsRoute(navController: NavController): Unit =
-    TODO()
+private fun AccessibilityPermissionsRoute(navController: NavController) =
+    AccessibilityPermissionsPage(onPermissionGranted = { navController.navigate(Suggestions, PopAll) })
 
 @Composable
 private fun LocationPermissionsRoute(navController: NavController) =
-    LocationPermissionsPage { navController.navigate(Suggestions, PopAll) }
+    LocationPermissionsPage(onAllPermissionsGranted = { navController.navigate(AccessibilityPermissions) })
 
 @Composable
 private fun BlacklistSettingsRoute() =
