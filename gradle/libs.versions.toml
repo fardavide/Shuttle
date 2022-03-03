@@ -24,6 +24,7 @@ navigation = "2.4.1"
 playServices = "19.0.1"
 protonDetekt = "1.0.0-alpha03"
 sqlDelight = "1.5.3"
+turbine = "0.7.0"
 
 [plugins]
 kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
@@ -65,10 +66,11 @@ sqlDelight-android = { module = "com.squareup.sqldelight:android-driver", versio
 sqlDelight-coroutines = { module = "com.squareup.sqldelight:coroutines-extensions", version.ref = "sqlDelight" }
 sqlDelight-sqlite = { module = "com.squareup.sqldelight:sqlite-driver", version.ref = "sqlDelight" }
 sqlDelight-gradle = { module = "com.squareup.sqldelight:gradle-plugin", version.ref = "sqlDelight" }
+turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 
 [bundles]
 base = [ "arrow-core", "koin-core", "kotlin-coroutines" ]
 compose = [ "coil-compose", "compose-ui", "compose-uiToolingPreview", "koin-android-compose", "material3" ]
 test-android = [ "androidx-test-junit", "androidx-test-espresso", "koin-test", "koin-test-junit4" ]
-test-kotlin = [ "kotlin-coroutines-test", "kotlin-test-junit", "mockk" ]
+test-kotlin = [ "kotlin-coroutines-test", "kotlin-test-junit", "mockk", "turbine" ]
 
