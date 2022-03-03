@@ -1,4 +1,4 @@
-package shuttle.predictions.presentation.ui
+package shuttle.permissions.ui
 
 import android.Manifest
 import android.app.Activity
@@ -27,16 +27,16 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import shuttle.design.theme.Dimens
 import shuttle.design.theme.ShuttleTheme
-import shuttle.predictions.presentation.mapper.LocationPermissionsStateMapper
-import shuttle.predictions.presentation.model.LocationPermissionsState
-import shuttle.predictions.presentation.model.LocationPermissionsState.AllGranted
-import shuttle.predictions.presentation.model.LocationPermissionsState.Pending.AllDenied
-import shuttle.predictions.presentation.model.LocationPermissionsState.Pending.CoarseOnly
-import shuttle.predictions.presentation.model.LocationPermissionsState.Pending.Init
-import shuttle.predictions.presentation.model.LocationPermissionsState.Pending.MissingBackground
-import shuttle.predictions.presentation.model.backgroundPermissionsList
-import shuttle.predictions.presentation.model.foregroundPermissionsList
-import shuttle.predictions.presentation.resources.Strings
+import shuttle.permissions.mapper.LocationPermissionsStateMapper
+import shuttle.permissions.model.LocationPermissionsState
+import shuttle.permissions.model.LocationPermissionsState.AllGranted
+import shuttle.permissions.model.LocationPermissionsState.Pending.AllDenied
+import shuttle.permissions.model.LocationPermissionsState.Pending.CoarseOnly
+import shuttle.permissions.model.LocationPermissionsState.Pending.Init
+import shuttle.permissions.model.LocationPermissionsState.Pending.MissingBackground
+import shuttle.permissions.model.backgroundPermissionsList
+import shuttle.permissions.model.foregroundPermissionsList
+import shuttle.permissions.resources.Strings
 import kotlin.random.Random
 
 @Composable
@@ -50,7 +50,8 @@ fun LocationPermissionsPage(onAllPermissionsGranted: () -> Unit) {
 
     when (val state = mapper.toLocationPermissionState(backgroundLocationPermissionsState)) {
         AllGranted -> {
-            LaunchedEffect(key1 = state) { onAllPermissionsGranted() }
+            LaunchedEffect(
+                state) { onAllPermissionsGranted() }
         }
         is LocationPermissionsState.Pending -> RequestPermissions(state) {
             when (state) {

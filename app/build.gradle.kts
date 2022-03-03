@@ -17,6 +17,7 @@ moduleDependencies {
     apps.presentation()
     design()
     di()
+    permissions()
     predictions.presentation()
     settings.presentation()
 }

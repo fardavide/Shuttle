@@ -1,4 +1,4 @@
-package shuttle.predictions.presentation.model
+package shuttle.permissions.model
 
 import android.Manifest
 import android.os.Build

@@ -15,6 +15,7 @@ moduleDependencies {
         domain()
     }
     database()
+    permissions()
     predictions {
         domain()
         presentation()

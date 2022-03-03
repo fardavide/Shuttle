@@ -1,4 +1,4 @@
-package shuttle.predictions.presentation.model
+package shuttle.permissions.model
 
 internal sealed interface LocationPermissionsState {
 

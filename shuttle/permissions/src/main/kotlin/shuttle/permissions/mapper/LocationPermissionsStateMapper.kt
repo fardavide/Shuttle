@@ -1,4 +1,4 @@
-package shuttle.predictions.presentation.mapper
+package shuttle.permissions.mapper
 
 import android.Manifest.permission.ACCESS_BACKGROUND_LOCATION
 import android.Manifest.permission.ACCESS_COARSE_LOCATION
@@ -7,11 +7,11 @@ import android.os.Build
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.MultiplePermissionsState
 import com.google.accompanist.permissions.isGranted
-import shuttle.predictions.presentation.model.LocationPermissionsState
-import shuttle.predictions.presentation.model.LocationPermissionsState.AllGranted
-import shuttle.predictions.presentation.model.LocationPermissionsState.Pending.CoarseOnly
-import shuttle.predictions.presentation.model.LocationPermissionsState.Pending.Init
-import shuttle.predictions.presentation.model.LocationPermissionsState.Pending.MissingBackground
+import shuttle.permissions.model.LocationPermissionsState
+import shuttle.permissions.model.LocationPermissionsState.AllGranted
+import shuttle.permissions.model.LocationPermissionsState.Pending.CoarseOnly
+import shuttle.permissions.model.LocationPermissionsState.Pending.Init
+import shuttle.permissions.model.LocationPermissionsState.Pending.MissingBackground
 
 @OptIn(ExperimentalPermissionsApi::class)
 class LocationPermissionsStateMapper {

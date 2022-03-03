@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalPermissionsApi::class)
 
-package shuttle.predictions.presentation.mapper
+package shuttle.permissions.mapper
 
 import android.Manifest.permission.ACCESS_BACKGROUND_LOCATION
 import android.Manifest.permission.ACCESS_COARSE_LOCATION
@@ -14,7 +14,7 @@ import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.shouldShowRationale
 import io.mockk.every
 import io.mockk.mockk
-import shuttle.predictions.presentation.model.LocationPermissionsState
+import shuttle.permissions.model.LocationPermissionsState
 import java.lang.reflect.Field
 import java.lang.reflect.Modifier
 import kotlin.test.Test
@@ -304,3 +304,4 @@ class LocationPermissionsStateMapperTest {
         }
     }
 }
+
