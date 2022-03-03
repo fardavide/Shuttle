@@ -30,7 +30,7 @@ import androidx.glance.text.TextAlign
 import androidx.glance.text.TextStyle
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import shuttle.design.Dimens
+import shuttle.design.theme.Dimens
 import shuttle.predictions.presentation.model.WidgetAppUiModel
 import shuttle.predictions.presentation.resources.Strings
 import shuttle.predictions.presentation.viewmodel.SuggestedAppsWidgetViewModel

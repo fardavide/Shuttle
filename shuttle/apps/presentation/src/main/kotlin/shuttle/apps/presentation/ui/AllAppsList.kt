@@ -23,7 +23,7 @@ import org.koin.androidx.compose.getViewModel
 import shuttle.apps.presentation.model.AppUiModel
 import shuttle.apps.presentation.resource.Strings
 import shuttle.apps.presentation.viewmodel.AllAppsListViewModel
-import shuttle.design.Dimens
+import shuttle.design.theme.Dimens
 
 @Composable
 fun AllAppsListPage() {

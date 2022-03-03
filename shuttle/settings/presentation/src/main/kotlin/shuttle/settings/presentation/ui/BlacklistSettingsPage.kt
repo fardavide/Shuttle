@@ -24,7 +24,7 @@ import androidx.compose.ui.Modifier
 import coil.compose.rememberImagePainter
 import org.koin.androidx.compose.getViewModel
 import shuttle.apps.domain.model.AppId
-import shuttle.design.Dimens
+import shuttle.design.theme.Dimens
 import shuttle.design.util.collectAsStateLifecycleAware
 import shuttle.settings.presentation.model.AppBlacklistSettingUiModel
 import shuttle.settings.presentation.resources.Strings

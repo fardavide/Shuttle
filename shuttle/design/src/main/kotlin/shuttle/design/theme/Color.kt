@@ -1,4 +1,4 @@
-package shuttle.design
+package shuttle.design.theme
 
 import androidx.compose.ui.graphics.Color
 

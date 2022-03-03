@@ -13,9 +13,11 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import shuttle.apps.domain.model.AppId
+import shuttle.predictions.domain.error.ObserveSuggestedAppsError
 import shuttle.predictions.domain.usecase.ObserveSuggestedApps
 import shuttle.predictions.presentation.mapper.AppUiModelMapper
 import shuttle.predictions.presentation.model.AppUiModel
+import shuttle.predictions.presentation.resources.Strings
 
 internal class SuggestedAppsListViewModel(
     private val appUiModelMapper: AppUiModelMapper,
@@ -35,7 +37,7 @@ internal class SuggestedAppsListViewModel(
             either.map(appUiModelMapper::toUiModels)
                 .fold(
                     ifRight = State::Data,
-                    ifLeft = { State.Error("Unknown") }
+                    ifLeft = { error -> State.Error(error.toMessage()) }
                 )
         }.onEach { mutableState.emit(it) }
             .launchIn(viewModelScope)
@@ -53,6 +55,11 @@ internal class SuggestedAppsListViewModel(
     private fun onAppClicked(appId: AppId): State {
         val intent = packageManager.getLaunchIntentForPackage(appId.value)!!
         return State.RequestOpenApp(intent)
+    }
+
+    private fun ObserveSuggestedAppsError.toMessage() = when(this) {
+        ObserveSuggestedAppsError.DataError -> Strings.Error.Generic
+        ObserveSuggestedAppsError.LocationNotAvailable -> Strings.Error.LocationNotAvailable
     }
 
     sealed interface State {

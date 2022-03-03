@@ -1,4 +1,4 @@
-package shuttle.design
+package shuttle.design.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme

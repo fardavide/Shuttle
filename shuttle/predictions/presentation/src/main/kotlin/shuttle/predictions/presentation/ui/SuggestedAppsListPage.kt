@@ -33,7 +33,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import coil.compose.rememberImagePainter
 import org.koin.androidx.compose.getViewModel
 import shuttle.apps.domain.model.AppId
-import shuttle.design.Dimens
+import shuttle.design.theme.Dimens
+import shuttle.design.ui.LoadingSpinner
+import shuttle.design.ui.TextError
 import shuttle.design.util.collectAsStateLifecycleAware
 import shuttle.predictions.presentation.model.AppUiModel
 import shuttle.predictions.presentation.resources.Strings
@@ -68,9 +70,9 @@ fun SuggestedAppsListContent() {
     val s by viewModel.state.collectAsStateLifecycleAware()
 
     when (val state = s) {
-        State.Loading -> {}
+        State.Loading -> LoadingSpinner()
         is State.Data -> SuggestedAppsList(state.apps) { viewModel.submit(Action.OnAppClicked(it)) }
-        is State.Error -> Text(text = state.message)
+        is State.Error -> TextError(text = state.message)
         is State.RequestOpenApp -> LocalContext.current.startActivity(state.intent)
     }
 }
