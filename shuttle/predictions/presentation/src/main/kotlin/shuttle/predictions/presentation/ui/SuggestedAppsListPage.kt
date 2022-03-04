@@ -88,7 +88,7 @@ private fun SuggestedAppsList(
         cells = GridCells.Adaptive(minCellSize),
         modifier = Modifier.padding(Dimens.Margin.Small)
     ) {
-        items(apps, key = { app -> app.id.value }) {
+        items(apps) {
             AppIconItem(it, onAppClicked)
         }
     }

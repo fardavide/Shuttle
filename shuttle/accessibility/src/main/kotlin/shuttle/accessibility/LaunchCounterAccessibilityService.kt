@@ -8,7 +8,7 @@ import shuttle.accessibility.usecase.IncrementOpenCounterIfNotBlacklisted
 import shuttle.accessibility.usecase.UpdateWidget
 import shuttle.apps.domain.model.AppId
 
-internal class LaunchCounterAccessibilityService : AccessibilityService() {
+class LaunchCounterAccessibilityService : AccessibilityService() {
 
     private val incrementOpenCounterIfNotBlacklisted: IncrementOpenCounterIfNotBlacklisted by inject()
     private val updateWidget: UpdateWidget by inject()

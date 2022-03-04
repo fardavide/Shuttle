@@ -14,8 +14,7 @@ import androidx.navigation.compose.composable
 
 internal enum class Destination(val id: String) {
 
-    AccessibilityPermissions("accessibility permissions"),
-    LocationPermissions("location permissions"),
+    Permissions("permissions"),
     Settings("settings"),
     Suggestions("suggestions")
 }

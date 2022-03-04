@@ -2,22 +2,37 @@ package shuttle.permissions.resources
 
 internal object Strings {
 
-    object Action {
+    object Accessibility {
 
-        const val AllowPreciseLocation = "Allow precise location"
-        const val OpenLocationSettings = "Open location settings"
-        const val RequestPermissions = "Request permissions"
+        const val Title = "Enable accessibility service"
+        const val Description = "The accessibility service will need to retrieve only package of the open " +
+            "application, in order to improve the suggestions"
+        const val Action = "Enable now"
     }
 
-    object Message {
+    object Location {
 
-        const val RequestLocation = "Shuttle will suggest you the best apps for you, memorizing the location where " +
-            "you use them most. Please grant precise location permission, in order to have the best results."
-        const val RequestPreciseLocation = "Ops, seems like you granted only granted the approximate location " +
-            "permission, this is not enough for the app to work at its best. Please grant precise location permission."
-        const val RequestBackgroundLocation = "Ops, seems like you didn't grant background location permission. " +
-            "Please grant background location permission, in order to correctly update the statistics by location"
-        const val LocationFeatureDisabled = "Seems like you didn't grant the location permissions :( so your apps " +
-            "will be sorted without considering the usage related to location."
+        const val Action = "Allow permissions"
+
+        object Coarse {
+
+            const val Title = "Allow location permissions"
+            const val Description = "The location permissions is needed, in order to improve the suggestions, " +
+                "related to your current location"
+        }
+
+        object Fine {
+
+            const val Title = "Allow fine location permissions"
+            const val Description = "The precise location permissions is needed, because the approximate location " +
+                "has a too wide range to provide precise suggestions"
+        }
+
+        object Background {
+
+            const val Title = "Allow background location permissions"
+            const val Description = "The background location permissions is needed, in order to update the widget " +
+                "and the suggestions"
+        }
     }
 }

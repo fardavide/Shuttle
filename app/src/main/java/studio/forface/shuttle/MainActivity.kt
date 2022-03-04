@@ -12,12 +12,10 @@ import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.rememberNavController
 import shuttle.design.theme.ShuttleTheme
-import shuttle.permissions.ui.AccessibilityPermissionsPage
-import shuttle.permissions.ui.LocationPermissionsPage
+import shuttle.permissions.ui.PermissionsPage
 import shuttle.predictions.presentation.ui.SuggestedAppsListPage
 import shuttle.settings.presentation.ui.BlacklistSettingsPage
-import studio.forface.shuttle.Destination.AccessibilityPermissions
-import studio.forface.shuttle.Destination.LocationPermissions
+import studio.forface.shuttle.Destination.Permissions
 import studio.forface.shuttle.Destination.Settings
 import studio.forface.shuttle.Destination.Suggestions
 
@@ -39,30 +37,25 @@ class MainActivity : ComponentActivity() {
 @Composable
 private fun App() {
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = LocationPermissions) {
-        composable(AccessibilityPermissions) { AccessibilityPermissionsRoute(navController) }
-        composable(LocationPermissions) { LocationPermissionsRoute(navController) }
+    NavHost(navController = navController, startDestination = Permissions) {
+        composable(Permissions) { PermissionsRoute(navController) }
         composable(Settings) { BlacklistSettingsRoute() }
         composable(Suggestions) { SuggestionsRoute(navController) }
     }
 }
 
 @Composable
-private fun AccessibilityPermissionsRoute(navController: NavController) =
-    AccessibilityPermissionsPage(onPermissionGranted = { navController.navigate(Suggestions, PopAll) })
-
-@Composable
-private fun LocationPermissionsRoute(navController: NavController) =
-    LocationPermissionsPage(onAllPermissionsGranted = { navController.navigate(AccessibilityPermissions) })
-
-@Composable
 private fun BlacklistSettingsRoute() =
     BlacklistSettingsPage()
+
+@Composable
+private fun PermissionsRoute(navController: NavController) =
+    PermissionsPage(onAllPermissionsGranted = { navController.navigate(Suggestions, PopAll) })
 
 @Composable
 private fun SuggestionsRoute(navController: NavController) =
     SuggestedAppsListPage(onSettings = { navController.navigate(Settings) })
 
 private val PopAll: NavOptions = NavOptions.Builder()
-    .setPopUpTo(LocationPermissions.id, inclusive = true)
+    .setPopUpTo(Permissions.id, inclusive = true)
     .build()

@@ -6,6 +6,7 @@ shuttleAndroid.useCompose()
 
 moduleDependencies {
 
+    accessibility()
     design()
     utils.android()
 }
