@@ -13,6 +13,6 @@ findAllAppsWithBlacklistSetting:
     SELECT
         id AS appId,
         name AS appName,
-        IFNULL(isBlacklisted, FALSE) AS isBlacklisted
+        IFNULL(isBlacklisted, 0) AS isBlacklisted
     FROM app
     LEFT OUTER JOIN appBlacklistSetting ON appBlacklistSetting.appId = app.id;

@@ -8,9 +8,10 @@ import shuttle.accessibility.usecase.IncrementOpenCounterIfNotBlacklisted
 import shuttle.accessibility.usecase.UpdateWidget
 import shuttle.apps.domain.model.AppId
 
-class LaunchCounterAccessibilityService : AccessibilityService() {
+class LaunchCounterAccessibilityService: AccessibilityService() {
 
     private val incrementOpenCounterIfNotBlacklisted: IncrementOpenCounterIfNotBlacklisted by inject()
+    private val startApp: () -> Unit by inject(StartAppId)
     private val updateWidget: UpdateWidget by inject()
 
     private var previousPackageName: CharSequence? = null
@@ -31,7 +32,9 @@ class LaunchCounterAccessibilityService : AccessibilityService() {
         }
     }
 
-    override fun onInterrupt() {
-
+    override fun onServiceConnected() {
+        startApp()
     }
+
+    override fun onInterrupt() {}
 }

@@ -27,6 +27,8 @@ import coil.compose.rememberImagePainter
 import org.koin.androidx.compose.getViewModel
 import shuttle.apps.domain.model.AppId
 import shuttle.design.theme.Dimens
+import shuttle.design.ui.LoadingSpinner
+import shuttle.design.ui.TextError
 import shuttle.design.util.collectAsStateLifecycleAware
 import shuttle.settings.presentation.model.AppBlacklistSettingUiModel
 import shuttle.settings.presentation.resources.Strings
@@ -48,12 +50,12 @@ fun BlacklistSettingsContent() {
 
     val s by viewModel.state.collectAsStateLifecycleAware()
     when (val state = s) {
-        State.Loading -> {}
+        State.Loading -> LoadingSpinner()
         is State.Data -> AllAppsList(
             state.apps,
             onAddToBlacklist = { viewModel.submit(Action.AddToBlacklist(it)) },
             onRemoveFromBlacklist = { viewModel.submit(Action.RemoveFromBlacklist(it)) })
-        is State.Error -> TODO()
+        is State.Error -> TextError(text = state.message)
     }
 }
 

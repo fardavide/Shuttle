@@ -10,6 +10,6 @@ val settingsDomainModule = module {
 
     factory { AddToBlacklist(settingsRepository = get(), statRepository = get()) }
     factory { IsBlacklisted(settingsRepository = get()) }
-    factory { ObserveAppsBlacklistSettings(settingsRepository = get()) }
+    factory { ObserveAppsBlacklistSettings(appsRepository = get(), settingsRepository = get()) }
     factory { RemoveFromBlacklist(settingsRepository = get()) }
 }

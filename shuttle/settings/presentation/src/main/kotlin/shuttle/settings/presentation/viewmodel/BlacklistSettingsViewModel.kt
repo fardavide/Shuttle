@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import shuttle.apps.domain.model.AppId
+import shuttle.settings.domain.model.AppBlacklistSetting
 import shuttle.settings.domain.usecase.AddToBlacklist
 import shuttle.settings.domain.usecase.ObserveAppsBlacklistSettings
 import shuttle.settings.domain.usecase.RemoveFromBlacklist
@@ -22,9 +23,11 @@ internal class BlacklistSettingsViewModel(
     private val removeFromBlacklist: RemoveFromBlacklist
 ) : ShuttleViewModel<Action, State>(initialState = State.Loading) {
 
+    private var sortingOrder: List<AppId>? = null
+
     init {
         observeAppsBlacklistSettings()
-            .map { list -> State.Data(appUiModelMapper.toUiModels(list)) }
+            .map { list -> State.Data(appUiModelMapper.toUiModels(list.sortIfFirstData())) }
             .onEach(::emit)
             .launchIn(viewModelScope)
     }
@@ -64,6 +67,16 @@ internal class BlacklistSettingsViewModel(
             removeFromBlacklist(appId)
         }
         return State.Data(newData)
+    }
+
+    private fun List<AppBlacklistSetting>.sortIfFirstData(): List<AppBlacklistSetting> {
+        return if (sortingOrder == null) {
+            val sorted = sortedByDescending { it.inBlacklist }
+            sortingOrder = sorted.map { it.app.id }
+            sorted
+        } else {
+            sortingOrder!!.mapNotNull { sorted -> find { sorted == it.app.id } }
+        }
     }
 
     sealed interface State {

@@ -1,5 +1,6 @@
 package shuttle.accessibility
 
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import shuttle.accessibility.usecase.IncrementOpenCounterIfNotBlacklisted
 import shuttle.accessibility.usecase.UpdateWidget
@@ -21,3 +22,5 @@ val accessibilityModule = module {
         )
     }
 }
+
+val StartAppId = named("Start app")
