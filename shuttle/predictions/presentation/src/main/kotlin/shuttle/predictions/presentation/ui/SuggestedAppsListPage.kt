@@ -58,10 +58,10 @@ fun SuggestedAppsListPage(
                     }
                 }
             )
-        }, content = {
-            SuggestedAppsListContent()
         }
-    )
+    ) {
+        SuggestedAppsListContent()
+    }
 }
 
 @Composable

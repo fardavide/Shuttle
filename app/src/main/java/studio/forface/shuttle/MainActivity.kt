@@ -15,6 +15,8 @@ import shuttle.design.theme.ShuttleTheme
 import shuttle.permissions.ui.PermissionsPage
 import shuttle.predictions.presentation.ui.SuggestedAppsListPage
 import shuttle.settings.presentation.ui.BlacklistSettingsPage
+import shuttle.settings.presentation.ui.SettingsPage
+import studio.forface.shuttle.Destination.BlacklistSettings
 import studio.forface.shuttle.Destination.Permissions
 import studio.forface.shuttle.Destination.Settings
 import studio.forface.shuttle.Destination.Suggestions
@@ -38,8 +40,9 @@ class MainActivity : ComponentActivity() {
 private fun App() {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = Permissions) {
+        composable(BlacklistSettings) { BlacklistSettingsRoute() }
         composable(Permissions) { PermissionsRoute(navController) }
-        composable(Settings) { BlacklistSettingsRoute() }
+        composable(Settings) { SettingsRoute(navController) }
         composable(Suggestions) { SuggestionsRoute(navController) }
     }
 }
@@ -50,7 +53,11 @@ private fun BlacklistSettingsRoute() =
 
 @Composable
 private fun PermissionsRoute(navController: NavController) =
-    PermissionsPage(onAllPermissionsGranted = { navController.navigate(Suggestions, PopAll) })
+    PermissionsPage(onAllPermissionsGranted = { navController.navigate(Settings, PopAll) })
+
+@Composable
+private fun SettingsRoute(navController: NavController) =
+    SettingsPage(toBlacklist = { navController.navigate(BlacklistSettings) })
 
 @Composable
 private fun SuggestionsRoute(navController: NavController) =

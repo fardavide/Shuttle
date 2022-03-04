@@ -14,9 +14,10 @@ import androidx.navigation.compose.composable
 
 internal enum class Destination(val id: String) {
 
+    BlacklistSettings("blacklist settings"),
     Permissions("permissions"),
     Settings("settings"),
-    Suggestions("suggestions")
+    Suggestions("suggestions"),
 }
 
 internal fun NavController.navigate(destination: Destination, navOptions: NavOptions? = null) {
