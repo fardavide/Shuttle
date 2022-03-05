@@ -3,7 +3,6 @@ package shuttle.predictions.presentation.ui
 import android.content.Intent
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.unit.sp
 import androidx.glance.GlanceModifier
 import androidx.glance.Image
 import androidx.glance.ImageProvider
@@ -30,8 +29,10 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import shuttle.design.theme.Dimens
 import shuttle.predictions.presentation.model.WidgetAppUiModel
+import shuttle.predictions.presentation.model.WidgetSettingsUiModel
 import shuttle.predictions.presentation.resources.Strings
 import shuttle.predictions.presentation.viewmodel.SuggestedAppsWidgetViewModel
+import shuttle.predictions.presentation.viewmodel.SuggestedAppsWidgetViewModel.State
 
 class SuggestedAppsWidget : GlanceAppWidget(), KoinComponent {
 
@@ -47,28 +48,32 @@ class SuggestedAppsWidget : GlanceAppWidget(), KoinComponent {
                 .cornerRadius(Dimens.Margin.Large)
         ) {
             when (val state = viewModel.state) {
-                is SuggestedAppsWidgetViewModel.State.Data -> SuggestedAppsList(apps = state.apps) { intent ->
+                is State.Data -> SuggestedAppsList(data = state) { intent ->
                     actionStartActivity(intent)
                 }
-                is SuggestedAppsWidgetViewModel.State.Error -> Text(text = state.toString())
+                is State.Error -> Text(text = state.toString())
             }
         }
     }
 
     @Composable
     private fun SuggestedAppsList(
-        apps: List<WidgetAppUiModel>,
+        data: State.Data,
         onAppClick: (Intent) -> Action
     ) {
-        val rows = 2
-        val columns = 6
-        val apps = apps.take(rows * columns).reversed()
+        val rows = data.widgetSettings.rowsCount
+        val columns = data.widgetSettings.columnsCount
+        val apps = data.apps.take(rows * columns).reversed()
         var index = 0
 
         repeat(rows) {
             Row {
                 repeat(columns) {
-                    AppIconItem(app = apps[index++], onAppClick = onAppClick)
+                    AppIconItem(
+                        app = apps[index++],
+                        widgetSettings = data.widgetSettings,
+                        onAppClick = onAppClick
+                    )
                 }
             }
         }
@@ -77,27 +82,27 @@ class SuggestedAppsWidget : GlanceAppWidget(), KoinComponent {
     @Composable
     private fun AppIconItem(
         app: WidgetAppUiModel,
+        widgetSettings: WidgetSettingsUiModel,
         onAppClick: (Intent) -> Action
     ) {
-        val width = Dimens.Icon.Large
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = GlanceModifier
-                .padding(vertical = Dimens.Margin.XSmall, horizontal = Dimens.Margin.Small)
+                .padding(vertical = widgetSettings.spacing / 2, horizontal = widgetSettings.spacing)
                 .clickable(onAppClick(app.launchIntent))
         ) {
 
             Image(
                 provider = ImageProvider(app.icon),
                 contentDescription = Strings.AppIconContentDescription,
-                modifier = GlanceModifier.size(width)
+                modifier = GlanceModifier.size(widgetSettings.iconSize)
             )
-            Spacer(modifier = GlanceModifier.height(Dimens.Margin.Small))
+            Spacer(modifier = GlanceModifier.height(widgetSettings.spacing))
             Text(
                 text = app.name,
                 maxLines = 1,
-                style = TextStyle(fontSize = 12.sp, textAlign = TextAlign.Center),
-                modifier = GlanceModifier.width(width)
+                style = TextStyle(fontSize = widgetSettings.textSize, textAlign = TextAlign.Center),
+                modifier = GlanceModifier.width(widgetSettings.iconSize)
             )
         }
     }
