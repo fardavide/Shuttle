@@ -39,7 +39,7 @@ import shuttle.settings.presentation.viewmodel.BlacklistSettingsViewModel.State
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun BlacklistSettingsPage() {
-    Scaffold(topBar = { SmallTopAppBar(title = { Text(Strings.BlacklistTitle) }) }) {
+    Scaffold(topBar = { SmallTopAppBar(title = { Text(Strings.Blacklist.Title) }) }) {
         BlacklistSettingsContent()
     }
 }

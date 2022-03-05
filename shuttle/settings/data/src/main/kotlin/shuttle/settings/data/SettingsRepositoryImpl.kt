@@ -3,8 +3,6 @@ package shuttle.settings.data
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
-import arrow.core.computations.option
-import arrow.core.toOption
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import shuttle.apps.domain.model.AppId
@@ -38,15 +36,13 @@ class SettingsRepositoryImpl(
     override fun observeWidgetSettings(): Flow<WidgetSettings> =
         with(WidgetSettingsPreferenceKeys) {
             dataStore.data.map {
-                option {
-                    WidgetSettings(
-                        rowsCount = it[RowsCount].toOption().bind(),
-                        columnsCount = it[ColumnsCount].toOption().bind(),
-                        iconSize = it[IconSize]?.let(::Dp).toOption().bind(),
-                        spacing = it[Spacing]?.let(::Dp).toOption().bind(),
-                        textSize = it[TextSize]?.let(::Sp).toOption().bind()
-                    )
-                }.orNull() ?: WidgetSettings.Default
+                WidgetSettings(
+                    rowsCount = it[RowsCount] ?: WidgetSettings.Default.rowsCount,
+                    columnsCount = it[ColumnsCount] ?: WidgetSettings.Default.columnsCount,
+                    iconSize = it[IconSize]?.let(::Dp) ?: WidgetSettings.Default.iconSize,
+                    spacing = it[Spacing]?.let(::Dp) ?: WidgetSettings.Default.spacing,
+                    textSize = it[TextSize]?.let(::Sp) ?: WidgetSettings.Default.textSize
+                )
             }
         }
 

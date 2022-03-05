@@ -42,8 +42,8 @@ private fun SettingsContent(
 @Composable
 private fun BlacklistItem(toBlacklist: () -> Unit) {
     val uiModel = SettingItemUiModel(
-        title = Strings.BlacklistTitle,
-        description = Strings.BlacklistDescription
+        title = Strings.Blacklist.Title,
+        description = Strings.Blacklist.Description
     )
     SettingsItem(uiModel, toBlacklist)
 }
@@ -51,8 +51,8 @@ private fun BlacklistItem(toBlacklist: () -> Unit) {
 @Composable
 private fun WidgetSettingsItem(toWidgetSettings: () -> Unit) {
     val uiModel = SettingItemUiModel(
-        title = Strings.WidgetSettingsTitle,
-        description = Strings.WidgetSettingsDescription
+        title = Strings.WidgetSettings.Title,
+        description = Strings.WidgetSettings.Description
     )
     SettingsItem(uiModel, toWidgetSettings)
 }
@@ -74,8 +74,8 @@ private fun SettingsItem(item: SettingItemUiModel, onClick: () -> Unit) {
 fun SettingsItemPreview() {
     MaterialTheme {
         val uiModel = SettingItemUiModel(
-            title = Strings.BlacklistTitle,
-            description = Strings.BlacklistDescription
+            title = Strings.Blacklist.Title,
+            description = Strings.Blacklist.Description
         )
         SettingsItem(uiModel, onClick = {})
     }

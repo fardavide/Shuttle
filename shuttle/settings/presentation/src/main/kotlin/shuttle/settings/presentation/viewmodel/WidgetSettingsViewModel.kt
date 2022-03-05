@@ -1,38 +1,45 @@
 package shuttle.settings.presentation.viewmodel
 
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import shuttle.apps.domain.model.AppId
+import shuttle.apps.domain.usecase.ObserveAllInstalledApps
 import shuttle.settings.domain.model.Dp
 import shuttle.settings.domain.model.Sp
 import shuttle.settings.domain.model.WidgetSettings
 import shuttle.settings.domain.usecase.ObserveWidgetSettings
 import shuttle.settings.domain.usecase.UpdateWidgetSettings
+import shuttle.settings.presentation.mapper.WidgetPreviewAppUiModelMapper
 import shuttle.settings.presentation.mapper.WidgetSettingsUiModelMapper
+import shuttle.settings.presentation.model.WidgetPreviewAppUiModel
 import shuttle.settings.presentation.model.WidgetSettingsUiModel
 import shuttle.settings.presentation.viewmodel.WidgetSettingsViewModel.Action
 import shuttle.settings.presentation.viewmodel.WidgetSettingsViewModel.State
 import shuttle.util.android.viewmodel.ShuttleViewModel
 
 internal class WidgetSettingsViewModel(
+    observeAllInstalledApps: ObserveAllInstalledApps,
     observeWidgetSettings: ObserveWidgetSettings,
     private val updateWidgetSettings: UpdateWidgetSettings,
+    private val widgetPreviewAppUiModelMapper: WidgetPreviewAppUiModelMapper,
     private val widgetSettingsUiModelMapper: WidgetSettingsUiModelMapper,
 ) : ShuttleViewModel<Action, State>(initialState = State.Loading) {
 
-    private var sortingOrder: List<AppId>? = null
-
     init {
-        observeWidgetSettings()
-            .map { widgetSettings ->
-                State.Data(
-                    domainModel = widgetSettings,
-                    uiModel = widgetSettingsUiModelMapper.toUiModel(widgetSettings)
-                )
-            }
+        combine(observeWidgetSettings(), observeAllInstalledApps()) { widgetSettings, installedAppsEither ->
+            installedAppsEither.fold(
+                ifRight = { installedApps ->
+                    State.Data(
+                        previewApps = widgetPreviewAppUiModelMapper.toUiModels(installedApps).shuffled(),
+                        widgetSettingsDomainModel = widgetSettings,
+                        widgetSettingsUiModel = widgetSettingsUiModelMapper.toUiModel(widgetSettings)
+                    )
+                },
+                ifLeft = { State.Error("Unknown error") }
+            )
+        }
             .onEach(::emit)
             .launchIn(viewModelScope)
     }
@@ -52,51 +59,68 @@ internal class WidgetSettingsViewModel(
     }
 
     private suspend fun updateRows(currentState: State.Data, value: Int): State {
-        val newSettings = currentState.domainModel.copy(rowsCount = value)
+        val newSettings = currentState.widgetSettingsDomainModel.copy(rowsCount = value)
         updateWidgetSettings(newSettings)
-        return State.Data(domainModel = newSettings, uiModel = widgetSettingsUiModelMapper.toUiModel(newSettings))
+        return currentState.copy(
+            widgetSettingsDomainModel = newSettings,
+            widgetSettingsUiModel = widgetSettingsUiModelMapper.toUiModel(newSettings)
+        )
     }
 
     private suspend fun updateColumns(currentState: State.Data, value: Int): State {
-        val newSettings = currentState.domainModel.copy(columnsCount = value)
+        val newSettings = currentState.widgetSettingsDomainModel.copy(columnsCount = value)
         updateWidgetSettings(newSettings)
-        return State.Data(domainModel = newSettings, uiModel = widgetSettingsUiModelMapper.toUiModel(newSettings))
+        return currentState.copy(
+            widgetSettingsDomainModel = newSettings,
+            widgetSettingsUiModel = widgetSettingsUiModelMapper.toUiModel(newSettings)
+        )
     }
 
     private suspend fun updateIconSize(currentState: State.Data, value: Int): State {
-        val newSettings = currentState.domainModel.copy(iconSize = Dp(value))
+        val newSettings = currentState.widgetSettingsDomainModel.copy(iconSize = Dp(value))
         updateWidgetSettings(newSettings)
-        return State.Data(domainModel = newSettings, uiModel = widgetSettingsUiModelMapper.toUiModel(newSettings))
+        return currentState.copy(
+            widgetSettingsDomainModel = newSettings,
+            widgetSettingsUiModel = widgetSettingsUiModelMapper.toUiModel(newSettings)
+        )
     }
 
     private suspend fun updateSpacing(currentState: State.Data, value: Int): State {
-        val newSettings = currentState.domainModel.copy(spacing = Dp(value))
+        val newSettings = currentState.widgetSettingsDomainModel.copy(spacing = Dp(value))
         updateWidgetSettings(newSettings)
-        return State.Data(domainModel = newSettings, uiModel = widgetSettingsUiModelMapper.toUiModel(newSettings))
+        return currentState.copy(
+            widgetSettingsDomainModel = newSettings,
+            widgetSettingsUiModel = widgetSettingsUiModelMapper.toUiModel(newSettings)
+        )
     }
 
     private suspend fun updateTextSize(currentState: State.Data, value: Int): State {
-        val newSettings = currentState.domainModel.copy(textSize = Sp(value))
+        val newSettings = currentState.widgetSettingsDomainModel.copy(textSize = Sp(value))
         updateWidgetSettings(newSettings)
-        return State.Data(domainModel = newSettings, uiModel = widgetSettingsUiModelMapper.toUiModel(newSettings))
+        return currentState.copy(
+            widgetSettingsDomainModel = newSettings,
+            widgetSettingsUiModel = widgetSettingsUiModelMapper.toUiModel(newSettings)
+        )
     }
 
     sealed interface State {
 
         object Loading : State
         data class Data(
-            val domainModel: WidgetSettings,
-            val uiModel: WidgetSettingsUiModel
+            val previewApps: List<WidgetPreviewAppUiModel>,
+            val widgetSettingsDomainModel: WidgetSettings,
+            val widgetSettingsUiModel: WidgetSettingsUiModel
         ) : State
+
         data class Error(val message: String) : State
     }
 
     sealed interface Action {
 
-        data class UpdateRows(val value: Int): Action
-        data class UpdateColumns(val value: Int): Action
-        data class UpdateIconSize(val value: Int): Action
-        data class UpdateSpacing(val value: Int): Action
-        data class UpdateTextSize(val value: Int): Action
+        data class UpdateRows(val value: Int) : Action
+        data class UpdateColumns(val value: Int) : Action
+        data class UpdateIconSize(val value: Int) : Action
+        data class UpdateSpacing(val value: Int) : Action
+        data class UpdateTextSize(val value: Int) : Action
     }
 }
