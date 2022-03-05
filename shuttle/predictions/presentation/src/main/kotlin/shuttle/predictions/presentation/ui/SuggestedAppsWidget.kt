@@ -13,18 +13,16 @@ import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.GlanceAppWidgetReceiver
 import androidx.glance.appwidget.action.actionStartActivity
 import androidx.glance.appwidget.cornerRadius
-import androidx.glance.appwidget.lazy.GridCells
-import androidx.glance.appwidget.lazy.LazyVerticalGrid
-import androidx.glance.appwidget.lazy.items
 import androidx.glance.background
 import androidx.glance.layout.Alignment
 import androidx.glance.layout.Column
+import androidx.glance.layout.Row
 import androidx.glance.layout.Spacer
-import androidx.glance.layout.fillMaxWidth
 import androidx.glance.layout.height
 import androidx.glance.layout.padding
 import androidx.glance.layout.size
 import androidx.glance.layout.width
+import androidx.glance.layout.wrapContentSize
 import androidx.glance.text.Text
 import androidx.glance.text.TextAlign
 import androidx.glance.text.TextStyle
@@ -43,6 +41,8 @@ class SuggestedAppsWidget : GlanceAppWidget(), KoinComponent {
     override fun Content() {
         Column(
             modifier = GlanceModifier
+                .wrapContentSize()
+                .padding(Dimens.Margin.Small)
                 .background(MaterialTheme.colorScheme.background.copy(alpha = 0.78f))
                 .cornerRadius(Dimens.Margin.Large)
         ) {
@@ -60,9 +60,16 @@ class SuggestedAppsWidget : GlanceAppWidget(), KoinComponent {
         apps: List<WidgetAppUiModel>,
         onAppClick: (Intent) -> Action
     ) {
-        LazyVerticalGrid(gridCells = GridCells.Fixed(count = 5)) {
-            items(apps.take(10).reversed(), itemId = { app -> app.id.hashCode().toLong() }) {
-                AppIconItem(it, onAppClick)
+        val rows = 2
+        val columns = 6
+        val apps = apps.take(rows * columns).reversed()
+        var index = 0
+
+        repeat(rows) {
+            Row {
+                repeat(columns) {
+                    AppIconItem(app = apps[index++], onAppClick = onAppClick)
+                }
             }
         }
     }
@@ -76,8 +83,7 @@ class SuggestedAppsWidget : GlanceAppWidget(), KoinComponent {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = GlanceModifier
-                .padding(vertical = Dimens.Margin.XSmall)
-                .fillMaxWidth()
+                .padding(vertical = Dimens.Margin.XSmall, horizontal = Dimens.Margin.Small)
                 .clickable(onAppClick(app.launchIntent))
         ) {
 
