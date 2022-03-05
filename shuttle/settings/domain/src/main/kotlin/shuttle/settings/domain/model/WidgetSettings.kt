@@ -8,13 +8,16 @@ data class WidgetSettings(
     val textSize: Sp
 ) {
 
-    val Default = WidgetSettings(
-        rowsCount = 2,
-        columnsCount = 5,
-        iconSize = Dp(48),
-        spacing = Dp(8),
-        textSize = Sp(12)
-    )
+    companion object {
+
+        val Default = WidgetSettings(
+            rowsCount = 2,
+            columnsCount = 5,
+            iconSize = Dp(48),
+            spacing = Dp(8),
+            textSize = Sp(12)
+        )
+    }
 }
 
 @JvmInline
