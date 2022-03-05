@@ -18,6 +18,7 @@ internal enum class Destination(val id: String) {
     Permissions("permissions"),
     Settings("settings"),
     Suggestions("suggestions"),
+    WidgetSettings("widget settings"),
 }
 
 internal fun NavController.navigate(destination: Destination, navOptions: NavOptions? = null) {

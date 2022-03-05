@@ -20,19 +20,22 @@ import shuttle.settings.presentation.resources.Strings
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun SettingsPage(
-    toBlacklist: () -> Unit
+    toBlacklist: () -> Unit,
+    toWidgetSettings: () -> Unit
 ) {
     Scaffold(topBar = { SmallTopAppBar(title = { Text(Strings.SettingsTitle) }) }) {
-        SettingsContent(toBlacklist = toBlacklist)
+        SettingsContent(toBlacklist = toBlacklist, toWidgetSettings = toWidgetSettings)
     }
 }
 
 @Composable
 private fun SettingsContent(
-    toBlacklist: () -> Unit
+    toBlacklist: () -> Unit,
+    toWidgetSettings: () -> Unit
 ) {
     LazyColumn {
         item { BlacklistItem(toBlacklist) }
+        item { WidgetSettingsItem(toWidgetSettings) }
     }
 }
 
@@ -43,6 +46,15 @@ private fun BlacklistItem(toBlacklist: () -> Unit) {
         description = Strings.BlacklistDescription
     )
     SettingsItem(uiModel, toBlacklist)
+}
+
+@Composable
+private fun WidgetSettingsItem(toWidgetSettings: () -> Unit) {
+    val uiModel = SettingItemUiModel(
+        title = Strings.WidgetSettingsTitle,
+        description = Strings.WidgetSettingsDescription
+    )
+    SettingsItem(uiModel, toWidgetSettings)
 }
 
 @Composable
