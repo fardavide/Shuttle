@@ -8,7 +8,6 @@ internal object Strings {
 
     object Error {
 
-        const val Generic = "Something went wrong"
         const val LocationNotAvailable = "Location is currently not available"
     }
 }

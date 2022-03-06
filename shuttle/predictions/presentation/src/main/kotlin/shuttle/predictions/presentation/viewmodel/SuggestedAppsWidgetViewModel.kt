@@ -4,11 +4,13 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
+import shuttle.predictions.domain.error.ObserveSuggestedAppsError
 import shuttle.predictions.domain.usecase.ObserveSuggestedApps
 import shuttle.predictions.presentation.mapper.WidgetAppUiModelMapper
 import shuttle.predictions.presentation.mapper.WidgetSettingsUiModelMapper
 import shuttle.predictions.presentation.model.WidgetAppUiModel
 import shuttle.predictions.presentation.model.WidgetSettingsUiModel
+import shuttle.predictions.presentation.resources.Strings
 import shuttle.settings.domain.usecase.ObserveWidgetSettings
 
 internal class SuggestedAppsWidgetViewModel(
@@ -28,7 +30,7 @@ internal class SuggestedAppsWidgetViewModel(
                         widgetSettings = widgetSettingsUiModelMapper.toUiModel(widgetSettings)
                     )
                 },
-                ifLeft = { State.Error.Unknown }
+                ifLeft = State.Error::from
             )
         }.first()
     }
@@ -40,8 +42,17 @@ internal class SuggestedAppsWidgetViewModel(
             val widgetSettings: WidgetSettingsUiModel
         ) : State
 
-        sealed interface Error : State {
-            object Unknown : Error
+        data class Error(val message: String) : State {
+
+            companion object {
+
+                fun from(error: ObserveSuggestedAppsError): Error {
+                    val message = when (error) {
+                        ObserveSuggestedAppsError.LocationNotAvailable -> Strings.Error.LocationNotAvailable
+                    }
+                    return Error(message)
+                }
+            }
         }
     }
 }

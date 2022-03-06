@@ -28,16 +28,11 @@ internal class WidgetSettingsViewModel(
 ) : ShuttleViewModel<Action, State>(initialState = State.Loading) {
 
     init {
-        combine(observeWidgetSettings(), observeAllInstalledApps()) { widgetSettings, installedAppsEither ->
-            installedAppsEither.fold(
-                ifRight = { installedApps ->
-                    State.Data(
-                        previewApps = widgetPreviewAppUiModelMapper.toUiModels(installedApps).shuffled(),
-                        widgetSettingsDomainModel = widgetSettings,
-                        widgetSettingsUiModel = widgetSettingsUiModelMapper.toUiModel(widgetSettings)
-                    )
-                },
-                ifLeft = { State.Error("Unknown error") }
+        combine(observeWidgetSettings(), observeAllInstalledApps()) { widgetSettings, installedApps ->
+            State.Data(
+                previewApps = widgetPreviewAppUiModelMapper.toUiModels(installedApps).shuffled(),
+                widgetSettingsDomainModel = widgetSettings,
+                widgetSettingsUiModel = widgetSettingsUiModelMapper.toUiModel(widgetSettings)
             )
         }
             .onEach(::emit)

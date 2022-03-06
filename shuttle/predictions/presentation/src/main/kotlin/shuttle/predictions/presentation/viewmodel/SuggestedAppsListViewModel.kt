@@ -58,7 +58,6 @@ internal class SuggestedAppsListViewModel(
     }
 
     private fun ObserveSuggestedAppsError.toMessage() = when(this) {
-        ObserveSuggestedAppsError.DataError -> Strings.Error.Generic
         ObserveSuggestedAppsError.LocationNotAvailable -> Strings.Error.LocationNotAvailable
     }
 

@@ -1,13 +1,10 @@
 package shuttle.stats.data
 
-import arrow.core.Either
-import arrow.core.computations.either
 import com.soywiz.klock.Time
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import shuttle.apps.domain.AppsRepository
-import shuttle.apps.domain.error.GenericError
 import shuttle.apps.domain.model.AppId
 import shuttle.apps.domain.model.AppModel
 import shuttle.apps.domain.model.SuggestedAppModel
@@ -31,7 +28,7 @@ class StatsRepositoryImpl(
         endLocation: Location,
         startTime: Time,
         endTime: Time
-    ): Flow<Either<GenericError, List<SuggestedAppModel>>> =
+    ): Flow<List<SuggestedAppModel>> =
         combine(
             appsRepository.observeNotBlacklistedApps(),
             statDataSource.findAllStats(
@@ -42,20 +39,17 @@ class StatsRepositoryImpl(
                 startTime = startTime.toDatabaseTime(),
                 endTime = endTime.toDatabaseTime()
             ).map { sortAppStatsByCounts(it) }
-        ) { installedApp, sortedAppsIds ->
-            either {
-                val allInstalledApp = installedApp
-                    .bind()
-                    .toMutableList()
+        ) { installedAppEither, sortedAppsIds ->
+            val allInstalledApp = installedAppEither
+                .toMutableList()
 
-                // It's ok to have an app in stats, but from the installed list, as an app can be uninstalled
-                val appsFromStats = sortedAppsIds.mapNotNull { appId ->
-                    allInstalledApp.pop { it.id == appId }?.let { installedApp ->
-                        SuggestedAppModel(installedApp.id, installedApp.name, isSuggested = true)
-                    }
+            // It's ok to have an app in stats, but from the installed list, as an app can be uninstalled
+            val appsFromStats = sortedAppsIds.mapNotNull { appId ->
+                allInstalledApp.pop { it.id == appId }?.let { installedApp ->
+                    SuggestedAppModel(installedApp.id, installedApp.name, isSuggested = true)
                 }
-                appsFromStats + allInstalledApp.map(::toNotSuggestedAppModel).shuffled()
             }
+            appsFromStats + allInstalledApp.map(::toNotSuggestedAppModel).shuffled()
         }
 
     override suspend fun incrementCounter(appId: AppId, location: Location?, time: Time) {

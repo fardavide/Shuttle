@@ -2,9 +2,11 @@ package shuttle.predictions.domain.usecase
 
 import arrow.core.Either
 import arrow.core.left
+import arrow.core.right
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.map
 import shuttle.apps.domain.model.SuggestedAppModel
 import shuttle.coordinates.domain.model.fold
 import shuttle.coordinates.domain.usecase.ObserveCurrentCoordinates
@@ -19,7 +21,7 @@ class ObserveSuggestedApps(
         observeCurrentCoordinates().flatMapLatest { coordinatesResult ->
             coordinatesResult.fold(
                 ifLeft = { flowOf(ObserveSuggestedAppsError.LocationNotAvailable.left()) },
-                ifRight = { observeSuggestedApps(it)  }
+                ifRight = { coordinates -> observeSuggestedApps(coordinates).map { it.right() }  }
             )
         }
 }

@@ -17,11 +17,7 @@ internal class AllAppsListViewModel(
 
     val state: StateFlow<State> =
         observeAllInstalledApps().map { list ->
-            list.map(appUiModelMapper::toUiModels)
-                .fold(
-                    ifRight = State::Data,
-                    ifLeft = { State.Error("Unknown") }
-                )
+            State.Data(appUiModelMapper.toUiModels(list))
         }.stateIn(viewModelScope, SharingStarted.Eagerly, State.Loading)
 
     sealed interface State {
