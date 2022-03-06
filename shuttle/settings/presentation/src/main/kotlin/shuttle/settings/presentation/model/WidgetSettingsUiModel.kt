@@ -7,6 +7,7 @@ data class WidgetSettingsUiModel(
     val rowsCount: Int,
     val columnsCount: Int,
     val iconSize: Dp,
-    val spacing: Dp,
+    val horizontalSpacing: Dp,
+    val verticalSpacing: Dp,
     val textSize: TextUnit
 )

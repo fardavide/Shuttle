@@ -3,8 +3,9 @@ package shuttle.settings.domain.model
 data class WidgetSettings(
     val rowsCount: Int,
     val columnsCount: Int,
-    val iconSize: Dp,
-    val spacing: Dp,
+    val iconsSize: Dp,
+    val horizontalSpacing: Dp,
+    val verticalSpacing: Dp,
     val textSize: Sp
 ) {
 
@@ -13,8 +14,9 @@ data class WidgetSettings(
         val Default = WidgetSettings(
             rowsCount = 2,
             columnsCount = 5,
-            iconSize = Dp(48),
-            spacing = Dp(8),
+            iconsSize = Dp(48),
+            horizontalSpacing = Dp(8),
+            verticalSpacing = Dp(8),
             textSize = Sp(12)
         )
     }

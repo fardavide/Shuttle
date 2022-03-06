@@ -14,6 +14,7 @@ import androidx.glance.appwidget.action.actionStartActivity
 import androidx.glance.appwidget.cornerRadius
 import androidx.glance.background
 import androidx.glance.layout.Alignment
+import androidx.glance.layout.Box
 import androidx.glance.layout.Column
 import androidx.glance.layout.Row
 import androidx.glance.layout.Spacer
@@ -40,18 +41,21 @@ class SuggestedAppsWidget : GlanceAppWidget(), KoinComponent {
 
     @Composable
     override fun Content() {
-        Column(
+        Box(
             modifier = GlanceModifier
                 .wrapContentSize()
-                .padding(Dimens.Margin.Small)
-                .background(MaterialTheme.colorScheme.background.copy(alpha = 0.78f))
                 .cornerRadius(Dimens.Margin.Large)
         ) {
             when (val state = viewModel.state) {
                 is State.Data -> SuggestedAppsList(data = state) { intent ->
                     actionStartActivity(intent)
                 }
-                is State.Error -> Text(text = state.toString())
+                is State.Error -> Box(modifier = GlanceModifier
+                    .padding(Dimens.Margin.Small)
+                    .background(MaterialTheme.colorScheme.background.copy(alpha = 0.78f))
+                ) {
+                    Text(text = state.toString())
+                }
             }
         }
     }
@@ -61,19 +65,25 @@ class SuggestedAppsWidget : GlanceAppWidget(), KoinComponent {
         data: State.Data,
         onAppClick: (Intent) -> Action
     ) {
-        val rows = data.widgetSettings.rowsCount
-        val columns = data.widgetSettings.columnsCount
+        val settings = data.widgetSettings
+        val rows = settings.rowsCount
+        val columns = settings.columnsCount
         val apps = data.apps.take(rows * columns).reversed()
         var index = 0
 
-        repeat(rows) {
-            Row {
-                repeat(columns) {
-                    AppIconItem(
-                        app = apps[index++],
-                        widgetSettings = data.widgetSettings,
-                        onAppClick = onAppClick
-                    )
+        Column(modifier = GlanceModifier
+            .padding(horizontal = settings.horizontalSpacing, vertical = settings.verticalSpacing)
+            .background(MaterialTheme.colorScheme.background.copy(alpha = 0.78f))
+        ) {
+            repeat(rows) {
+                Row {
+                    repeat(columns) {
+                        AppIconItem(
+                            app = apps[index++],
+                            widgetSettings = settings,
+                            onAppClick = onAppClick
+                        )
+                    }
                 }
             }
         }
@@ -88,7 +98,7 @@ class SuggestedAppsWidget : GlanceAppWidget(), KoinComponent {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = GlanceModifier
-                .padding(vertical = widgetSettings.spacing / 2, horizontal = widgetSettings.spacing)
+                .padding(vertical = widgetSettings.verticalSpacing, horizontal = widgetSettings.horizontalSpacing)
                 .clickable(onAppClick(app.launchIntent))
         ) {
 
@@ -97,7 +107,7 @@ class SuggestedAppsWidget : GlanceAppWidget(), KoinComponent {
                 contentDescription = Strings.AppIconContentDescription,
                 modifier = GlanceModifier.size(widgetSettings.iconSize)
             )
-            Spacer(modifier = GlanceModifier.height(widgetSettings.spacing))
+            Spacer(modifier = GlanceModifier.height(widgetSettings.verticalSpacing))
             Text(
                 text = app.name,
                 maxLines = 1,

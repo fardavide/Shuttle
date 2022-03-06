@@ -10,8 +10,9 @@ class WidgetSettingsUiModelMapper {
     fun toUiModel(settings: WidgetSettings) = WidgetSettingsUiModel(
         rowsCount = settings.rowsCount,
         columnsCount = settings.columnsCount,
-        iconSize = settings.iconSize.value.dp,
-        spacing = settings.spacing.value.dp,
+        iconSize = settings.iconsSize.value.dp,
+        horizontalSpacing = settings.horizontalSpacing.value.dp,
+        verticalSpacing = settings.verticalSpacing.value.dp,
         textSize = settings.textSize.value.sp
     )
 }

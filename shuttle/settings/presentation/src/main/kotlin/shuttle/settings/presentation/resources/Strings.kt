@@ -19,8 +19,9 @@ internal object Strings {
         const val RowsCount = "Rows count"
         const val ColumnsCount = "Column count"
         const val IconsSize = "Icons size"
-        const val Spacing = "Spacing between icons"
-        const val TextSize = "TextSize"
+        const val VerticalSpacing = "Vertical spacing between icons"
+        const val HorizontalSpacing = "Horizontal spacing between icons"
+        const val TextSize = "Text size"
 
         const val DpUnit = "Dp"
         const val SpUnit = "Sp"

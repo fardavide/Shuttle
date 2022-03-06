@@ -39,8 +39,9 @@ class SettingsRepositoryImpl(
                 WidgetSettings(
                     rowsCount = it[RowsCount] ?: WidgetSettings.Default.rowsCount,
                     columnsCount = it[ColumnsCount] ?: WidgetSettings.Default.columnsCount,
-                    iconSize = it[IconSize]?.let(::Dp) ?: WidgetSettings.Default.iconSize,
-                    spacing = it[Spacing]?.let(::Dp) ?: WidgetSettings.Default.spacing,
+                    iconsSize = it[IconSize]?.let(::Dp) ?: WidgetSettings.Default.iconsSize,
+                    horizontalSpacing = it[HorizontalSpacing]?.let(::Dp) ?: WidgetSettings.Default.horizontalSpacing,
+                    verticalSpacing = it[VerticalSpacing]?.let(::Dp) ?: WidgetSettings.Default.verticalSpacing,
                     textSize = it[TextSize]?.let(::Sp) ?: WidgetSettings.Default.textSize
                 )
             }
@@ -58,8 +59,9 @@ class SettingsRepositoryImpl(
             dataStore.edit {
                 it[RowsCount] = settings.rowsCount
                 it[ColumnsCount] = settings.columnsCount
-                it[IconSize] = settings.iconSize.value
-                it[Spacing] = settings.spacing.value
+                it[IconSize] = settings.iconsSize.value
+                it[HorizontalSpacing] = settings.horizontalSpacing.value
+                it[VerticalSpacing] = settings.verticalSpacing.value
                 it[TextSize] = settings.textSize.value
             }
         }

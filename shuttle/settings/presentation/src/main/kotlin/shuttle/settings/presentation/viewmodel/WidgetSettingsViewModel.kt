@@ -50,8 +50,9 @@ internal class WidgetSettingsViewModel(
             val newState = when (action) {
                 is Action.UpdateRows -> updateRows(currentState, action.value)
                 is Action.UpdateColumns -> updateColumns(currentState, action.value)
-                is Action.UpdateIconSize -> updateIconSize(currentState, action.value)
-                is Action.UpdateSpacing -> updateSpacing(currentState, action.value)
+                is Action.UpdateIconsSize -> updateIconsSize(currentState, action.value)
+                is Action.UpdateVerticalSpacing -> updateVerticalSpacing(currentState, action.value)
+                is Action.UpdateHorizontalSpacing -> updateHorizontalSpacing(currentState, action.value)
                 is Action.UpdateTextSize -> updateTextSize(currentState, action.value)
             }
             emit(newState)
@@ -76,8 +77,8 @@ internal class WidgetSettingsViewModel(
         )
     }
 
-    private suspend fun updateIconSize(currentState: State.Data, value: Int): State {
-        val newSettings = currentState.widgetSettingsDomainModel.copy(iconSize = Dp(value))
+    private suspend fun updateIconsSize(currentState: State.Data, value: Int): State {
+        val newSettings = currentState.widgetSettingsDomainModel.copy(iconsSize = Dp(value))
         updateWidgetSettings(newSettings)
         return currentState.copy(
             widgetSettingsDomainModel = newSettings,
@@ -85,8 +86,17 @@ internal class WidgetSettingsViewModel(
         )
     }
 
-    private suspend fun updateSpacing(currentState: State.Data, value: Int): State {
-        val newSettings = currentState.widgetSettingsDomainModel.copy(spacing = Dp(value))
+    private suspend fun updateHorizontalSpacing(currentState: State.Data, value: Int): State {
+        val newSettings = currentState.widgetSettingsDomainModel.copy(horizontalSpacing = Dp(value))
+        updateWidgetSettings(newSettings)
+        return currentState.copy(
+            widgetSettingsDomainModel = newSettings,
+            widgetSettingsUiModel = widgetSettingsUiModelMapper.toUiModel(newSettings)
+        )
+    }
+
+    private suspend fun updateVerticalSpacing(currentState: State.Data, value: Int): State {
+        val newSettings = currentState.widgetSettingsDomainModel.copy(verticalSpacing = Dp(value))
         updateWidgetSettings(newSettings)
         return currentState.copy(
             widgetSettingsDomainModel = newSettings,
@@ -119,8 +129,9 @@ internal class WidgetSettingsViewModel(
 
         data class UpdateRows(val value: Int) : Action
         data class UpdateColumns(val value: Int) : Action
-        data class UpdateIconSize(val value: Int) : Action
-        data class UpdateSpacing(val value: Int) : Action
+        data class UpdateIconsSize(val value: Int) : Action
+        data class UpdateHorizontalSpacing(val value: Int) : Action
+        data class UpdateVerticalSpacing(val value: Int) : Action
         data class UpdateTextSize(val value: Int) : Action
     }
 }

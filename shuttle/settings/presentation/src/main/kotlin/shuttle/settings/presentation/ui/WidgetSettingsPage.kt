@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -65,8 +64,9 @@ private fun WidgetSettingsContent() {
             data = state,
             onRowsUpdated = { viewModel.submit(Action.UpdateRows(it)) },
             onColumnsUpdated = { viewModel.submit(Action.UpdateColumns(it)) },
-            onIconSizeUpdated = { viewModel.submit(Action.UpdateIconSize(it)) },
-            onSpacingUpdated = { viewModel.submit(Action.UpdateSpacing(it)) },
+            onIconSizeUpdated = { viewModel.submit(Action.UpdateIconsSize(it)) },
+            onHorizontalSpacingUpdated = { viewModel.submit(Action.UpdateHorizontalSpacing(it)) },
+            onVerticalSpacingUpdated = { viewModel.submit(Action.UpdateVerticalSpacing(it)) },
             onTextSizeUpdated = { viewModel.submit(Action.UpdateTextSize(it)) }
         )
         is State.Error -> TextError(text = state.message)
@@ -79,7 +79,8 @@ private fun WidgetSettings(
     onRowsUpdated: (Int) -> Unit,
     onColumnsUpdated: (Int) -> Unit,
     onIconSizeUpdated: (Int) -> Unit,
-    onSpacingUpdated: (Int) -> Unit,
+    onHorizontalSpacingUpdated: (Int) -> Unit,
+    onVerticalSpacingUpdated: (Int) -> Unit,
     onTextSizeUpdated: (Int) -> Unit
 ) {
     Column {
@@ -89,7 +90,8 @@ private fun WidgetSettings(
             onRowsUpdated = onRowsUpdated,
             onColumnsUpdated = onColumnsUpdated,
             onIconSizeUpdated = onIconSizeUpdated,
-            onSpacingUpdated = onSpacingUpdated,
+            onHorizontalSpacingUpdated = onHorizontalSpacingUpdated,
+            onVerticalSpacingUpdated = onVerticalSpacingUpdated,
             onTextSizeUpdated = onTextSizeUpdated
         )
     }
@@ -107,12 +109,11 @@ private fun WidgetPreview(
 
     Column(
         modifier = Modifier
-            .padding(Dimens.Margin.Medium)
+            .padding(horizontal = widgetSettings.horizontalSpacing, vertical = widgetSettings.verticalSpacing)
             .background(
                 color = MaterialTheme.colorScheme.primaryContainer,
                 shape = RoundedCornerShape(Dimens.Margin.Large)
             )
-            .wrapContentSize()
     ) {
         repeat(rows) {
             Row {
@@ -133,7 +134,8 @@ private fun SettingItems(
     onRowsUpdated: (Int) -> Unit,
     onColumnsUpdated: (Int) -> Unit,
     onIconSizeUpdated: (Int) -> Unit,
-    onSpacingUpdated: (Int) -> Unit,
+    onHorizontalSpacingUpdated: (Int) -> Unit,
+    onVerticalSpacingUpdated: (Int) -> Unit,
     onTextSizeUpdated: (Int) -> Unit
 ) {
     Column {
@@ -159,11 +161,18 @@ private fun SettingItems(
             onValueChange = onIconSizeUpdated
         )
         SliderItem(
-            title = Strings.WidgetSettings.Spacing,
+            title = Strings.WidgetSettings.HorizontalSpacing,
             valueRange = 2..16,
             stepsSize = 1,
-            value = settings.spacing.value.toInt(),
-            onValueChange = onSpacingUpdated
+            value = settings.horizontalSpacing.value.toInt(),
+            onValueChange = onHorizontalSpacingUpdated
+        )
+        SliderItem(
+            title = Strings.WidgetSettings.VerticalSpacing,
+            valueRange = 2..16,
+            stepsSize = 1,
+            value = settings.verticalSpacing.value.toInt(),
+            onValueChange = onVerticalSpacingUpdated
         )
         SliderItem(
             title = Strings.WidgetSettings.TextSize,
@@ -213,7 +222,7 @@ private fun AppIconItem(
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.padding(vertical = widgetSettings.spacing / 2, horizontal = widgetSettings.spacing)
+        modifier = Modifier.padding(vertical = widgetSettings.verticalSpacing, horizontal = widgetSettings.horizontalSpacing)
     ) {
 
         Image(
@@ -221,7 +230,7 @@ private fun AppIconItem(
             contentDescription = Strings.AppIconContentDescription,
             modifier = Modifier.size(widgetSettings.iconSize)
         )
-        Spacer(modifier = Modifier.height(widgetSettings.spacing))
+        Spacer(modifier = Modifier.height(widgetSettings.verticalSpacing))
         Text(
             text = app.name,
             maxLines = 1,
@@ -242,8 +251,9 @@ private fun WidgetPreviewPreview() {
     val widgetSettings = WidgetSettingsUiModel(
         rowsCount = WidgetSettings.Default.rowsCount,
         columnsCount = WidgetSettings.Default.columnsCount,
-        iconSize = WidgetSettings.Default.iconSize.value.dp,
-        spacing = WidgetSettings.Default.spacing.value.dp,
+        iconSize = WidgetSettings.Default.iconsSize.value.dp,
+        horizontalSpacing = WidgetSettings.Default.horizontalSpacing.value.dp,
+        verticalSpacing = WidgetSettings.Default.verticalSpacing.value.dp,
         textSize = WidgetSettings.Default.textSize.value.sp,
     )
     MaterialTheme {
@@ -257,11 +267,12 @@ private fun SettingItemsPreview() {
     val widgetSettings = WidgetSettingsUiModel(
         rowsCount = WidgetSettings.Default.rowsCount,
         columnsCount = WidgetSettings.Default.columnsCount,
-        iconSize = WidgetSettings.Default.iconSize.value.dp,
-        spacing = WidgetSettings.Default.spacing.value.dp,
+        iconSize = WidgetSettings.Default.iconsSize.value.dp,
+        horizontalSpacing = WidgetSettings.Default.horizontalSpacing.value.dp,
+        verticalSpacing = WidgetSettings.Default.verticalSpacing.value.dp,
         textSize = WidgetSettings.Default.textSize.value.sp,
     )
     MaterialTheme {
-        SettingItems(widgetSettings, {}, {}, {}, {}, {})
+        SettingItems(widgetSettings, {}, {}, {}, {}, {}, {})
     }
 }
