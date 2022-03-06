@@ -34,6 +34,10 @@
                 android:resource="@xml/launch_counter_service_config" />
         </service>
 
+        <!-- Location -->
+        <receiver android:name="shuttle.coordinates.data.receiver.LocationBroadcastReceiver"
+            android:exported="true"/>
+
         <!-- Widget -->
         <receiver android:name="shuttle.predictions.presentation.ui.SuggestedAppsWidgetReceiver"
             android:enabled="true"
@@ -46,6 +50,7 @@
                 android:resource="@xml/suggested_apps_widget_info" />
         </receiver>
 
+        <!-- Main Activity -->
         <activity
             android:name=".MainActivity"
             android:exported="true"

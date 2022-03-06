@@ -1,47 +1,56 @@
 package shuttle.coordinates.data.datasource
 
 import android.annotation.SuppressLint
-import android.os.Looper
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
+import android.os.Build
 import arrow.core.Either
-import arrow.core.left
-import arrow.core.right
 import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationAvailability
-import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
-import com.google.android.gms.location.LocationResult
-import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import shuttle.coordinates.data.mapper.GeoHashMapper
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import shuttle.coordinates.data.receiver.LocationBroadcastReceiver
+import shuttle.coordinates.data.model.GeoHas
 import shuttle.coordinates.domain.error.LocationNotAvailable
+import shuttle.coordinates.domain.model.GeoHash
 import kotlin.time.Duration
 
+@SuppressLint("MissingPermission")
 internal class LocationDataSource(
-    private val backoffInterval: Duration,
-    private val geoHashMapper: GeoHashMapper,
-    private val fusedLocationClient: FusedLocationProviderClient,
-    private val refreshInterval: Duration
+    context: Context,
+    fusedLocationClient: FusedLocationProviderClient,
+    minRefreshInterval: Duration,
+    defaultRefreshInterval: Duration,
+    maxRefreshInterval: Duration
 ) {
 
-    @SuppressLint("MissingPermission")
-    val locationFlow: Flow<Either<LocationNotAvailable, shuttle.coordinates.domain.model.GeoHash>> = callbackFlow {
-        val request = LocationRequest.create()
-            .setInterval(refreshInterval.inWholeMilliseconds)
-            .setFastestInterval(backoffInterval.inWholeMilliseconds)
-        val callback = object : LocationCallback() {
+    val locationFlow: Flow<Either<LocationNotAvailable, GeoHash>>
+        get() = locationMutableSharedFlow.asSharedFlow()
 
-            override fun onLocationAvailability(locationAvailability: LocationAvailability) {
-                if (locationAvailability.isLocationAvailable.not()) {
-                    trySend(LocationNotAvailable.left())
-                }
-            }
-            override fun onLocationResult(locationResult: LocationResult) {
-                val location = locationResult.lastLocation
-                trySend(geoHashMapper.toGeoHash(location).right())
-            }
+    internal val locationMutableSharedFlow: MutableSharedFlow<Either<LocationNotAvailable, GeoHash>> =
+        MutableSharedFlow(replay = 1)
+
+    init {
+        val request = LocationRequest.create()
+            .setFastestInterval(minRefreshInterval.inWholeMilliseconds)
+            .setInterval(defaultRefreshInterval.inWholeMilliseconds)
+            .setMaxWaitTime(maxRefreshInterval.inWholeMilliseconds)
+            .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+        val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
+        } else {
+            PendingIntent.FLAG_UPDATE_CURRENT
         }
-        fusedLocationClient.requestLocationUpdates(request, callback, Looper.getMainLooper())
-        awaitClose { fusedLocationClient.removeLocationUpdates(callback) }
+        val pendingIntent = PendingIntent.getBroadcast(
+            context,
+            0,
+            Intent(context, LocationBroadcastReceiver::class.java),
+            flags
+        )
+        fusedLocationClient.requestLocationUpdates(request, pendingIntent)
     }
 }

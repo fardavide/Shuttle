@@ -22,16 +22,19 @@ val coordinatesDataModule = module {
     factory { GeoHashMapper() }
     factory {
         LocationDataSource(
-            backoffInterval = LocationBackoffInterval,
+            context = get(),
             geoHashMapper = get(),
             fusedLocationClient = get(),
-            refreshInterval = LocationRefreshInterval
+            minRefreshInterval = LocationMinRefreshInterval,
+            defaultRefreshInterval = LocationDefaultRefreshInterval,
+            maxRefreshInterval = LocationMaxRefreshInterval,
         )
     }
     factory { LocationServices.getFusedLocationProviderClient(get<Context>()) }
     factory { TimeDataSource(refreshInterval = TimeRefreshInterval) }
 }
 
-private val LocationBackoffInterval = 10.toDuration(DurationUnit.SECONDS)
-private val LocationRefreshInterval = 10.toDuration(DurationUnit.MINUTES)
+private val LocationMinRefreshInterval = 3.toDuration(DurationUnit.MINUTES)
+private val LocationDefaultRefreshInterval = 12.toDuration(DurationUnit.MINUTES)
+private val LocationMaxRefreshInterval = 20.toDuration(DurationUnit.MINUTES)
 private val TimeRefreshInterval = 1.toDuration(DurationUnit.MINUTES)
