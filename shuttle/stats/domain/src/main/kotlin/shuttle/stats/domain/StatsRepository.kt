@@ -5,7 +5,7 @@ import com.soywiz.klock.Time
 import kotlinx.coroutines.flow.Flow
 import shuttle.apps.domain.error.GenericError
 import shuttle.apps.domain.model.AppId
-import shuttle.apps.domain.model.AppModel
+import shuttle.apps.domain.model.SuggestedAppModel
 import shuttle.coordinates.domain.model.Location
 
 interface StatsRepository {
@@ -15,7 +15,7 @@ interface StatsRepository {
         endLocation: Location,
         startTime: Time,
         endTime: Time
-    ): Flow<Either<GenericError, List<AppModel>>>
+    ): Flow<Either<GenericError, List<SuggestedAppModel>>>
 
     suspend fun incrementCounter(appId: AppId, location: Location?, time: Time)
 

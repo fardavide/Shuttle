@@ -10,6 +10,7 @@ import shuttle.apps.domain.AppsRepository
 import shuttle.apps.domain.error.GenericError
 import shuttle.apps.domain.model.AppId
 import shuttle.apps.domain.model.AppModel
+import shuttle.apps.domain.model.SuggestedAppModel
 import shuttle.coordinates.domain.model.Location
 import shuttle.database.datasource.StatDataSource
 import shuttle.database.model.DatabaseAppId
@@ -30,7 +31,7 @@ class StatsRepositoryImpl(
         endLocation: Location,
         startTime: Time,
         endTime: Time
-    ): Flow<Either<GenericError, List<AppModel>>> =
+    ): Flow<Either<GenericError, List<SuggestedAppModel>>> =
         combine(
             appsRepository.observeNotBlacklistedApps(),
             statDataSource.findAllStats(
@@ -49,9 +50,11 @@ class StatsRepositoryImpl(
 
                 // It's ok to have an app in stats, but from the installed list, as an app can be uninstalled
                 val appsFromStats = sortedAppsIds.mapNotNull { appId ->
-                    allInstalledApp.pop { it.id == appId }
+                    allInstalledApp.pop { it.id == appId }?.let { installedApp ->
+                        SuggestedAppModel(installedApp.id, installedApp.name, isSuggested = true)
+                    }
                 }
-                appsFromStats + allInstalledApp
+                appsFromStats + allInstalledApp.map(::toNotSuggestedAppModel).shuffled()
             }
         }
 
@@ -73,6 +76,12 @@ private fun <T> MutableList<T>.pop(predicate: (T) -> Boolean): T? {
     return if (index > -1) removeAt(index)
     else null
 }
+
+private fun toNotSuggestedAppModel(app: AppModel) = SuggestedAppModel(
+    app.id,
+    app.name,
+    isSuggested = false
+)
 
 private fun AppId.toDatabaseAppId() = DatabaseAppId(value)
 private fun Location.databaseLatitude() = DatabaseLatitude(latitude)

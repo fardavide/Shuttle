@@ -3,7 +3,7 @@ package shuttle.predictions.domain.usecase
 import arrow.core.Either
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import shuttle.apps.domain.model.AppModel
+import shuttle.apps.domain.model.SuggestedAppModel
 import shuttle.coordinates.domain.model.Coordinates
 import shuttle.predictions.domain.error.ObserveSuggestedAppsError
 import shuttle.predictions.domain.model.DefaultValuesSpans
@@ -11,7 +11,9 @@ import shuttle.stats.domain.StatsRepository
 
 interface ObserveSuggestedAppsByCoordinates {
 
-    operator fun invoke(coordinates: Coordinates): Flow<Either<ObserveSuggestedAppsError.DataError, List<AppModel>>>
+    operator fun invoke(
+        coordinates: Coordinates
+    ): Flow<Either<ObserveSuggestedAppsError.DataError, List<SuggestedAppModel>>>
 }
 
 internal class ObserveSuggestedAppsByCoordinatesImpl(
@@ -20,7 +22,9 @@ internal class ObserveSuggestedAppsByCoordinatesImpl(
     private val timeToTimeRange: TimeToTimeRange
 ) : ObserveSuggestedAppsByCoordinates {
 
-    override operator fun invoke(coordinates: Coordinates): Flow<Either<ObserveSuggestedAppsError.DataError, List<AppModel>>> {
+    override operator fun invoke(
+        coordinates: Coordinates
+    ): Flow<Either<ObserveSuggestedAppsError.DataError, List<SuggestedAppModel>>> {
         val (startLocation, endLocation) = locationToLocationRange(coordinates.location, DefaultValuesSpans.Location)
         val (startTime, endTime) = with(timeToTimeRange(coordinates.time, DefaultValuesSpans.Time)) {
             start to endInclusive
