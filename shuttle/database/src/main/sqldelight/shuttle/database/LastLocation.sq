@@ -1,0 +1,16 @@
+import shuttle.database.model.DatabaseLatitude;
+import shuttle.database.model.DatabaseLongitude;
+
+CREATE TABLE IF NOT EXISTS lastLocation (
+    id INTEGER NOT NULL PRIMARY KEY,
+    latitude REAL AS DatabaseLatitude NOT NULL,
+    longitude REAL AS DatabaseLongitude NOT NULL
+);
+
+insert:
+    INSERT OR REPLACE INTO lastLocation(id, latitude, longitude)
+    VALUES (0, ?, ?);
+
+find:
+    SELECT *
+    FROM lastLocation;

@@ -5,6 +5,7 @@ plugins {
 moduleDependencies {
 
     coordinates.domain()
+    database()
 }
 
 dependencies {

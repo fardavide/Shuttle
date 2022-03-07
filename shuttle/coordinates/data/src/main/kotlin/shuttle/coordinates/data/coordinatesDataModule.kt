@@ -15,7 +15,7 @@ val coordinatesDataModule = module {
     single<CoordinatesRepository> {
         CoordinatesRepositoryImpl(
             appScope = get(),
-            locationDataSource = get(),
+            lastLocationDataSource = get(),
             timeDataSource = get()
         )
     }

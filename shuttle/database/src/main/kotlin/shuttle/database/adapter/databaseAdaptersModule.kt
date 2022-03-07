@@ -5,6 +5,7 @@ import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import shuttle.database.App
 import shuttle.database.AppBlacklistSetting
+import shuttle.database.LastLocation
 import shuttle.database.LocationStat
 import shuttle.database.TimeStat
 import shuttle.database.model.DatabaseAppId
@@ -19,6 +20,12 @@ internal val databaseAdaptersModule = module {
 
     factory { App.Adapter(idAdapter = get(Qualifier.AppIdAdapter)) }
     factory { AppBlacklistSetting.Adapter(appIdAdapter = get(Qualifier.AppIdAdapter)) }
+    factory {
+        LastLocation.Adapter(
+            latitudeAdapter = get(Qualifier.LatitudeAdapter),
+            longitudeAdapter = get(Qualifier.LongitudeAdapter)
+        )
+    }
     factory {
         LocationStat.Adapter(
             appIdAdapter = get(Qualifier.AppIdAdapter),

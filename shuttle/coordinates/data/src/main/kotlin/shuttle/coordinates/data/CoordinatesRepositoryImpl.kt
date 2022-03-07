@@ -1,23 +1,32 @@
 package shuttle.coordinates.data
 
+import arrow.core.left
+import arrow.core.right
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.shareIn
-import shuttle.coordinates.data.datasource.LocationDataSource
 import shuttle.coordinates.data.datasource.TimeDataSource
 import shuttle.coordinates.domain.CoordinatesRepository
+import shuttle.coordinates.domain.error.LocationNotAvailable
 import shuttle.coordinates.domain.model.CoordinatesResult
+import shuttle.coordinates.domain.model.Location
+import shuttle.database.datasource.LastLocationDataSource
 
 internal class CoordinatesRepositoryImpl(
     appScope: CoroutineScope,
-    locationDataSource: LocationDataSource,
+    lastLocationDataSource: LastLocationDataSource,
     timeDataSource: TimeDataSource
 ) : CoordinatesRepository {
 
     private val coordinatesSharedFlow =
-        combine(locationDataSource.locationFlow, timeDataSource.timeFlow) { location, time ->
+        combine(lastLocationDataSource.find(), timeDataSource.timeFlow) { lastLocation, time ->
+            val location = if (lastLocation != null) {
+                Location(latitude = lastLocation.latitude.value, longitude = lastLocation.longitude.value).right()
+            } else {
+                LocationNotAvailable.left()
+            }
             CoordinatesResult(location, time)
         }.shareIn(appScope, SharingStarted.Eagerly, replay = 1)
 
