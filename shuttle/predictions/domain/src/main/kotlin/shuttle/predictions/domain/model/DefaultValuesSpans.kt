@@ -11,7 +11,7 @@ import shuttle.stats.domain.model.AppStats
  */
 object DefaultValuesSpans {
 
-    val Location = 200 // meters
+    const val Location = 200 // meters
 
     val Time: TimeSpan = 1.hours
 }
