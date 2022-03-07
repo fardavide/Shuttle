@@ -1,6 +1,7 @@
 package shuttle.database.testdata
 
 import shuttle.database.model.DatabaseAppId
+import shuttle.database.model.DatabaseGeoHash
 import shuttle.database.model.DatabaseLatitude
 import shuttle.database.model.DatabaseLocation
 import shuttle.database.model.DatabaseLongitude
@@ -8,6 +9,8 @@ import shuttle.database.model.DatabaseTime
 
 object TestData {
 
+    val GeoHash = DatabaseGeoHash("123")
+    val AnotherGeoHash = DatabaseGeoHash("abc")
     val ExactTime = DatabaseTime(100)
     val RangeStartTime = DatabaseTime(90)
     val RangeMidFirstTime = DatabaseTime(92)

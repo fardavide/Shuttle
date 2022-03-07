@@ -1,12 +1,10 @@
 import shuttle.database.model.DatabaseAppId;
-import shuttle.database.model.DatabaseLatitude;
-import shuttle.database.model.DatabaseLongitude;
+import shuttle.database.model.DatabaseGeoHash;
 
 CREATE TABLE IF NOT EXISTS locationStat (
     appId TEXT AS DatabaseAppId NOT NULL,
-    latitude REAL AS DatabaseLatitude NOT NULL,
-    longitude REAL AS DatabaseLongitude NOT NULL,
+    geoHash TEXT AS DatabaseGeoHash NOT NULL,
     count INTEGER NOT NULL,
 
-    PRIMARY KEY (appId, latitude, longitude)
+    PRIMARY KEY (appId, geoHash)
 );

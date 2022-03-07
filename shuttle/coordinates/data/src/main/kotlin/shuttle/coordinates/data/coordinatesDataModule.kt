@@ -5,6 +5,7 @@ import com.google.android.gms.location.LocationServices
 import org.koin.dsl.module
 import shuttle.coordinates.data.datasource.LocationDataSource
 import shuttle.coordinates.data.datasource.TimeDataSource
+import shuttle.coordinates.data.mapper.GeoHashMapper
 import shuttle.coordinates.domain.CoordinatesRepository
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
@@ -18,9 +19,11 @@ val coordinatesDataModule = module {
             timeDataSource = get()
         )
     }
+    factory { GeoHashMapper() }
     factory {
         LocationDataSource(
             backoffInterval = LocationBackoffInterval,
+            geoHashMapper = get(),
             fusedLocationClient = get(),
             refreshInterval = LocationRefreshInterval
         )

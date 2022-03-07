@@ -9,26 +9,21 @@ import shuttle.database.FindAllStats
 import shuttle.database.StatQueries
 import shuttle.database.model.DatabaseAppId
 import shuttle.database.model.DatabaseAppStat
-import shuttle.database.model.DatabaseLatitude
-import shuttle.database.model.DatabaseLocation
-import shuttle.database.model.DatabaseLongitude
+import shuttle.database.model.DatabaseGeoHash
 import shuttle.database.model.DatabaseTime
 import shuttle.database.util.suspendTransaction
 
 interface StatDataSource {
 
     fun findAllStats(
-        startLatitude: DatabaseLatitude,
-        endLatitude: DatabaseLatitude,
-        startLongitude: DatabaseLongitude,
-        endLongitude: DatabaseLongitude,
+        geoHash: DatabaseGeoHash,
         startTime: DatabaseTime,
         endTime: DatabaseTime
     ): Flow<List<DatabaseAppStat>>
 
     suspend fun incrementCounter(
         appId: DatabaseAppId,
-        location: DatabaseLocation?,
+        geoHash: DatabaseGeoHash?,
         time: DatabaseTime
     )
 
@@ -41,17 +36,11 @@ internal class StatDataSourceImpl(
 ): StatDataSource {
 
     override fun findAllStats(
-        startLatitude: DatabaseLatitude,
-        endLatitude: DatabaseLatitude,
-        startLongitude: DatabaseLongitude,
-        endLongitude: DatabaseLongitude,
+        geoHash: DatabaseGeoHash,
         startTime: DatabaseTime,
         endTime: DatabaseTime
     ): Flow<List<DatabaseAppStat>> = statQueries.findAllStats(
-        startLatitude = startLatitude,
-        endLatitude = endLatitude,
-        startLongitude = startLongitude,
-        endLongitude = endLongitude,
+        geoHash = geoHash,
         startTime = startTime,
         endTime = endTime
     ).asFlow().mapToList(ioDispatcher).map(::toAppStats)
@@ -70,12 +59,12 @@ internal class StatDataSourceImpl(
 
     override suspend fun incrementCounter(
         appId: DatabaseAppId,
-        location: DatabaseLocation?,
+        geoHash: DatabaseGeoHash?,
         time: DatabaseTime
     ) {
         statQueries.suspendTransaction(ioDispatcher) {
-            location?.let {
-                incrementLocationCounter(appId, it.latitude, it.longitude)
+            geoHash?.let {
+                incrementLocationCounter(appId, it)
             }
             incrementTimeCounter(appId, time)
         }
@@ -83,17 +72,15 @@ internal class StatDataSourceImpl(
 
     private fun StatQueries.incrementLocationCounter(
         appId: DatabaseAppId,
-        latitude: DatabaseLatitude,
-        longitude: DatabaseLongitude
+        geoHash: DatabaseGeoHash
     ) {
-        val previousCount = findLocationStat(appId, latitude, longitude)
+        val previousCount = findLocationStat(appId, geoHash)
             .executeAsOneOrNull()
             ?.count
             ?: 0
         insertLocationStat(
             appId = appId,
-            latitude = latitude,
-            longitude = longitude,
+            geoHash = geoHash,
             count = previousCount + 1
         )
     }

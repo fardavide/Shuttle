@@ -10,6 +10,7 @@ arrow = "1.0.1"
 coil = "1.4.0"
 compose = "1.2.0-alpha03"
 dataStore = "1.0.0"
+geohash = "1.4.0"
 glance = "1.0.0-alpha03"
 hiltViewModel = "1.0.0-alpha03"
 junit = "4.13.2"
@@ -46,6 +47,7 @@ compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
 compose-uiTest = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "compose" }
 compose-uiTooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
 compose-uiToolingPreview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
+geohash = { module = "ch.hsr:geohash", version.ref = "geohash" }
 junit = { module = "junit:junit", version.ref = "junit" }
 klock = { module = "com.soywiz.korlibs.klock:klock", version.ref = "klock" }
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }

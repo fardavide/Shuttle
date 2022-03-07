@@ -1,17 +1,13 @@
 package shuttle.database
 
 import kotlinx.coroutines.test.runTest
-import shuttle.database.testdata.TestData.ExactLatitude
-import shuttle.database.testdata.TestData.ExactLongitude
+import shuttle.database.testdata.TestData.AnotherGeoHash
 import shuttle.database.testdata.TestData.ExactTime
 import shuttle.database.testdata.TestData.FirstAppId
-import shuttle.database.testdata.TestData.RangeEndLatitude
-import shuttle.database.testdata.TestData.RangeEndLongitude
+import shuttle.database.testdata.TestData.GeoHash
 import shuttle.database.testdata.TestData.RangeEndTime
 import shuttle.database.testdata.TestData.RangeMidFirstTime
 import shuttle.database.testdata.TestData.RangeMidSecondTime
-import shuttle.database.testdata.TestData.RangeStartLatitude
-import shuttle.database.testdata.TestData.RangeStartLongitude
 import shuttle.database.testdata.TestData.RangeStartTime
 import shuttle.database.testdata.TestData.SecondAppId
 import shuttle.database.testdata.TestData.ThirdAppId
@@ -27,11 +23,11 @@ class StatQueriesTest : DatabaseTest() {
     fun `update location stat for same value`() = runTest {
         // given
         val expected = 13L
-        queries.insertLocationStat(FirstAppId, latitude = ExactLatitude, longitude = ExactLongitude, count = 2)
-        queries.insertLocationStat(FirstAppId, latitude = ExactLatitude, longitude = ExactLongitude, count = expected)
+        queries.insertLocationStat(FirstAppId, geoHash = GeoHash, count = 2)
+        queries.insertLocationStat(FirstAppId, geoHash = GeoHash, count = expected)
 
         // when
-        val result = queries.findLocationStat(FirstAppId, latitude = ExactLatitude, longitude = ExactLongitude)
+        val result = queries.findLocationStat(FirstAppId, geoHash = GeoHash)
             .executeAsOne()
             .count
 
@@ -56,39 +52,18 @@ class StatQueriesTest : DatabaseTest() {
     }
 
     @Test
-    fun `does not update location stat for different latitude`() = runTest {
+    fun `does not update location stat for different geoHash`() = runTest {
         // given
         val expectedFirst = 13L
         val expectedSecond = 2L
-        queries.insertLocationStat(FirstAppId, latitude = ExactLatitude, longitude = ExactLongitude, count = expectedFirst)
-        queries.insertLocationStat(FirstAppId, latitude = RangeEndLatitude, longitude = ExactLongitude, count = expectedSecond)
+        queries.insertLocationStat(FirstAppId, geoHash = GeoHash, count = expectedFirst)
+        queries.insertLocationStat(FirstAppId, geoHash = AnotherGeoHash, count = expectedSecond)
 
         // when
-        val resultFirst = queries.findLocationStat(FirstAppId, latitude = ExactLatitude, longitude = ExactLongitude)
+        val resultFirst = queries.findLocationStat(FirstAppId, geoHash = GeoHash)
             .executeAsOne()
             .count
-        val resultSecond = queries.findLocationStat(FirstAppId, latitude = RangeEndLatitude, longitude = ExactLongitude)
-            .executeAsOne()
-            .count
-
-        // then
-        assertEquals(expectedFirst, resultFirst)
-        assertEquals(expectedSecond, resultSecond)
-    }
-
-    @Test
-    fun `does not update location stat for different longitude`() = runTest {
-        // given
-        val expectedFirst = 13L
-        val expectedSecond = 2L
-        queries.insertLocationStat(FirstAppId, latitude = ExactLatitude, longitude = ExactLongitude, count = expectedFirst)
-        queries.insertLocationStat(FirstAppId, latitude = ExactLatitude, longitude = RangeEndLongitude, count = expectedSecond)
-
-        // when
-        val resultFirst = queries.findLocationStat(FirstAppId, latitude = ExactLatitude, longitude = ExactLongitude)
-            .executeAsOne()
-            .count
-        val resultSecond = queries.findLocationStat(FirstAppId, latitude = ExactLatitude, longitude = RangeEndLongitude)
+        val resultSecond = queries.findLocationStat(FirstAppId, geoHash = AnotherGeoHash)
             .executeAsOne()
             .count
 
@@ -369,24 +344,19 @@ class StatQueriesTest : DatabaseTest() {
             FindAllStats(null, FirstAppId, countByLocation = 0, countByTime = 4),
             FindAllStats(null, SecondAppId, countByLocation = 0, countByTime = 5),
             FindAllStats(null, ThirdAppId, countByLocation = 0, countByTime = 3),
-            FindAllStats(FirstAppId, null, countByLocation = 5, countByTime = 0),
+            FindAllStats(FirstAppId, null, countByLocation = 3, countByTime = 0),
             FindAllStats(SecondAppId, null, countByLocation = 2, countByTime = 0),
             FindAllStats(ThirdAppId, null, countByLocation = 5, countByTime = 0),
         )
 
         // when
         with(queries) {
-            // First App: 3 + 2 = 5
-            insertLocationStat(FirstAppId, latitude = ExactLatitude, longitude = ExactLongitude, count = 3)
-            insertLocationStat(FirstAppId, latitude = RangeStartLatitude, longitude = ExactLongitude, count = 2)
-            // Second App: 2 * 1 = 2
-            insertLocationStat(SecondAppId, latitude = ExactLatitude, longitude = ExactLongitude, count = 2)
-            // Third App: 5 * 1 = 5
-            insertLocationStat(ThirdAppId, latitude = ExactLatitude, longitude = ExactLongitude, count = 1)
-            insertLocationStat(ThirdAppId, latitude = RangeStartLatitude, longitude = ExactLongitude, count = 1)
-            insertLocationStat(ThirdAppId, latitude = RangeEndLatitude, longitude = ExactLongitude, count = 1)
-            insertLocationStat(ThirdAppId, latitude = ExactLatitude, longitude = RangeStartLongitude, count = 1)
-            insertLocationStat(ThirdAppId, latitude = ExactLatitude, longitude = RangeEndLongitude, count = 1)
+            // First App: 3
+            insertLocationStat(FirstAppId, geoHash = GeoHash, count = 3)
+            // Second App: 2
+            insertLocationStat(SecondAppId, geoHash = GeoHash, count = 2)
+            // Third App: 5
+            insertLocationStat(ThirdAppId, geoHash = GeoHash, count = 5)
 
             // First App: 2 * 2 = 4
             insertTimeStat(FirstAppId, time = ExactTime, count = 2)
@@ -401,10 +371,7 @@ class StatQueriesTest : DatabaseTest() {
             insertTimeStat(ThirdAppId, time = ExactTime, count = 3)
 
             val result = findAllStats(
-                startLatitude = RangeStartLatitude,
-                endLatitude = RangeEndLatitude,
-                startLongitude = RangeStartLongitude,
-                endLongitude = RangeEndLongitude,
+                geoHash = GeoHash,
                 startTime = RangeStartTime,
                 endTime = RangeEndTime
             ).executeAsList()
@@ -418,30 +385,22 @@ class StatQueriesTest : DatabaseTest() {
     fun `find by location even if no time in range`() = runTest {
         // given
         val expected = listOf(
-            FindAllStats(FirstAppId, null, countByLocation = 5, countByTime = 0),
+            FindAllStats(FirstAppId, null, countByLocation = 3, countByTime = 0),
             FindAllStats(SecondAppId, null, countByLocation = 2, countByTime = 0),
             FindAllStats(ThirdAppId, null, countByLocation = 5, countByTime = 0),
         )
 
         // when
         with(queries) {
-            // First App: 3 + 2 = 5
-            insertLocationStat(FirstAppId, latitude = ExactLatitude, longitude = ExactLongitude, count = 3)
-            insertLocationStat(FirstAppId, latitude = RangeStartLatitude, longitude = ExactLongitude, count = 2)
-            // Second App: 2 * 1 = 2
-            insertLocationStat(SecondAppId, latitude = ExactLatitude, longitude = ExactLongitude, count = 2)
-            // Third App: 5 * 1 = 5
-            insertLocationStat(ThirdAppId, latitude = ExactLatitude, longitude = ExactLongitude, count = 1)
-            insertLocationStat(ThirdAppId, latitude = RangeStartLatitude, longitude = ExactLongitude, count = 1)
-            insertLocationStat(ThirdAppId, latitude = RangeEndLatitude, longitude = ExactLongitude, count = 1)
-            insertLocationStat(ThirdAppId, latitude = ExactLatitude, longitude = RangeStartLongitude, count = 1)
-            insertLocationStat(ThirdAppId, latitude = ExactLatitude, longitude = RangeEndLongitude, count = 1)
+            // First App: 3
+            insertLocationStat(FirstAppId, geoHash = GeoHash, count = 3)
+            // Second App: 2
+            insertLocationStat(SecondAppId, geoHash = GeoHash, count = 2)
+            // Third App: 5
+            insertLocationStat(ThirdAppId, geoHash = GeoHash, count = 5)
 
             val result = findAllStats(
-                startLatitude = RangeStartLatitude,
-                endLatitude = RangeEndLatitude,
-                startLongitude = RangeStartLongitude,
-                endLongitude = RangeEndLongitude,
+                geoHash = GeoHash,
                 startTime = RangeStartTime,
                 endTime = RangeEndTime
             ).executeAsList()
@@ -475,10 +434,7 @@ class StatQueriesTest : DatabaseTest() {
             insertTimeStat(ThirdAppId, time = ExactTime, count = 3)
 
             val result = findAllStats(
-                startLatitude = RangeStartLatitude,
-                endLatitude = RangeEndLatitude,
-                startLongitude = RangeStartLongitude,
-                endLongitude = RangeEndLongitude,
+                geoHash = GeoHash,
                 startTime = RangeStartTime,
                 endTime = RangeEndTime
             ).executeAsList()
