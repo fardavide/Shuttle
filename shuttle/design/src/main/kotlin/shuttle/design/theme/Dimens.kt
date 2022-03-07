@@ -13,6 +13,7 @@ object Dimens {
 
     object Margin {
 
+        val XXSmall = 2.dp
         val XSmall = 4.dp
         val Small = 8.dp
         val Medium = 16.dp

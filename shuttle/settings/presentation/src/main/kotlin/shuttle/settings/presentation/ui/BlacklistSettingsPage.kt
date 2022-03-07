@@ -90,7 +90,7 @@ internal fun AppListItem(
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.padding(vertical = Dimens.Margin.Small, horizontal = Dimens.Margin.Small)
+        modifier = Modifier.padding(vertical = Dimens.Margin.XXSmall, horizontal = Dimens.Margin.Small)
     ) {
         Image(
             painter = rememberImagePainter(data = app.icon),
