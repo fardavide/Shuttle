@@ -8,33 +8,19 @@ import android.os.Build
 import arrow.core.Either
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationRequest
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.callbackFlow
-import shuttle.coordinates.data.mapper.GeoHashMapper
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import shuttle.coordinates.data.receiver.LocationBroadcastReceiver
-import shuttle.coordinates.data.model.GeoHas
-import shuttle.coordinates.domain.error.LocationNotAvailable
-import shuttle.coordinates.domain.model.GeoHash
 import kotlin.time.Duration
 
 @SuppressLint("MissingPermission")
-internal class LocationDataSource(
-    context: Context,
-    fusedLocationClient: FusedLocationProviderClient,
-    minRefreshInterval: Duration,
-    defaultRefreshInterval: Duration,
-    maxRefreshInterval: Duration
+internal class DeviceLocationDataSource(
+    private val context: Context,
+    private val fusedLocationClient: FusedLocationProviderClient,
+    private val minRefreshInterval: Duration,
+    private val defaultRefreshInterval: Duration,
+    private val maxRefreshInterval: Duration
 ) {
 
-    val locationFlow: Flow<Either<LocationNotAvailable, GeoHash>>
-        get() = locationMutableSharedFlow.asSharedFlow()
-
-    internal val locationMutableSharedFlow: MutableSharedFlow<Either<LocationNotAvailable, GeoHash>> =
-        MutableSharedFlow(replay = 1)
-
-    init {
+    fun subscribe() {
         val request = LocationRequest.create()
             .setFastestInterval(minRefreshInterval.inWholeMilliseconds)
             .setInterval(defaultRefreshInterval.inWholeMilliseconds)
