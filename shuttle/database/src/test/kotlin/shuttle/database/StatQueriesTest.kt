@@ -415,58 +415,6 @@ class StatQueriesTest : DatabaseTest() {
     }
 
 //    @Test
-//    fun `find all stats test 2`() = runTest {
-//        // given
-//        val expected = listOf(
-//            FindAllStats2(null, FirstAppId, countByLocation = 0, countByTime = 4),
-//            FindAllStats2(null, SecondAppId, countByLocation = 0, countByTime = 5),
-//            FindAllStats2(null, ThirdAppId, countByLocation = 0, countByTime = 3),
-//            FindAllStats2(FirstAppId, null, countByLocation = 5, countByTime = 0),
-//            FindAllStats2(SecondAppId, null, countByLocation = 2, countByTime = 0),
-//            FindAllStats2(ThirdAppId, null, countByLocation = 5, countByTime = 0),
-//        )
-//
-//        // when
-//        with(queries) {
-//            // First App: 3 + 2 = 5
-//            insertLocationStat(FirstAppId, latitude = ExactLatitude, longitude = ExactLongitude, count = 3)
-//            insertLocationStat(FirstAppId, latitude = RangeStartLatitude, longitude = ExactLongitude, count = 2)
-//            // Second App: 2 * 1 = 2
-//            insertLocationStat(SecondAppId, latitude = ExactLatitude, longitude = ExactLongitude, count = 2)
-//            // Third App: 5 * 1 = 5
-//            insertLocationStat(ThirdAppId, latitude = ExactLatitude, longitude = ExactLongitude, count = 1)
-//            insertLocationStat(ThirdAppId, latitude = RangeStartLatitude, longitude = ExactLongitude, count = 1)
-//            insertLocationStat(ThirdAppId, latitude = RangeEndLatitude, longitude = ExactLongitude, count = 1)
-//            insertLocationStat(ThirdAppId, latitude = ExactLatitude, longitude = RangeStartLongitude, count = 1)
-//            insertLocationStat(ThirdAppId, latitude = ExactLatitude, longitude = RangeEndLongitude, count = 1)
-//
-//            // First App: 2 * 2 = 4
-//            insertTimeStat(FirstAppId, time = ExactTime, count = 2)
-//            insertTimeStat(FirstAppId, time = RangeStartTime, count = 2)
-//            // Second App: 5 * 1 = 5
-//            insertTimeStat(SecondAppId, time = ExactTime, count = 1)
-//            insertTimeStat(SecondAppId, time = RangeStartTime, count = 1)
-//            insertTimeStat(SecondAppId, time = RangeEndTime, count = 1)
-//            insertTimeStat(SecondAppId, time = RangeMidFirstTime, count = 1)
-//            insertTimeStat(SecondAppId, time = RangeMidSecondTime, count = 1)
-//            // Third App: 3 * 1 = 3
-//            insertTimeStat(ThirdAppId, time = ExactTime, count = 3)
-//
-//            val result = findAllStats2(
-//                startLatitude = RangeStartLatitude,
-//                endLatitude = RangeEndLatitude,
-//                startLongitude = RangeStartLongitude,
-//                endLongitude = RangeEndLongitude,
-//                startTime = RangeStartTime,
-//                endTime = RangeEndTime
-//            ).executeAsList()
-//
-//            // then
-//            assertEquals(expected, result)
-//        }
-//    }
-
-//    @Test
 //    fun `correctly sorts by more location entries in the range`() = runTest {
 //        // given
 //        val expected = listOf(

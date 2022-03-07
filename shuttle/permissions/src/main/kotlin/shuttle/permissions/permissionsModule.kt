@@ -11,7 +11,7 @@ import shuttle.permissions.viewmodel.PermissionsViewModel
 val permissionsModule = module {
 
     factory { get<Context>().contentResolver }
-    factory { LocationPermissionsStateMapper() }
+    factory { LocationPermissionsStateMapper(isAndroidQ = get()) }
     viewModel {
         PermissionsViewModel(
             accessibilityServiceComponentName = ComponentName(get(), LaunchCounterAccessibilityService::class.java),

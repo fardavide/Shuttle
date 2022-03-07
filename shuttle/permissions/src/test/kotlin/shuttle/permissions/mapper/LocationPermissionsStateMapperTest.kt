@@ -5,7 +5,6 @@ package shuttle.permissions.mapper
 import android.Manifest.permission.ACCESS_BACKGROUND_LOCATION
 import android.Manifest.permission.ACCESS_COARSE_LOCATION
 import android.Manifest.permission.ACCESS_FINE_LOCATION
-import android.os.Build
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.MultiplePermissionsState
 import com.google.accompanist.permissions.PermissionState
@@ -15,14 +14,14 @@ import com.google.accompanist.permissions.shouldShowRationale
 import io.mockk.every
 import io.mockk.mockk
 import shuttle.permissions.model.LocationPermissionsState
-import java.lang.reflect.Field
-import java.lang.reflect.Modifier
+import shuttle.util.android.IsAndroidQ
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class LocationPermissionsStateMapperTest {
 
-    private val mapper = LocationPermissionsStateMapper()
+    private val isAndroidQ: IsAndroidQ = mockk()
+    private val mapper = LocationPermissionsStateMapper(isAndroidQ = isAndroidQ)
 
     @Test
     fun `all permissions granted before Android Q`() {
@@ -260,22 +259,11 @@ class LocationPermissionsStateMapperTest {
     }
 
     private fun beforeAndroidQ() {
-        setAndroidVersion(Build.VERSION_CODES.P)
+        every { isAndroidQ() } returns false
     }
 
     private fun afterAndroidQ() {
-        setAndroidVersion(Build.VERSION_CODES.R)
-    }
-
-    private fun setAndroidVersion(androidVersion: Int) {
-        val field = Build.VERSION::class.java.getField("SDK_INT").apply {
-            isAccessible = true
-        }
-        Field::class.java.getDeclaredField("modifiers").apply {
-            isAccessible = true
-            setInt(field, field.modifiers and Modifier.FINAL.inv())
-        }
-        field.set(null, androidVersion)
+        every { isAndroidQ() } returns true
     }
 
     companion object TestData {

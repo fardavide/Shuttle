@@ -7,4 +7,5 @@ val utilsAndroidModule = module {
     factory { GetIconDrawableForApp(packageManager = get()) }
     factory { GetIconForApp(packageManager = get()) }
     factory { GetLaunchIntentForApp(packageManager = get()) }
+    factory { IsAndroidQ() }
 }

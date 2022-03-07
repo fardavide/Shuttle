@@ -1,6 +1,5 @@
 package shuttle.stats.data
 
-import arrow.core.right
 import com.soywiz.klock.Time
 import io.mockk.coEvery
 import io.mockk.every
@@ -12,6 +11,7 @@ import shuttle.apps.domain.AppsRepository
 import shuttle.apps.domain.model.AppId
 import shuttle.apps.domain.model.AppModel
 import shuttle.apps.domain.model.AppName
+import shuttle.apps.domain.model.SuggestedAppModel
 import shuttle.coordinates.domain.model.Location
 import shuttle.database.datasource.StatDataSource
 import shuttle.database.model.DatabaseAppId
@@ -31,7 +31,7 @@ import kotlin.test.assertEquals
 class StatsRepositoryImplTest {
 
     private val appsRepository: AppsRepository = mockk {
-        coEvery { observeAllInstalledApps() } returns flowOf(AllAppsIds.map(::buildAppModel).right())
+        coEvery { observeNotBlacklistedApps() } returns flowOf(AllAppsIds.map(::buildAppModel))
     }
     private val statDataSource: StatDataSource = mockk()
     private val sortAppStatsByCounts: SortAppStatsByCounts = mockk {
@@ -50,13 +50,18 @@ class StatsRepositoryImplTest {
     fun `returns all the suggested apps plus all the installed apps`() = runTest {
         // given
         everyStatDataSourceFindAllStats() returns flowOf(listOf(FourthAppId, FifthAppId).map(::buildLocationAppStats))
-        val expected = listOf(FourthAppId, FifthAppId, FirstAppId, SecondAppId, ThirdAppId)
-            .map(::buildAppModel)
-            .right()
+        val expected = listOf(
+            FirstAppId.suggested(isSuggested = false),
+            SecondAppId.suggested(isSuggested = false),
+            ThirdAppId.suggested(isSuggested = false),
+            FourthAppId.suggested(isSuggested = true),
+            FifthAppId.suggested(isSuggested = true)
+        )
 
         // when
         val result = repository.observeSuggestedApps(StartLocation, EndLocation, StartTime, EndTime)
             .first()
+            .sortedBy { it.id.value }
 
         // then
         assertEquals(expected, result)
@@ -66,13 +71,18 @@ class StatsRepositoryImplTest {
     fun `returns all the installed apps if no suggested`() = runTest {
         // given
         everyStatDataSourceFindAllStats() returns flowOf(emptyList())
-        val expected = listOf(FirstAppId, SecondAppId, ThirdAppId, FourthAppId, FifthAppId)
-            .map(::buildAppModel)
-            .right()
+        val expected = listOf(
+            FirstAppId.suggested(isSuggested = false),
+            SecondAppId.suggested(isSuggested = false),
+            ThirdAppId.suggested(isSuggested = false),
+            FourthAppId.suggested(isSuggested = false),
+            FifthAppId.suggested(isSuggested = false)
+        )
 
         // when
         val result = repository.observeSuggestedApps(StartLocation, EndLocation, StartTime, EndTime)
             .first()
+            .sortedBy { it.id.value }
 
         // then
         assertEquals(expected, result)
@@ -99,6 +109,15 @@ class StatsRepositoryImplTest {
         fun buildAppModel(databaseAppId: DatabaseAppId) = AppModel(
             id = AppId(databaseAppId.value),
             name = AppName(databaseAppId.value)
+        )
+
+        fun DatabaseAppId.suggested(isSuggested: Boolean): SuggestedAppModel =
+            buildSuggestedAppModel(databaseAppId = this, isSuggested = isSuggested)
+
+        fun buildSuggestedAppModel(databaseAppId: DatabaseAppId, isSuggested: Boolean) = SuggestedAppModel(
+            id = AppId(databaseAppId.value),
+            name = AppName(databaseAppId.value),
+            isSuggested = isSuggested
         )
 
         fun buildLocationAppStats(databaseAppId: DatabaseAppId) = DatabaseAppStat.ByLocation(
