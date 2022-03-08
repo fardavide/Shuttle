@@ -3,6 +3,13 @@ plugins {
     id("com.squareup.sqldelight")
 }
 
+sqldelight {
+    database("Database") {
+        schemaOutputDirectory = file("src/main/sqldelight/shuttle/database/schemas")
+        verifyMigrations = true
+    }
+}
+
 dependencies {
 
     implementation(libs.bundles.base)
