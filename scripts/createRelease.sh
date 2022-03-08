@@ -20,10 +20,12 @@ function main {
   git remote set-url origin "$REPOSITORY_URL"
 
   echo "=> set new origin $REPOSITORY_URL";
-  local version=git describe --tags
+  local version=$CIRCLE_TAG
 
   ## CREATE RELEASE
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  echo "eval \"$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)\"" >> /home/circleci/.profile
+  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
   brew install gh
   echo "$GITHUB_TOKEN" | gh auth login --with-token
   gh release create "$version" ./app/build/outputs/apk/debug/*

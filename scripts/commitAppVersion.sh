@@ -12,30 +12,22 @@ function main {
 
   # Set Git credentials
   if [ -z "$GIT_EMAIL" ] || [ -z "$GIT_USERNAME" ] || [ -z "$GITHUB_TOKEN" ]; then
-    echo "=> You must set the variables GIT_EMAIL, GIT_USERNAME and $GITHUB_TOKEN to be able to commit and create release"
+    echo "=> You must set the variables GIT_EMAIL, GIT_USERNAME and GITHUB_TOKEN to be able to commit and create release"
     exit 1
   fi
 
   git config --global user.email "$GIT_EMAIL"
   git config --global user.name "$GIT_USERNAME"
-  git config --global url."https://".insteadOf git://
 
-  # Take https format and convert it to a SSH one so we can push from the CI
-  local REPOSITORY_URL="git@github.com:4face-studi0/Shuttle.git";
-
-  # Gitlab default URL is https and the push doesn't work
-  git remote set-url origin "$REPOSITORY_URL"
-
-  echo "=> set new origin $REPOSITORY_URL";
+  git remote set-url origin "https://$GITHUB_TOKEN@github.com/$GIT_USERNAME/Shuttle.git/"
 
   ## COMMIT
-
   # Force releases.txt and build.gradle.kts
   git add -f ./app/build.gradle.kts;
 
   git status;
 
-  git commit -m "[release] CIRCLE_TAG"
+  git commit -m "[release] $CIRCLE_TAG"
   git push origin main;
 }
 
