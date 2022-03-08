@@ -4,6 +4,7 @@ import arrow.core.left
 import arrow.core.right
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.onStart
@@ -13,7 +14,7 @@ import shuttle.coordinates.data.datasource.TimeDataSource
 import shuttle.coordinates.domain.CoordinatesRepository
 import shuttle.coordinates.domain.error.LocationNotAvailable
 import shuttle.coordinates.domain.model.CoordinatesResult
-import shuttle.coordinates.domain.model.Location
+import shuttle.coordinates.domain.model.GeoHash
 import shuttle.database.datasource.LastLocationDataSource
 
 internal class CoordinatesRepositoryImpl(
@@ -23,10 +24,10 @@ internal class CoordinatesRepositoryImpl(
     timeDataSource: TimeDataSource
 ) : CoordinatesRepository {
 
-    private val coordinatesSharedFlow =
+    private val coordinatesSharedFlow: SharedFlow<CoordinatesResult> =
         combine(lastLocationDataSource.find(), timeDataSource.timeFlow) { lastLocation, time ->
             val location = if (lastLocation != null) {
-                Location(latitude = lastLocation.latitude.value, longitude = lastLocation.longitude.value).right()
+                GeoHash(lastLocation.geoHash.value).right()
             } else {
                 LocationNotAvailable.left()
             }

@@ -8,12 +8,13 @@ import com.google.android.gms.location.LocationResult
 import kotlinx.coroutines.runBlocking
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import shuttle.coordinates.data.mapper.GeoHashMapper
 import shuttle.database.datasource.LastLocationDataSource
-import shuttle.database.model.DatabaseLatitude
-import shuttle.database.model.DatabaseLongitude
+import shuttle.database.model.DatabaseGeoHash
 
 class LocationBroadcastReceiver : BroadcastReceiver(), KoinComponent {
 
+    private val geoHashMapper: GeoHashMapper by inject()
     private val lastLocationDataSource: LastLocationDataSource by inject()
 
     @Suppress("RedundantNullableReturnType")
@@ -31,11 +32,8 @@ class LocationBroadcastReceiver : BroadcastReceiver(), KoinComponent {
 
     private fun saveLastLocationBlocking(result: LocationResult) {
         runBlocking {
-            val lastLocation = result.lastLocation
-            lastLocationDataSource.insert(
-                DatabaseLatitude(lastLocation.latitude),
-                DatabaseLongitude(lastLocation.longitude)
-            )
+            val geoHash = geoHashMapper.toGeoHash(result.lastLocation)
+            lastLocationDataSource.insert(DatabaseGeoHash(geoHash.value))
         }
     }
 }

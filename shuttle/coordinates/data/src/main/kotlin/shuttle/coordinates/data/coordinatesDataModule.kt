@@ -24,7 +24,6 @@ val coordinatesDataModule = module {
     factory {
         DeviceLocationDataSource(
             context = get(),
-            geoHashMapper = get(),
             fusedLocationClient = get(),
             minRefreshInterval = LocationMinRefreshInterval,
             defaultRefreshInterval = LocationDefaultRefreshInterval,
