@@ -31,7 +31,7 @@ jobs:
   test:
 
     docker:
-      - image: cimg/openjdk:15.0.1
+      - image: circleci/android:api-30
 
     steps:
       - checkout
@@ -64,9 +64,6 @@ workflows:
       - test
       - release:
           context: Git
-          requires:
-            - build
-            - test
           filters:
             branches:
               ignore: /.*/
