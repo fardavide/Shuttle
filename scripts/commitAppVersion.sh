@@ -37,7 +37,7 @@ function main {
   git status;
 
   git commit -m "[release] $version"
-  git push origin master;
+  git push origin main;
 }
 
 main
