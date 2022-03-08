@@ -13,18 +13,19 @@ import com.google.android.gms.location.LocationResult
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+import shuttle.coordinates.data.mapper.GeoHashMapper
 import shuttle.coordinates.domain.error.LocationNotAvailable
-import shuttle.coordinates.domain.model.Location
 import kotlin.time.Duration
 
 internal class LocationDataSource(
     private val backoffInterval: Duration,
+    private val geoHashMapper: GeoHashMapper,
     private val fusedLocationClient: FusedLocationProviderClient,
     private val refreshInterval: Duration
 ) {
 
     @SuppressLint("MissingPermission")
-    val locationFlow: Flow<Either<LocationNotAvailable, Location>> = callbackFlow {
+    val locationFlow: Flow<Either<LocationNotAvailable, shuttle.coordinates.domain.model.GeoHash>> = callbackFlow {
         val request = LocationRequest.create()
             .setInterval(refreshInterval.inWholeMilliseconds)
             .setFastestInterval(backoffInterval.inWholeMilliseconds)
@@ -37,7 +38,7 @@ internal class LocationDataSource(
             }
             override fun onLocationResult(locationResult: LocationResult) {
                 val location = locationResult.lastLocation
-                trySend(Location(location.latitude, location.longitude).right())
+                trySend(geoHashMapper.toGeoHash(location).right())
             }
         }
         fusedLocationClient.requestLocationUpdates(request, callback, Looper.getMainLooper())

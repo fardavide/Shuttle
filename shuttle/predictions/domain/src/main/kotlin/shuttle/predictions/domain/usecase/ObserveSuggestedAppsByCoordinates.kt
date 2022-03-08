@@ -14,7 +14,6 @@ interface ObserveSuggestedAppsByCoordinates {
 }
 
 internal class ObserveSuggestedAppsByCoordinatesImpl(
-    private val locationToLocationRange: LocationToLocationRange,
     private val statsRepository: StatsRepository,
     private val timeToTimeRange: TimeToTimeRange
 ) : ObserveSuggestedAppsByCoordinates {
@@ -22,13 +21,11 @@ internal class ObserveSuggestedAppsByCoordinatesImpl(
     override operator fun invoke(
         coordinates: Coordinates
     ): Flow<List<SuggestedAppModel>> {
-        val (startLocation, endLocation) = locationToLocationRange(coordinates.location, DefaultValuesSpans.Location)
         val (startTime, endTime) = with(timeToTimeRange(coordinates.time, DefaultValuesSpans.Time)) {
             start to endInclusive
         }
         return statsRepository.observeSuggestedApps(
-            startLocation = startLocation,
-            endLocation = endLocation,
+            location = coordinates.location,
             startTime = startTime,
             endTime = endTime
         )

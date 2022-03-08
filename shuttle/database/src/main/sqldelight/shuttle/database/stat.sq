@@ -1,6 +1,6 @@
 insertLocationStat:
-    INSERT OR REPLACE INTO locationStat(appId, latitude, longitude, count)
-    VALUES (?, ?, ?, ?);
+    INSERT OR REPLACE INTO locationStat(appId, geoHash, count)
+    VALUES (?, ?, ?);
 
 insertTimeStat:
     INSERT OR REPLACE INTO timeStat(appId, time, count)
@@ -17,7 +17,7 @@ deleteTimeStatsForApp:
 
 findLocationStat:
     SELECT * FROM locationStat
-    WHERE appId = ? AND latitude = ? AND longitude = ?;
+    WHERE appId = ? AND geoHash = ?;
 
 findTimeStat:
     SELECT * FROM timeStat
@@ -30,10 +30,7 @@ findAllStats:
             SUM(locationStat.count) AS countByLocation,
             0 AS countByTime
         FROM locationStat
-        WHERE
-            (locationStat.latitude >= :startLatitude AND locationStat.latitude <= :endLatitude)
-            AND
-            (locationStat.longitude >= :startLongitude AND locationStat.longitude <= :endLongitude)
+        WHERE locationStat.geoHash = :geoHash
         GROUP BY appId
     UNION ALL
         SELECT

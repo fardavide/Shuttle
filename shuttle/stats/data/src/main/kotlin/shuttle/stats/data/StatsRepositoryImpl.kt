@@ -8,12 +8,10 @@ import shuttle.apps.domain.AppsRepository
 import shuttle.apps.domain.model.AppId
 import shuttle.apps.domain.model.AppModel
 import shuttle.apps.domain.model.SuggestedAppModel
-import shuttle.coordinates.domain.model.Location
+import shuttle.coordinates.domain.model.GeoHash
 import shuttle.database.datasource.StatDataSource
 import shuttle.database.model.DatabaseAppId
-import shuttle.database.model.DatabaseLatitude
-import shuttle.database.model.DatabaseLocation
-import shuttle.database.model.DatabaseLongitude
+import shuttle.database.model.DatabaseGeoHash
 import shuttle.database.model.DatabaseTime
 import shuttle.stats.domain.StatsRepository
 
@@ -24,18 +22,14 @@ class StatsRepositoryImpl(
 ) : StatsRepository {
 
     override fun observeSuggestedApps(
-        startLocation: Location,
-        endLocation: Location,
+        location: GeoHash,
         startTime: Time,
         endTime: Time
     ): Flow<List<SuggestedAppModel>> =
         combine(
             appsRepository.observeNotBlacklistedApps(),
             statDataSource.findAllStats(
-                startLatitude = startLocation.databaseLatitude(),
-                endLatitude = endLocation.databaseLatitude(),
-                startLongitude = endLocation.databaseLongitude(),
-                endLongitude = endLocation.databaseLongitude(),
+                geoHash = location.toDatabaseGeoHash(),
                 startTime = startTime.toDatabaseTime(),
                 endTime = endTime.toDatabaseTime()
             ).map { sortAppStatsByCounts(it) }
@@ -52,10 +46,10 @@ class StatsRepositoryImpl(
             appsFromStats + allInstalledApp.map(::toNotSuggestedAppModel).shuffled()
         }
 
-    override suspend fun incrementCounter(appId: AppId, location: Location?, time: Time) {
+    override suspend fun incrementCounter(appId: AppId, location: GeoHash?, time: Time) {
         statDataSource.incrementCounter(
             appId = appId.toDatabaseAppId(),
-            location = location?.toDatabaseLocation(),
+            geoHash = location?.toDatabaseGeoHash(),
             time = time.toDatabaseTimeAdjusted()
         )
     }
@@ -78,8 +72,6 @@ private fun toNotSuggestedAppModel(app: AppModel) = SuggestedAppModel(
 )
 
 private fun AppId.toDatabaseAppId() = DatabaseAppId(value)
-private fun Location.databaseLatitude() = DatabaseLatitude(latitude)
-private fun Location.databaseLongitude() = DatabaseLongitude(longitude)
-private fun Location.toDatabaseLocation() = DatabaseLocation(DatabaseLatitude(latitude), DatabaseLongitude(longitude))
+private fun GeoHash.toDatabaseGeoHash() = DatabaseGeoHash(value)
 private fun Time.toDatabaseTime() = DatabaseTime(hour * 60 + minute)
 private fun Time.toDatabaseTimeAdjusted() = DatabaseTime(hourAdjusted * 60 + minute)

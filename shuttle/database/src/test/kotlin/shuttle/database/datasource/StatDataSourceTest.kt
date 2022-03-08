@@ -5,11 +5,9 @@ import io.mockk.verify
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
-import shuttle.database.testdata.TestData.ExactLatitude
-import shuttle.database.testdata.TestData.ExactLocation
-import shuttle.database.testdata.TestData.ExactLongitude
 import shuttle.database.testdata.TestData.ExactTime
 import shuttle.database.testdata.TestData.FirstAppId
+import shuttle.database.testdata.TestData.GeoHash
 import shuttle.database.testutil.DatabaseTest
 
 class StatDataSourceTest : DatabaseTest() {
@@ -27,10 +25,10 @@ class StatDataSourceTest : DatabaseTest() {
         val expectedCount = 1L
 
         // when
-        dataSource.incrementCounter(FirstAppId, ExactLocation, ExactTime)
+        dataSource.incrementCounter(FirstAppId, GeoHash, ExactTime)
 
         // then
-        verify { queries.insertLocationStat(FirstAppId, ExactLatitude, ExactLongitude, expectedCount) }
+        verify { queries.insertLocationStat(FirstAppId, GeoHash, expectedCount) }
     }
 
     @Test
@@ -39,10 +37,10 @@ class StatDataSourceTest : DatabaseTest() {
         val expectedCount = 2L
 
         // when
-        dataSource.incrementCounter(FirstAppId, ExactLocation, ExactTime)
-        dataSource.incrementCounter(FirstAppId, ExactLocation, ExactTime)
+        dataSource.incrementCounter(FirstAppId, GeoHash, ExactTime)
+        dataSource.incrementCounter(FirstAppId, GeoHash, ExactTime)
 
         // then
-        verify { queries.insertLocationStat(FirstAppId, ExactLatitude, ExactLongitude, expectedCount) }
+        verify { queries.insertLocationStat(FirstAppId, GeoHash, expectedCount) }
     }
 }

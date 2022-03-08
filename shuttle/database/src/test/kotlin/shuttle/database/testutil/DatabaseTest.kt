@@ -15,7 +15,6 @@ abstract class DatabaseTest {
         driver = driver,
         appAdapter = AppAdapter,
         appBlacklistSettingAdapter = AppBlacklistSettingAdapter,
-        lastLocationAdapter = LastLocationAdapter,
         locationStatAdapter = LocationStatAdapter,
         timeStatAdapter = TimeStatAdapter
     )

@@ -12,12 +12,11 @@ import shuttle.apps.domain.model.AppId
 import shuttle.apps.domain.model.AppModel
 import shuttle.apps.domain.model.AppName
 import shuttle.apps.domain.model.SuggestedAppModel
-import shuttle.coordinates.domain.model.Location
+import shuttle.coordinates.domain.model.GeoHash
 import shuttle.database.datasource.StatDataSource
 import shuttle.database.model.DatabaseAppId
 import shuttle.database.model.DatabaseAppStat
-import shuttle.database.model.DatabaseLatitude
-import shuttle.database.model.DatabaseLongitude
+import shuttle.database.model.DatabaseGeoHash
 import shuttle.database.model.DatabaseTime
 import shuttle.database.testdata.TestData.AllAppsIds
 import shuttle.database.testdata.TestData.FifthAppId
@@ -59,7 +58,7 @@ class StatsRepositoryImplTest {
         )
 
         // when
-        val result = repository.observeSuggestedApps(StartLocation, EndLocation, StartTime, EndTime)
+        val result = repository.observeSuggestedApps(GeoHash, StartTime, EndTime)
             .first()
             .sortedBy { it.id.value }
 
@@ -80,7 +79,7 @@ class StatsRepositoryImplTest {
         )
 
         // when
-        val result = repository.observeSuggestedApps(StartLocation, EndLocation, StartTime, EndTime)
+        val result = repository.observeSuggestedApps(GeoHash, StartTime, EndTime)
             .first()
             .sortedBy { it.id.value }
 
@@ -90,10 +89,7 @@ class StatsRepositoryImplTest {
 
     private fun everyStatDataSourceFindAllStats() = every {
         statDataSource.findAllStats(
-            DatabaseLatitude(any()),
-            DatabaseLatitude(any()),
-            DatabaseLongitude(any()),
-            DatabaseLongitude(any()),
+            DatabaseGeoHash(any()),
             DatabaseTime(any()),
             DatabaseTime(any())
         )
@@ -101,8 +97,7 @@ class StatsRepositoryImplTest {
 
     companion object TestData {
 
-        val StartLocation = Location(10.0, 15.0)
-        val EndLocation = Location(20.0, 25.0)
+        val GeoHash = GeoHash("1234")
         val StartTime = Time(hour = 4)
         val EndTime = Time(hour = 5)
 

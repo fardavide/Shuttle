@@ -5,7 +5,7 @@ import com.soywiz.klock.Time
 import shuttle.coordinates.domain.error.LocationNotAvailable
 
 data class CoordinatesResult(
-    val location: Either<LocationNotAvailable, Location>,
+    val location: Either<LocationNotAvailable, GeoHash>,
     val time: Time
 )
 

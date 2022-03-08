@@ -8,15 +8,13 @@ import shuttle.database.AppBlacklistSetting
 import shuttle.database.LocationStat
 import shuttle.database.TimeStat
 import shuttle.database.model.DatabaseAppId
-import shuttle.database.model.DatabaseLatitude
-import shuttle.database.model.DatabaseLongitude
+import shuttle.database.model.DatabaseGeoHash
 import shuttle.database.model.DatabaseTime
 
 internal val databaseAdaptersModule = module {
 
     factory<ColumnAdapter<DatabaseAppId, String>>(Qualifier.AppIdAdapter) { AppIdAdapter() }
-    factory<ColumnAdapter<DatabaseLatitude, Double>>(Qualifier.LatitudeAdapter) { LatitudeAdapter() }
-    factory<ColumnAdapter<DatabaseLongitude, Double>>(Qualifier.LongitudeAdapter) { LongitudeAdapter() }
+    factory<ColumnAdapter<DatabaseGeoHash, String>>(Qualifier.GeoHashAdapter) { GeoHashAdapter() }
     factory<ColumnAdapter<DatabaseTime, Long>>(Qualifier.TimeAdapter) { TimeAdapter() }
 
     factory { App.Adapter(idAdapter = get(Qualifier.AppIdAdapter)) }
@@ -24,8 +22,7 @@ internal val databaseAdaptersModule = module {
     factory {
         LocationStat.Adapter(
             appIdAdapter = get(Qualifier.AppIdAdapter),
-            latitudeAdapter = get(Qualifier.LatitudeAdapter),
-            longitudeAdapter = get(Qualifier.LongitudeAdapter)
+            geoHashAdapter = get(Qualifier.GeoHashAdapter)
         )
     }
     factory { TimeStat.Adapter(appIdAdapter = get(Qualifier.AppIdAdapter), timeAdapter = get(Qualifier.TimeAdapter)) }
@@ -34,7 +31,6 @@ internal val databaseAdaptersModule = module {
 private object Qualifier {
 
     val AppIdAdapter get() = named("AppIdAdapter")
-    val LatitudeAdapter get() = named("LatitudeAdapter")
-    val LongitudeAdapter get() = named("LongitudeAdapter")
+    val GeoHashAdapter get() = named("GeoHashAdapter")
     val TimeAdapter get() = named("TimeAdapter")
 }
