@@ -27,7 +27,6 @@ function main {
   git remote set-url origin "$REPOSITORY_URL"
 
   echo "=> set new origin $REPOSITORY_URL";
-  local version=$(git describe --tags)
 
   ## COMMIT
 
@@ -36,7 +35,7 @@ function main {
 
   git status;
 
-  git commit -m "[release] $version"
+  git commit -m "[release] CIRCLE_TAG"
   git push origin main;
 }
 

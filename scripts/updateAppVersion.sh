@@ -3,7 +3,7 @@ set -eo pipefail
 
 function main {
 
-  local version=$(git describe --tags)
+  local version=CIRCLE_TAG
   local versionParts=(${version//./ })
   local versionCode=$(($((versionParts[0] * 10000)) + $((versionParts[1] * 100)) + $((versionParts[2] * 1))))
 
