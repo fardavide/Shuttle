@@ -64,6 +64,9 @@ workflows:
       - test
       - release:
           context: Git
+          requires:
+            - build
+            - test
           filters:
             branches:
               ignore: /.*/
