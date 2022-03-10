@@ -222,7 +222,10 @@ private fun AppIconItem(
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.padding(vertical = widgetSettings.verticalSpacing, horizontal = widgetSettings.horizontalSpacing)
+        modifier = Modifier.padding(
+            vertical = widgetSettings.verticalSpacing,
+            horizontal = widgetSettings.horizontalSpacing
+        )
     ) {
 
         Image(

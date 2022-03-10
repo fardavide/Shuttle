@@ -14,7 +14,6 @@ import shuttle.permissions.viewmodel.PermissionsViewModel.Action
 import shuttle.permissions.viewmodel.PermissionsViewModel.State
 import shuttle.util.android.viewmodel.ShuttleViewModel
 
-
 @OptIn(ExperimentalPermissionsApi::class)
 internal class PermissionsViewModel(
     private val accessibilityServiceComponentName: ComponentName,

@@ -70,7 +70,7 @@ private fun SuggestionsRoute(navController: NavController) =
     SuggestedAppsListPage(onSettings = { navController.navigate(Settings) })
 
 @Composable
-private fun WidgetSettingsRoute(): Unit =
+private fun WidgetSettingsRoute() =
     WidgetSettingsPage()
 
 private val PopAll: NavOptions = NavOptions.Builder()
