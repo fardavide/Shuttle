@@ -407,6 +407,10 @@ formatting:
   StringTemplate:
     active: true
     autoCorrect: true
+  TrailingComma:
+    active: true
+    allowTrailingComma: true
+    allowTrailingCommaOnCallSite: false
 
 naming:
   active: true
@@ -591,6 +595,8 @@ potential-bugs:
     allowElseExpression: false
   NullableToStringCall:
     active: true
+  NullCheckOnMutableProperty:
+    active: false
   RedundantElseInWhen:
     active: true
   UnconditionalJumpStatementInLoop:
@@ -796,6 +802,8 @@ style:
   UnnecessaryApply:
     active: true
   UnnecessaryInheritance:
+    active: true
+  UnnecessaryInnerClass:
     active: true
   UnnecessaryLet:
     active: true
