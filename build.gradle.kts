@@ -1,4 +1,5 @@
 plugins {
+    id("shuttle.detekt")
     id("shuttle.modulesCatalog")
 }
 
@@ -8,9 +9,9 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath(libs.android.gradle)
-        classpath(libs.kotlin.gradle)
-        classpath(libs.sqlDelight.gradle)
+        classpath(libs.gradle.android)
+        classpath(libs.gradle.kotlin)
+        classpath(libs.gradle.sqlDelight)
     }
 }
 
