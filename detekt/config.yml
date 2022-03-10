@@ -160,6 +160,9 @@ coroutines:
   active: true
   GlobalCoroutineUsage:
     active: true
+  InjectDispatcher:
+    active: true
+    dispatcherNames: ['IO', 'Default', 'Unconfined']
   RedundantSuspendModifier:
     active: true
   SleepInsteadOfDelay:
@@ -453,6 +456,9 @@ naming:
   InvalidPackageDeclaration:
     active: false
     rootPackage: ''
+  LambdaParameterNaming:
+    active: false
+    # parameterPattern: '[a-z][A-Za-z0-9]*|_'
   MatchingDeclarationName:
     active: false
     # mustBeFirst: true
