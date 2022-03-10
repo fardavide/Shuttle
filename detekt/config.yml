@@ -407,6 +407,9 @@ formatting:
 
 naming:
   active: true
+  BooleanPropertyNaming:
+    active: true
+    allowedPattern: '^(is|has|are|should)'
   ClassNaming:
     active: true
     excludes: ['**/test/**', '**/**Test/**', '**/gradle/**', '**/buildSrc/**']
@@ -508,6 +511,8 @@ performance:
 
 potential-bugs:
   active: true
+  AvoidReferentialEquality:
+    active: true
   CastToNullableType:
     active: true
   Deprecation:
