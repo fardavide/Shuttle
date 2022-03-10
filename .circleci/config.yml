@@ -3,18 +3,6 @@ version: 2.1
 
 jobs:
 
-  quality:
-
-    docker:
-      - image: cimg/openjdk:15.0.1
-
-    steps:
-      - checkout
-      - run:
-          name: Detekt
-          command: ./gradlew detekt
-      # TODO Coverage
-
   build:
 
     docker:
@@ -64,7 +52,6 @@ jobs:
 workflows:
   main:
     jobs:
-      - quality
       - build
       - test
       - release:
