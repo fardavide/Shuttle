@@ -18,7 +18,7 @@ gradlePlugin {
 dependencies {
 
     implementation(project(":kotlin"))
-    implementation(libs.android.gradle)
-    implementation(libs.kotlin.gradle)
+    implementation(libs.gradle.android)
+    implementation(libs.gradle.kotlin)
 }
 

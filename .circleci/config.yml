@@ -10,7 +10,9 @@ jobs:
 
     steps:
       - checkout
-      # TODO Detekt
+      - run:
+          name: Detekt
+          command: ./gradlew detekt
       # TODO Coverage
 
   build:

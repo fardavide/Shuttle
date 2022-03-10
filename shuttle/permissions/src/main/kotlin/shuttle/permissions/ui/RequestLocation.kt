@@ -12,7 +12,11 @@ import shuttle.permissions.model.LocationPermissionsState.Pending.MissingBackgro
 import shuttle.permissions.resources.Strings
 
 @Composable
-internal fun RequestLocationPermission(state: LocationPermissionsState.Pending, onPermissionRequest: () -> Unit, onLocationPermissionsOrAppSettings: () -> Unit) {
+internal fun RequestLocationPermission(
+    state: LocationPermissionsState.Pending,
+    onPermissionRequest: () -> Unit,
+    onLocationPermissionsOrAppSettings: () -> Unit
+) {
     RequestPermissions(state) {
         when (state) {
             AllDenied, MissingBackground -> onLocationPermissionsOrAppSettings()

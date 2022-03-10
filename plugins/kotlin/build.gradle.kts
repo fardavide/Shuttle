@@ -17,6 +17,6 @@ gradlePlugin {
 
 dependencies {
 
-    implementation(libs.kotlin.gradle)
+    implementation(libs.gradle.kotlin)
 }
 

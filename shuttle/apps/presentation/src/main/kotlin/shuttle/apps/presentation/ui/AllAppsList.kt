@@ -24,6 +24,7 @@ import shuttle.apps.presentation.model.AppUiModel
 import shuttle.apps.presentation.resource.Strings
 import shuttle.apps.presentation.viewmodel.AllAppsListViewModel
 import shuttle.design.theme.Dimens
+import shuttle.design.ui.TextError
 
 @Composable
 fun AllAppsListPage() {
@@ -33,7 +34,7 @@ fun AllAppsListPage() {
     when (val state = s) {
         AllAppsListViewModel.State.Loading -> {}
         is AllAppsListViewModel.State.Data -> AllAppsList(state.apps)
-        is AllAppsListViewModel.State.Error -> TODO()
+        is AllAppsListViewModel.State.Error -> TextError(text = state.message)
     }
 }
 

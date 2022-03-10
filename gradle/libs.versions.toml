@@ -10,6 +10,7 @@ arrow = "1.0.1"
 coil = "1.4.0"
 compose = "1.2.0-alpha03"
 dataStore = "1.0.0"
+detekt = "1.20.0-RC1"
 geohash = "1.4.0"
 glance = "1.0.0-alpha03"
 hiltViewModel = "1.0.0-alpha03"
@@ -23,7 +24,6 @@ mockk = "1.12.2"
 material3 = "1.0.0-alpha06"
 navigation = "2.4.1"
 playServices = "19.0.1"
-protonDetekt = "1.0.0-alpha03"
 sqlDelight = "1.5.3"
 turbine = "0.7.0"
 
@@ -31,8 +31,12 @@ turbine = "0.7.0"
 kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 
 [libraries]
+gradle-android = { module = "com.android.tools.build:gradle", version.ref = "androidGradle" }
+gradle-detekt = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
+gradle-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+gradle-sqlDelight = { module = "com.squareup.sqldelight:gradle-plugin", version.ref = "sqlDelight" }
+
 accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanist" }
-android-gradle = { module = "com.android.tools.build:gradle", version.ref = "androidGradle" }
 androidx-activity = { module = "androidx.activity:activity-compose", version.ref = "androidxActivity" }
 androidx-dataStore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "dataStore" }
 androidx-glance = { module = "androidx.glance:glance-appwidget", version.ref = "glance" }
@@ -57,7 +61,6 @@ koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin" }
 koin-test-junit4 = { module = "io.insert-koin:koin-test-junit4", version.ref = "koin" }
 kotlin-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinCoroutines" }
 kotlin-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinCoroutines" }
-kotlin-gradle = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlinCoroutines" }
 kotlin-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinSerialization" }
 material3 = { module = "androidx.compose.material3:material3", version.ref = "material3" }
@@ -67,7 +70,6 @@ playServices-location = { module = "com.google.android.gms:play-services-locatio
 sqlDelight-android = { module = "com.squareup.sqldelight:android-driver", version.ref = "sqlDelight" }
 sqlDelight-coroutines = { module = "com.squareup.sqldelight:coroutines-extensions", version.ref = "sqlDelight" }
 sqlDelight-sqlite = { module = "com.squareup.sqldelight:sqlite-driver", version.ref = "sqlDelight" }
-sqlDelight-gradle = { module = "com.squareup.sqldelight:gradle-plugin", version.ref = "sqlDelight" }
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 
 [bundles]

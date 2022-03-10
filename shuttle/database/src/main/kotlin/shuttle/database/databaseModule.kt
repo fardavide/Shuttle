@@ -33,7 +33,12 @@ val databaseModule = module {
     factory { database.statQueries }
 
     factory<AppDataSource> { AppDataSourceImpl(appQueries = get(), ioDispatcher = Dispatchers.IO) }
-    factory<SettingDataSource> { SettingDataSourceImpl(appBlacklistSettingQueries = get(), ioDispatcher = Dispatchers.IO) }
+    factory<SettingDataSource> {
+        SettingDataSourceImpl(
+            appBlacklistSettingQueries = get(),
+            ioDispatcher = Dispatchers.IO
+        )
+    }
     factory<StatDataSource> { StatDataSourceImpl(statQueries = get(), ioDispatcher = Dispatchers.IO) }
 } + databaseAdaptersModule
 
