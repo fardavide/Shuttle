@@ -8,6 +8,8 @@ import org.koin.dsl.module
 import shuttle.database.adapter.databaseAdaptersModule
 import shuttle.database.datasource.AppDataSource
 import shuttle.database.datasource.AppDataSourceImpl
+import shuttle.database.datasource.LastLocationDataSource
+import shuttle.database.datasource.LastLocationDataSourceImpl
 import shuttle.database.datasource.SettingDataSource
 import shuttle.database.datasource.SettingDataSourceImpl
 import shuttle.database.datasource.StatDataSource
@@ -24,15 +26,23 @@ val databaseModule = module {
             appAdapter = get(),
             appBlacklistSettingAdapter = get(),
             locationStatAdapter = get(),
+            lastLocationAdapter = get(),
             timeStatAdapter = get()
         )
     }
 
     factory { database.appQueries }
     factory { database.appBlacklistSettingQueries }
+    factory { database.lastLocationQueries }
     factory { database.statQueries }
 
     factory<AppDataSource> { AppDataSourceImpl(appQueries = get(), ioDispatcher = Dispatchers.IO) }
+    factory<LastLocationDataSource> {
+        LastLocationDataSourceImpl(
+            lastLocationQueries = get(),
+            ioDispatcher = Dispatchers.IO
+        )
+    }
     factory<SettingDataSource> {
         SettingDataSourceImpl(
             appBlacklistSettingQueries = get(),

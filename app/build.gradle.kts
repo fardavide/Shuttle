@@ -31,7 +31,9 @@ dependencies {
     implementation(libs.androidx.ktx)
     implementation(libs.androidx.lifecycle.runtime)
     implementation(libs.androidx.lifecycle.viewModel)
+    implementation(libs.androidx.workManager)
     implementation(libs.koin.android)
+    implementation(libs.koin.android.workManager)
     implementation(libs.navigation.compose)
 
     debugImplementation(libs.compose.uiTooling)

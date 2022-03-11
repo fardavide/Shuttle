@@ -3,6 +3,7 @@ package studio.forface.shuttle
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import androidx.work.WorkManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -13,9 +14,10 @@ import shuttle.di.shuttleModule
 
 val appModule = module {
 
+    single { CoroutineScope(Job() + Dispatchers.Default) }
     factory<PackageManager> { get<Context>().packageManager }
     factory<() -> Unit>(StartAppId) { ::startMainActivity }
-    single { CoroutineScope(Job() + Dispatchers.Default) }
+    factory { WorkManager.getInstance(get()) }
 
 } + shuttleModule
 

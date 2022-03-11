@@ -1,0 +1,14 @@
+import shuttle.database.model.DatabaseGeoHash;
+
+CREATE TABLE IF NOT EXISTS lastLocation (
+    id INTEGER NOT NULL PRIMARY KEY,
+    geoHash TEXT AS DatabaseGeoHash NOT NULL
+);
+
+insert:
+    INSERT OR REPLACE INTO lastLocation(id, geoHash)
+    VALUES (0, ?);
+
+find:
+    SELECT *
+    FROM lastLocation;

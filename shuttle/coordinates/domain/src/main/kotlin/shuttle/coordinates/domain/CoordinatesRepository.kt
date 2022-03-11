@@ -6,4 +6,6 @@ import shuttle.coordinates.domain.model.CoordinatesResult
 interface CoordinatesRepository {
 
     fun observeCurrentCoordinates(): Flow<CoordinatesResult>
+
+    suspend fun refreshLocation()
 }
