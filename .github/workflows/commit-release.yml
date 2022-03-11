@@ -2,8 +2,6 @@ name: Commit new version
 
 on:
   push:
-    branches-ignore:
-      - '!main'
     tags:
       - '*.*.*'
 
