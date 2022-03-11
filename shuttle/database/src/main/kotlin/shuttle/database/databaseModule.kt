@@ -37,7 +37,12 @@ val databaseModule = module {
     factory { database.statQueries }
 
     factory<AppDataSource> { AppDataSourceImpl(appQueries = get(), ioDispatcher = Dispatchers.IO) }
-    factory<LastLocationDataSource> { LastLocationDataSourceImpl(lastLocationQueries = get(), ioDispatcher = Dispatchers.IO) }
+    factory<LastLocationDataSource> {
+        LastLocationDataSourceImpl(
+            lastLocationQueries = get(),
+            ioDispatcher = Dispatchers.IO
+        )
+    }
     factory<SettingDataSource> {
         SettingDataSourceImpl(
             appBlacklistSettingQueries = get(),
