@@ -1,42 +1,42 @@
 package shuttle.coordinates.data.datasource
 
 import android.annotation.SuppressLint
-import android.app.PendingIntent
-import android.content.Context
-import android.content.Intent
-import android.os.Build
-import arrow.core.Either
+import android.location.Location
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationRequest
-import shuttle.coordinates.data.receiver.LocationBroadcastReceiver
+import com.google.android.gms.tasks.CancellationTokenSource
+import com.google.android.gms.tasks.Task
+import com.soywiz.klock.DateTime
+import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
 import kotlin.time.Duration
 
 @SuppressLint("MissingPermission")
 internal class DeviceLocationDataSource(
-    private val context: Context,
     private val fusedLocationClient: FusedLocationProviderClient,
-    private val minRefreshInterval: Duration,
-    private val defaultRefreshInterval: Duration,
-    private val maxRefreshInterval: Duration
+    private val locationExpiration: Duration
 ) {
 
-    fun subscribe() {
-        val request = LocationRequest.create()
-            .setFastestInterval(minRefreshInterval.inWholeMilliseconds)
-            .setInterval(defaultRefreshInterval.inWholeMilliseconds)
-            .setMaxWaitTime(maxRefreshInterval.inWholeMilliseconds)
-            .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-        val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
+    suspend fun getLocation(): Location {
+        val lastLocation = fusedLocationClient.lastLocation.get()
+        return if (isExpired(lastLocation.time)) {
+            fusedLocationClient.getCurrentLocation(
+                LocationRequest.PRIORITY_HIGH_ACCURACY,
+                CancellationTokenSource().token
+            ).get()
         } else {
-            PendingIntent.FLAG_UPDATE_CURRENT
+            lastLocation
         }
-        val pendingIntent = PendingIntent.getBroadcast(
-            context,
-            0,
-            Intent(context, LocationBroadcastReceiver::class.java),
-            flags
-        )
-        fusedLocationClient.requestLocationUpdates(request, pendingIntent)
     }
+
+    private fun isExpired(locationTime: Long): Boolean =
+        DateTime.nowUnixLong() - locationTime > locationExpiration.inWholeMilliseconds
+
+    private suspend fun Task<Location>.get() = suspendCancellableCoroutine<Location> { continuation ->
+        addOnSuccessListener(continuation::resume)
+        addOnFailureListener(continuation::resumeWithException)
+        addOnCanceledListener(continuation::cancel)
+    }
+
 }
