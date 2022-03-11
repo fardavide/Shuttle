@@ -34,8 +34,8 @@ jobs:
         with:
           files: app/build/outputs/apk/debug/*
 
-      - name: Assemble Bundle Release
-        run: ./gradlew bundleRelease
+      - name: Assemble Bundle Debug
+        run: ./gradlew bundleDebug
 
       - name: Upload Android Release to Play Store - Internal track
         uses: r0adkll/upload-google-play@v1.0.15
