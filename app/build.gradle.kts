@@ -32,6 +32,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime)
     implementation(libs.androidx.lifecycle.viewModel)
     implementation(libs.koin.android)
+    implementation(libs.koin.android.workManager)
     implementation(libs.navigation.compose)
 
     debugImplementation(libs.compose.uiTooling)

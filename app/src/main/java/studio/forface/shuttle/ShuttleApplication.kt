@@ -3,6 +3,7 @@ package studio.forface.shuttle
 import android.app.Application
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
+import org.koin.androidx.workmanager.koin.workManagerFactory
 import org.koin.core.context.GlobalContext.startKoin
 
 class ShuttleApplication : Application() {
@@ -14,6 +15,7 @@ class ShuttleApplication : Application() {
         startKoin {
             androidLogger()
             androidContext(this@ShuttleApplication)
+            workManagerFactory()
             modules(appModule)
         }
     }
