@@ -44,4 +44,4 @@ jobs:
           serviceAccountJsonPlainText: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
           packageName: studio.forface.shuttle
           releaseFiles: app/build/outputs/bundle/release/*.aab
-          mappingFile: app/build/outputs/mapping/release/mapping.txt
+          # mappingFile: app/build/outputs/mapping/release/mapping.txt
