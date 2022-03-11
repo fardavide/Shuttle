@@ -22,3 +22,5 @@ jobs:
         if: success() || failure() 
         with:
           sarif_file: build/detekt/reports/merge.sarif
+
+  # TODO: Coverage

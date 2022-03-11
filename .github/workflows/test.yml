@@ -14,3 +14,6 @@ jobs:
 
       - name: Run Unit Tests
         run: ./gradlew test
+
+  # TODO: Instrumented Tests
+  # TODO: UI Tests

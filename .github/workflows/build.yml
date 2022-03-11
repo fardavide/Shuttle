@@ -25,3 +25,5 @@ jobs:
 
       - name: Build Debug version
         run: ./gradlew buildDebug
+
+  # TODO Build Release
