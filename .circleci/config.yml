@@ -3,19 +3,6 @@ version: 2.1
 
 jobs:
 
-  test:
-
-    docker:
-      - image: circleci/android:api-30
-
-    steps:
-      - checkout
-      - run:
-          name: Unit Tests
-          command: ./gradlew test
-      # TODO: Instrumented tests
-      # TODO: UI tests
-
   release:
 
     docker:
@@ -37,7 +24,6 @@ jobs:
 workflows:
   main:
     jobs:
-      - test
       - release:
           context: Git
           filters:

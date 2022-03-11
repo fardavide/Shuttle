@@ -1,0 +1,16 @@
+name: Test
+
+on: [push]
+
+jobs:
+
+  Unit-tests:
+
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Check out repository code
+        uses: actions/checkout@v2
+
+      - name: Run Unit Tests
+        run: ./gradlew test
