@@ -1,0 +1,27 @@
+name: Build
+
+on: [push]
+
+jobs:
+
+  Database:
+
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Check out repository code
+        uses: actions/checkout@v2
+
+      - name: Verify Database Migrations
+        run: ./gradlew verifyDebugDatabaseMigration
+
+  Debug:
+
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Check out repository code
+        uses: actions/checkout@v2
+
+      - name: Build Debug version
+        run: ./gradlew buildDebug

@@ -3,21 +3,6 @@ version: 2.1
 
 jobs:
 
-  build:
-
-    docker:
-      - image: circleci/android:api-30
-
-    steps:
-      - checkout
-      - run:
-          name: Verify Database Migrations
-          command: ./gradlew verifyDebugDatabaseMigration
-      - run:
-          name: Build debug
-          command: ./gradlew buildDebug
-      # TODO build release
-
   test:
 
     docker:
@@ -52,7 +37,6 @@ jobs:
 workflows:
   main:
     jobs:
-      - build
       - test
       - release:
           context: Git

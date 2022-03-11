@@ -1,14 +1,18 @@
-name: Checks
+name: Quality checks
+
 on: [push]
+
 jobs:
-  Explore-GitHub-Actions:
+
+  Detekt:
+
     runs-on: ubuntu-latest
     steps:
 
       - name: Check out repository code
         uses: actions/checkout@v2
 
-      - name: Detekt Code Analysis 
+      - name: Run Code Analysis
         run: ./gradlew detekt reportMerge --continue
 
       # Make sure we always run this upload task, 
