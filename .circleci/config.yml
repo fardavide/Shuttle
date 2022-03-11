@@ -20,14 +20,3 @@ jobs:
           name: Build release
           command: ./gradlew assembleDebug && scripts/createRelease.sh
       # TODO Fastlane to publish to Play Store
-
-workflows:
-  main:
-    jobs:
-      - release:
-          context: Git
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /\d{1,2}\.\d{1,2}\.\d{1,2}/
