@@ -3,8 +3,8 @@ set -eo pipefail
 
 function main {
 
-  local version=$CIRCLE_TAG
-  echo "=> Updating app version for tag: $version"
+  local version="$APP_VERSION"
+  echo "=> Updating app version to: $version"
 
   local versionParts=(${version//./ })
   local versionCode=$(($((versionParts[0] * 10000)) + $((versionParts[1] * 100)) + $((versionParts[2] * 1))))

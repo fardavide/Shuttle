@@ -4,15 +4,13 @@ set -eo pipefail
 function main {
 
   # Set Git credentials
-  if [ -z "$GIT_EMAIL" ] || [ -z "$GIT_USERNAME" ] || [ -z "$GITHUB_TOKEN" ]; then
-    echo "=> You must set the variables GIT_EMAIL, GIT_USERNAME and GITHUB_TOKEN to be able to commit and create release"
+  if [ -z "$GIT_EMAIL" ] || [ -z "$GIT_USERNAME" ]; then
+    echo "=> You must set the variables GIT_EMAIL and GIT_USERNAME to be able to push to repository"
     exit 1
   fi
 
   git config --global user.email "$GIT_EMAIL"
   git config --global user.name "$GIT_USERNAME"
-
-  git remote set-url origin "https://$GITHUB_TOKEN@github.com/$GIT_USERNAME/Shuttle.git/"
 
   ## COMMIT
   # Force releases.txt and build.gradle.kts
@@ -20,8 +18,8 @@ function main {
 
   git status;
 
-  git commit -m "[release] $CIRCLE_TAG"
-  git push origin main;
+  local version=$APP_VERSION
+  git commit -m "[release] $version"
 }
 
 main

@@ -3,46 +3,6 @@ version: 2.1
 
 jobs:
 
-  quality:
-
-    docker:
-      - image: cimg/openjdk:15.0.1
-
-    steps:
-      - checkout
-      - run:
-          name: Detekt
-          command: ./gradlew detekt
-      # TODO Coverage
-
-  build:
-
-    docker:
-      - image: circleci/android:api-30
-
-    steps:
-      - checkout
-      - run:
-          name: Verify Database Migrations
-          command: ./gradlew verifyDebugDatabaseMigration
-      - run:
-          name: Build debug
-          command: ./gradlew buildDebug
-      # TODO build release
-
-  test:
-
-    docker:
-      - image: circleci/android:api-30
-
-    steps:
-      - checkout
-      - run:
-          name: Unit Tests
-          command: ./gradlew test
-      # TODO: Instrumented tests
-      # TODO: UI tests
-
   release:
 
     docker:
@@ -60,17 +20,3 @@ jobs:
           name: Build release
           command: ./gradlew assembleDebug && scripts/createRelease.sh
       # TODO Fastlane to publish to Play Store
-
-workflows:
-  main:
-    jobs:
-      - quality
-      - build
-      - test
-      - release:
-          context: Git
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /\d{1,2}\.\d{1,2}\.\d{1,2}/
