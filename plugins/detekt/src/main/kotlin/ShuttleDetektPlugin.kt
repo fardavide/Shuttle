@@ -7,6 +7,7 @@ import org.gradle.kotlin.dsl.getValue
 import org.gradle.kotlin.dsl.provideDelegate
 import org.gradle.kotlin.dsl.registering
 import org.gradle.kotlin.dsl.withType
+import java.io.File
 
 abstract class ShuttleDetektPlugin : Plugin<Project> {
 
@@ -21,7 +22,7 @@ private fun Project.setupDetekt() {
     }
 
     val reportMerge by tasks.registering(io.gitlab.arturbosch.detekt.report.ReportMergeTask::class) {
-        output.set(rootProject.buildDir.resolve("detekt/reports/merge.sarif"))
+        output.set(File("${rootDir.path}/detekt/reports/merge.sarif"))
     }
 
     subprojects {

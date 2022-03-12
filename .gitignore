@@ -84,3 +84,6 @@ lint/tmp/
 
 # Mac
 .DS_Store
+
+# Detekt
+detekt/reports
