@@ -10,7 +10,7 @@ gradlePlugin {
             id = "shuttle.kotlin"
             displayName = "Shuttle Kotlin"
             description = "Configure Kotlin module"
-            implementationClass = "ShuttleKotlinPlugin"
+            implementationClass = "shuttle.plugins.kotlin.ShuttleKotlinPlugin"
         }
     }
 }

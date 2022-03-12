@@ -10,7 +10,7 @@ gradlePlugin {
             id = "shuttle.modulesCatalog"
             displayName = "Shuttle Modules"
             description = "Add DSL for reference Project modules"
-            implementationClass = "ShuttleModulesCatalogPlugin"
+            implementationClass = "shuttle.plugins.modules.catalog.ShuttleModulesCatalogPlugin"
         }
     }
 }

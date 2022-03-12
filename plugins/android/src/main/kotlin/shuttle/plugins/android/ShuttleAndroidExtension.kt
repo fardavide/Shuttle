@@ -1,8 +1,9 @@
+package shuttle.plugins.android
+
 import com.android.build.gradle.TestedExtension
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.create
-import org.gradle.kotlin.dsl.extra
 import javax.inject.Inject
 
 open class ShuttleAndroidExtension @Inject constructor(private val project: Project) {

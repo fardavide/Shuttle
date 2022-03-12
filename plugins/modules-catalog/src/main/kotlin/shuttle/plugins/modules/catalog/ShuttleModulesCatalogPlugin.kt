@@ -1,3 +1,5 @@
+package shuttle.plugins.modules.catalog
+
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 

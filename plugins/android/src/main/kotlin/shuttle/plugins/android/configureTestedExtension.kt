@@ -1,12 +1,11 @@
 @file:Suppress("UnstableApiUsage")
+package shuttle.plugins.android
 
-import com.android.build.gradle.AppExtension
 import com.android.build.gradle.TestedExtension
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import org.gradle.api.plugins.ExtensionAware
 import org.gradle.kotlin.dsl.configure
-import org.gradle.kotlin.dsl.extra
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
 
 fun Project.configureTestedExtension() {

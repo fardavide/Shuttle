@@ -10,7 +10,7 @@ gradlePlugin {
             id = "shuttle.detekt"
             displayName = "Shuttle Detekt"
             description = "Configure Detekt"
-            implementationClass = "ShuttleDetektPlugin"
+            implementationClass = "shuttle.plugins.detekt.ShuttleDetektPlugin"
         }
     }
 }

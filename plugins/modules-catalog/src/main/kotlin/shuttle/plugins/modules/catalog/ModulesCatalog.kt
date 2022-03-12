@@ -1,4 +1,5 @@
 @file:Suppress("unused")
+package shuttle.plugins.modules.catalog
 
 import org.gradle.api.Project
 

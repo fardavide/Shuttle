@@ -10,7 +10,7 @@ gradlePlugin {
             id = "shuttle.android"
             displayName = "Shuttle Android"
             description = "Configure Android module"
-            implementationClass = "ShuttleAndroidPlugin"
+            implementationClass = "shuttle.plugins.android.ShuttleAndroidPlugin"
         }
     }
 }

@@ -1,3 +1,5 @@
+package shuttle.plugins.detekt
+
 import io.gitlab.arturbosch.detekt.Detekt
 import io.gitlab.arturbosch.detekt.DetektPlugin
 import org.gradle.api.Plugin
