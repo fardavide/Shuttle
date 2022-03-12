@@ -1,0 +1,51 @@
+name: Deploy Beta release
+
+on:
+  push:
+    tags:
+      - '*.*.*'
+
+jobs:
+
+  Commit-Relase:
+    name: Commit Relase to main branch
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Check out repository code
+        uses: actions/checkout@v2
+
+      - name: Get tag
+        id: tag
+        uses: dawidd6/action-get-tag@v1
+
+      - name: Update app version in build.gradle.kts file
+        run: scripts/updateAppVersion.sh
+        env:
+          APP_VERSION: ${{ steps.tag.outputs.tag }}
+
+      - name: Assemble Debug Apk
+        run: ./gradlew assembleDebug
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: app/build/outputs/apk/debug/*
+
+      - name: Assemble Bundle Release
+        run: ./gradlew bundleRelease
+        env:
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEYSTORE_KEY_PASSWORD: ${{ secrets.KEYSTORE_KEY_PASSWORD }}
+          KEYSTORE_KEY_ALIAS: ${{ secrets.KEYSTORE_KEY_ALIAS }}
+
+      - name: Upload Android Release to Play Store - Internal track
+        uses: r0adkll/upload-google-play@v1.0.16
+        with:
+          track: beta
+          serviceAccountJsonPlainText: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
+          packageName: studio.forface.shuttle
+          releaseFiles: app/build/outputs/bundle/release/*.aab
+          mappingFile: app/build/outputs/mapping/release/mapping.txt
