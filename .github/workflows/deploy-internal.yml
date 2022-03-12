@@ -34,8 +34,8 @@ jobs:
         with:
           files: app/build/outputs/apk/debug/*
 
-      - name: Assemble Bundle Debug
-        run: ./gradlew bundleDebug
+      - name: Assemble Bundle Release
+        run: ./gradlew bundleRelease
 
       - name: Upload Android Release to Play Store - Internal track
         uses: r0adkll/upload-google-play@v1.0.15
@@ -43,5 +43,5 @@ jobs:
           track: internal
           serviceAccountJsonPlainText: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
           packageName: studio.forface.shuttle
-          releaseFiles: app/build/outputs/bundle/debug/*.aab
+          releaseFiles: app/build/outputs/release/debug/*.aab
           # mappingFile: app/build/outputs/mapping/release/mapping.txt
