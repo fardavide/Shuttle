@@ -10,6 +10,7 @@ import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runTest
 import shuttle.coordinates.data.datasource.TimeDataSource
+import shuttle.coordinates.data.mapper.GeoHashMapper
 import shuttle.coordinates.domain.error.LocationNotAvailable
 import shuttle.coordinates.domain.model.CoordinatesResult
 import shuttle.database.datasource.LastLocationDataSource
@@ -29,7 +30,9 @@ class CoordinatesRepositoryImplTest {
     private val repository = CoordinatesRepositoryImpl(
         appScope = appScope,
         deviceLocationDataSource = mockk(relaxUnitFun = true),
+        geoHashMapper = GeoHashMapper(),
         lastLocationDataSource = lastLocationDataSource,
+        refreshLocationWorkerScheduler = mockk(relaxUnitFun = true),
         timeDataSource = timeDataSource
     )
 
