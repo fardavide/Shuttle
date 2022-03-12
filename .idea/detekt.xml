@@ -2,7 +2,6 @@
 <project version="4">
   <component name="DetektProjectConfiguration">
     <enableDetekt>true</enableDetekt>
-    <enableAllRules>true</enableAllRules>
     <configPaths>$PROJECT_DIR$/detekt/config.yml</configPaths>
   </component>
 </project>

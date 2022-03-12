@@ -34,14 +34,19 @@ jobs:
         with:
           files: app/build/outputs/apk/debug/*
 
-      - name: Assemble Bundle Debug
-        run: ./gradlew bundleDebug
+      - name: Assemble Bundle Release
+        run: ./gradlew bundleRelease
+        env:
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEYSTORE_KEY_PASSWORD: ${{ secrets.KEYSTORE_KEY_PASSWORD }}
+          KEYSTORE_KEY_ALIAS: ${{ secrets.KEYSTORE_KEY_ALIAS }}
 
       - name: Upload Android Release to Play Store - Internal track
-        uses: r0adkll/upload-google-play@v1.0.15
+        uses: r0adkll/upload-google-play@v1.0.16
         with:
           track: internal
+          status: draft
           serviceAccountJsonPlainText: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
           packageName: studio.forface.shuttle
-          releaseFiles: app/build/outputs/bundle/debug/*.aab
+          releaseFiles: app/build/outputs/bundle/release/*.aab
           # mappingFile: app/build/outputs/mapping/release/mapping.txt
