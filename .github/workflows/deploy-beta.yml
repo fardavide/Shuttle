@@ -8,7 +8,7 @@ on:
 jobs:
 
   Commit-Relase:
-    name: Commit Relase to main branch
+    name: Deplay Beta to Play Store
 
     runs-on: ubuntu-latest
 
@@ -40,6 +40,18 @@ jobs:
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEYSTORE_KEY_PASSWORD: ${{ secrets.KEYSTORE_KEY_PASSWORD }}
           KEYSTORE_KEY_ALIAS: ${{ secrets.KEYSTORE_KEY_ALIAS }}
+
+      - name: Upload Relase bundle
+        uses: actions/upload-artifact@v3
+        with:
+          name: release-bundle
+          path: app/build/outputs/bundle/release/*.aab
+
+      - name: Upload R8 mapping
+        uses: actions/upload-artifact@v3
+        with:
+          name: r8-mapping
+          path: app/build/outputs/mapping/release/mapping.txt
 
       - name: Upload Android Release to Play Store - Internal track
         uses: r0adkll/upload-google-play@v1.0.16
