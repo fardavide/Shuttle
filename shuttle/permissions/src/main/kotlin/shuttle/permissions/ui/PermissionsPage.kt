@@ -4,6 +4,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
@@ -31,6 +34,17 @@ fun PermissionsPage(onAllPermissionsGranted: () -> Unit) {
     viewModel.submit(Action.UpdatePermissionsState(backgroundLocationPermissionsState))
     val s by viewModel.state.collectAsStateLifecycleAware()
 
+    var shouldShowAccessibilityServiceDialog by remember { mutableStateOf(false) }
+    if (shouldShowAccessibilityServiceDialog) {
+        AccessibilityServiceDialog(
+            onConfirm = {
+                openAccessibilitySettings(context)
+                shouldShowAccessibilityServiceDialog = false
+            },
+            onDismiss = { shouldShowAccessibilityServiceDialog = false }
+        )
+    }
+
     @Suppress("UnnecessaryVariable")
     when (val state = s) {
         State.Loading -> LoadingSpinner()
@@ -41,7 +55,7 @@ fun PermissionsPage(onAllPermissionsGranted: () -> Unit) {
             permissions = state.permissionItemsUiModel,
             onRequestLocation = foregroundLocationPermissionsState::launchMultiplePermissionRequest,
             onRequestBackgroundLocation = { openLocationPermissionsOrAppSettings(context) },
-            onRequestAccessibilityService = { openAccessibilitySettings(context) }
+            onRequestAccessibilityService = { shouldShowAccessibilityServiceDialog = true }
         )
     }
 }

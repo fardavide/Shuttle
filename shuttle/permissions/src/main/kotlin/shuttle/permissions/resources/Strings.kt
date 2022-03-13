@@ -6,11 +6,19 @@ internal object Strings {
 
         const val Name = "Accessibility service"
         const val Description = "Shuttle needs access to the Accessibility Service, in order to improve the " +
-            "suggestions.\nBy enabling it you consent Shuttle to retrieve your current open app and store it to the " +
+            "suggestions.\nBy enabling it you consent Shuttle to detect app launching and store it to the " +
             "local database"
         const val Action = "Enable accessibility service"
         const val PermissionGrantedDescription = "Accessibility service is enabled"
         const val PermissionNotGrantedDescription = "Accessibility service is not enabled"
+
+        object Dialog {
+
+            const val Disclosure = "$Description\n\nIn the accessibility management screen (or in \"Installed " +
+                "services\" in some devices) find 'Shuttle' and enable it. Shortcut is not necessary"
+            const val ConfirmAction = "Confirm"
+            const val CancelAction = "Cancel"
+        }
     }
 
     object Location {
