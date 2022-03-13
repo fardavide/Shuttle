@@ -8,7 +8,6 @@ import androidx.lifecycle.viewModelScope
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.MultiplePermissionsState
 import kotlinx.coroutines.launch
-import shuttle.permissions.mapper.LocationPermissionsStateMapper
 import shuttle.permissions.mapper.PermissionItemsUiModelMapper
 import shuttle.permissions.model.PermissionItemsUiModel
 import shuttle.permissions.viewmodel.PermissionsViewModel.Action
@@ -19,7 +18,6 @@ import shuttle.util.android.viewmodel.ShuttleViewModel
 internal class PermissionsViewModel(
     private val accessibilityServiceComponentName: ComponentName,
     private val contentResolver: ContentResolver,
-    private val locationPermissionsStateMapper: LocationPermissionsStateMapper,
     private val permissionItemsUiModelMapper: PermissionItemsUiModelMapper,
 ) : ShuttleViewModel<Action, State>(initialState = State.Loading) {
 
@@ -33,10 +31,8 @@ internal class PermissionsViewModel(
     }
 
     private fun onPermissionsStateUpdate(permissionsState: MultiplePermissionsState): State {
-        val locationPermissionsState = locationPermissionsStateMapper.toLocationPermissionState(permissionsState)
-        isAccessibilityServiceEnabled()
         val uiModel = permissionItemsUiModelMapper.toUiModel(
-            locationPermissionsState = locationPermissionsState,
+            permissionsState = permissionsState,
             isAccessibilityServiceEnabled = isAccessibilityServiceEnabled()
         )
         return if (uiModel.areAllGranted()) State.AllGranted
