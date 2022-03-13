@@ -8,8 +8,8 @@ import androidx.lifecycle.viewModelScope
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.MultiplePermissionsState
 import kotlinx.coroutines.launch
-import shuttle.permissions.mapper.LocationPermissionsStateMapper
-import shuttle.permissions.model.LocationPermissionsState
+import shuttle.permissions.mapper.PermissionItemsUiModelMapper
+import shuttle.permissions.model.PermissionItemsUiModel
 import shuttle.permissions.viewmodel.PermissionsViewModel.Action
 import shuttle.permissions.viewmodel.PermissionsViewModel.State
 import shuttle.util.android.viewmodel.ShuttleViewModel
@@ -18,8 +18,8 @@ import shuttle.util.android.viewmodel.ShuttleViewModel
 internal class PermissionsViewModel(
     private val accessibilityServiceComponentName: ComponentName,
     private val contentResolver: ContentResolver,
-    private val mapper: LocationPermissionsStateMapper
-) : ShuttleViewModel<Action, State>(initialState = State.Ide) {
+    private val permissionItemsUiModelMapper: PermissionItemsUiModelMapper,
+) : ShuttleViewModel<Action, State>(initialState = State.Loading) {
 
     override fun submit(action: Action) {
         viewModelScope.launch {
@@ -31,14 +31,12 @@ internal class PermissionsViewModel(
     }
 
     private fun onPermissionsStateUpdate(permissionsState: MultiplePermissionsState): State {
-        val locationPermissionsState = mapper.toLocationPermissionState(permissionsState)
-        val isLocationGranted = locationPermissionsState == LocationPermissionsState.AllGranted
-        val isAccessibilityGranted = isAccessibilityServiceEnabled()
-        return when {
-            isLocationGranted && isAccessibilityGranted -> State.AllGranted
-            isLocationGranted && isAccessibilityGranted.not() -> State.AccessibilityPending
-            else -> State.LocationPending(locationPermissionsState as LocationPermissionsState.Pending)
-        }
+        val uiModel = permissionItemsUiModelMapper.toUiModel(
+            permissionsState = permissionsState,
+            isAccessibilityServiceEnabled = isAccessibilityServiceEnabled()
+        )
+        return if (uiModel.areAllGranted()) State.AllGranted
+        else State.Pending(uiModel)
     }
 
     private fun isAccessibilityServiceEnabled(): Boolean {
@@ -62,12 +60,10 @@ internal class PermissionsViewModel(
 
     sealed interface State {
 
-        object Ide : State
+        object Loading : State
 
         object AllGranted : State
 
-        object AccessibilityPending : State
-
-        data class LocationPending(val locationState: LocationPermissionsState.Pending) : State
+        data class Pending(val permissionItemsUiModel: PermissionItemsUiModel) : State
     }
 }
