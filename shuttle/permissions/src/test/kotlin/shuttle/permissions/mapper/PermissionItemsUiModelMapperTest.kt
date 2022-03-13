@@ -2,10 +2,15 @@ package shuttle.permissions.mapper
 
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.MultiplePermissionsState
+import com.google.accompanist.permissions.PermissionState
+import com.google.accompanist.permissions.PermissionStatus
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
+import shuttle.permissions.model.BackgroundLocation
+import shuttle.permissions.model.CoarseLocation
+import shuttle.permissions.model.FineLocation
 import shuttle.permissions.model.PermissionItem
 import shuttle.permissions.model.PermissionItemsUiModel
 import shuttle.util.android.IsAndroidQ
@@ -60,7 +65,8 @@ internal class PermissionItemsUiModelMapperTest(
                         hasCoarseLocation = true,
                         hasFineLocation = true,
                         hasBackgroundLocation = true
-                    ), isAccessibilityServiceEnabled = true
+                    ),
+                    isAccessibilityServiceEnabled = true
                 ),
                 expected = PermissionItemsUiModel(
                     PermissionItem.Location.Coarse.Granted,
@@ -77,7 +83,8 @@ internal class PermissionItemsUiModelMapperTest(
                         hasCoarseLocation = false,
                         hasFineLocation = false,
                         hasBackgroundLocation = false
-                    ), isAccessibilityServiceEnabled = false
+                    ),
+                    isAccessibilityServiceEnabled = false
                 ),
                 expected = PermissionItemsUiModel(
                     PermissionItem.Location.Coarse.NotGranted,
@@ -88,13 +95,14 @@ internal class PermissionItemsUiModelMapperTest(
             ),
 
             Parameters(
-                testName = "Only accessibility not granted",
+                testName = "Only all location granted",
                 input = Input(
                     buildMultiplePermissionsState(
                         hasCoarseLocation = true,
                         hasFineLocation = true,
                         hasBackgroundLocation = true
-                    ), isAccessibilityServiceEnabled = false
+                    ),
+                    isAccessibilityServiceEnabled = false
                 ),
                 expected = PermissionItemsUiModel(
                     PermissionItem.Location.Coarse.Granted,
@@ -104,12 +112,81 @@ internal class PermissionItemsUiModelMapperTest(
                 )
             ),
 
+            Parameters(
+                testName = "Only accessibility granted",
+                input = Input(
+                    buildMultiplePermissionsState(
+                        hasCoarseLocation = false,
+                        hasFineLocation = false,
+                        hasBackgroundLocation = false
+                    ),
+                    isAccessibilityServiceEnabled = true
+                ),
+                expected = PermissionItemsUiModel(
+                    PermissionItem.Location.Coarse.NotGranted,
+                    PermissionItem.Location.Fine.NotGranted,
+                    PermissionItem.Location.Background.NotGranted,
+                    PermissionItem.Accessibility.Granted,
+                )
+            ),
+
+            Parameters(
+                testName = "Only coarse and fine location granted, on Android Q",
+                input = Input(
+                    buildMultiplePermissionsState(
+                        hasCoarseLocation = true,
+                        hasFineLocation = true,
+                        hasBackgroundLocation = false
+                    ),
+                    isAccessibilityServiceEnabled = false,
+                    isAndroidQ = true
+                ),
+                expected = PermissionItemsUiModel(
+                    PermissionItem.Location.Coarse.Granted,
+                    PermissionItem.Location.Fine.Granted,
+                    PermissionItem.Location.Background.NotGranted,
+                    PermissionItem.Accessibility.NotGranted,
+                )
+            ),
+
+            Parameters(
+                testName = "Only coarse and fine location granted, before Android Q",
+                input = Input(
+                    buildMultiplePermissionsState(
+                        hasCoarseLocation = true,
+                        hasFineLocation = true,
+                        hasBackgroundLocation = false
+                    ),
+                    isAccessibilityServiceEnabled = false,
+                    isAndroidQ = false
+                ),
+                expected = PermissionItemsUiModel(
+                    PermissionItem.Location.Coarse.Granted,
+                    PermissionItem.Location.Fine.Granted,
+                    PermissionItem.Location.Background.Granted,
+                    PermissionItem.Accessibility.NotGranted,
+                )
+            )
+
         ).map { arrayOf(it) }
 
         private fun buildMultiplePermissionsState(
             hasCoarseLocation: Boolean,
             hasFineLocation: Boolean,
             hasBackgroundLocation: Boolean
-        ): MultiplePermissionsState = mockk()
+        ): MultiplePermissionsState = mockk {
+            every { permissions } returns listOf(
+                buildPermissionState(CoarseLocation, hasCoarseLocation),
+                buildPermissionState(FineLocation, hasFineLocation),
+                buildPermissionState(BackgroundLocation, hasBackgroundLocation),
+            )
+        }
+
+        private fun buildPermissionState(permission: String, isGranted: Boolean): PermissionState =
+            mockk {
+                every { this@mockk.permission } returns permission
+                every { this@mockk.status } returns
+                    if (isGranted) PermissionStatus.Granted else PermissionStatus.Denied(shouldShowRationale = true)
+            }
     }
 }
