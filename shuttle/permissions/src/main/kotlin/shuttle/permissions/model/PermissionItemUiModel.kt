@@ -1,6 +1,6 @@
 package shuttle.permissions.model
 
-sealed interface PermissionItemUiModel {
+internal sealed interface PermissionItemUiModel {
 
     val name: String
 

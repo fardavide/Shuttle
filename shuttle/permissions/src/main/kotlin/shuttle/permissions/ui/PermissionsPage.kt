@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -23,6 +24,7 @@ import org.koin.androidx.compose.viewModel
 import shuttle.design.theme.Dimens
 import shuttle.design.ui.LoadingSpinner
 import shuttle.design.util.collectAsStateLifecycleAware
+import shuttle.permissions.model.PermissionItemsUiModel
 import shuttle.permissions.model.backgroundPermissionsList
 import shuttle.permissions.model.foregroundPermissionsList
 import shuttle.permissions.util.openAccessibilitySettings
@@ -45,18 +47,51 @@ fun PermissionsPage(onAllPermissionsGranted: () -> Unit) {
 
     @Suppress("UnnecessaryVariable")
     when (val state = s) {
+        State.Loading -> LoadingSpinner()
         State.AllGranted -> LaunchedEffect(state) {
             onAllPermissionsGranted()
         }
-        is State.LocationPending -> RequestLocationPermission(
-            state = state.locationState,
-            onPermissionRequest = { foregroundLocationPermissionsState.launchMultiplePermissionRequest() },
-            onLocationPermissionsOrAppSettings = { openLocationPermissionsOrAppSettings(context) }
+        is State.Pending -> PermissionsList(
+            permissions = state.permissionItemsUiModel,
+            onRequestLocation = foregroundLocationPermissionsState::launchMultiplePermissionRequest,
+            onRequestBackgroundLocation = { openLocationPermissionsOrAppSettings(context) },
+            onRequestAccessibilityService = { openAccessibilitySettings(context) }
         )
-        State.AccessibilityPending -> RequestAccessibility {
-            openAccessibilitySettings(context)
+    }
+}
+
+@Composable
+private fun PermissionsList(
+    permissions: PermissionItemsUiModel,
+    onRequestLocation: () -> Unit,
+    onRequestBackgroundLocation: () -> Unit,
+    onRequestAccessibilityService: () -> Unit
+) {
+    LazyColumn {
+        item {
+            PermissionItem(
+                permissionItem = permissions.coarseLocation,
+                onRequestPermission = onRequestLocation
+            )
         }
-        State.Ide -> LoadingSpinner()
+        item {
+            PermissionItem(
+                permissionItem = permissions.fineLocation,
+                onRequestPermission = onRequestLocation
+            )
+        }
+        item {
+            PermissionItem(
+                permissionItem = permissions.backgroundLocation,
+                onRequestPermission = onRequestBackgroundLocation
+            )
+        }
+        item {
+            PermissionItem(
+                permissionItem = permissions.accessibilityService,
+                onRequestPermission = onRequestAccessibilityService
+            )
+        }
     }
 }
 
