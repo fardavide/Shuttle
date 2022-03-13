@@ -8,7 +8,7 @@ on:
 jobs:
 
   Commit-Relase:
-    name: Commit Relase to main branch
+    name: Deplay Beta to Play Store
 
     runs-on: ubuntu-latest
 
