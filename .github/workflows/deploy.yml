@@ -34,6 +34,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           name: ${{ github.run_number }}
+          tag_name: ${{ github.run_nunner }}
           files: |
             app/build/outputs/apk/debug/*
             app/build/outputs/bundle/release/*.aab
