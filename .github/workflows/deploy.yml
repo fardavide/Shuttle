@@ -30,15 +30,15 @@ jobs:
           KEYSTORE_KEY_PASSWORD: ${{ secrets.KEYSTORE_KEY_PASSWORD }}
           KEYSTORE_KEY_ALIAS: ${{ secrets.KEYSTORE_KEY_ALIAS }}
 
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v1
-        with:
-          name: ${{ github.run_number }}
-          tag_name: ${{ github.run_nunner }}
-          files: |
-            app/build/outputs/apk/debug/*
-            app/build/outputs/bundle/release/*.aab
-            app/build/outputs/mapping/release/mapping.txt
+      # - name: Create GitHub Release
+      #   uses: softprops/action-gh-release@v1
+      #   with:
+      #     name: ${{ github.run_number }}
+      #     tag_name: ${{ github.run_nunner }}
+      #     files: |
+      #       app/build/outputs/apk/debug/*
+      #       app/build/outputs/bundle/release/*.aab
+      #       app/build/outputs/mapping/release/mapping.txt
 
       - name: Upload Relase archive
         uses: actions/upload-artifact@v3
