@@ -3,11 +3,12 @@ plugins {
 }
 
 shuttleAndroid {
+    val version = System.getenv()["APP_VERSION"] ?: "1"
     useCompose()
     androidApp(
         id = "studio.forface.shuttle",
-        versionCode = 104,
-        versionName = "0.1.4"
+        versionCode = version.toInt(),
+        versionName = version
     )
 }
 
