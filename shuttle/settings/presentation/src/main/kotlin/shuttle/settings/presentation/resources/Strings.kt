@@ -1,29 +1,63 @@
 package shuttle.settings.presentation.resources
 
-internal object Strings {
+import shuttle.design.StringResource
+import shuttle.design.SupportedLanguage.English
+import shuttle.design.SupportedLanguage.Italian
+import shuttle.design.getLanguage
+import shuttle.settings.presentation.resources.en.EnStrings
+import shuttle.settings.presentation.resources.it.ItStrings
 
-    const val AppIconContentDescription = "Application icon"
-    const val SettingsTitle = "Settings"
+internal interface Strings {
 
-    object Blacklist {
+    val AppIconContentDescription : String
+    val SettingsTitle: String
 
-        const val Title = "Blacklist"
-        const val Description = "Selected apps won't be proposed as suggestions"
+    interface Blacklist {
+
+        val Title: String
+        val Description: String
     }
 
-    object WidgetSettings {
+    interface WidgetSettings {
 
-        const val Title = "Widget settings"
-        const val Description = "Customise the appearance of the Widget"
+        val Title: String
+        val Description: String
 
-        const val RowsCount = "Rows count"
-        const val ColumnsCount = "Column count"
-        const val IconsSize = "Icons size"
-        const val VerticalSpacing = "Vertical spacing between icons"
-        const val HorizontalSpacing = "Horizontal spacing between icons"
-        const val TextSize = "Text size"
+        val RowsCount: String
+        val ColumnsCount: String
+        val IconsSize: String
+        val VerticalSpacing: String
+        val HorizontalSpacing: String
+        val TextSize: String
 
-        const val DpUnit = "Dp"
-        const val SpUnit = "Sp"
+        val DpUnit: String
+        val SpUnit: String
     }
+}
+
+@JvmName("getFromStrings")
+internal fun StringResource<Strings>.get(): String {
+    val receiver =  when (getLanguage()) {
+        English -> ItStrings
+        Italian -> ItStrings
+    }
+    return get(receiver)
+}
+
+@JvmName("getFromStringsBlacklist")
+internal fun StringResource<Strings.Blacklist>.get(): String {
+    val receiver =  when (getLanguage()) {
+        English -> ItStrings.Blacklist
+        Italian -> ItStrings.Blacklist
+    }
+    return get(receiver)
+}
+
+@JvmName("getFromStringsWidgetSettings")
+internal fun StringResource<Strings.WidgetSettings>.get(): String {
+    val receiver =  when (getLanguage()) {
+        English -> EnStrings.WidgetSettings
+        Italian -> ItStrings.WidgetSettings
+    }
+    return get(receiver)
 }

@@ -40,6 +40,7 @@ import shuttle.settings.domain.model.WidgetSettings
 import shuttle.settings.presentation.model.WidgetPreviewAppUiModel
 import shuttle.settings.presentation.model.WidgetSettingsUiModel
 import shuttle.settings.presentation.resources.Strings
+import shuttle.settings.presentation.resources.get
 import shuttle.settings.presentation.viewmodel.WidgetSettingsViewModel
 import shuttle.settings.presentation.viewmodel.WidgetSettingsViewModel.Action
 import shuttle.settings.presentation.viewmodel.WidgetSettingsViewModel.State
@@ -47,7 +48,7 @@ import shuttle.settings.presentation.viewmodel.WidgetSettingsViewModel.State
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun WidgetSettingsPage() {
-    Scaffold(topBar = { SmallTopAppBar(title = { Text(Strings.WidgetSettings.Title) }) }) {
+    Scaffold(topBar = { SmallTopAppBar(title = { Text(Strings.WidgetSettings::Title.get()) }) }) {
         WidgetSettingsContent()
     }
 }
@@ -140,42 +141,42 @@ private fun SettingItems(
 ) {
     Column {
         SliderItem(
-            title = Strings.WidgetSettings.RowsCount,
+            title = Strings.WidgetSettings::RowsCount.get(),
             valueRange = 1..5,
             stepsSize = 1,
             value = settings.rowsCount,
             onValueChange = onRowsUpdated
         )
         SliderItem(
-            title = Strings.WidgetSettings.ColumnsCount,
+            title = Strings.WidgetSettings::ColumnsCount.get(),
             valueRange = 3..10,
             stepsSize = 1,
             value = settings.columnsCount,
             onValueChange = onColumnsUpdated
         )
         SliderItem(
-            title = Strings.WidgetSettings.IconsSize,
+            title = Strings.WidgetSettings::IconsSize.get(),
             valueRange = 24..56,
             stepsSize = 1,
             value = settings.iconSize.value.toInt(),
             onValueChange = onIconSizeUpdated
         )
         SliderItem(
-            title = Strings.WidgetSettings.HorizontalSpacing,
+            title = Strings.WidgetSettings::HorizontalSpacing.get(),
             valueRange = 2..16,
             stepsSize = 1,
             value = settings.horizontalSpacing.value.toInt(),
             onValueChange = onHorizontalSpacingUpdated
         )
         SliderItem(
-            title = Strings.WidgetSettings.VerticalSpacing,
+            title = Strings.WidgetSettings::VerticalSpacing.get(),
             valueRange = 2..16,
             stepsSize = 1,
             value = settings.verticalSpacing.value.toInt(),
             onValueChange = onVerticalSpacingUpdated
         )
         SliderItem(
-            title = Strings.WidgetSettings.TextSize,
+            title = Strings.WidgetSettings::TextSize.get(),
             valueRange = 6..16,
             stepsSize = 1,
             value = settings.textSize.value.toInt(),
@@ -230,7 +231,7 @@ private fun AppIconItem(
 
         Image(
             painter = rememberImagePainter(data = app.icon),
-            contentDescription = Strings.AppIconContentDescription,
+            contentDescription = Strings::AppIconContentDescription.get(),
             modifier = Modifier.size(widgetSettings.iconSize)
         )
         Spacer(modifier = Modifier.height(widgetSettings.verticalSpacing))

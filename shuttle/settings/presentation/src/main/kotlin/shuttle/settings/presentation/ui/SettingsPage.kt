@@ -16,6 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import shuttle.design.theme.Dimens
 import shuttle.settings.presentation.model.SettingItemUiModel
 import shuttle.settings.presentation.resources.Strings
+import shuttle.settings.presentation.resources.get
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
@@ -23,7 +24,7 @@ fun SettingsPage(
     toBlacklist: () -> Unit,
     toWidgetSettings: () -> Unit
 ) {
-    Scaffold(topBar = { SmallTopAppBar(title = { Text(Strings.SettingsTitle) }) }) {
+    Scaffold(topBar = { SmallTopAppBar(title = { Text(Strings::SettingsTitle.get()) }) }) {
         SettingsContent(toBlacklist = toBlacklist, toWidgetSettings = toWidgetSettings)
     }
 }
@@ -42,8 +43,8 @@ private fun SettingsContent(
 @Composable
 private fun BlacklistItem(toBlacklist: () -> Unit) {
     val uiModel = SettingItemUiModel(
-        title = Strings.Blacklist.Title,
-        description = Strings.Blacklist.Description
+        title = Strings.Blacklist::Title.get(),
+        description = Strings.Blacklist::Description.get()
     )
     SettingsItem(uiModel, toBlacklist)
 }
@@ -51,8 +52,8 @@ private fun BlacklistItem(toBlacklist: () -> Unit) {
 @Composable
 private fun WidgetSettingsItem(toWidgetSettings: () -> Unit) {
     val uiModel = SettingItemUiModel(
-        title = Strings.WidgetSettings.Title,
-        description = Strings.WidgetSettings.Description
+        title = Strings.WidgetSettings::Title.get(),
+        description = Strings.WidgetSettings::Description.get()
     )
     SettingsItem(uiModel, toWidgetSettings)
 }
@@ -74,8 +75,8 @@ private fun SettingsItem(item: SettingItemUiModel, onClick: () -> Unit) {
 fun SettingsItemPreview() {
     MaterialTheme {
         val uiModel = SettingItemUiModel(
-            title = Strings.Blacklist.Title,
-            description = Strings.Blacklist.Description
+            title = Strings.Blacklist::Title.get(),
+            description = Strings.Blacklist::Description.get()
         )
         SettingsItem(uiModel, onClick = {})
     }

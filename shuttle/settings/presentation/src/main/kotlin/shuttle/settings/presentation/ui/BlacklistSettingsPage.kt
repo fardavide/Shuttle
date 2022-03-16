@@ -32,6 +32,7 @@ import shuttle.design.ui.TextError
 import shuttle.design.util.collectAsStateLifecycleAware
 import shuttle.settings.presentation.model.AppBlacklistSettingUiModel
 import shuttle.settings.presentation.resources.Strings
+import shuttle.settings.presentation.resources.get
 import shuttle.settings.presentation.viewmodel.BlacklistSettingsViewModel
 import shuttle.settings.presentation.viewmodel.BlacklistSettingsViewModel.Action
 import shuttle.settings.presentation.viewmodel.BlacklistSettingsViewModel.State
@@ -39,7 +40,7 @@ import shuttle.settings.presentation.viewmodel.BlacklistSettingsViewModel.State
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun BlacklistSettingsPage() {
-    Scaffold(topBar = { SmallTopAppBar(title = { Text(Strings.Blacklist.Title) }) }) {
+    Scaffold(topBar = { SmallTopAppBar(title = { Text(Strings.Blacklist::Title.get()) }) }) {
         BlacklistSettingsContent()
     }
 }
@@ -94,7 +95,7 @@ internal fun AppListItem(
     ) {
         Image(
             painter = rememberImagePainter(data = app.icon),
-            contentDescription = Strings.AppIconContentDescription,
+            contentDescription = Strings::AppIconContentDescription.get(),
             modifier = Modifier.size(Dimens.Icon.Medium)
         )
         Spacer(modifier = Modifier.width(Dimens.Margin.Medium))
