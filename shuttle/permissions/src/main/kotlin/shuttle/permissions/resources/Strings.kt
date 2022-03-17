@@ -1,57 +1,117 @@
 package shuttle.permissions.resources
 
-internal object Strings {
+import shuttle.design.StringResource
+import shuttle.design.SupportedLanguage
+import shuttle.design.getLanguage
+import shuttle.permissions.resources.en.EnStrings
 
-    object Accessibility {
+internal interface Strings {
 
-        const val Name = "Accessibility service"
-        const val Description = "Shuttle needs access to the Accessibility Service, in order to improve the " +
-            "suggestions.\nBy enabling it you consent Shuttle to detect app launching and store it to the " +
-            "local database"
-        const val Action = "Enable accessibility service"
-        const val PermissionGrantedDescription = "Accessibility service is enabled"
-        const val PermissionNotGrantedDescription = "Accessibility service is not enabled"
+    interface Accessibility {
 
-        object Dialog {
+        val Name: String
+        val Description: String
+        val Action: String
+        val PermissionGrantedDescription: String
+        val PermissionNotGrantedDescription: String
 
-            const val Disclosure = "$Description\n\nIn the accessibility management screen (or in \"Installed " +
-                "services\" in some devices) find 'Shuttle' and enable it. Shortcut is not necessary"
-            const val ConfirmAction = "Confirm"
-            const val CancelAction = "Cancel"
+        interface Dialog {
+
+            val Disclosure: String
+            val ConfirmAction: String
+            val CancelAction: String
         }
     }
 
-    object Location {
+    interface Location {
 
-        const val Action = "Allow location permissions"
+        val Action: String
 
-        object Coarse {
+        interface Coarse {
 
-            const val Name = "Location permissions"
-            const val Description = "Shuttle needs access to Location, in order to show suggested apps, based on " +
-                "your current location\nBy allowing the permission you consent Shuttle to store a Geo Hash of your " +
-                "current position and store it to the local database"
-            const val PermissionGrantedDescription = "Approximate location permission is granted"
-            const val PermissionNotGrantedDescription = "Approximate location permission is not granted"
+            val Name: String
+            val Description: String
+            val PermissionGrantedDescription: String
+            val PermissionNotGrantedDescription: String
         }
 
-        object Fine {
+        interface Fine {
 
-            const val Name = "Precise location permissions"
-            const val Description = "Shuttle needs access to Precise Location, in order to create a Geo Hash to " +
-                "store to the local database"
-            const val PermissionGrantedDescription = "Precise location permission is granted"
-            const val PermissionNotGrantedDescription = "Precise location permission is not granted"
+            val Name: String
+            val Description: String
+            val PermissionGrantedDescription: String
+            val PermissionNotGrantedDescription: String
         }
 
-        object Background {
+        interface Background {
 
-            const val Name = "Background location permissions"
-            const val Description = "Shuttle needs access to Background Location, in order to create a Geo Hash to " +
-                "store to the local database every time an app has been opened. Additionally, Shuttle will use the " +
-                "current location in the Widget, in order to provide suggestions based on the current location"
-            const val PermissionGrantedDescription = "Background location permission is granted"
-            const val PermissionNotGrantedDescription = "Background location permission is not granted"
+            val Name: String
+            val Description: String
+            val PermissionGrantedDescription: String
+            val PermissionNotGrantedDescription: String
         }
     }
+}
+
+@JvmName("getFromStrings")
+internal fun StringResource<Strings>.get(): String {
+    val receiver =  when (getLanguage()) {
+        SupportedLanguage.English -> EnStrings
+        shuttle.design.SupportedLanguage.Italian -> ItStrings
+    }
+    return get(receiver)
+}
+
+@JvmName("getFromStringsAccessibility")
+internal fun StringResource<Strings.Accessibility>.get(): String {
+    val receiver =  when (getLanguage()) {
+        SupportedLanguage.English -> EnStrings.Accessibility
+        shuttle.design.SupportedLanguage.Italian -> ItStrings.Error
+    }
+    return get(receiver)
+}
+
+@JvmName("getFromStringsAccessibilityDialog")
+internal fun StringResource<Strings.Accessibility.Dialog>.get(): String {
+    val receiver =  when (getLanguage()) {
+        SupportedLanguage.English -> EnStrings.Accessibility.Dialog
+        shuttle.design.SupportedLanguage.Italian -> ItStrings.Error
+    }
+    return get(receiver)
+}
+
+@JvmName("getFromStringsLocation")
+internal fun StringResource<Strings.Location>.get(): String {
+    val receiver =  when (getLanguage()) {
+        SupportedLanguage.English -> EnStrings.Location
+        shuttle.design.SupportedLanguage.Italian -> ItStrings.Error
+    }
+    return get(receiver)
+}
+
+@JvmName("getFromStringsLocationCoarse")
+internal fun StringResource<Strings.Location.Coarse>.get(): String {
+    val receiver =  when (getLanguage()) {
+        SupportedLanguage.English -> EnStrings.Location.Coarse
+        shuttle.design.SupportedLanguage.Italian -> ItStrings.Error
+    }
+    return get(receiver)
+}
+
+@JvmName("getFromStringsLocationFine")
+internal fun StringResource<Strings.Location.Fine>.get(): String {
+    val receiver =  when (getLanguage()) {
+        SupportedLanguage.English -> EnStrings.Location.Fine
+        shuttle.design.SupportedLanguage.Italian -> ItStrings.Error
+    }
+    return get(receiver)
+}
+
+@JvmName("getFromStringsLocationBackground")
+internal fun StringResource<Strings.Location.Background>.get(): String {
+    val receiver =  when (getLanguage()) {
+        SupportedLanguage.English -> EnStrings.Location.Background
+        shuttle.design.SupportedLanguage.Italian -> ItStrings.Error
+    }
+    return get(receiver)
 }
