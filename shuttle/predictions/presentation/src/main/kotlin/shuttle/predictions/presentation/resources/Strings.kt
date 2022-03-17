@@ -1,13 +1,36 @@
 package shuttle.predictions.presentation.resources
 
-internal object Strings {
+import shuttle.design.StringResource
+import shuttle.design.SupportedLanguage
+import shuttle.design.getLanguage
+import shuttle.predictions.presentation.resources.en.EnStrings
 
-    const val AppIconContentDescription = "Application icon"
-    const val SettingsIconContentDescription = "Settings icon"
-    const val ShuttleTitle = "Shuttle"
+internal interface Strings {
 
-    object Error {
+    val AppIconContentDescription: String
+    val SettingsIconContentDescription: String
+    val ShuttleTitle: String
 
-        const val LocationNotAvailable = "Location is currently not available"
+    interface Error {
+
+        val LocationNotAvailable: String
     }
+}
+
+@JvmName("getFromStrings")
+internal fun StringResource<Strings>.get(): String {
+    val receiver =  when (getLanguage()) {
+        SupportedLanguage.English -> EnStrings
+        SupportedLanguage.Italian -> ItStrings
+    }
+    return get(receiver)
+}
+
+@JvmName("getFromStringsError")
+internal fun StringResource<Strings.Error>.get(): String {
+    val receiver =  when (getLanguage()) {
+        SupportedLanguage.English -> EnStrings.Error
+        SupportedLanguage.Italian -> ItStrings.Error
+    }
+    return get(receiver)
 }
