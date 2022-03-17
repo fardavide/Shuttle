@@ -4,6 +4,7 @@ import shuttle.design.StringResource
 import shuttle.design.SupportedLanguage
 import shuttle.design.getLanguage
 import shuttle.permissions.resources.en.EnStrings
+import shuttle.permissions.resources.it.ItStrings
 
 internal interface Strings {
 
@@ -57,7 +58,7 @@ internal interface Strings {
 internal fun StringResource<Strings>.get(): String {
     val receiver =  when (getLanguage()) {
         SupportedLanguage.English -> EnStrings
-        shuttle.design.SupportedLanguage.Italian -> ItStrings
+        SupportedLanguage.Italian -> ItStrings
     }
     return get(receiver)
 }
@@ -66,7 +67,7 @@ internal fun StringResource<Strings>.get(): String {
 internal fun StringResource<Strings.Accessibility>.get(): String {
     val receiver =  when (getLanguage()) {
         SupportedLanguage.English -> EnStrings.Accessibility
-        shuttle.design.SupportedLanguage.Italian -> ItStrings.Error
+        SupportedLanguage.Italian -> ItStrings.Accessibility
     }
     return get(receiver)
 }
@@ -75,7 +76,7 @@ internal fun StringResource<Strings.Accessibility>.get(): String {
 internal fun StringResource<Strings.Accessibility.Dialog>.get(): String {
     val receiver =  when (getLanguage()) {
         SupportedLanguage.English -> EnStrings.Accessibility.Dialog
-        shuttle.design.SupportedLanguage.Italian -> ItStrings.Error
+        SupportedLanguage.Italian -> ItStrings.Accessibility.Dialog
     }
     return get(receiver)
 }
@@ -84,7 +85,7 @@ internal fun StringResource<Strings.Accessibility.Dialog>.get(): String {
 internal fun StringResource<Strings.Location>.get(): String {
     val receiver =  when (getLanguage()) {
         SupportedLanguage.English -> EnStrings.Location
-        shuttle.design.SupportedLanguage.Italian -> ItStrings.Error
+        SupportedLanguage.Italian -> ItStrings.Location
     }
     return get(receiver)
 }
@@ -93,7 +94,7 @@ internal fun StringResource<Strings.Location>.get(): String {
 internal fun StringResource<Strings.Location.Coarse>.get(): String {
     val receiver =  when (getLanguage()) {
         SupportedLanguage.English -> EnStrings.Location.Coarse
-        shuttle.design.SupportedLanguage.Italian -> ItStrings.Error
+        SupportedLanguage.Italian -> ItStrings.Location.Coarse
     }
     return get(receiver)
 }
@@ -102,7 +103,7 @@ internal fun StringResource<Strings.Location.Coarse>.get(): String {
 internal fun StringResource<Strings.Location.Fine>.get(): String {
     val receiver =  when (getLanguage()) {
         SupportedLanguage.English -> EnStrings.Location.Fine
-        shuttle.design.SupportedLanguage.Italian -> ItStrings.Error
+        SupportedLanguage.Italian -> ItStrings.Location.Fine
     }
     return get(receiver)
 }
@@ -111,7 +112,7 @@ internal fun StringResource<Strings.Location.Fine>.get(): String {
 internal fun StringResource<Strings.Location.Background>.get(): String {
     val receiver =  when (getLanguage()) {
         SupportedLanguage.English -> EnStrings.Location.Background
-        shuttle.design.SupportedLanguage.Italian -> ItStrings.Error
+        SupportedLanguage.Italian -> ItStrings.Location.Background
     }
     return get(receiver)
 }
