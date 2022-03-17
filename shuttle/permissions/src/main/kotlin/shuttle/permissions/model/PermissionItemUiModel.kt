@@ -1,20 +1,22 @@
 package shuttle.permissions.model
 
+import shuttle.design.AnyStringResource
+
 internal sealed interface PermissionItemUiModel {
 
-    val name: String
+    val name: AnyStringResource
 
     fun isGranted() = this is Granted
 
     data class Granted(
-        override val name: String,
-        val permissionGrantedDescription: String
+        override val name: AnyStringResource,
+        val permissionGrantedDescription: AnyStringResource
     ) : PermissionItemUiModel
 
     data class NotGranted(
-        override val name: String,
-        val description: String,
-        val permissionNotGrantedDescription: String,
-        val buttonText: String
+        override val name: AnyStringResource,
+        val description: AnyStringResource,
+        val permissionNotGrantedDescription: AnyStringResource,
+        val buttonText: AnyStringResource
     ) : PermissionItemUiModel
 }

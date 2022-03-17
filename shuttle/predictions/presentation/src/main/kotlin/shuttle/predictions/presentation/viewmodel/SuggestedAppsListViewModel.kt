@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import shuttle.apps.domain.model.AppId
+import shuttle.design.StringResource
 import shuttle.predictions.domain.error.ObserveSuggestedAppsError
 import shuttle.predictions.domain.usecase.ObserveSuggestedApps
 import shuttle.predictions.presentation.mapper.AppUiModelMapper
@@ -58,14 +59,14 @@ internal class SuggestedAppsListViewModel(
     }
 
     private fun ObserveSuggestedAppsError.toMessage() = when(this) {
-        ObserveSuggestedAppsError.LocationNotAvailable -> Strings.Error.LocationNotAvailable
+        ObserveSuggestedAppsError.LocationNotAvailable -> Strings.Error::LocationNotAvailable
     }
 
     sealed interface State {
 
         object Loading : State
         data class Data(val apps: List<AppUiModel>) : State
-        data class Error(val message: String) : State
+        data class Error(val message: StringResource<Strings.Error>) : State
         data class RequestOpenApp(val intent: Intent) : State
     }
 

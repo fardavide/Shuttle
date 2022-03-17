@@ -54,6 +54,24 @@ internal interface Strings {
     }
 }
 
+@JvmName("getFromGeneric")
+internal fun StringResource<*>.get(): String {
+    fun catch(block: () -> String): String? = try {
+        block()
+    } catch (e: ClassCastException) {
+        null
+    }
+    @Suppress("UNCHECKED_CAST")
+    return catch { (this as StringResource<Strings>).get() }
+        ?: catch { (this as StringResource<Strings.Accessibility>).get() }
+        ?: catch { (this as StringResource<Strings.Accessibility.Dialog>).get() }
+        ?: catch { (this as StringResource<Strings.Location>).get() }
+        ?: catch { (this as StringResource<Strings.Location.Coarse>).get() }
+        ?: catch { (this as StringResource<Strings.Location.Fine>).get() }
+        ?: catch { (this as StringResource<Strings.Location.Background>).get() }
+        ?: throw IllegalArgumentException("Cannot resolve string for ${this::class.simpleName}")
+}
+
 @JvmName("getFromStrings")
 internal fun StringResource<Strings>.get(): String {
     val receiver =  when (getLanguage()) {

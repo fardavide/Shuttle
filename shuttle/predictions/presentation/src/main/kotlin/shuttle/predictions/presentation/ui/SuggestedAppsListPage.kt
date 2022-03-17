@@ -39,6 +39,7 @@ import shuttle.design.ui.TextError
 import shuttle.design.util.collectAsStateLifecycleAware
 import shuttle.predictions.presentation.model.AppUiModel
 import shuttle.predictions.presentation.resources.Strings
+import shuttle.predictions.presentation.resources.get
 import shuttle.predictions.presentation.viewmodel.SuggestedAppsListViewModel
 import shuttle.predictions.presentation.viewmodel.SuggestedAppsListViewModel.Action
 import shuttle.predictions.presentation.viewmodel.SuggestedAppsListViewModel.State
@@ -51,10 +52,10 @@ fun SuggestedAppsListPage(
     Scaffold(
         topBar = {
             SmallTopAppBar(
-                title = { Text(Strings.ShuttleTitle) },
+                title = { Text(Strings::ShuttleTitle.get()) },
                 actions = {
                     IconButton(onClick = onSettings) {
-                        Icon(Icons.Filled.Settings, contentDescription = Strings.SettingsIconContentDescription)
+                        Icon(Icons.Filled.Settings, contentDescription = Strings::SettingsIconContentDescription.get())
                     }
                 }
             )
@@ -72,7 +73,7 @@ fun SuggestedAppsListContent() {
     when (val state = s) {
         State.Loading -> LoadingSpinner()
         is State.Data -> SuggestedAppsList(state.apps) { viewModel.submit(Action.OnAppClicked(it)) }
-        is State.Error -> TextError(text = state.message)
+        is State.Error -> TextError(text = state.message.get())
         is State.RequestOpenApp -> LocalContext.current.startActivity(state.intent)
     }
 }
@@ -108,7 +109,7 @@ private fun AppIconItem(
     ) {
         Image(
             painter = rememberImagePainter(data = app.icon),
-            contentDescription = Strings.AppIconContentDescription,
+            contentDescription = Strings::AppIconContentDescription.get(),
             modifier = Modifier.size(Dimens.Icon.Large)
         )
         Spacer(modifier = Modifier.height(Dimens.Margin.Small))

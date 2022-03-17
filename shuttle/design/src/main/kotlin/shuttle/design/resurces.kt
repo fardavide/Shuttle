@@ -5,6 +5,7 @@ import androidx.core.os.ConfigurationCompat
 import kotlin.reflect.KProperty1
 
 typealias StringResource <T> = KProperty1<T, String>
+typealias AnyStringResource = StringResource<*>
 
 fun getLanguage(): SupportedLanguage {
     val language = ConfigurationCompat.getLocales(Resources.getSystem().configuration)

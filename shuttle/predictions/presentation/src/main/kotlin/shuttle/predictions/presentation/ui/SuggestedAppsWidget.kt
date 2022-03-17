@@ -32,6 +32,7 @@ import shuttle.design.theme.Dimens
 import shuttle.predictions.presentation.model.WidgetAppUiModel
 import shuttle.predictions.presentation.model.WidgetSettingsUiModel
 import shuttle.predictions.presentation.resources.Strings
+import shuttle.predictions.presentation.resources.get
 import shuttle.predictions.presentation.viewmodel.SuggestedAppsWidgetViewModel
 import shuttle.predictions.presentation.viewmodel.SuggestedAppsWidgetViewModel.State
 
@@ -104,7 +105,7 @@ class SuggestedAppsWidget : GlanceAppWidget(), KoinComponent {
 
             Image(
                 provider = ImageProvider(app.icon),
-                contentDescription = Strings.AppIconContentDescription,
+                contentDescription = Strings::AppIconContentDescription.get(),
                 modifier = GlanceModifier.size(widgetSettings.iconSize)
             )
             Spacer(modifier = GlanceModifier.height(widgetSettings.verticalSpacing))

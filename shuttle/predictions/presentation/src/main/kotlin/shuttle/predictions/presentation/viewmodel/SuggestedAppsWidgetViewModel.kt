@@ -4,6 +4,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
+import shuttle.design.StringResource
 import shuttle.predictions.domain.error.ObserveSuggestedAppsError
 import shuttle.predictions.domain.usecase.ObserveSuggestedApps
 import shuttle.predictions.presentation.mapper.WidgetAppUiModelMapper
@@ -42,13 +43,13 @@ internal class SuggestedAppsWidgetViewModel(
             val widgetSettings: WidgetSettingsUiModel
         ) : State
 
-        data class Error(val message: String) : State {
+        data class Error(val message: StringResource<Strings.Error>) : State {
 
             companion object {
 
                 fun from(error: ObserveSuggestedAppsError): Error {
                     val message = when (error) {
-                        ObserveSuggestedAppsError.LocationNotAvailable -> Strings.Error.LocationNotAvailable
+                        ObserveSuggestedAppsError.LocationNotAvailable -> Strings.Error::LocationNotAvailable
                     }
                     return Error(message)
                 }

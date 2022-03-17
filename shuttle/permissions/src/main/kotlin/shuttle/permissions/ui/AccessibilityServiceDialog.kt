@@ -16,6 +16,7 @@ import androidx.compose.ui.window.Dialog
 import shuttle.design.theme.Dimens
 import shuttle.design.theme.ShuttleTheme
 import shuttle.permissions.resources.Strings
+import shuttle.permissions.resources.get
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
@@ -23,13 +24,13 @@ internal fun AccessibilityServiceDialog(onConfirm: () -> Unit, onDismiss: () -> 
     Dialog(onDismissRequest = onDismiss) {
         ElevatedCard {
             Column(modifier = Modifier.padding(Dimens.Margin.Medium)) {
-                Text(text = Strings.Accessibility.Dialog.Disclosure)
+                Text(text = Strings.Accessibility.Dialog::Disclosure.get())
                 Row(horizontalArrangement = Arrangement.End, modifier = Modifier.fillMaxWidth()) {
                     TextButton(onClick = onDismiss) {
-                        Text(text = Strings.Accessibility.Dialog.CancelAction)
+                        Text(text = Strings.Accessibility.Dialog::CancelAction.get())
                     }
                     TextButton(onClick = onConfirm) {
-                        Text(text = Strings.Accessibility.Dialog.ConfirmAction)
+                        Text(text = Strings.Accessibility.Dialog::ConfirmAction.get())
                     }
                 }
             }
