@@ -4,6 +4,7 @@ import shuttle.design.StringResource
 import shuttle.design.SupportedLanguage
 import shuttle.design.getLanguage
 import shuttle.predictions.presentation.resources.en.EnStrings
+import shuttle.predictions.presentation.resources.it.ItStrings
 
 internal interface Strings {
 
