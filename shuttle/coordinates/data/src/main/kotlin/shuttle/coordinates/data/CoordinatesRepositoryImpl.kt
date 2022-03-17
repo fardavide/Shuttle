@@ -45,12 +45,9 @@ internal class CoordinatesRepositoryImpl(
         coordinatesSharedFlow
 
     override suspend fun refreshLocation() {
-        deviceLocationDataSource.getLocation().fold(
-            ifRight = { location ->
-                val geoHash = geoHashMapper.toGeoHash(location)
-                lastLocationDataSource.insert(DatabaseGeoHash(geoHash.value))
-            },
-            ifLeft = { /* TODO */ }
-        )
+        deviceLocationDataSource.getLocation().tap { location ->
+            val geoHash = geoHashMapper.toGeoHash(location)
+            lastLocationDataSource.insert(DatabaseGeoHash(geoHash.value))
+        }
     }
 }
