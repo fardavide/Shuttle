@@ -38,7 +38,7 @@ internal interface Strings {
 @JvmName("getFromStrings")
 internal fun StringResource<Strings>.get(): String {
     val receiver =  when (getLanguage()) {
-        English -> ItStrings
+        English -> EnStrings
         Italian -> ItStrings
     }
     return get(receiver)
@@ -47,7 +47,7 @@ internal fun StringResource<Strings>.get(): String {
 @JvmName("getFromStringsBlacklist")
 internal fun StringResource<Strings.Blacklist>.get(): String {
     val receiver =  when (getLanguage()) {
-        English -> ItStrings.Blacklist
+        English -> EnStrings.Blacklist
         Italian -> ItStrings.Blacklist
     }
     return get(receiver)
