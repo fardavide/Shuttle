@@ -58,7 +58,7 @@ internal interface Strings {
 internal fun StringResource<*>.get(): String {
     fun catch(block: () -> String): String? = try {
         block()
-    } catch (e: ClassCastException) {
+    } catch (ignored: ClassCastException) {
         null
     }
     @Suppress("UNCHECKED_CAST")
