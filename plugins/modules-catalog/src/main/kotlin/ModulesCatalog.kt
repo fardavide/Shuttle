@@ -10,6 +10,7 @@ val ModulesCatalog.coordinates get() = CoordinatesModuleCatalog(project)
 fun ModulesCatalog.database() = create("database")
 fun ModulesCatalog.design() = create("design")
 fun ModulesCatalog.di() = create("di")
+val ModulesCatalog.icons get() = IconsModuleCatalog(project)
 fun ModulesCatalog.permissions() = create("permissions")
 val ModulesCatalog.predictions get() = PredictionsModuleCatalog(project)
 val ModulesCatalog.settings get() = SettingsModuleCatalog(project)
@@ -22,6 +23,9 @@ fun AppsModuleCatalog.presentation() = create("presentation")
 
 fun CoordinatesModuleCatalog.data() = create("data")
 fun CoordinatesModuleCatalog.domain() = create("domain")
+
+fun IconsModuleCatalog.data() = create("data")
+fun IconsModuleCatalog.domain() = create("domain")
 
 fun PredictionsModuleCatalog.domain() = create("domain")
 fun PredictionsModuleCatalog.presentation() = create("presentation")
@@ -38,12 +42,14 @@ fun UtilsModuleCatalog.android() = create("android")
 
 class AppsModuleCatalog(project: Project): ModuleCatalog(project, ":shuttle:apps:shuttle-apps-")
 class CoordinatesModuleCatalog(project: Project): ModuleCatalog(project, ":shuttle:coordinates:shuttle-coordinates-")
+class IconsModuleCatalog(project: Project): ModuleCatalog(project, ":shuttle:icons:shuttle-icons-")
 class PredictionsModuleCatalog(project: Project): ModuleCatalog(project, ":shuttle:predictions:shuttle-predictions-")
 class SettingsModuleCatalog(project: Project): ModuleCatalog(project, ":shuttle:settings:shuttle-settings-")
 class StatsModuleCatalog(project: Project): ModuleCatalog(project, ":shuttle:stats:shuttle-stats-")
 class UtilsModuleCatalog(project: Project): ModuleCatalog(project, ":shuttle:utils:shuttle-utils-")
 
 
+@Suppress("UnnecessaryAbstractClass")
 abstract class ModuleCatalog(val project: Project, private val path: String) {
 
     fun create(module: String) = project.dependencies.add(

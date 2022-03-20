@@ -15,6 +15,10 @@ moduleDependencies {
         domain()
     }
     database()
+    icons {
+        data()
+        domain()
+    }
     permissions()
     predictions {
         domain()
