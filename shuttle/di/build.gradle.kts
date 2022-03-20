@@ -16,7 +16,6 @@ moduleDependencies {
     }
     database()
     icons {
-        data()
         domain()
     }
     permissions()
