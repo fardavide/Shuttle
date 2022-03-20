@@ -7,6 +7,7 @@ import shuttle.apps.presentation.appsPresentationModule
 import shuttle.coordinates.data.coordinatesDataModule
 import shuttle.coordinates.domain.coordinatesDomainModule
 import shuttle.database.databaseModule
+import shuttle.icons.data.iconsDataModule
 import shuttle.icons.domain.iconsDomainModule
 import shuttle.icons.presentation.iconsPresentationModule
 import shuttle.permissions.permissionsModule
@@ -24,7 +25,7 @@ val shuttleModule =
         appsDataModule + appsDomainModule + appsPresentationModule +
         coordinatesDataModule + coordinatesDomainModule +
         databaseModule +
-        iconsDomainModule + iconsPresentationModule +
+        iconsDataModule + iconsDomainModule + iconsPresentationModule +
         permissionsModule +
         predictionsDomainModule + predictionsPresentationModule +
         settingsDataModule + settingsDomainModule + settingsPresentationModule +

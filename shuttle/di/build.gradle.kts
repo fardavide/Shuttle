@@ -16,6 +16,7 @@ moduleDependencies {
     }
     database()
     icons {
+        data()
         domain()
         presentation()
     }

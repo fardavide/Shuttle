@@ -24,6 +24,7 @@ fun AppsModuleCatalog.presentation() = create("presentation")
 fun CoordinatesModuleCatalog.data() = create("data")
 fun CoordinatesModuleCatalog.domain() = create("domain")
 
+fun IconsModuleCatalog.data() = create("data")
 fun IconsModuleCatalog.domain() = create("domain")
 fun IconsModuleCatalog.presentation() = create("presentation")
 
