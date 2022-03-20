@@ -37,11 +37,18 @@ class AppsRepositoryImpl(
     override fun observeAllInstalledApps(): Flow<List<AppModel>> =
         merge(observeAllInstalledAppsFromCache(), observeAndRefreshAppsFromDevice())
 
-    override fun observeNotBlacklistedApps(): Flow<List<AppModel>> {
-        return observeAllInstalledApps().map { list ->
+    override fun observeInstalledIconPacks(): Flow<List<AppModel>> =
+        flow {
+            while (coroutineContext.isActive) {
+                emit(getIconPacksFromDevice())
+                delay(RefreshDelay)
+            }
+        }
+
+    override fun observeNotBlacklistedApps(): Flow<List<AppModel>> =
+        observeAllInstalledApps().map { list ->
             list.filterNot { isBlacklisted(it.id) }
         }
-    }
 
     private fun observeAllInstalledAppsFromCache(): Flow<List<AppModel>> =
         dataSource.findAllApps().map { list ->
@@ -81,6 +88,15 @@ class AppsRepositoryImpl(
                 .sortedBy { it.name.value.uppercase() }
         }
 
+
+    @SuppressLint("QueryPermissionsNeeded")
+    private suspend fun getIconPacksFromDevice(): List<AppModel> =
+        withContext(ioDispatcher) {
+            packageManager.queryIntentActivities(Intent(IconPackThemesId), PackageManager.GET_META_DATA)
+                .map(::toAppModel)
+                .sortedBy { it.name.value.uppercase() }
+        }
+
     private fun buildLauncherCategoryIntent() =
         Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_LAUNCHER)
 
@@ -91,6 +107,7 @@ class AppsRepositoryImpl(
 
     companion object {
 
+        private const val IconPackThemesId = "org.adw.launcher.THEMES"
         private val RefreshDelay = 1.toDuration(DurationUnit.MINUTES)
     }
 }
