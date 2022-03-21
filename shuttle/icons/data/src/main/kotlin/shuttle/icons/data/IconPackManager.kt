@@ -1,7 +1,6 @@
 package shuttle.icons.data
 
 import android.content.Context
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.graphics.Bitmap
@@ -11,16 +10,20 @@ import android.graphics.PorterDuff
 import android.graphics.PorterDuffXfermode
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
 import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParserException
 import org.xmlpull.v1.XmlPullParserFactory
+import shuttle.apps.domain.AppsRepository
 import java.io.IOException
 import java.util.Locale
 import java.util.Random
 
 class IconPackManager(
     private val appContext: Context,
-    private val packageManager: PackageManager
+    private val packageManager: PackageManager,
+    private val appsRepository: AppsRepository
 ) {
 
     inner class IconPack(
@@ -267,26 +270,8 @@ class IconPackManager(
         }
     }
 
-    private val iconPacks = mutableMapOf<String, IconPack>()
-
-    fun getAvailableIconPacks(forceReload: Boolean = false): Map<String, IconPack> {
-        if (iconPacks.isEmpty() || forceReload) {
-
-            val novaLauncherThemes = packageManager.queryIntentActivities(
-                Intent("com.novalauncher.THEME"),
-                PackageManager.GET_META_DATA
-            )
-
-            for (resolveInfo in novaLauncherThemes) {
-                val packageName = resolveInfo.activityInfo.packageName
-
-                val applicationInfo = packageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA)
-                val name = packageManager.getApplicationLabel(applicationInfo).toString()
-
-                val iconPack = IconPack(packageName, name)
-                iconPacks[packageName] = iconPack
-            }
-        }
-        return iconPacks
+    fun getAvailableIconPacks(): Map<String, IconPack> {
+        val installedIconPacks = runBlocking { appsRepository.observeInstalledIconPacks().first() }
+        return installedIconPacks.associate { it.id.value to IconPack(it.id.value, it.name.value) }
     }
 }

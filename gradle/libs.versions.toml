@@ -71,6 +71,7 @@ kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version
 kotlin-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinSerialization" }
 material3 = { module = "androidx.compose.material3:material3", version.ref = "material3" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
+mockk-android = { module = "io.mockk:mockk-android", version.ref = "mockk" }
 navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigation" }
 playServices-location = { module = "com.google.android.gms:play-services-location", version.ref = "playServices" }
 sqlDelight-android = { module = "com.squareup.sqldelight:android-driver", version.ref = "sqlDelight" }
@@ -81,6 +82,6 @@ turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 [bundles]
 base = [ "arrow-core", "koin-core", "kotlin-coroutines" ]
 compose = [ "coil-compose", "compose-ui", "compose-uiToolingPreview", "koin-android-compose", "material3" ]
-test-android = [ "androidx-test-core", "androidx-test-junit", "androidx-test-espresso", "koin-test", "koin-test-junit4" ]
+test-android = [ "androidx-test-core", "androidx-test-junit", "androidx-test-espresso", "koin-test", "koin-test-junit4", "mockk-android" ]
 test-kotlin = [ "kotlin-coroutines-test", "kotlin-test-junit", "mockk", "turbine" ]
 
