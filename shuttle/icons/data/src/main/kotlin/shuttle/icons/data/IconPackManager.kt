@@ -270,6 +270,10 @@ class IconPackManager(
         }
     }
 
+    @Deprecated(
+        "Use appsRepository.observeInstalledIconPacks()",
+        ReplaceWith("appsRepository.observeInstalledIconPacks()")
+    )
     fun getAvailableIconPacks(): Map<String, IconPack> {
         val installedIconPacks = runBlocking { appsRepository.observeInstalledIconPacks().first() }
         return installedIconPacks.associate { it.id.value to IconPack(it.id.value, it.name.value) }
