@@ -1,4 +1,4 @@
-package shuttle.icons.domain.model
+package shuttle.icons.data.model
 
 import android.content.res.Resources
 import android.graphics.Bitmap

@@ -4,7 +4,7 @@ import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
 import shuttle.apps.domain.model.AppId
 
-class GetIconDrawableForApp(
+class GetSystemIconDrawableForApp(
     private val packageManager: PackageManager
 ) {
 

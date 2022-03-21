@@ -4,8 +4,8 @@ import org.koin.dsl.module
 
 val utilsAndroidModule = module {
 
-    factory { GetIconDrawableForApp(packageManager = get()) }
-    factory { GetIconForApp(packageManager = get()) }
+    factory { GetSystemIconDrawableForApp(packageManager = get()) }
+    factory { GetSystemIconForApp(packageManager = get()) }
     factory { GetLaunchIntentForApp(packageManager = get()) }
     factory { IsAndroidQ() }
 }

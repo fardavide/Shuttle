@@ -2,16 +2,16 @@ package shuttle.apps.presentation.mapper
 
 import shuttle.apps.domain.model.AppModel
 import shuttle.apps.presentation.model.AppUiModel
-import shuttle.util.android.GetIconDrawableForApp
+import shuttle.util.android.GetSystemIconDrawableForApp
 
 class AppUiModelMapper(
-    private val getIconDrawableForApp: GetIconDrawableForApp
+    private val getSystemIconDrawableForApp: GetSystemIconDrawableForApp
 ) {
 
     fun toUiModel(appModel: AppModel) = AppUiModel(
         id = appModel.id,
         name = appModel.name.value,
-        icon = getIconDrawableForApp(appModel.id)
+        icon = getSystemIconDrawableForApp(appModel.id)
     )
 
     fun toUiModels(appModels: Collection<AppModel>): List<AppUiModel> =
