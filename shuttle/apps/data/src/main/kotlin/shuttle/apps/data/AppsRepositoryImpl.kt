@@ -107,7 +107,7 @@ class AppsRepositoryImpl(
 
     companion object {
 
-        private const val IconPackThemesId = "org.adw.launcher.THEMES"
+        private const val IconPackThemesId = "com.novalauncher.THEME"
         private val RefreshDelay = 1.toDuration(DurationUnit.MINUTES)
     }
 }

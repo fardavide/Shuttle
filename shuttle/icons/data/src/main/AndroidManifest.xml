@@ -1,1 +1,15 @@
-<manifest package="studio.forface.shuttle.icons.data"/>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="studio.forface.shuttle.icons.data">
+
+    <!-- Query apps -->
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent>
+        <intent>
+            <action android:name="com.novalauncher.THEME" />
+        </intent>
+    </queries>
+
+</manifest>

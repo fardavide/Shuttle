@@ -4,6 +4,7 @@ plugins {
 
 moduleDependencies {
 
+    apps.domain()
     icons.domain()
 }
 

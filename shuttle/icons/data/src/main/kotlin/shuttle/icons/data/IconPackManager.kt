@@ -1,6 +1,5 @@
 package shuttle.icons.data
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -270,21 +269,15 @@ class IconPackManager(
 
     private val iconPacks = mutableMapOf<String, IconPack>()
 
-    @SuppressLint("QueryPermissionsNeeded")
-    fun getAvailableIconPacks(forceReload: Boolean): Map<String, IconPack> {
+    fun getAvailableIconPacks(forceReload: Boolean = false): Map<String, IconPack> {
         if (iconPacks.isEmpty() || forceReload) {
 
-            val adwLauncherThemes = packageManager.queryIntentActivities(
-                Intent("org.adw.launcher.THEMES"),
+            val novaLauncherThemes = packageManager.queryIntentActivities(
+                Intent("com.novalauncher.THEME"),
                 PackageManager.GET_META_DATA
             )
-            val goLauncherThemes = packageManager.queryIntentActivities(
-                Intent("com.gau.go.launcherex.theme"),
-                PackageManager.GET_META_DATA
-            )
-            val allThemes = adwLauncherThemes + goLauncherThemes
 
-            for (resolveInfo in allThemes) {
+            for (resolveInfo in novaLauncherThemes) {
                 val packageName = resolveInfo.activityInfo.packageName
 
                 val applicationInfo = packageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA)
