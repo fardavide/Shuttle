@@ -8,6 +8,7 @@ moduleDependencies {
 
     apps.domain()
     design()
+    icons.domain()
     settings.domain()
     utils.android()
 }

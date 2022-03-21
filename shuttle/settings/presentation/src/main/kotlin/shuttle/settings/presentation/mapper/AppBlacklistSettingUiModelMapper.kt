@@ -1,8 +1,8 @@
 package shuttle.settings.presentation.mapper
 
+import shuttle.icons.domain.usecase.GetSystemIconDrawableForApp
 import shuttle.settings.domain.model.AppBlacklistSetting
 import shuttle.settings.presentation.model.AppBlacklistSettingUiModel
-import shuttle.util.android.GetSystemIconDrawableForApp
 
 class AppBlacklistSettingUiModelMapper(
     private val getSystemIconDrawableForApp: GetSystemIconDrawableForApp

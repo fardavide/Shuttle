@@ -1,8 +1,8 @@
 package shuttle.settings.presentation.mapper
 
 import shuttle.apps.domain.model.AppModel
+import shuttle.icons.domain.usecase.GetSystemIconDrawableForApp
 import shuttle.settings.presentation.model.WidgetPreviewAppUiModel
-import shuttle.util.android.GetSystemIconDrawableForApp
 
 class WidgetPreviewAppUiModelMapper(
     private val getSystemIconDrawableForApp: GetSystemIconDrawableForApp

@@ -1,4 +1,4 @@
-package shuttle.util.android
+package shuttle.icons.domain.usecase
 
 import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
