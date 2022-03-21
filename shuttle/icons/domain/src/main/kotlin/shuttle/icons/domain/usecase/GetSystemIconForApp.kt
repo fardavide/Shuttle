@@ -12,10 +12,8 @@ class GetSystemIconForApp(
 ) {
 
     suspend operator fun invoke(appId: AppId): Icon =
-        withContext(ioDispatcher) { blocking(appId) }
-
-    fun blocking(appId: AppId): Icon {
-        val iconRes = packageManager.getApplicationInfo(appId.value, PackageManager.GET_META_DATA).icon
-        return Icon.createWithResource(appId.value, iconRes)
-    }
+        withContext(ioDispatcher) {
+            val iconRes = packageManager.getApplicationInfo(appId.value, PackageManager.GET_META_DATA).icon
+            Icon.createWithResource(appId.value, iconRes)
+        }
 }

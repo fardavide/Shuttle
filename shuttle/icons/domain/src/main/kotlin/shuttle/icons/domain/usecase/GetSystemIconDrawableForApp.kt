@@ -15,11 +15,8 @@ class GetSystemIconDrawableForApp(
 
     suspend operator fun invoke(id: AppId): Drawable =
         withContext(ioDispatcher) {
-            blocking(id)
-        }
-
-    fun blocking(id: AppId): Drawable =
-        cache.getOrPut(id) {
-            packageManager.getApplicationIcon(id.value)
+            cache.getOrPut(id) {
+                packageManager.getApplicationIcon(id.value)
+            }
         }
 }
