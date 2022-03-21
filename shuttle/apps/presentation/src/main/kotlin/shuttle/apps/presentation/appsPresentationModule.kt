@@ -7,6 +7,6 @@ import shuttle.apps.presentation.viewmodel.AllAppsListViewModel
 
 val appsPresentationModule = module {
 
-    factory { AppUiModelMapper(getIconDrawableForApp = get()) }
+    factory { AppUiModelMapper(getSystemIconDrawableForApp = get()) }
     viewModel { AllAppsListViewModel(appUiModelMapper = get(), observeAllInstalledApps = get()) }
 }

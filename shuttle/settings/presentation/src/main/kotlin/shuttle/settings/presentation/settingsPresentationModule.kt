@@ -27,7 +27,7 @@ val settingsPresentationModule = module {
             widgetSettingsUiModelMapper = get()
         )
     }
-    factory { AppBlacklistSettingUiModelMapper(getIconDrawableForApp = get()) }
-    factory { WidgetPreviewAppUiModelMapper(getIconDrawableForApp = get()) }
+    factory { AppBlacklistSettingUiModelMapper(getSystemIconDrawableForApp = get()) }
+    factory { WidgetPreviewAppUiModelMapper(getSystemIconDrawableForApp = get()) }
     factory { WidgetSettingsUiModelMapper() }
 }
