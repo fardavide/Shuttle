@@ -1,5 +1,5 @@
 plugins {
-    id("shuttle.kotlin")
+    id("shuttle.android")
 }
 
 moduleDependencies {

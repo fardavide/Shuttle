@@ -259,8 +259,15 @@ class IconPacksRepositoryImpl(
             e.printStackTrace()
         }
 
-        return IconPack(id, drawables = mPackagesDrawables)
-            .also { cache[id] = it }
+        return IconPack(
+            id = id,
+            resources = iconPackResources!!,
+            drawables = mPackagesDrawables,
+            frontImage = mFrontImage,
+            backImages = mBackImages,
+            maskImage = mMaskImage,
+            factor = mFactor
+        ).also { cache[id] = it }
     }
 
     private fun String.id() = AppId(this)

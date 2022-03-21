@@ -5,6 +5,5 @@ import shuttle.icons.domain.IconPacksRepository
 
 val iconsDataModule = module {
 
-    factory<IconPacksRepository> { IconPacksRepositoryImpl() }
-    single { IconPackManager(appContext = get(), packageManager = get(), appsRepository = get()) }
+    factory<IconPacksRepository> { IconPacksRepositoryImpl(packageManager = get()) }
 }

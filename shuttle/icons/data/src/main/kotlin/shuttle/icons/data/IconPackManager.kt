@@ -12,18 +12,17 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
-import org.xmlpull.v1.XmlPullParser
-import org.xmlpull.v1.XmlPullParserException
-import org.xmlpull.v1.XmlPullParserFactory
 import shuttle.apps.domain.AppsRepository
-import java.io.IOException
+import shuttle.apps.domain.model.AppId
+import shuttle.icons.domain.IconPacksRepository
 import java.util.Locale
 import java.util.Random
 
 class IconPackManager(
     private val appContext: Context,
     private val packageManager: PackageManager,
-    private val appsRepository: AppsRepository
+    private val appsRepository: AppsRepository,
+    private val iconPacksRepository: IconPacksRepository
 ) {
 
     inner class IconPack(
@@ -32,8 +31,8 @@ class IconPackManager(
     ) {
 
         private var mLoaded = false
-        private val mPackagesDrawables = HashMap<String?, String?>()
-        private val mBackImages: MutableList<Bitmap> = ArrayList()
+        private var mPackagesDrawables = mapOf<String, String>()
+        private var mBackImages: List<Bitmap> = ArrayList()
         private var mMaskImage: Bitmap? = null
         private var mFrontImage: Bitmap? = null
         private var mFactor = 1.0f
@@ -42,79 +41,14 @@ class IconPackManager(
         var iconPackResources: Resources? = null
 
         fun load() {
-            // load appfilter.xml from the icon pack package
-            try {
-                var xpp: XmlPullParser? = null
-                iconPackResources = packageManager.getResourcesForApplication(packageName)
-                val appFilterId = iconPackResources!!.getIdentifier("appfilter", "xml", packageName)
-                if (appFilterId > 0) {
-                    xpp = iconPackResources!!.getXml(appFilterId)
-                } else {
-                    // no resource found, try to open it from assets folder
-                    try {
-                        val appFilterStream = iconPackResources!!.assets.open("appfilter.xml")
-                        val factory = XmlPullParserFactory.newInstance()
-                        factory.isNamespaceAware = true
-                        xpp = factory.newPullParser()
-                        xpp.setInput(appFilterStream, "utf-8")
-                    } catch (e1: IOException) {
-                        //Ln.d("No appfilter.xml file");
-                    }
-                }
-                if (xpp != null) {
-                    var eventType = xpp.eventType
-                    while (eventType != XmlPullParser.END_DOCUMENT) {
-                        if (eventType == XmlPullParser.START_TAG) {
-                            if (xpp.name == "iconback") {
-                                for (i in 0 until xpp.attributeCount) {
-                                    if (xpp.getAttributeName(i).startsWith("img")) {
-                                        val drawableName = xpp.getAttributeValue(i)
-                                        val iconback = loadBitmap(drawableName)
-                                        if (iconback != null) mBackImages.add(iconback)
-                                    }
-                                }
-                            } else if (xpp.name == "iconmask") {
-                                if (xpp.attributeCount > 0 && xpp.getAttributeName(0) == "img1") {
-                                    val drawableName = xpp.getAttributeValue(0)
-                                    mMaskImage = loadBitmap(drawableName)
-                                }
-                            } else if (xpp.name == "iconupon") {
-                                if (xpp.attributeCount > 0 && xpp.getAttributeName(0) == "img1") {
-                                    val drawableName = xpp.getAttributeValue(0)
-                                    mFrontImage = loadBitmap(drawableName)
-                                }
-                            } else if (xpp.name == "scale") {
-                                // mFactor
-                                if (xpp.attributeCount > 0 && xpp.getAttributeName(0) == "factor") {
-                                    mFactor = java.lang.Float.valueOf(xpp.getAttributeValue(0))
-                                }
-                            } else if (xpp.name == "item") {
-                                var componentName: String? = null
-                                var drawableName: String? = null
-                                for (i in 0 until xpp.attributeCount) {
-                                    if (xpp.getAttributeName(i) == "component") {
-                                        componentName = xpp.getAttributeValue(i)
-                                    } else if (xpp.getAttributeName(i) == "drawable") {
-                                        drawableName = xpp.getAttributeValue(i)
-                                    }
-                                }
-                                if (!mPackagesDrawables.containsKey(componentName)) {
-                                    mPackagesDrawables[componentName] = drawableName
-                                    totalIcons += 1
-                                }
-                            }
-                        }
-                        eventType = xpp.next()
-                    }
-                }
-                mLoaded = true
-            } catch (e: PackageManager.NameNotFoundException) {
-                //Ln.d("Cannot load icon pack");
-            } catch (e: XmlPullParserException) {
-                //Ln.d("Cannot parse icon pack appfilter.xml");
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
+            val iconPack = runBlocking { iconPacksRepository.loadIconPack(AppId(packageName)) }
+            mPackagesDrawables = iconPack.drawables.map { it.key.value to it.value.value }.toMap()
+            iconPackResources = iconPack.resources
+            mBackImages = iconPack.backImages
+            mMaskImage = iconPack.maskImage
+            mFrontImage = iconPack.frontImage
+            mFactor = iconPack.factor
+            totalIcons = mPackagesDrawables.count()
         }
 
         private fun loadBitmap(drawableName: String): Bitmap? {
