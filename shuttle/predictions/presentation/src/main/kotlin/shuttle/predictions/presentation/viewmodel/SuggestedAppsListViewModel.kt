@@ -35,7 +35,7 @@ internal class SuggestedAppsListViewModel(
 
     init {
         observeSuggestedApps().map { either ->
-            either.map(appUiModelMapper::toUiModels)
+            either.map { appUiModelMapper.toUiModels(it) }
                 .fold(
                     ifRight = State::Data,
                     ifLeft = { error -> State.Error(error.toMessage()) }

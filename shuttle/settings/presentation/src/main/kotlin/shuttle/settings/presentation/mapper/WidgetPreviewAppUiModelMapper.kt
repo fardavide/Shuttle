@@ -8,11 +8,11 @@ class WidgetPreviewAppUiModelMapper(
     private val getSystemIconDrawableForApp: GetSystemIconDrawableForApp
 ) {
 
-    fun toUiModel(app: AppModel) = WidgetPreviewAppUiModel(
+    suspend fun toUiModel(app: AppModel) = WidgetPreviewAppUiModel(
         name = app.name.value,
         icon = getSystemIconDrawableForApp(app.id)
     )
 
-    fun toUiModels(apps: Collection<AppModel>): List<WidgetPreviewAppUiModel> =
-        apps.map(::toUiModel)
+    suspend fun toUiModels(apps: Collection<AppModel>): List<WidgetPreviewAppUiModel> =
+        apps.map { toUiModel(it) }
 }

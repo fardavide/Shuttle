@@ -13,15 +13,15 @@ class WidgetAppUiModelMapper(
     private val getLaunchIntentForApp: GetLaunchIntentForApp
 ) {
 
-    fun toUiModel(appModel: SuggestedAppModel) = WidgetAppUiModel(
+    suspend fun toUiModel(appModel: SuggestedAppModel) = WidgetAppUiModel(
         id = appModel.id,
         name = appModel.name.value,
         icon = getSystemIconForApp(appModel.id).setTint(appModel.isSuggested),
         launchIntent = getLaunchIntentForApp(appModel.id)
     )
 
-    fun toUiModels(appModels: Collection<SuggestedAppModel>): List<WidgetAppUiModel> =
-        appModels.map(::toUiModel)
+    suspend fun toUiModels(appModels: Collection<SuggestedAppModel>): List<WidgetAppUiModel> =
+        appModels.map { toUiModel(it) }
 
     private fun Icon.setTint(isSuggested: Boolean) = apply {
         if (isSuggested.not()) {

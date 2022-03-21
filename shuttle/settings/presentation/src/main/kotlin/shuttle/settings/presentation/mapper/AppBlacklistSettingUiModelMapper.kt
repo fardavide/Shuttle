@@ -8,7 +8,7 @@ class AppBlacklistSettingUiModelMapper(
     private val getSystemIconDrawableForApp: GetSystemIconDrawableForApp
 ) {
 
-    fun toUiModel(appBlacklistSetting: AppBlacklistSetting): AppBlacklistSettingUiModel {
+    suspend fun toUiModel(appBlacklistSetting: AppBlacklistSetting): AppBlacklistSettingUiModel {
         val appModel = appBlacklistSetting.app
         return AppBlacklistSettingUiModel(
             id = appModel.id,
@@ -18,6 +18,6 @@ class AppBlacklistSettingUiModelMapper(
         )
     }
 
-    fun toUiModels(appBlacklistSettings: Collection<AppBlacklistSetting>): List<AppBlacklistSettingUiModel> =
-        appBlacklistSettings.map(::toUiModel)
+    suspend fun toUiModels(appBlacklistSettings: Collection<AppBlacklistSetting>): List<AppBlacklistSettingUiModel> =
+        appBlacklistSettings.map { toUiModel(it) }
 }

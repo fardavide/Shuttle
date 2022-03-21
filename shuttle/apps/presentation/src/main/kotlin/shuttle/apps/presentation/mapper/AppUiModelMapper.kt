@@ -8,12 +8,12 @@ class AppUiModelMapper(
     private val getSystemIconDrawableForApp: GetSystemIconDrawableForApp
 ) {
 
-    fun toUiModel(appModel: AppModel) = AppUiModel(
+    suspend fun toUiModel(appModel: AppModel) = AppUiModel(
         id = appModel.id,
         name = appModel.name.value,
         icon = getSystemIconDrawableForApp(appModel.id)
     )
 
-    fun toUiModels(appModels: Collection<AppModel>): List<AppUiModel> =
-        appModels.map(::toUiModel)
+    suspend fun toUiModels(appModels: Collection<AppModel>): List<AppUiModel> =
+        appModels.map { toUiModel(it) }
 }
