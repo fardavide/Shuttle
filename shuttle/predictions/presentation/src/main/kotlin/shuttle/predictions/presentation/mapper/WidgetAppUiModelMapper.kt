@@ -4,9 +4,9 @@ import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.drawable.Icon
 import shuttle.apps.domain.model.SuggestedAppModel
+import shuttle.icons.domain.usecase.GetSystemIconForApp
 import shuttle.predictions.presentation.model.WidgetAppUiModel
 import shuttle.util.android.GetLaunchIntentForApp
-import shuttle.util.android.GetSystemIconForApp
 
 class WidgetAppUiModelMapper(
     private val getSystemIconForApp: GetSystemIconForApp,

@@ -8,6 +8,7 @@ moduleDependencies {
 
     apps.domain()
     design()
+    icons.domain()
     predictions.domain()
     settings.domain()
     stats.domain()
