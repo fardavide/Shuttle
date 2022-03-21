@@ -41,7 +41,7 @@ class IconPackManager(
             private set
         var iconPackResources: Resources? = null
 
-        private fun load() {
+        fun load() {
             // load appfilter.xml from the icon pack package
             try {
                 var xpp: XmlPullParser? = null

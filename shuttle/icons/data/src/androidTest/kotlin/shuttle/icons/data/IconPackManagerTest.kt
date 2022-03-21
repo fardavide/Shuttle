@@ -23,26 +23,39 @@ class IconPackManagerTest {
 
     @Test
     fun loadIconPacks() {
-        val result = iconPackManager.getAvailableIconPacks()
-        assertEquals(IconPacks.size, result.size)
-        assertEquals(IconPacks.keys, result.keys)
-        val expectedValues = IconPacks.values.toList()
-        val resultValues = result.values.toList()
-        assertEquals(expectedValues[0].name, resultValues[0].name)
-        assertEquals(expectedValues[0].packageName, resultValues[0].packageName)
-        assertEquals(expectedValues[1].name, resultValues[1].name)
-        assertEquals(expectedValues[1].packageName, resultValues[1].packageName)
+        val iconPack = iconPackManager.getAvailableIconPacks().values.first()
+        iconPack.load()
+
+        val result = iconPack.totalIcons
+        assertEquals(0, result)
     }
 
     companion object TestData {
 
+        object Alexis {
+            const val packageName = "com.bandot.alexis.minimal.iconpack"
+            const val name = "Alexis"
+        }
+
+        object Borealis {
+            const val packageName = "com.unvoid.borealis"
+            const val name = "Borealis"
+        }
+
+        object Darko {
+            const val packageName = "com.darkopd.iconpack"
+            const val name = "Darko"
+        }
+
         private val IconPacks = mapOf(
-            "material.ui" to buildIconPack("material.ui", "MaterialUi"),
-            "one.ui" to buildIconPack("one.ui", "OneUi"),
+            Alexis.packageName to buildIconPack(Alexis.packageName, Alexis.name),
+            Borealis.packageName to buildIconPack(Borealis.packageName, Borealis.name),
+            Darko.packageName to buildIconPack(Darko.packageName, Darko.name),
         )
         private val IconsPacksApps = listOf(
-            AppModel(AppId("material.ui"), AppName("MaterialUi")),
-            AppModel(AppId("one.ui"), AppName("OneUi")),
+            AppModel(AppId(Alexis.packageName), AppName(Alexis.name)),
+            AppModel(AppId(Borealis.packageName), AppName(Borealis.name)),
+            AppModel(AppId(Darko.packageName), AppName(Darko.name)),
         )
         private fun buildIconPack(packageName: String, name: String): IconPackManager.IconPack =
             mockk {
