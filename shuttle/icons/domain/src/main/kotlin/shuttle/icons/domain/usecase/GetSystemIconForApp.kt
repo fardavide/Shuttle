@@ -11,9 +11,9 @@ class GetSystemIconForApp(
     private val ioDispatcher: CoroutineDispatcher
 ) {
 
-    suspend operator fun invoke(appId: AppId): Icon =
+    suspend operator fun invoke(id: AppId): Icon =
         withContext(ioDispatcher) {
-            val iconRes = packageManager.getApplicationInfo(appId.value, PackageManager.GET_META_DATA).icon
-            Icon.createWithResource(appId.value, iconRes)
+            val iconRes = packageManager.getApplicationInfo(id.value, PackageManager.GET_META_DATA).icon
+            Icon.createWithResource(id.value, iconRes)
         }
 }

@@ -9,6 +9,7 @@ import android.graphics.PorterDuff
 import android.graphics.PorterDuffXfermode
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
+import android.graphics.drawable.Icon
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import org.xmlpull.v1.XmlPullParser
@@ -33,6 +34,10 @@ class IconPacksRepositoryImpl(
 
     override suspend fun getBitmapIcon(iconPackId: AppId, appId: AppId, defaultBitmap: Bitmap): Bitmap =
         getBitmapIcon(loadIconPack(iconPackId), appId, defaultBitmap)
+
+    override suspend fun getIcon(iconPackId: AppId, appId: AppId, defaultIcon: Icon): Icon {
+        TODO("Not yet implemented")
+    }
 
     private suspend fun loadIconPack(id: AppId): IconPack = withContext(dispathcer) {
         cache[id]?.let { return@withContext it }
@@ -205,6 +210,21 @@ class IconPacksRepositoryImpl(
             }
             return@withContext generateBitmap(iconPack, appId, defaultBitmap)
         }
+    }
+
+    private suspend fun getIcon(
+        iconPack: IconPack,
+        appId: AppId,
+        defaultIcon: Icon
+    ): Icon = withContext(dispathcer) {
+        val drawableName = iconPack.drawables[appId]
+        val icon = if (drawableName != null) {
+            val resourceId = iconPack.resources.getIdentifier(drawableName.value, "drawable", iconPack.id.value)
+            Icon.createWithResource(iconPack.id.value, resourceId)
+        } else {
+            defaultIcon
+        }
+        icon ?: defaultIcon
     }
 
     private fun loadBitmap(iconPack: IconPack, drawableName: String): Bitmap? {
