@@ -1,9 +1,12 @@
 package shuttle.icons.domain
 
+import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import shuttle.apps.domain.model.AppId
-import shuttle.icons.domain.model.IconPack
 
 interface IconPacksRepository {
 
-    suspend fun loadIconPack(id: AppId): IconPack
+    suspend fun getDrawableIcon(iconPackId: AppId, appId: AppId, defaultDrawable: Drawable): Drawable
+
+    suspend fun getBitmapIcon(iconPackId: AppId, appId: AppId, defaultBitmap: Bitmap): Bitmap
 }
