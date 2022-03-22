@@ -15,7 +15,7 @@ val settingsDomainModule = module {
     factory { AddToBlacklist(settingsRepository = get(), statRepository = get()) }
     factory { IsBlacklisted(settingsRepository = get()) }
     factory { ObserveAppsBlacklistSettings(appsRepository = get(), settingsRepository = get()) }
-    factory { ObserveCurrentIconPack(settingsRepository = get()) }
+    factory { ObserveCurrentIconPack(appsRepository = get(), settingsRepository = get()) }
     factory { ObserveWidgetSettings(settingsRepository = get()) }
     factory { RemoveFromBlacklist(settingsRepository = get()) }
     factory { SetCurrentIconPack(settingsRepository = get()) }
