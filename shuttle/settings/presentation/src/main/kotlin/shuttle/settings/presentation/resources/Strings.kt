@@ -18,6 +18,12 @@ internal interface Strings {
         val Description: String
     }
 
+    interface IconPack {
+
+        val Title: String
+        val Description: String
+    }
+
     interface WidgetSettings {
 
         val Title: String
@@ -49,6 +55,15 @@ internal fun StringResource<Strings.Blacklist>.get(): String {
     val receiver =  when (getLanguage()) {
         English -> EnStrings.Blacklist
         Italian -> ItStrings.Blacklist
+    }
+    return get(receiver)
+}
+
+@JvmName("getFromStringsIconPack")
+internal fun StringResource<Strings.IconPack>.get(): String {
+    val receiver =  when (getLanguage()) {
+        English -> EnStrings.IconPack
+        Italian -> ItStrings.IconPack
     }
     return get(receiver)
 }

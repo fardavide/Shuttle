@@ -15,6 +15,12 @@ internal object ItStrings : Strings {
         override val Description = "Le app selezionate non verranno proposte come suggerimenti"
     }
 
+    object IconPack : Strings.IconPack {
+
+        override val Title = "Pacchetti Icone"
+        override val Description = "Scegli un Pacchetto d'Icone"
+    }
+
     object WidgetSettings : Strings.WidgetSettings {
 
         override val Title = "Impostazioni Widget"

@@ -22,21 +22,28 @@ import shuttle.settings.presentation.resources.get
 @OptIn(ExperimentalMaterial3Api::class)
 fun SettingsPage(
     toBlacklist: () -> Unit,
-    toWidgetSettings: () -> Unit
+    toWidgetSettings: () -> Unit,
+    toIconPacks: () -> Unit
 ) {
     Scaffold(topBar = { SmallTopAppBar(title = { Text(Strings::SettingsTitle.get()) }) }) {
-        SettingsContent(toBlacklist = toBlacklist, toWidgetSettings = toWidgetSettings)
+        SettingsContent(
+            toBlacklist = toBlacklist,
+            toWidgetSettings = toWidgetSettings,
+            toIconPacks = toIconPacks
+        )
     }
 }
 
 @Composable
 private fun SettingsContent(
     toBlacklist: () -> Unit,
-    toWidgetSettings: () -> Unit
+    toWidgetSettings: () -> Unit,
+    toIconPacks: () -> Unit
 ) {
     LazyColumn {
         item { BlacklistItem(toBlacklist) }
         item { WidgetSettingsItem(toWidgetSettings) }
+        item { IconPackItem(toIconPacks) }
     }
 }
 
@@ -59,6 +66,15 @@ private fun WidgetSettingsItem(toWidgetSettings: () -> Unit) {
 }
 
 @Composable
+private fun IconPackItem(toIconPacks: () -> Unit) {
+    val uiModel = SettingItemUiModel(
+        title = Strings.IconPack::Title.get(),
+        description = Strings.IconPack::Description.get()
+    )
+    SettingsItem(uiModel, toIconPacks)
+}
+
+@Composable
 private fun SettingsItem(item: SettingItemUiModel, onClick: () -> Unit) {
     Column(modifier = Modifier
         .fillMaxWidth()
@@ -67,6 +83,14 @@ private fun SettingsItem(item: SettingItemUiModel, onClick: () -> Unit) {
     ) {
         Text(text = item.title, style = MaterialTheme.typography.titleMedium)
         Text(text = item.description, style = MaterialTheme.typography.bodySmall)
+    }
+}
+
+@Composable
+@Preview(showBackground = true)
+fun SettingsPagePreview() {
+    MaterialTheme {
+        SettingsPage(toBlacklist = {}, toWidgetSettings = {}, toIconPacks = {})
     }
 }
 

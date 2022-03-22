@@ -13,6 +13,12 @@ internal object EnStrings : Strings {
         override val Description = "Selected apps won't be proposed as suggestions"
     }
 
+    object IconPack: Strings.IconPack {
+
+        override val Title = "Icon packs"
+        override val Description = "Choose an Icon Pack for your icons"
+    }
+
     object WidgetSettings : Strings.WidgetSettings {
 
         override val Title = "Widget settings"
