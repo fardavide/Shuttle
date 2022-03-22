@@ -3,13 +3,16 @@ package shuttle.settings.data
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
+import arrow.core.Option
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import shuttle.apps.domain.model.AppId
 import shuttle.apps.domain.model.AppModel
 import shuttle.apps.domain.model.AppName
 import shuttle.database.datasource.SettingDataSource
 import shuttle.database.model.DatabaseAppId
+import shuttle.settings.data.model.CurrentIconPackPreferenceKey
 import shuttle.settings.data.model.WidgetSettingsPreferenceKeys
 import shuttle.settings.domain.SettingsRepository
 import shuttle.settings.domain.model.AppBlacklistSetting
@@ -33,6 +36,11 @@ class SettingsRepositoryImpl(
             }
         }
 
+    override fun observeCurrentIconPack(): Flow<Option<AppId>> =
+        dataStore.data.map {
+            Option.fromNullable(it[CurrentIconPackPreferenceKey]?.let(::AppId))
+        }.distinctUntilChanged()
+
     override fun observeWidgetSettings(): Flow<WidgetSettings> =
         with(WidgetSettingsPreferenceKeys) {
             dataStore.data.map {
@@ -44,7 +52,7 @@ class SettingsRepositoryImpl(
                     verticalSpacing = it[VerticalSpacing]?.let(::Dp) ?: WidgetSettings.Default.verticalSpacing,
                     textSize = it[TextSize]?.let(::Sp) ?: WidgetSettings.Default.textSize
                 )
-            }
+            }.distinctUntilChanged()
         }
 
     override suspend fun isBlacklisted(appId: AppId) =
@@ -52,6 +60,15 @@ class SettingsRepositoryImpl(
 
     override suspend fun setBlacklisted(appId: AppId, blacklisted: Boolean) {
         settingDataSource.setBlacklisted(DatabaseAppId(appId.value), blacklisted)
+    }
+
+    override suspend fun setCurrentIconPack(id: Option<AppId>) {
+        dataStore.edit { preferences ->
+            id.fold(
+                ifEmpty = { preferences -= CurrentIconPackPreferenceKey },
+                ifSome = { preferences[CurrentIconPackPreferenceKey] = it.value }
+            )
+        }
     }
 
     override suspend fun updateWidgetSettings(settings: WidgetSettings) {
