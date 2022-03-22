@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.pm.ResolveInfo
-import arrow.core.Either
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
@@ -16,7 +15,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.withContext
-import shuttle.apps.domain.AppNotInstalled
 import shuttle.apps.domain.AppsRepository
 import shuttle.apps.domain.model.AppId
 import shuttle.apps.domain.model.AppModel
@@ -35,12 +33,6 @@ class AppsRepositoryImpl(
     private val isBlacklisted: IsBlacklisted,
     private val packageManager: PackageManager,
 ) : AppsRepository {
-
-    override suspend fun getApp(id: AppId): Either<AppNotInstalled, AppModel> {
-        val app = observeAllInstalledApps().first()
-            .find { it.id == id }
-        return Either.fromNullable(app).mapLeft { AppNotInstalled }
-    }
 
     override fun observeAllInstalledApps(): Flow<List<AppModel>> =
         merge(observeAllInstalledAppsFromCache(), observeAndRefreshAppsFromDevice())
