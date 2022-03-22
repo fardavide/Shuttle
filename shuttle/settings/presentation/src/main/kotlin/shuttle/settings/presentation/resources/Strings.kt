@@ -22,6 +22,7 @@ internal interface Strings {
 
         val Title: String
         val Description: String
+        val SystemDefault: String
     }
 
     interface WidgetSettings {

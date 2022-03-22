@@ -19,6 +19,7 @@ internal object ItStrings : Strings {
 
         override val Title = "Pacchetti Icone"
         override val Description = "Scegli un Pacchetto d'Icone"
+        override val SystemDefault = "Icone di sistema"
     }
 
     object WidgetSettings : Strings.WidgetSettings {

@@ -17,6 +17,7 @@ internal object EnStrings : Strings {
 
         override val Title = "Icon packs"
         override val Description = "Choose an Icon Pack for your icons"
+        override val SystemDefault = "System icons"
     }
 
     object WidgetSettings : Strings.WidgetSettings {
