@@ -46,7 +46,7 @@ fun BlacklistSettingsPage() {
 }
 
 @Composable
-fun BlacklistSettingsContent() {
+private fun BlacklistSettingsContent() {
     val viewModel: BlacklistSettingsViewModel = getViewModel()
 
     val s by viewModel.state.collectAsStateLifecycleAware()
@@ -61,7 +61,7 @@ fun BlacklistSettingsContent() {
 }
 
 @Composable
-internal fun AllAppsList(
+private fun AllAppsList(
     apps: List<AppBlacklistSettingUiModel>,
     onAddToBlacklist: (AppId) -> Unit,
     onRemoveFromBlacklist: (AppId) -> Unit
@@ -79,7 +79,7 @@ internal fun AllAppsList(
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-internal fun AppListItem(
+private fun AppListItem(
     app: AppBlacklistSettingUiModel,
     onAddToBlacklist: (AppId) -> Unit,
     onRemoveFromBlacklist: (AppId) -> Unit
