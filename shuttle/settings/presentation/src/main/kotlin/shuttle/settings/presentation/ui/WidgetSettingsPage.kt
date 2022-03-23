@@ -37,6 +37,12 @@ import shuttle.design.ui.LoadingSpinner
 import shuttle.design.ui.TextError
 import shuttle.design.util.collectAsStateLifecycleAware
 import shuttle.settings.domain.model.WidgetSettings
+import shuttle.settings.domain.model.WidgetSettings.Companion.ColumnsCountRange
+import shuttle.settings.domain.model.WidgetSettings.Companion.HorizontalSpacingRange
+import shuttle.settings.domain.model.WidgetSettings.Companion.IconsSizeRange
+import shuttle.settings.domain.model.WidgetSettings.Companion.RowsCountRange
+import shuttle.settings.domain.model.WidgetSettings.Companion.TextSizeRange
+import shuttle.settings.domain.model.WidgetSettings.Companion.VerticalSpacingRange
 import shuttle.settings.presentation.model.WidgetPreviewAppUiModel
 import shuttle.settings.presentation.model.WidgetSettingsUiModel
 import shuttle.settings.presentation.resources.Strings
@@ -142,42 +148,42 @@ private fun SettingItems(
     Column {
         SliderItem(
             title = Strings.WidgetSettings::RowsCount.get(),
-            valueRange = 1..5,
+            valueRange = RowsCountRange,
             stepsSize = 1,
             value = settings.rowsCount,
             onValueChange = onRowsUpdated
         )
         SliderItem(
             title = Strings.WidgetSettings::ColumnsCount.get(),
-            valueRange = 3..16,
+            valueRange = ColumnsCountRange,
             stepsSize = 1,
             value = settings.columnsCount,
             onValueChange = onColumnsUpdated
         )
         SliderItem(
             title = Strings.WidgetSettings::IconsSize.get(),
-            valueRange = 24..56,
+            valueRange = IconsSizeRange,
             stepsSize = 1,
             value = settings.iconSize.value.toInt(),
             onValueChange = onIconSizeUpdated
         )
         SliderItem(
             title = Strings.WidgetSettings::HorizontalSpacing.get(),
-            valueRange = 2..16,
+            valueRange = HorizontalSpacingRange,
             stepsSize = 1,
             value = settings.horizontalSpacing.value.toInt(),
             onValueChange = onHorizontalSpacingUpdated
         )
         SliderItem(
             title = Strings.WidgetSettings::VerticalSpacing.get(),
-            valueRange = 2..16,
+            valueRange = VerticalSpacingRange,
             stepsSize = 1,
             value = settings.verticalSpacing.value.toInt(),
             onValueChange = onVerticalSpacingUpdated
         )
         SliderItem(
             title = Strings.WidgetSettings::TextSize.get(),
-            valueRange = 6..16,
+            valueRange = TextSizeRange,
             stepsSize = 1,
             value = settings.textSize.value.toInt(),
             onValueChange = onTextSizeUpdated

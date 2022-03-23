@@ -11,6 +11,13 @@ data class WidgetSettings(
 
     companion object {
 
+        val RowsCountRange = 1..5
+        val ColumnsCountRange = 3..16
+        val IconsSizeRange = 24..56
+        val HorizontalSpacingRange = 2..16
+        val VerticalSpacingRange = 2..16
+        val TextSizeRange = 6..16
+
         val Default = WidgetSettings(
             rowsCount = 2,
             columnsCount = 5,
