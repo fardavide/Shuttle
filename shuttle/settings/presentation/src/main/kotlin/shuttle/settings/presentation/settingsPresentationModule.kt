@@ -7,6 +7,7 @@ import shuttle.settings.presentation.mapper.IconPackSettingsUiModelMapper
 import shuttle.settings.presentation.mapper.WidgetPreviewAppUiModelMapper
 import shuttle.settings.presentation.mapper.WidgetSettingsUiModelMapper
 import shuttle.settings.presentation.viewmodel.BlacklistSettingsViewModel
+import shuttle.settings.presentation.viewmodel.IconPacksSettingsViewModel
 import shuttle.settings.presentation.viewmodel.WidgetSettingsViewModel
 
 val settingsPresentationModule = module {
@@ -17,6 +18,14 @@ val settingsPresentationModule = module {
             observeAppsBlacklistSettings = get(),
             addToBlacklist = get(),
             removeFromBlacklist = get()
+        )
+    }
+    viewModel {
+        IconPacksSettingsViewModel(
+            iconPackSettingsMapper = get(),
+            observeInstalledIconPacks = get(),
+            observeCurrentIconPack = get(),
+            setCurrentIconPack = get()
         )
     }
     viewModel {

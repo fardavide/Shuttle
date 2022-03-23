@@ -25,6 +25,7 @@ internal class IconPackSettingsUiModelMapper(
     }
 
     private suspend fun toUiModel(iconPack: AppModel, isSelected: Boolean) = IconPackSettingsUiModel.FromApp(
+        id = iconPack.id,
         name = iconPack.name.value,
         icon = getSystemIconDrawableForApp(iconPack.id),
         isSelected = isSelected

@@ -2,7 +2,10 @@ package shuttle.settings.presentation.viewmodel
 
 import androidx.lifecycle.viewModelScope
 import arrow.core.None
+import arrow.core.Option
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import shuttle.apps.domain.model.AppId
@@ -27,10 +30,9 @@ internal class IconPacksSettingsViewModel(
             observeInstalledIconPacks(),
             observeCurrentIconPack().onStart { emit(None) }
         ) { iconPacks, currentIconPack ->
-            iconPackSettingsMapper.toUiModels(iconPacks, currentIconPack)
+            val uiModels = iconPackSettingsMapper.toUiModels(iconPacks, currentIconPack)
+            State.Data(uiModels)
         }
-        observeAppsBlacklistSettings()
-            .map { list -> State.Data(appUiModelMapper.toUiModels(list.sortIfFirstData())) }
             .onEach(::emit)
             .launchIn(viewModelScope)
     }
@@ -39,35 +41,21 @@ internal class IconPacksSettingsViewModel(
         val currentState = state.value as? State.Data ?: return
         viewModelScope.launch {
             val newState = when (action) {
-                is Action.AddToBlacklist -> onAddToBlacklist(currentState, action.appId)
-                is Action.RemoveFromBlacklist -> onRemoveFromBlacklist(currentState, action.appId)
+                is Action.SetCurrentIconPack -> setCurrentIconPack(currentState, action.iconPackId)
             }
             emit(newState)
         }
     }
 
-    private suspend fun onAddToBlacklist(currentState: State.Data, appId: AppId): State {
-        val newData = currentState.apps.map { app ->
-            val shouldBeBlacklisted =
-                if (app.id == appId) true
-                else app.isBlacklisted
-            app.copy(isBlacklisted = shouldBeBlacklisted)
+    private suspend fun setCurrentIconPack(currentState: State.Data, iconPackId: Option<AppId>): State {
+        val newData = currentState.iconPackSettings.map { uiModel ->
+            when (uiModel) {
+                is IconPackSettingsUiModel.SystemDefault -> uiModel.copy(isSelected = iconPackId.isEmpty())
+                is IconPackSettingsUiModel.FromApp -> uiModel.copy(isSelected = uiModel.id == iconPackId.orNull())
+            }
         }
         viewModelScope.launch {
-            addToBlacklist(appId)
-        }
-        return State.Data(newData)
-    }
-
-    private suspend fun onRemoveFromBlacklist(currentState: State.Data, appId: AppId): State {
-        val newData = currentState.apps.map { app ->
-            val shouldBeBlacklisted =
-                if (app.id == appId) false
-                else app.isBlacklisted
-            app.copy(isBlacklisted = shouldBeBlacklisted)
-        }
-        viewModelScope.launch {
-            removeFromBlacklist(appId)
+            setCurrentIconPack(iconPackId)
         }
         return State.Data(newData)
     }
@@ -75,12 +63,11 @@ internal class IconPacksSettingsViewModel(
     sealed interface State {
 
         object Loading : State
-        data class Data(val apps: List<IconPackSettingsUiModel>) : State
-        data class Error(val message: String) : State
+        data class Data(val iconPackSettings: List<IconPackSettingsUiModel>) : State
     }
 
     sealed interface Action {
 
-        data class SetCurrentIconPack(val appId: AppId): Action
+        data class SetCurrentIconPack(val iconPackId: Option<AppId>): Action
     }
 }
