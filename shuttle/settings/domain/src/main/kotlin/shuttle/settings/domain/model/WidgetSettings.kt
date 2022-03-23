@@ -16,7 +16,7 @@ data class WidgetSettings(
         val IconsSizeRange = 24..56
         val HorizontalSpacingRange = 2..16
         val VerticalSpacingRange = 2..16
-        val TextSizeRange = 6..16
+        val TextSizeRange = 6..18
 
         val Default = WidgetSettings(
             rowsCount = 2,
