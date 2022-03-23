@@ -149,7 +149,7 @@ private fun SettingItems(
         )
         SliderItem(
             title = Strings.WidgetSettings::ColumnsCount.get(),
-            valueRange = 3..10,
+            valueRange = 3..16,
             stepsSize = 1,
             value = settings.columnsCount,
             onValueChange = onColumnsUpdated
