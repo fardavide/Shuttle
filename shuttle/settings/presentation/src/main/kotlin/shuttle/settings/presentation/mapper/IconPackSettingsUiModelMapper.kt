@@ -4,7 +4,7 @@ import arrow.core.Option
 import shuttle.apps.domain.model.AppId
 import shuttle.apps.domain.model.AppModel
 import shuttle.icons.domain.usecase.GetSystemIconDrawableForApp
-import shuttle.settings.presentation.model.IconPackSettingsUiModel
+import shuttle.settings.presentation.model.IconPackSettingsItemUiModel
 import shuttle.settings.presentation.resources.Strings
 
 internal class IconPackSettingsUiModelMapper(
@@ -14,8 +14,8 @@ internal class IconPackSettingsUiModelMapper(
     suspend fun toUiModels(
         iconPacks: Collection<AppModel>,
         selectedIconPack: Option<AppId>
-    ): List<IconPackSettingsUiModel> {
-        val systemDefaultUiModel = IconPackSettingsUiModel.SystemDefault(
+    ): List<IconPackSettingsItemUiModel> {
+        val systemDefaultUiModel = IconPackSettingsItemUiModel.SystemDefault(
             name = Strings.IconPack::SystemDefault,
             isSelected = selectedIconPack.isEmpty()
         )
@@ -24,7 +24,7 @@ internal class IconPackSettingsUiModelMapper(
         return listOf(systemDefaultUiModel) + iconsPacksModels
     }
 
-    private suspend fun toUiModel(iconPack: AppModel, isSelected: Boolean) = IconPackSettingsUiModel.FromApp(
+    private suspend fun toUiModel(iconPack: AppModel, isSelected: Boolean) = IconPackSettingsItemUiModel.FromApp(
         id = iconPack.id,
         name = iconPack.name.value,
         icon = getSystemIconDrawableForApp(iconPack.id),

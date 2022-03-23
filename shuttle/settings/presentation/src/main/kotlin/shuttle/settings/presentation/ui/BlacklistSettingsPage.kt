@@ -52,7 +52,7 @@ private fun BlacklistSettingsContent() {
     val s by viewModel.state.collectAsStateLifecycleAware()
     when (val state = s) {
         State.Loading -> LoadingSpinner()
-        is State.Data -> AllAppsList(
+        is State.Data -> IconPackItemsList(
             state.apps,
             onAddToBlacklist = { viewModel.submit(Action.AddToBlacklist(it)) },
             onRemoveFromBlacklist = { viewModel.submit(Action.RemoveFromBlacklist(it)) })
@@ -61,7 +61,7 @@ private fun BlacklistSettingsContent() {
 }
 
 @Composable
-private fun AllAppsList(
+private fun IconPackItemsList(
     apps: List<AppBlacklistSettingUiModel>,
     onAddToBlacklist: (AppId) -> Unit,
     onRemoveFromBlacklist: (AppId) -> Unit

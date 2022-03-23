@@ -13,7 +13,7 @@ import shuttle.icons.domain.usecase.ObserveInstalledIconPacks
 import shuttle.settings.domain.usecase.ObserveCurrentIconPack
 import shuttle.settings.domain.usecase.SetCurrentIconPack
 import shuttle.settings.presentation.mapper.IconPackSettingsUiModelMapper
-import shuttle.settings.presentation.model.IconPackSettingsUiModel
+import shuttle.settings.presentation.model.IconPackSettingsItemUiModel
 import shuttle.settings.presentation.viewmodel.IconPacksSettingsViewModel.Action
 import shuttle.settings.presentation.viewmodel.IconPacksSettingsViewModel.State
 import shuttle.util.android.viewmodel.ShuttleViewModel
@@ -48,10 +48,10 @@ internal class IconPacksSettingsViewModel(
     }
 
     private suspend fun setCurrentIconPack(currentState: State.Data, iconPackId: Option<AppId>): State {
-        val newData = currentState.iconPackSettings.map { uiModel ->
+        val newData = currentState.iconPackSettingItems.map { uiModel ->
             when (uiModel) {
-                is IconPackSettingsUiModel.SystemDefault -> uiModel.copy(isSelected = iconPackId.isEmpty())
-                is IconPackSettingsUiModel.FromApp -> uiModel.copy(isSelected = uiModel.id == iconPackId.orNull())
+                is IconPackSettingsItemUiModel.SystemDefault -> uiModel.copy(isSelected = iconPackId.isEmpty())
+                is IconPackSettingsItemUiModel.FromApp -> uiModel.copy(isSelected = uiModel.id == iconPackId.orNull())
             }
         }
         viewModelScope.launch {
@@ -63,7 +63,7 @@ internal class IconPacksSettingsViewModel(
     sealed interface State {
 
         object Loading : State
-        data class Data(val iconPackSettings: List<IconPackSettingsUiModel>) : State
+        data class Data(val iconPackSettingItems: List<IconPackSettingsItemUiModel>) : State
     }
 
     sealed interface Action {
