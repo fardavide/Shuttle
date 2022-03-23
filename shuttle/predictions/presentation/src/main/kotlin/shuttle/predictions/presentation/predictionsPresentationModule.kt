@@ -22,13 +22,14 @@ val predictionsPresentationModule = module {
     factory {
         SuggestedAppsWidgetViewModel(
             appUiModelMapper = get(),
+            observeCurrentIconPack = get(),
             observeSuggestedApps = get(),
             observeWidgetSettings = get(),
             widgetSettingsUiModelMapper = get(),
             viewModelScope = MainScope()
         )
     }
-    factory { WidgetAppUiModelMapper(getSystemIconForApp = get(), getLaunchIntentForApp = get()) }
+    factory { WidgetAppUiModelMapper(getIconForApp = get(), getLaunchIntentForApp = get()) }
     factory { WidgetSettingsUiModelMapper() }
 
 }

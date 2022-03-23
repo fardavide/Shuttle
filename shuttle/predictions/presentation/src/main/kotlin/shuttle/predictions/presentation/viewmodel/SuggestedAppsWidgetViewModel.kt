@@ -12,10 +12,12 @@ import shuttle.predictions.presentation.mapper.WidgetSettingsUiModelMapper
 import shuttle.predictions.presentation.model.WidgetAppUiModel
 import shuttle.predictions.presentation.model.WidgetSettingsUiModel
 import shuttle.predictions.presentation.resources.Strings
+import shuttle.settings.domain.usecase.ObserveCurrentIconPack
 import shuttle.settings.domain.usecase.ObserveWidgetSettings
 
 internal class SuggestedAppsWidgetViewModel(
     private val appUiModelMapper: WidgetAppUiModelMapper,
+    observeCurrentIconPack: ObserveCurrentIconPack,
     observeSuggestedApps: ObserveSuggestedApps,
     observeWidgetSettings: ObserveWidgetSettings,
     private val widgetSettingsUiModelMapper: WidgetSettingsUiModelMapper,
@@ -23,11 +25,15 @@ internal class SuggestedAppsWidgetViewModel(
 ) {
 
     val state: State = runBlocking(viewModelScope.coroutineContext) {
-        combine(observeSuggestedApps(), observeWidgetSettings()) { suggestedAppsEither, widgetSettings ->
+        combine(
+            observeCurrentIconPack(),
+            observeSuggestedApps(),
+            observeWidgetSettings()
+        ) { currentIconPack, suggestedAppsEither, widgetSettings ->
             suggestedAppsEither.fold(
                 ifRight = { suggestedApps ->
                     State.Data(
-                        apps = appUiModelMapper.toUiModels(suggestedApps),
+                        apps = appUiModelMapper.toUiModels(suggestedApps, currentIconPack),
                         widgetSettings = widgetSettingsUiModelMapper.toUiModel(widgetSettings)
                     )
                 },

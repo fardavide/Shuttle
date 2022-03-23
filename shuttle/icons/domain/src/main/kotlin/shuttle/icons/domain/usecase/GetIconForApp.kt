@@ -1,6 +1,7 @@
 package shuttle.icons.domain.usecase
 
 import android.graphics.drawable.Icon
+import arrow.core.Option
 import shuttle.apps.domain.model.AppId
 import shuttle.icons.domain.IconPacksRepository
 
@@ -9,8 +10,11 @@ class GetIconForApp(
     private val iconPacksRepository: IconPacksRepository,
 ) {
 
-    suspend operator fun invoke(id: AppId, iconPackId: AppId): Icon {
+    suspend operator fun invoke(id: AppId, iconPackId: Option<AppId>): Icon {
         val systemIcon = getSystemIconForApp(id)
-        return iconPacksRepository.getIcon(iconPackId = iconPackId, appId = id, defaultIcon = systemIcon)
+        return iconPackId.fold(
+            ifEmpty = { systemIcon },
+            ifSome = { iconPacksRepository.getIcon(iconPackId = it, appId = id, defaultIcon = systemIcon) }
+        )
     }
 }
