@@ -42,7 +42,7 @@ import shuttle.settings.presentation.viewmodel.IconPacksSettingsViewModel.State
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-fun IconPacksSettingsPage() {
+fun IconPackSettingsPage() {
     Scaffold(topBar = { SmallTopAppBar(title = { Text(Strings.IconPack::Title.get()) }) }) {
         IconPacksSettingsContent()
     }

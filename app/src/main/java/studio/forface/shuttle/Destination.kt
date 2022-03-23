@@ -15,6 +15,7 @@ import androidx.navigation.compose.composable
 internal enum class Destination(val id: String) {
 
     BlacklistSettings("blacklist settings"),
+    IconPackSettings("icon pack settings"),
     Permissions("permissions"),
     Settings("settings"),
     Suggestions("suggestions"),

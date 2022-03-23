@@ -15,9 +15,11 @@ import shuttle.design.theme.ShuttleTheme
 import shuttle.permissions.ui.PermissionsPage
 import shuttle.predictions.presentation.ui.SuggestedAppsListPage
 import shuttle.settings.presentation.ui.BlacklistSettingsPage
+import shuttle.settings.presentation.ui.IconPackSettingsPage
 import shuttle.settings.presentation.ui.SettingsPage
 import shuttle.settings.presentation.ui.WidgetSettingsPage
 import studio.forface.shuttle.Destination.BlacklistSettings
+import studio.forface.shuttle.Destination.IconPackSettings
 import studio.forface.shuttle.Destination.Permissions
 import studio.forface.shuttle.Destination.Settings
 import studio.forface.shuttle.Destination.Suggestions
@@ -43,6 +45,7 @@ private fun App() {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = Permissions) {
         composable(BlacklistSettings) { BlacklistSettingsRoute() }
+        composable(IconPackSettings) { IconPackSettingsRoute() }
         composable(Permissions) { PermissionsRoute(navController) }
         composable(Settings) { SettingsRoute(navController) }
         composable(Suggestions) { SuggestionsRoute(navController) }
@@ -55,6 +58,10 @@ private fun BlacklistSettingsRoute() =
     BlacklistSettingsPage()
 
 @Composable
+private fun IconPackSettingsRoute() =
+    IconPackSettingsPage()
+
+@Composable
 private fun PermissionsRoute(navController: NavController) =
     PermissionsPage(onAllPermissionsGranted = { navController.navigate(Settings, PopAll) })
 
@@ -62,7 +69,8 @@ private fun PermissionsRoute(navController: NavController) =
 private fun SettingsRoute(navController: NavController) =
     SettingsPage(
         toBlacklist = { navController.navigate(BlacklistSettings) },
-        toWidgetSettings = { navController.navigate(WidgetSettings) }
+        toWidgetSettings = { navController.navigate(WidgetSettings) },
+        toIconPacks = { navController.navigate(IconPackSettings) }
     )
 
 @Composable
