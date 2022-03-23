@@ -1,18 +1,20 @@
 package shuttle.settings.presentation.mapper
 
+import arrow.core.Option
+import shuttle.apps.domain.model.AppId
 import shuttle.apps.domain.model.AppModel
-import shuttle.icons.domain.usecase.GetSystemIconDrawableForApp
+import shuttle.icons.domain.usecase.GetIconDrawableForApp
 import shuttle.settings.presentation.model.WidgetPreviewAppUiModel
 
 class WidgetPreviewAppUiModelMapper(
-    private val getSystemIconDrawableForApp: GetSystemIconDrawableForApp
+    private val getIconDrawableForApp: GetIconDrawableForApp
 ) {
 
-    suspend fun toUiModel(app: AppModel) = WidgetPreviewAppUiModel(
+    suspend fun toUiModel(app: AppModel, iconPackId: Option<AppId>) = WidgetPreviewAppUiModel(
         name = app.name.value,
-        icon = getSystemIconDrawableForApp(app.id)
+        icon = getIconDrawableForApp(id = app.id, iconPackId = iconPackId)
     )
 
-    suspend fun toUiModels(apps: Collection<AppModel>): List<WidgetPreviewAppUiModel> =
-        apps.map { toUiModel(it) }
+    suspend fun toUiModels(apps: Collection<AppModel>, iconPackId: Option<AppId>): List<WidgetPreviewAppUiModel> =
+        apps.map { toUiModel(app = it, iconPackId = iconPackId) }
 }

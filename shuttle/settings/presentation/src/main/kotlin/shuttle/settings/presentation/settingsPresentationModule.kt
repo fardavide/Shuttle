@@ -31,6 +31,7 @@ val settingsPresentationModule = module {
     viewModel {
         WidgetSettingsViewModel(
             observeAllInstalledApps = get(),
+            observeCurrentIconPack = get(),
             observeWidgetSettings = get(),
             updateWidgetSettings = get(),
             widgetPreviewAppUiModelMapper = get(),
@@ -39,6 +40,6 @@ val settingsPresentationModule = module {
     }
     factory { AppBlacklistSettingUiModelMapper(getSystemIconDrawableForApp = get()) }
     factory { IconPackSettingsUiModelMapper(getSystemIconDrawableForApp = get()) }
-    factory { WidgetPreviewAppUiModelMapper(getSystemIconDrawableForApp = get()) }
+    factory { WidgetPreviewAppUiModelMapper(getIconDrawableForApp = get()) }
     factory { WidgetSettingsUiModelMapper() }
 }

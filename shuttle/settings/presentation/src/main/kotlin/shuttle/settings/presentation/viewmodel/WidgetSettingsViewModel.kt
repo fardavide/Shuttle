@@ -9,6 +9,7 @@ import shuttle.apps.domain.usecase.ObserveAllInstalledApps
 import shuttle.settings.domain.model.Dp
 import shuttle.settings.domain.model.Sp
 import shuttle.settings.domain.model.WidgetSettings
+import shuttle.settings.domain.usecase.ObserveCurrentIconPack
 import shuttle.settings.domain.usecase.ObserveWidgetSettings
 import shuttle.settings.domain.usecase.UpdateWidgetSettings
 import shuttle.settings.presentation.mapper.WidgetPreviewAppUiModelMapper
@@ -21,6 +22,7 @@ import shuttle.util.android.viewmodel.ShuttleViewModel
 
 internal class WidgetSettingsViewModel(
     observeAllInstalledApps: ObserveAllInstalledApps,
+    observeCurrentIconPack: ObserveCurrentIconPack,
     observeWidgetSettings: ObserveWidgetSettings,
     private val updateWidgetSettings: UpdateWidgetSettings,
     private val widgetPreviewAppUiModelMapper: WidgetPreviewAppUiModelMapper,
@@ -28,9 +30,13 @@ internal class WidgetSettingsViewModel(
 ) : ShuttleViewModel<Action, State>(initialState = State.Loading) {
 
     init {
-        combine(observeWidgetSettings(), observeAllInstalledApps()) { widgetSettings, installedApps ->
+        combine(
+            observeAllInstalledApps(),
+            observeCurrentIconPack(),
+            observeWidgetSettings(),
+        ) { installedApps, currentIconPack, widgetSettings ->
             State.Data(
-                previewApps = widgetPreviewAppUiModelMapper.toUiModels(installedApps).shuffled(),
+                previewApps = widgetPreviewAppUiModelMapper.toUiModels(installedApps, currentIconPack).shuffled(),
                 widgetSettingsDomainModel = widgetSettings,
                 widgetSettingsUiModel = widgetSettingsUiModelMapper.toUiModel(widgetSettings)
             )
