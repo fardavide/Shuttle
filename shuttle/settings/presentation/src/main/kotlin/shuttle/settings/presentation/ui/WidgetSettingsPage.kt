@@ -36,6 +36,8 @@ import shuttle.design.theme.Dimens
 import shuttle.design.ui.LoadingSpinner
 import shuttle.design.ui.TextError
 import shuttle.design.util.collectAsStateLifecycleAware
+import shuttle.settings.domain.model.Dp
+import shuttle.settings.domain.model.Sp
 import shuttle.settings.domain.model.WidgetSettings
 import shuttle.settings.domain.model.WidgetSettings.Companion.ColumnsCountRange
 import shuttle.settings.domain.model.WidgetSettings.Companion.HorizontalSpacingRange
@@ -261,10 +263,10 @@ private fun WidgetPreviewPreview() {
     val widgetSettings = WidgetSettingsUiModel(
         rowsCount = WidgetSettings.Default.rowsCount,
         columnsCount = WidgetSettings.Default.columnsCount,
-        iconSize = WidgetSettings.Default.iconsSize.value.dp,
-        horizontalSpacing = WidgetSettings.Default.horizontalSpacing.value.dp,
-        verticalSpacing = WidgetSettings.Default.verticalSpacing.value.dp,
-        textSize = WidgetSettings.Default.textSize.value.sp,
+        iconSize = WidgetSettings.Default.iconsSize.dp,
+        horizontalSpacing = WidgetSettings.Default.horizontalSpacing.dp,
+        verticalSpacing = WidgetSettings.Default.verticalSpacing.dp,
+        textSize = WidgetSettings.Default.textSize.sp,
     )
     MaterialTheme {
         WidgetPreview(previewApps = apps, widgetSettings = widgetSettings)
@@ -286,3 +288,6 @@ private fun SettingItemsPreview() {
         SettingItems(widgetSettings, {}, {}, {}, {}, {}, {})
     }
 }
+
+private val Dp.dp get() = value.dp
+private val Sp.sp get() = value.sp
