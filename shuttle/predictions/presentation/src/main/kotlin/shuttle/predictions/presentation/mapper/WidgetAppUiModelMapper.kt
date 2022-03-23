@@ -14,7 +14,6 @@ import shuttle.icons.domain.usecase.GetIconBitmapForApp
 import shuttle.predictions.presentation.model.WidgetAppUiModel
 import shuttle.util.android.GetLaunchIntentForApp
 
-
 class WidgetAppUiModelMapper(
     private val getIconBitmapForApp: GetIconBitmapForApp,
     private val getLaunchIntentForApp: GetLaunchIntentForApp

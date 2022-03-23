@@ -9,7 +9,6 @@ import android.graphics.PorterDuff
 import android.graphics.PorterDuffXfermode
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
-import android.graphics.drawable.Icon
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import org.xmlpull.v1.XmlPullParser
@@ -24,7 +23,7 @@ import java.util.Random
 
 class IconPacksRepositoryImpl(
     private val packageManager: PackageManager,
-    private val dispathcer: CoroutineDispatcher
+    private val dispatcher: CoroutineDispatcher
 ) : IconPacksRepository {
 
     private var cache = mutableMapOf<AppId, IconPack>()
@@ -35,12 +34,8 @@ class IconPacksRepositoryImpl(
     override suspend fun getBitmapIcon(iconPackId: AppId, appId: AppId, defaultBitmap: Bitmap): Bitmap =
         getBitmapIcon(loadIconPack(iconPackId), appId, defaultBitmap)
 
-    override suspend fun getIcon(iconPackId: AppId, appId: AppId, defaultIcon: Icon): Icon {
-        val bitmap = getBitmapIcon(iconPackId, appId, Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888))
-        return Icon.createWithBitmap(Bitmap.createBitmap(bitmap))
-    }
-
-    private suspend fun loadIconPack(id: AppId): IconPack = withContext(dispathcer) {
+    @Suppress("LongMethod", "ComplexMethod", "SwallowedException") // Copied from SO, to be refactored
+    private suspend fun loadIconPack(id: AppId): IconPack = withContext(dispatcher) {
         cache[id]?.let { return@withContext it }
 
         val packageName = id.value
@@ -150,7 +145,7 @@ class IconPacksRepositoryImpl(
         iconPack: IconPack,
         appId: AppId,
         defaultDrawable: Drawable
-    ): Drawable = withContext(dispathcer) {
+    ): Drawable = withContext(dispatcher) {
         val appPackageName = appId.value
         val drawables = iconPack.drawables
 
@@ -185,7 +180,7 @@ class IconPacksRepositoryImpl(
         iconPack: IconPack,
         appId: AppId,
         defaultBitmap: Bitmap
-    ): Bitmap = withContext(dispathcer) {
+    ): Bitmap = withContext(dispatcher) {
         val appPackageName = appId.value
         val resources = iconPack.resources
         val drawables = iconPack.drawables
@@ -211,21 +206,6 @@ class IconPacksRepositoryImpl(
             }
             return@withContext generateBitmap(iconPack, appId, defaultBitmap)
         }
-    }
-
-    private suspend fun getIcon(
-        iconPack: IconPack,
-        appId: AppId,
-        defaultIcon: Icon
-    ): Icon = withContext(dispathcer) {
-        val drawableName = iconPack.drawables[appId]
-        val icon = if (drawableName != null) {
-            val resourceId = iconPack.resources.getIdentifier(drawableName.value, "drawable", iconPack.id.value)
-            Icon.createWithResource(iconPack.id.value, resourceId)
-        } else {
-            defaultIcon
-        }
-        icon ?: defaultIcon
     }
 
     private fun loadBitmap(iconPack: IconPack, drawableName: String): Bitmap? {
@@ -254,14 +234,6 @@ class IconPacksRepositoryImpl(
         val backImages = iconPack.backImages
         val maskImage = iconPack.maskImage
         val factor = iconPack.factor
-
-        // the key for the cache is the icon pack package name and the app package name
-        val key = "${iconPack.id.value}:$appPackageName"
-
-        // if generated bitmaps cache already contains the package name return it
-//            Bitmap cachedBitmap = BitmapCache.getInstance(mContext).getBitmap(key);
-//            if (cachedBitmap != null)
-//                return cachedBitmap;
 
         // if no support images in the icon pack return the bitmap itself
         if (backImages.isEmpty()) return defaultBitmap
