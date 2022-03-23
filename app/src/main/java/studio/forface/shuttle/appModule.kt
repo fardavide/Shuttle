@@ -16,6 +16,7 @@ val appModule = module {
 
     single { CoroutineScope(Job() + Dispatchers.Default) }
     factory<PackageManager> { get<Context>().packageManager }
+    factory { get<Context>().resources }
     factory<() -> Unit>(StartAppId) { ::startMainActivity }
     factory { WorkManager.getInstance(get()) }
 

@@ -36,7 +36,8 @@ class IconPacksRepositoryImpl(
         getBitmapIcon(loadIconPack(iconPackId), appId, defaultBitmap)
 
     override suspend fun getIcon(iconPackId: AppId, appId: AppId, defaultIcon: Icon): Icon {
-        TODO("Not yet implemented")
+        val bitmap = getBitmapIcon(iconPackId, appId, Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888))
+        return Icon.createWithBitmap(Bitmap.createBitmap(bitmap))
     }
 
     private suspend fun loadIconPack(id: AppId): IconPack = withContext(dispathcer) {

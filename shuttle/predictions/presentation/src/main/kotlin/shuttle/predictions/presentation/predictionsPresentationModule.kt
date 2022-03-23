@@ -29,7 +29,7 @@ val predictionsPresentationModule = module {
             viewModelScope = MainScope()
         )
     }
-    factory { WidgetAppUiModelMapper(getIconForApp = get(), getLaunchIntentForApp = get()) }
+    factory { WidgetAppUiModelMapper(getIconBitmapForApp = get(), getLaunchIntentForApp = get()) }
     factory { WidgetSettingsUiModelMapper() }
 
 }
