@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -147,49 +148,61 @@ private fun SettingItems(
     onVerticalSpacingUpdated: (Int) -> Unit,
     onTextSizeUpdated: (Int) -> Unit
 ) {
-    Column {
-        SliderItem(
-            title = Strings.WidgetSettings::RowsCount.get(),
-            valueRange = RowsCountRange,
-            stepsSize = 1,
-            value = settings.rowsCount,
-            onValueChange = onRowsUpdated
-        )
-        SliderItem(
-            title = Strings.WidgetSettings::ColumnsCount.get(),
-            valueRange = ColumnsCountRange,
-            stepsSize = 1,
-            value = settings.columnsCount,
-            onValueChange = onColumnsUpdated
-        )
-        SliderItem(
-            title = Strings.WidgetSettings::IconsSize.get(),
-            valueRange = IconsSizeRange,
-            stepsSize = 1,
-            value = settings.iconSize.value.toInt(),
-            onValueChange = onIconSizeUpdated
-        )
-        SliderItem(
-            title = Strings.WidgetSettings::HorizontalSpacing.get(),
-            valueRange = HorizontalSpacingRange,
-            stepsSize = 1,
-            value = settings.horizontalSpacing.value.toInt(),
-            onValueChange = onHorizontalSpacingUpdated
-        )
-        SliderItem(
-            title = Strings.WidgetSettings::VerticalSpacing.get(),
-            valueRange = VerticalSpacingRange,
-            stepsSize = 1,
-            value = settings.verticalSpacing.value.toInt(),
-            onValueChange = onVerticalSpacingUpdated
-        )
-        SliderItem(
-            title = Strings.WidgetSettings::TextSize.get(),
-            valueRange = TextSizeRange,
-            stepsSize = 1,
-            value = settings.textSize.value.toInt(),
-            onValueChange = onTextSizeUpdated
-        )
+    LazyColumn {
+        item {
+            SliderItem(
+                title = Strings.WidgetSettings::RowsCount.get(),
+                valueRange = RowsCountRange,
+                stepsSize = 1,
+                value = settings.rowsCount,
+                onValueChange = onRowsUpdated
+            )
+        }
+        item {
+            SliderItem(
+                title = Strings.WidgetSettings::ColumnsCount.get(),
+                valueRange = ColumnsCountRange,
+                stepsSize = 1,
+                value = settings.columnsCount,
+                onValueChange = onColumnsUpdated
+            )
+        }
+        item {
+            SliderItem(
+                title = Strings.WidgetSettings::IconsSize.get(),
+                valueRange = IconsSizeRange,
+                stepsSize = 1,
+                value = settings.iconSize.value.toInt(),
+                onValueChange = onIconSizeUpdated
+            )
+        }
+        item {
+            SliderItem(
+                title = Strings.WidgetSettings::HorizontalSpacing.get(),
+                valueRange = HorizontalSpacingRange,
+                stepsSize = 1,
+                value = settings.horizontalSpacing.value.toInt(),
+                onValueChange = onHorizontalSpacingUpdated
+            )
+        }
+        item {
+            SliderItem(
+                title = Strings.WidgetSettings::VerticalSpacing.get(),
+                valueRange = VerticalSpacingRange,
+                stepsSize = 1,
+                value = settings.verticalSpacing.value.toInt(),
+                onValueChange = onVerticalSpacingUpdated
+            )
+        }
+        item {
+            SliderItem(
+                title = Strings.WidgetSettings::TextSize.get(),
+                valueRange = TextSizeRange,
+                stepsSize = 1,
+                value = settings.textSize.value.toInt(),
+                onValueChange = onTextSizeUpdated
+            )
+        }
     }
 }
 
