@@ -6,6 +6,7 @@ import androidx.datastore.preferences.core.edit
 import arrow.core.Option
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import shuttle.apps.domain.model.AppId
 import shuttle.apps.domain.model.AppModel
@@ -13,6 +14,7 @@ import shuttle.apps.domain.model.AppName
 import shuttle.database.datasource.SettingDataSource
 import shuttle.database.model.DatabaseAppId
 import shuttle.settings.data.model.CurrentIconPackPreferenceKey
+import shuttle.settings.data.model.HasAccessibilityServicePreferenceKey
 import shuttle.settings.data.model.WidgetSettingsPreferenceKeys
 import shuttle.settings.domain.SettingsRepository
 import shuttle.settings.domain.model.AppBlacklistSetting
@@ -24,6 +26,11 @@ class SettingsRepositoryImpl(
     private val dataStore: DataStore<Preferences>,
     private val settingDataSource: SettingDataSource
 ) : SettingsRepository {
+
+    override suspend fun hasEnabledAccessibilityService(): Boolean =
+        dataStore.data.map {
+            it[HasAccessibilityServicePreferenceKey] ?: false
+        }.first()
 
     override suspend fun isBlacklisted(appId: AppId) =
         settingDataSource.isBlacklisted(DatabaseAppId(appId.value))

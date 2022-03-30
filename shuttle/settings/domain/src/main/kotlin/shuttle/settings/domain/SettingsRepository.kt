@@ -8,6 +8,8 @@ import shuttle.settings.domain.model.WidgetSettings
 
 interface SettingsRepository {
 
+    suspend fun hasEnabledAccessibilityService(): Boolean
+
     suspend fun isBlacklisted(appId: AppId): Boolean
 
     fun observeAppsBlacklistSettings(): Flow<List<AppBlacklistSetting>>
