@@ -8,11 +8,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import org.koin.androidx.compose.viewModel
+import shuttle.design.theme.ShuttleTheme
 import shuttle.design.ui.LoadingSpinner
 import shuttle.design.util.collectAsStateLifecycleAware
+import shuttle.permissions.model.PermissionItem
 import shuttle.permissions.model.PermissionItemsUiModel
 import shuttle.permissions.model.backgroundPermissionsList
 import shuttle.permissions.model.foregroundPermissionsList
@@ -51,13 +54,28 @@ fun PermissionsPage(toSettings: () -> Unit) {
         State.AllGranted -> LaunchedEffect(state) {
             toSettings()
         }
-        is State.Pending -> PermissionsList(
+        is State.Pending -> PermissionsPageContent(
             permissions = state.permissionItemsUiModel,
             onRequestLocation = foregroundLocationPermissionsState::launchMultiplePermissionRequest,
-            onRequestBackgroundLocation = { openLocationPermissionsOrAppSettings(context) },
             onRequestAccessibilityService = { shouldShowAccessibilityServiceDialog = true }
         )
     }
+}
+
+@Composable
+private fun PermissionsPageContent(
+    permissions: PermissionItemsUiModel,
+    onRequestLocation: () -> Unit,
+    onRequestAccessibilityService: () -> Unit
+) {
+    val context = LocalContext.current
+
+    PermissionsList(
+        permissions = permissions,
+        onRequestLocation = onRequestLocation,
+        onRequestBackgroundLocation = { openLocationPermissionsOrAppSettings(context) },
+        onRequestAccessibilityService = onRequestAccessibilityService
+    )
 }
 
 @Composable
@@ -92,5 +110,23 @@ private fun PermissionsList(
                 onRequestPermission = onRequestAccessibilityService
             )
         }
+    }
+}
+
+@Composable
+@Preview(showBackground = true)
+private fun PermissionsPageContentPreview() {
+    val permissionItemsUiModel = PermissionItemsUiModel(
+        coarseLocation = PermissionItem.Location.Coarse.Granted,
+        fineLocation = PermissionItem.Location.Fine.Granted,
+        backgroundLocation = PermissionItem.Location.Background.Granted,
+        accessibilityService = PermissionItem.Accessibility.Granted
+    )
+    ShuttleTheme {
+        PermissionsPageContent(
+            permissions = permissionItemsUiModel,
+            onRequestLocation = {},
+            onRequestAccessibilityService = {}
+        )
     }
 }
