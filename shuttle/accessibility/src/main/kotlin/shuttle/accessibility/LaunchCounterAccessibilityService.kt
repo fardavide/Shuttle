@@ -3,14 +3,24 @@ package shuttle.accessibility
 import android.accessibilityservice.AccessibilityService
 import android.util.Log
 import android.view.accessibility.AccessibilityEvent
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import shuttle.accessibility.usecase.IncrementOpenCounterIfNotBlacklisted
 import shuttle.accessibility.usecase.UpdateWidget
 import shuttle.apps.domain.model.AppId
+import shuttle.settings.domain.usecase.HasEnabledAccessibilityService
+import shuttle.settings.domain.usecase.SetHasEnabledAccessibilityService
 
 class LaunchCounterAccessibilityService: AccessibilityService() {
 
+    private val scope = CoroutineScope(Job() + Dispatchers.Default)
+
+    private val hasEnabledAccessibilityService: HasEnabledAccessibilityService by inject()
     private val incrementOpenCounterIfNotBlacklisted: IncrementOpenCounterIfNotBlacklisted by inject()
+    private val setHasEnabledAccessibilityService: SetHasEnabledAccessibilityService by inject()
     private val startApp: () -> Unit by inject(StartAppId)
     private val updateWidget: UpdateWidget by inject()
 
@@ -33,7 +43,12 @@ class LaunchCounterAccessibilityService: AccessibilityService() {
     }
 
     override fun onServiceConnected() {
-        startApp()
+        scope.launch {
+            if (hasEnabledAccessibilityService().not()) {
+                startApp()
+            }
+            setHasEnabledAccessibilityService()
+        }
     }
 
     override fun onInterrupt() {}
