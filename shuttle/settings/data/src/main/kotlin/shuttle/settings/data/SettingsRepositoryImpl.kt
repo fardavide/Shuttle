@@ -25,6 +25,9 @@ class SettingsRepositoryImpl(
     private val settingDataSource: SettingDataSource
 ) : SettingsRepository {
 
+    override suspend fun isBlacklisted(appId: AppId) =
+        settingDataSource.isBlacklisted(DatabaseAppId(appId.value))
+
     override fun observeAppsBlacklistSettings(): Flow<List<AppBlacklistSetting>> =
         settingDataSource.findAllAppsWithBlacklistSetting().map { list ->
             list.map { databaseAppBlacklistSetting ->
@@ -54,9 +57,6 @@ class SettingsRepositoryImpl(
                 )
             }.distinctUntilChanged()
         }
-
-    override suspend fun isBlacklisted(appId: AppId) =
-        settingDataSource.isBlacklisted(DatabaseAppId(appId.value))
 
     override suspend fun setBlacklisted(appId: AppId, blacklisted: Boolean) {
         settingDataSource.setBlacklisted(DatabaseAppId(appId.value), blacklisted)

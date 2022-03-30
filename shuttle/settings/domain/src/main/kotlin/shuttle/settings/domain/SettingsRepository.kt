@@ -8,17 +8,17 @@ import shuttle.settings.domain.model.WidgetSettings
 
 interface SettingsRepository {
 
+    suspend fun isBlacklisted(appId: AppId): Boolean
+
     fun observeAppsBlacklistSettings(): Flow<List<AppBlacklistSetting>>
 
     fun observeCurrentIconPack(): Flow<Option<AppId>>
 
     fun observeWidgetSettings(): Flow<WidgetSettings>
 
-    suspend fun isBlacklisted(appId: AppId): Boolean
+    suspend fun setBlacklisted(appId: AppId, blacklisted: Boolean)
 
     suspend fun setCurrentIconPack(id: Option<AppId>)
-
-    suspend fun setBlacklisted(appId: AppId, blacklisted: Boolean)
 
     suspend fun updateWidgetSettings(settings: WidgetSettings)
 }
