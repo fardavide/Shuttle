@@ -22,5 +22,7 @@ interface SettingsRepository {
 
     suspend fun setCurrentIconPack(id: Option<AppId>)
 
+    suspend fun setHasEnabledAccessibilityService()
+
     suspend fun updateWidgetSettings(settings: WidgetSettings)
 }

@@ -78,6 +78,12 @@ class SettingsRepositoryImpl(
         }
     }
 
+    override suspend fun setHasEnabledAccessibilityService() {
+        dataStore.edit {
+            it[HasAccessibilityServicePreferenceKey] = true
+        }
+    }
+
     override suspend fun updateWidgetSettings(settings: WidgetSettings) {
         with(WidgetSettingsPreferenceKeys) {
             dataStore.edit {
