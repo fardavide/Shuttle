@@ -7,7 +7,7 @@ shuttleAndroid {
     useCompose()
     androidApp(
         id = "studio.forface.shuttle",
-        versionCode = version.toInt() + 30,
+        versionCode = version.toInt() + 20,
         versionName = version
     )
 }
