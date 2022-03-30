@@ -15,6 +15,12 @@ internal object ItStrings : Strings {
         override val Description = "Le app selezionate non verranno proposte come suggerimenti"
     }
 
+    object CheckPermissions : Strings.CheckPermissions {
+
+        override val Title = "Controlla i permessi"
+        override val Description = "Verifica lo stato dei permessi necessari"
+    }
+
     object IconPack : Strings.IconPack {
 
         override val Title = "Pacchetti Icone"

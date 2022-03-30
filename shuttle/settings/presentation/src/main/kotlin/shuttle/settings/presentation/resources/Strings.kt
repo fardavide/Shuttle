@@ -18,6 +18,12 @@ internal interface Strings {
         val Description: String
     }
 
+    interface CheckPermissions {
+
+        val Title: String
+        val Description: String
+    }
+
     interface IconPack {
 
         val Title: String
@@ -56,6 +62,15 @@ internal fun StringResource<Strings.Blacklist>.get(): String {
     val receiver =  when (getLanguage()) {
         English -> EnStrings.Blacklist
         Italian -> ItStrings.Blacklist
+    }
+    return get(receiver)
+}
+
+@JvmName("getFromStringsCheckPermissions")
+internal fun StringResource<Strings.CheckPermissions>.get(): String {
+    val receiver =  when (getLanguage()) {
+        English -> EnStrings.CheckPermissions
+        Italian -> ItStrings.CheckPermissions
     }
     return get(receiver)
 }

@@ -13,6 +13,12 @@ internal object EnStrings : Strings {
         override val Description = "Selected apps won't be proposed as suggestions"
     }
 
+    object CheckPermissions : Strings.CheckPermissions {
+
+        override val Title = "Check permissions"
+        override val Description = "Verify the state of the required permissions"
+    }
+
     object IconPack: Strings.IconPack {
 
         override val Title = "Icon packs"

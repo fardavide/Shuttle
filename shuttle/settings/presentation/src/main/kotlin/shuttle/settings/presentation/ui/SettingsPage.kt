@@ -78,6 +78,11 @@ private fun IconPackItem(toIconPacks: () -> Unit) {
 }
 
 @Composable
+private fun CheckPermissionsItem(toPermissions: () -> Unit) {
+
+}
+
+@Composable
 private fun SettingsItem(item: SettingItemUiModel, onClick: () -> Unit) {
     Column(modifier = Modifier
         .fillMaxWidth()
