@@ -28,10 +28,10 @@ internal object ItStrings : Strings {
         override val SystemDefault = "Icone di sistema"
     }
 
-    object WidgetSettings : Strings.WidgetSettings {
+    object WidgetLayout : Strings.WidgetLayout {
 
-        override val Title = "Impostazioni Widget"
-        override val Description = "Customizza l'aspetto del Widget"
+        override val Title = "Disposizone Widget"
+        override val Description = "Customizza la disposizione del Widget"
 
         override val RowsCount = "Numero righe"
         override val ColumnsCount = "Numero colonne"

@@ -22,14 +22,14 @@ import shuttle.settings.presentation.resources.get
 @OptIn(ExperimentalMaterial3Api::class)
 fun SettingsPage(
     toBlacklist: () -> Unit,
-    toWidgetSettings: () -> Unit,
+    toWidgetLayout: () -> Unit,
     toIconPacks: () -> Unit,
     toPermissions: () -> Unit
 ) {
     Scaffold(topBar = { SmallTopAppBar(title = { Text(Strings::SettingsTitle.get()) }) }) {
         SettingsContent(
             toBlacklist = toBlacklist,
-            toWidgetSettings = toWidgetSettings,
+            toWidgetLayout = toWidgetLayout,
             toIconPacks = toIconPacks,
             toPermissions = toPermissions
         )
@@ -39,13 +39,13 @@ fun SettingsPage(
 @Composable
 private fun SettingsContent(
     toBlacklist: () -> Unit,
-    toWidgetSettings: () -> Unit,
+    toWidgetLayout: () -> Unit,
     toIconPacks: () -> Unit,
     toPermissions: () -> Unit
 ) {
     LazyColumn {
         item { BlacklistItem(toBlacklist) }
-        item { WidgetSettingsItem(toWidgetSettings) }
+        item { WidgetLayoutItem(toWidgetLayout) }
         item { IconPackItem(toIconPacks) }
         item { CheckPermissionsItem(toPermissions) }
     }
@@ -61,12 +61,12 @@ private fun BlacklistItem(toBlacklist: () -> Unit) {
 }
 
 @Composable
-private fun WidgetSettingsItem(toWidgetSettings: () -> Unit) {
+private fun WidgetLayoutItem(toWidgetLayout: () -> Unit) {
     val uiModel = SettingItemUiModel(
-        title = Strings.WidgetSettings::Title.get(),
-        description = Strings.WidgetSettings::Description.get()
+        title = Strings.WidgetLayout::Title.get(),
+        description = Strings.WidgetLayout::Description.get()
     )
-    SettingsItem(uiModel, toWidgetSettings)
+    SettingsItem(uiModel, toWidgetLayout)
 }
 
 @Composable
@@ -103,7 +103,7 @@ private fun SettingsItem(item: SettingItemUiModel, onClick: () -> Unit) {
 @Preview(showBackground = true)
 fun SettingsPagePreview() {
     MaterialTheme {
-        SettingsPage(toBlacklist = {}, toWidgetSettings = {}, toIconPacks = {}, toPermissions = {})
+        SettingsPage(toBlacklist = {}, toWidgetLayout = {}, toIconPacks = {}, toPermissions = {})
     }
 }
 

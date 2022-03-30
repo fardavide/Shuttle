@@ -26,10 +26,10 @@ internal object EnStrings : Strings {
         override val SystemDefault = "System icons"
     }
 
-    object WidgetSettings : Strings.WidgetSettings {
+    object WidgetLayout : Strings.WidgetLayout {
 
-        override val Title = "Widget settings"
-        override val Description = "Customise the appearance of the Widget"
+        override val Title = "Widget layout"
+        override val Description = "Customise the layout of the Widget"
 
         override val RowsCount = "Rows count"
         override val ColumnsCount = "Column count"

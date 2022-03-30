@@ -31,7 +31,7 @@ internal interface Strings {
         val SystemDefault: String
     }
 
-    interface WidgetSettings {
+    interface WidgetLayout {
 
         val Title: String
         val Description: String
@@ -85,10 +85,10 @@ internal fun StringResource<Strings.IconPack>.get(): String {
 }
 
 @JvmName("getFromStringsWidgetSettings")
-internal fun StringResource<Strings.WidgetSettings>.get(): String {
+internal fun StringResource<Strings.WidgetLayout>.get(): String {
     val receiver =  when (getLanguage()) {
-        English -> EnStrings.WidgetSettings
-        Italian -> ItStrings.WidgetSettings
+        English -> EnStrings.WidgetLayout
+        Italian -> ItStrings.WidgetLayout
     }
     return get(receiver)
 }

@@ -17,13 +17,13 @@ import shuttle.predictions.presentation.ui.SuggestedAppsListPage
 import shuttle.settings.presentation.ui.BlacklistSettingsPage
 import shuttle.settings.presentation.ui.IconPackSettingsPage
 import shuttle.settings.presentation.ui.SettingsPage
-import shuttle.settings.presentation.ui.WidgetSettingsPage
+import shuttle.settings.presentation.ui.WidgetLayoutPage
 import studio.forface.shuttle.Destination.BlacklistSettings
 import studio.forface.shuttle.Destination.IconPackSettings
 import studio.forface.shuttle.Destination.Permissions
 import studio.forface.shuttle.Destination.Settings
 import studio.forface.shuttle.Destination.Suggestions
-import studio.forface.shuttle.Destination.WidgetSettings
+import studio.forface.shuttle.Destination.WidgetLayout
 
 class MainActivity : ComponentActivity() {
 
@@ -49,7 +49,7 @@ private fun App() {
         composable(Permissions) { PermissionsRoute(navController) }
         composable(Settings) { SettingsRoute(navController) }
         composable(Suggestions) { SuggestionsRoute(navController) }
-        composable(WidgetSettings) { WidgetSettingsRoute() }
+        composable(WidgetLayout) { WidgetLayoutRoute() }
     }
 }
 
@@ -69,7 +69,7 @@ private fun PermissionsRoute(navController: NavController) =
 private fun SettingsRoute(navController: NavController) =
     SettingsPage(
         toBlacklist = { navController.navigate(BlacklistSettings) },
-        toWidgetSettings = { navController.navigate(WidgetSettings) },
+        toWidgetLayout = { navController.navigate(WidgetLayout) },
         toIconPacks = { navController.navigate(IconPackSettings) },
         toPermissions = { navController.navigate(Permissions) }
     )
@@ -79,8 +79,8 @@ private fun SuggestionsRoute(navController: NavController) =
     SuggestedAppsListPage(onSettings = { navController.navigate(Settings) })
 
 @Composable
-private fun WidgetSettingsRoute() =
-    WidgetSettingsPage()
+private fun WidgetLayoutRoute() =
+    WidgetLayoutPage()
 
 private val PopAll: NavOptions = NavOptions.Builder()
     .setPopUpTo(Permissions.id, inclusive = true)

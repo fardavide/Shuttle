@@ -56,8 +56,8 @@ import shuttle.settings.presentation.viewmodel.WidgetSettingsViewModel.State
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-fun WidgetSettingsPage() {
-    Scaffold(topBar = { SmallTopAppBar(title = { Text(Strings.WidgetSettings::Title.get()) }) }) {
+fun WidgetLayoutPage() {
+    Scaffold(topBar = { SmallTopAppBar(title = { Text(Strings.WidgetLayout::Title.get()) }) }) {
         WidgetSettingsContent()
     }
 }
@@ -151,7 +151,7 @@ private fun SettingItems(
     LazyColumn {
         item {
             SliderItem(
-                title = Strings.WidgetSettings::RowsCount.get(),
+                title = Strings.WidgetLayout::RowsCount.get(),
                 valueRange = RowsCountRange,
                 stepsSize = 1,
                 value = settings.rowsCount,
@@ -160,7 +160,7 @@ private fun SettingItems(
         }
         item {
             SliderItem(
-                title = Strings.WidgetSettings::ColumnsCount.get(),
+                title = Strings.WidgetLayout::ColumnsCount.get(),
                 valueRange = ColumnsCountRange,
                 stepsSize = 1,
                 value = settings.columnsCount,
@@ -169,7 +169,7 @@ private fun SettingItems(
         }
         item {
             SliderItem(
-                title = Strings.WidgetSettings::IconsSize.get(),
+                title = Strings.WidgetLayout::IconsSize.get(),
                 valueRange = IconsSizeRange,
                 stepsSize = 1,
                 value = settings.iconSize.value.toInt(),
@@ -178,7 +178,7 @@ private fun SettingItems(
         }
         item {
             SliderItem(
-                title = Strings.WidgetSettings::HorizontalSpacing.get(),
+                title = Strings.WidgetLayout::HorizontalSpacing.get(),
                 valueRange = HorizontalSpacingRange,
                 stepsSize = 1,
                 value = settings.horizontalSpacing.value.toInt(),
@@ -187,7 +187,7 @@ private fun SettingItems(
         }
         item {
             SliderItem(
-                title = Strings.WidgetSettings::VerticalSpacing.get(),
+                title = Strings.WidgetLayout::VerticalSpacing.get(),
                 valueRange = VerticalSpacingRange,
                 stepsSize = 1,
                 value = settings.verticalSpacing.value.toInt(),
@@ -196,7 +196,7 @@ private fun SettingItems(
         }
         item {
             SliderItem(
-                title = Strings.WidgetSettings::TextSize.get(),
+                title = Strings.WidgetLayout::TextSize.get(),
                 valueRange = TextSizeRange,
                 stepsSize = 1,
                 value = settings.textSize.value.toInt(),
