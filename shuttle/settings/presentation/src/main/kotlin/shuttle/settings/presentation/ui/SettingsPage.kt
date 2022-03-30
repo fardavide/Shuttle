@@ -47,6 +47,7 @@ private fun SettingsContent(
         item { BlacklistItem(toBlacklist) }
         item { WidgetSettingsItem(toWidgetSettings) }
         item { IconPackItem(toIconPacks) }
+        item { CheckPermissionsItem(toPermissions) }
     }
 }
 
@@ -79,7 +80,11 @@ private fun IconPackItem(toIconPacks: () -> Unit) {
 
 @Composable
 private fun CheckPermissionsItem(toPermissions: () -> Unit) {
-
+    val uiModel = SettingItemUiModel(
+        title = Strings.CheckPermissions::Title.get(),
+        description = Strings.CheckPermissions::Description.get()
+    )
+    SettingsItem(uiModel, toPermissions)
 }
 
 @Composable
