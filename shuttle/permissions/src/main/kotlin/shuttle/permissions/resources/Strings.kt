@@ -8,7 +8,7 @@ import shuttle.permissions.resources.it.ItStrings
 
 internal interface Strings {
 
-    val Title: String
+    val PermissionsTitle: String
     val SkipPermissionsAction: String
 
     interface Accessibility {

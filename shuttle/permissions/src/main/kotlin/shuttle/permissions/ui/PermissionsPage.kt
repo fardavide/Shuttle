@@ -89,7 +89,7 @@ private fun PermissionsPageContent(
     val context = LocalContext.current
 
     Scaffold(
-        topBar = { SmallTopAppBar(title = { Text(text = Strings::Title.get()) }) }
+        topBar = { SmallTopAppBar(title = { Text(text = Strings::PermissionsTitle.get()) }) }
     ) {
         Column {
             PermissionsList(
