@@ -9,6 +9,7 @@ import shuttle.settings.domain.usecase.ObserveCurrentIconPack
 import shuttle.settings.domain.usecase.ObserveWidgetSettings
 import shuttle.settings.domain.usecase.RemoveFromBlacklist
 import shuttle.settings.domain.usecase.SetCurrentIconPack
+import shuttle.settings.domain.usecase.SetHasEnabledAccessibilityService
 import shuttle.settings.domain.usecase.UpdateWidgetSettings
 
 val settingsDomainModule = module {
@@ -21,5 +22,6 @@ val settingsDomainModule = module {
     factory { ObserveWidgetSettings(settingsRepository = get()) }
     factory { RemoveFromBlacklist(settingsRepository = get()) }
     factory { SetCurrentIconPack(settingsRepository = get()) }
+    factory { SetHasEnabledAccessibilityService(settingsRepository = get()) }
     factory { UpdateWidgetSettings(settingsRepository = get()) }
 }
