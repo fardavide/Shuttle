@@ -8,6 +8,8 @@ import shuttle.permissions.resources.it.ItStrings
 
 internal interface Strings {
 
+    val SkipPermissionsAction: String
+
     interface Accessibility {
 
         val Name: String

@@ -4,6 +4,8 @@ import shuttle.permissions.resources.Strings
 
 internal object EnStrings : Strings {
 
+    override val SkipPermissionsAction = "Skip permissions"
+
     object Accessibility : Strings.Accessibility {
 
         override val Name = "Accessibility service"
