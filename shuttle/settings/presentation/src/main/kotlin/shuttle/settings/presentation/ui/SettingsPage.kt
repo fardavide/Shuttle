@@ -23,13 +23,15 @@ import shuttle.settings.presentation.resources.get
 fun SettingsPage(
     toBlacklist: () -> Unit,
     toWidgetSettings: () -> Unit,
-    toIconPacks: () -> Unit
+    toIconPacks: () -> Unit,
+    toPermissions: () -> Unit
 ) {
     Scaffold(topBar = { SmallTopAppBar(title = { Text(Strings::SettingsTitle.get()) }) }) {
         SettingsContent(
             toBlacklist = toBlacklist,
             toWidgetSettings = toWidgetSettings,
-            toIconPacks = toIconPacks
+            toIconPacks = toIconPacks,
+            toPermissions = toPermissions
         )
     }
 }
@@ -38,7 +40,8 @@ fun SettingsPage(
 private fun SettingsContent(
     toBlacklist: () -> Unit,
     toWidgetSettings: () -> Unit,
-    toIconPacks: () -> Unit
+    toIconPacks: () -> Unit,
+    toPermissions: () -> Unit
 ) {
     LazyColumn {
         item { BlacklistItem(toBlacklist) }
@@ -90,7 +93,7 @@ private fun SettingsItem(item: SettingItemUiModel, onClick: () -> Unit) {
 @Preview(showBackground = true)
 fun SettingsPagePreview() {
     MaterialTheme {
-        SettingsPage(toBlacklist = {}, toWidgetSettings = {}, toIconPacks = {})
+        SettingsPage(toBlacklist = {}, toWidgetSettings = {}, toIconPacks = {}, toPermissions = {})
     }
 }
 

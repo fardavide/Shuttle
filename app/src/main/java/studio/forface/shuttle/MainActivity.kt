@@ -70,7 +70,8 @@ private fun SettingsRoute(navController: NavController) =
     SettingsPage(
         toBlacklist = { navController.navigate(BlacklistSettings) },
         toWidgetSettings = { navController.navigate(WidgetSettings) },
-        toIconPacks = { navController.navigate(IconPackSettings) }
+        toIconPacks = { navController.navigate(IconPackSettings) },
+        toPermissions = { navController.navigate(Permissions) }
     )
 
 @Composable
