@@ -63,7 +63,7 @@ private fun IconPackSettingsRoute() =
 
 @Composable
 private fun PermissionsRoute(navController: NavController) =
-    PermissionsPage(onAllPermissionsGranted = { navController.navigate(Settings, PopAll) })
+    PermissionsPage(toSettings = { navController.navigate(Settings, PopAll) })
 
 @Composable
 private fun SettingsRoute(navController: NavController) =

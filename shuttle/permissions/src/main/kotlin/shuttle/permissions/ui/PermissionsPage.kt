@@ -24,7 +24,7 @@ import shuttle.permissions.viewmodel.PermissionsViewModel.State
 
 @Composable
 @OptIn(ExperimentalPermissionsApi::class)
-fun PermissionsPage(onAllPermissionsGranted: () -> Unit) {
+fun PermissionsPage(toSettings: () -> Unit) {
     val context = LocalContext.current
     val viewModel: PermissionsViewModel by viewModel()
 
@@ -49,7 +49,7 @@ fun PermissionsPage(onAllPermissionsGranted: () -> Unit) {
     when (val state = s) {
         State.Loading -> LoadingSpinner()
         State.AllGranted -> LaunchedEffect(state) {
-            onAllPermissionsGranted()
+            toSettings()
         }
         is State.Pending -> PermissionsList(
             permissions = state.permissionItemsUiModel,
