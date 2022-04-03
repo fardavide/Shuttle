@@ -18,13 +18,14 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import coil.compose.rememberImagePainter
 import org.koin.androidx.compose.getViewModel
 import shuttle.apps.presentation.model.AppUiModel
-import shuttle.apps.presentation.resource.Strings
 import shuttle.apps.presentation.viewmodel.AllAppsListViewModel
 import shuttle.design.theme.Dimens
 import shuttle.design.ui.TextError
+import studio.forface.shuttle.design.R
 
 @Composable
 fun AllAppsListPage() {
@@ -56,7 +57,7 @@ internal fun AppListItem(
     Row(modifier = Modifier.padding(vertical = Dimens.Margin.Medium)) {
         Image(
             painter = rememberImagePainter(data = app.icon),
-            contentDescription = Strings.AppIconContentDescription,
+            contentDescription = stringResource(id = R.string.x_app_icon_description),
             modifier = Modifier.size(Dimens.Icon.Large)
         )
         Spacer(modifier = Modifier.width(Dimens.Margin.Large))
