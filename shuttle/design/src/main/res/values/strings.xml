@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- region App -->
+    <string name="app_name" translatable="false">Shuttle</string>
+    <string name="launch_counter_service_label">App counter service</string>
+    <string name="launch_counter_service_description">This service will count how many time an app has been launched on the device</string>
+    <!-- endregion -->
+
     <!-- region Permissions -->
     <string name="permissions_accessibility_name">Accessibility service</string>
     <string name="permissions_accessibility_description">Shuttle needs access to the Accessibility Service, in order to improve the suggestions.\nBy enabling it you consent Shuttle to detect app launching and store it to the local database</string>
