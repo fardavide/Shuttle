@@ -28,6 +28,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import coil.compose.rememberImagePainter
@@ -38,11 +39,10 @@ import shuttle.design.ui.LoadingSpinner
 import shuttle.design.ui.TextError
 import shuttle.design.util.collectAsStateLifecycleAware
 import shuttle.predictions.presentation.model.AppUiModel
-import shuttle.predictions.presentation.resources.Strings
-import shuttle.predictions.presentation.resources.get
 import shuttle.predictions.presentation.viewmodel.SuggestedAppsListViewModel
 import shuttle.predictions.presentation.viewmodel.SuggestedAppsListViewModel.Action
 import shuttle.predictions.presentation.viewmodel.SuggestedAppsListViewModel.State
+import studio.forface.shuttle.design.R
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
@@ -52,10 +52,13 @@ fun SuggestedAppsListPage(
     Scaffold(
         topBar = {
             SmallTopAppBar(
-                title = { Text(Strings::ShuttleTitle.get()) },
+                title = { Text(stringResource(id = R.string.app_name)) },
                 actions = {
                     IconButton(onClick = onSettings) {
-                        Icon(Icons.Filled.Settings, contentDescription = Strings::SettingsIconContentDescription.get())
+                        Icon(
+                            imageVector = Icons.Filled.Settings,
+                            contentDescription = stringResource(id = R.string.settings_icon_description)
+                        )
                     }
                 }
             )
@@ -109,7 +112,7 @@ private fun AppIconItem(
     ) {
         Image(
             painter = rememberImagePainter(data = app.icon),
-            contentDescription = Strings::AppIconContentDescription.get(),
+            contentDescription = stringResource(id = R.string.x_app_icon_description),
             modifier = Modifier.size(Dimens.Icon.Large)
         )
         Spacer(modifier = Modifier.height(Dimens.Margin.Small))

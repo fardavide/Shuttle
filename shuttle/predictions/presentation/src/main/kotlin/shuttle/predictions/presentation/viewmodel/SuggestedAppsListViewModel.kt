@@ -2,6 +2,7 @@ package shuttle.predictions.presentation.viewmodel
 
 import android.content.Intent
 import android.content.pm.PackageManager
+import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -13,12 +14,11 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import shuttle.apps.domain.model.AppId
-import shuttle.design.StringResource
 import shuttle.predictions.domain.error.ObserveSuggestedAppsError
 import shuttle.predictions.domain.usecase.ObserveSuggestedApps
 import shuttle.predictions.presentation.mapper.AppUiModelMapper
 import shuttle.predictions.presentation.model.AppUiModel
-import shuttle.predictions.presentation.resources.Strings
+import studio.forface.shuttle.design.R
 
 internal class SuggestedAppsListViewModel(
     private val appUiModelMapper: AppUiModelMapper,
@@ -59,14 +59,14 @@ internal class SuggestedAppsListViewModel(
     }
 
     private fun ObserveSuggestedAppsError.toMessage() = when(this) {
-        ObserveSuggestedAppsError.LocationNotAvailable -> Strings.Error::LocationNotAvailable
+        ObserveSuggestedAppsError.LocationNotAvailable -> R.string.predictions_location_not_available
     }
 
     sealed interface State {
 
         object Loading : State
         data class Data(val apps: List<AppUiModel>) : State
-        data class Error(val message: StringResource<Strings.Error>) : State
+        data class Error(@StringRes val message: Int) : State
         data class RequestOpenApp(val intent: Intent) : State
     }
 

@@ -19,7 +19,12 @@
     <string name="permissions_accessibility_not_granted_description">Accessibility service is not enabled</string>
     <!-- endregion -->
 
+    <!-- region Predictions -->
+    <string name="predictions_location_not_available">Location is currently not available</string>
+    <!-- endregion -->
+
     <!-- region Settings -->
+    <string name="settings_icon_description">Settings icon</string>
     <string name="settings_title">Settings</string>
     <!-- endregion -->
 
