@@ -8,6 +8,7 @@ import shuttle.settings.presentation.mapper.WidgetPreviewAppUiModelMapper
 import shuttle.settings.presentation.mapper.WidgetSettingsUiModelMapper
 import shuttle.settings.presentation.viewmodel.BlacklistSettingsViewModel
 import shuttle.settings.presentation.viewmodel.IconPacksSettingsViewModel
+import shuttle.settings.presentation.viewmodel.SettingsViewModel
 import shuttle.settings.presentation.viewmodel.WidgetLayoutViewModel
 
 val settingsPresentationModule = module {
@@ -28,6 +29,7 @@ val settingsPresentationModule = module {
             setCurrentIconPack = get()
         )
     }
+    viewModel { SettingsViewModel(hasAllLocationPermissions = get(), isLaunchCounterServiceEnabled = get()) }
     viewModel {
         WidgetLayoutViewModel(
             observeAllInstalledApps = get(),
