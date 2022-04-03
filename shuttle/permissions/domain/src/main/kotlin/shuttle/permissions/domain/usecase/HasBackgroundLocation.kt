@@ -6,7 +6,7 @@ import com.google.accompanist.permissions.PermissionStatus
 import shuttle.permissions.domain.model.BackgroundLocation
 import shuttle.util.android.IsAndroidQ
 
-@ExperimentalPermissionsApi
+@OptIn(ExperimentalPermissionsApi::class)
 class HasBackgroundLocation(
     private val isAndroidQ: IsAndroidQ
 ) {

@@ -5,7 +5,7 @@ import com.google.accompanist.permissions.MultiplePermissionsState
 import com.google.accompanist.permissions.PermissionStatus
 import shuttle.permissions.domain.model.CoarseLocation
 
-@ExperimentalPermissionsApi
+@OptIn(ExperimentalPermissionsApi::class)
 class HasCoarseLocation {
 
     operator fun invoke(state: MultiplePermissionsState) =
