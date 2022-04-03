@@ -58,7 +58,9 @@ import studio.forface.shuttle.design.R
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun WidgetLayoutPage() {
-    Scaffold(topBar = { SmallTopAppBar(title = { Text(stringResource(id = R.string.settings_widget_layout_title)) }) }) {
+    Scaffold(
+        topBar = { SmallTopAppBar(title = { Text(stringResource(id = R.string.settings_widget_layout_title)) }) }
+    ) {
         WidgetSettingsContent()
     }
 }
