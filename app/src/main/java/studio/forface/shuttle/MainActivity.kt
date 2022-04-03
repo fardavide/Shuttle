@@ -12,7 +12,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.rememberNavController
 import shuttle.design.theme.ShuttleTheme
-import shuttle.permissions.ui.PermissionsPage
+import shuttle.permissions.presentation.ui.PermissionsPage
 import shuttle.predictions.presentation.ui.SuggestedAppsListPage
 import shuttle.settings.presentation.ui.BlacklistSettingsPage
 import shuttle.settings.presentation.ui.IconPackSettingsPage

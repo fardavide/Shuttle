@@ -20,7 +20,10 @@ moduleDependencies {
         domain()
         presentation()
     }
-    permissions()
+    permissions {
+        domain()
+        presentation()
+    }
     predictions {
         domain()
         presentation()

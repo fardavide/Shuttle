@@ -10,7 +10,7 @@ import shuttle.database.databaseModule
 import shuttle.icons.data.iconsDataModule
 import shuttle.icons.domain.iconsDomainModule
 import shuttle.icons.presentation.iconsPresentationModule
-import shuttle.permissions.permissionsModule
+import shuttle.permissions.permissionsPresentationModule
 import shuttle.predictions.domain.predictionsDomainModule
 import shuttle.predictions.presentation.predictionsPresentationModule
 import shuttle.settings.data.settingsDataModule
@@ -26,7 +26,7 @@ val shuttleModule =
         coordinatesDataModule + coordinatesDomainModule +
         databaseModule +
         iconsDataModule + iconsDomainModule + iconsPresentationModule +
-        permissionsModule +
+        permissionsPresentationModule +
         predictionsDomainModule + predictionsPresentationModule +
         settingsDataModule + settingsDomainModule + settingsPresentationModule +
         statsDataModule + statsDomainModule +
