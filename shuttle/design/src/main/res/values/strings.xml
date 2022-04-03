@@ -43,7 +43,7 @@
     <string name="settings_widget_layout_columns_count">Columns count</string>
     <string name="settings_widget_layout_icons_size">Icons size</string>
     <string name="settings_widget_layout_vertical_spacing">Vertical spacing between icons</string>
-    <string name="settings_widget_layout_horizonal_spacing">Horizontal spacing between icons</string>
+    <string name="settings_widget_layout_horizontal_spacing">Horizontal spacing between icons</string>
     <string name="settings_widget_layout_text_size">Text size</string>
     <!-- endregion -->
 

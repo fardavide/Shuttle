@@ -179,7 +179,7 @@ private fun SettingItems(
         }
         item {
             SliderItem(
-                title = R.string.settings_widget_layout_horizonal_spacing,
+                title = R.string.settings_widget_layout_horizontal_spacing,
                 valueRange = HorizontalSpacingRange,
                 stepsSize = 1,
                 value = settings.horizontalSpacing.value.toInt(),

@@ -25,7 +25,7 @@
     <string name="settings_widget_layout_columns_count">Numero colonne</string>
     <string name="settings_widget_layout_icons_size">Dimensione icone</string>
     <string name="settings_widget_layout_vertical_spacing">Spazio verticale tra le icone</string>
-    <string name="settings_widget_layout_horizonal_spacing">Spazio orizzontale tra le icone</string>
+    <string name="settings_widget_layout_horizontal_spacing">Spazio orizzontale tra le icone</string>
     <string name="settings_widget_layout_text_size">Dimensione testo</string>
 
 </resources>
