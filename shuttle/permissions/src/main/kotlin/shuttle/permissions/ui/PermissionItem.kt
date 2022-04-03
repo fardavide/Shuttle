@@ -21,14 +21,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import shuttle.design.PreviewDimens
 import shuttle.design.theme.Dimens
 import shuttle.design.theme.ShuttleTheme
 import shuttle.permissions.model.PermissionItemUiModel
-import shuttle.permissions.resources.Strings
-import shuttle.permissions.resources.get
+import studio.forface.shuttle.design.R
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
@@ -62,17 +62,17 @@ internal fun PermissionItem(
 private fun GrantedPermissionItem(permissionItem: PermissionItemUiModel.Granted) {
     Column(modifier = Modifier.fillMaxWidth()) {
         Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth()) {
-            Text(text = permissionItem.name.get(), style = MaterialTheme.typography.titleLarge)
+            Text(text = stringResource(permissionItem.name), style = MaterialTheme.typography.titleLarge)
             Icon(
                 painter = rememberVectorPainter(image = Icons.Rounded.CheckCircle),
                 tint = MaterialTheme.colorScheme.secondary,
-                contentDescription = permissionItem.permissionGrantedDescription.get(),
+                contentDescription = stringResource(permissionItem.permissionGrantedDescription),
                 modifier = Modifier.size(Dimens.Icon.Medium)
             )
         }
         Spacer(modifier = Modifier.height(Dimens.Margin.Small))
         Text(
-            text = permissionItem.permissionGrantedDescription.get(),
+            text = stringResource(permissionItem.permissionGrantedDescription),
             style = MaterialTheme.typography.bodyMedium,
             textAlign = TextAlign.Justify,
             modifier = Modifier.fillMaxWidth()
@@ -87,17 +87,17 @@ private fun NotGrantedPermissionItem(
 ) {
     Column(modifier = Modifier.fillMaxWidth()) {
         Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth()) {
-            Text(text = permissionItem.name.get(), style = MaterialTheme.typography.titleLarge)
+            Text(text = stringResource(permissionItem.name), style = MaterialTheme.typography.titleLarge)
             Icon(
                 painter = rememberVectorPainter(image = Icons.Rounded.Warning),
                 tint = MaterialTheme.colorScheme.error,
-                contentDescription = permissionItem.permissionNotGrantedDescription.get(),
+                contentDescription = stringResource(permissionItem.permissionNotGrantedDescription),
                 modifier = Modifier.size(Dimens.Icon.Medium)
             )
         }
         Spacer(modifier = Modifier.height(Dimens.Margin.Small))
         Text(
-            text = permissionItem.description.get(),
+            text = stringResource(permissionItem.description),
             style = MaterialTheme.typography.bodyMedium,
             textAlign = TextAlign.Justify,
             modifier = Modifier.fillMaxWidth()
@@ -105,7 +105,7 @@ private fun NotGrantedPermissionItem(
         Spacer(modifier = Modifier.height(Dimens.Margin.Small))
         Row(horizontalArrangement = Arrangement.End, modifier = Modifier.fillMaxWidth()) {
             Button(onClick = onRequestPermission) {
-                Text(text = permissionItem.buttonText.get())
+                Text(text = stringResource(permissionItem.buttonText))
             }
         }
     }
@@ -115,8 +115,8 @@ private fun NotGrantedPermissionItem(
 @Preview(showBackground = true, widthDp = PreviewDimens.Medium.Width)
 private fun GrantedPermissionItemPreview() {
     val uiModel = PermissionItemUiModel.Granted(
-        name = Strings.Location.Background::Name,
-        permissionGrantedDescription = Strings.Location.Background::PermissionGrantedDescription
+        name = R.string.permissions_location_background_name,
+        permissionGrantedDescription = R.string.permissions_location_background_granted_description
     )
     ShuttleTheme {
         PermissionItem(uiModel, onRequestPermission = {})
@@ -127,10 +127,10 @@ private fun GrantedPermissionItemPreview() {
 @Preview(showBackground = true, widthDp = PreviewDimens.Medium.Width)
 private fun NotGrantedPermissionItemPreview() {
     val uiModel = PermissionItemUiModel.NotGranted(
-        name = Strings.Location.Background::Name,
-        description = Strings.Location.Background::Description,
-        permissionNotGrantedDescription = Strings.Location.Background::PermissionNotGrantedDescription,
-        buttonText = Strings.Location::Action
+        name = R.string.permissions_location_background_name,
+        description = R.string.permissions_location_background_description,
+        permissionNotGrantedDescription = R.string.permissions_location_background_not_granted_description,
+        buttonText = R.string.permissions_location_action
     )
     ShuttleTheme {
         PermissionItem(uiModel, onRequestPermission = {})

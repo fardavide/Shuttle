@@ -16,7 +16,7 @@
     <string name="permissions_location_background_granted_description">Permessi di locazione in background abilitati</string>
     <string name="permissions_location_background_name">Permessi di locazione in background</string>
     <string name="permissions_location_background_not_granted_description">Permessi di locazione in background non abilitati</string>
-    <string name="permissions_location_coarse_descriptiob">Shuttle necessita di accedere alla posizione, in modo da mostrare le applicazioni suggerite, in base alla tua posizione corrente\\nAbilitando i permessi acconsenti che Shuttle salvi un Geo Hash della tua posizione nel database locale</string>
+    <string name="permissions_location_coarse_description">Shuttle necessita di accedere alla posizione, in modo da mostrare le applicazioni suggerite, in base alla tua posizione corrente\\nAbilitando i permessi acconsenti che Shuttle salvi un Geo Hash della tua posizione nel database locale</string>
     <string name="permissions_location_coarse_granted_description">Permessi di locazione approssivativa abilitati</string>
     <string name="permissions_location_coarse_name">Permessi di locazione</string>
     <string name="permissions_location_coarse_not_granted_description">Permessi di locazione approssivativa non abilitati</string>

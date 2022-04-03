@@ -1,6 +1,6 @@
 package shuttle.permissions.model
 
-import shuttle.permissions.resources.Strings
+import studio.forface.shuttle.design.R
 
 internal object PermissionItem {
 
@@ -9,45 +9,45 @@ internal object PermissionItem {
         object Coarse {
 
             val Granted = PermissionItemUiModel.Granted(
-                name = Strings.Location.Coarse::Name,
-                permissionGrantedDescription = Strings.Location.Coarse::PermissionGrantedDescription
+                name = R.string.permissions_location_coarse_name,
+                permissionGrantedDescription = R.string.permissions_location_coarse_description
             )
 
             val NotGranted = PermissionItemUiModel.NotGranted(
-                name = Strings.Location.Coarse::Name,
-                description = Strings.Location.Coarse::Description,
-                permissionNotGrantedDescription = Strings.Location.Coarse::PermissionNotGrantedDescription,
-                buttonText = Strings.Location::Action
+                name = R.string.permissions_location_coarse_name,
+                description = R.string.permissions_location_coarse_description,
+                permissionNotGrantedDescription = R.string.permissions_location_coarse_not_granted_description,
+                buttonText = R.string.permissions_location_action
             )
         }
 
         object Fine {
 
             val Granted = PermissionItemUiModel.Granted(
-                name = Strings.Location.Fine::Name,
-                permissionGrantedDescription = Strings.Location.Fine::PermissionGrantedDescription
+                name = R.string.permissions_location_fine_name,
+                permissionGrantedDescription = R.string.permissions_location_fine_granted_description
             )
 
             val NotGranted = PermissionItemUiModel.NotGranted(
-                name = Strings.Location.Fine::Name,
-                description = Strings.Location.Fine::Description,
-                permissionNotGrantedDescription = Strings.Location.Fine::PermissionNotGrantedDescription,
-                buttonText = Strings.Location::Action
+                name = R.string.permissions_location_fine_name,
+                description = R.string.permissions_location_fine_description,
+                permissionNotGrantedDescription = R.string.permissions_location_fine_not_granted_description,
+                buttonText = R.string.permissions_location_action
             )
         }
 
         object Background {
 
             val Granted = PermissionItemUiModel.Granted(
-                name = Strings.Location.Background::Name,
-                permissionGrantedDescription = Strings.Location.Background::PermissionGrantedDescription
+                name = R.string.permissions_location_background_name,
+                permissionGrantedDescription = R.string.permissions_location_background_granted_description
             )
 
             val NotGranted = PermissionItemUiModel.NotGranted(
-                name = Strings.Location.Background::Name,
-                description = Strings.Location.Background::Description,
-                permissionNotGrantedDescription = Strings.Location.Background::PermissionNotGrantedDescription,
-                buttonText = Strings.Location::Action
+                name = R.string.permissions_location_background_name,
+                description = R.string.permissions_location_background_description,
+                permissionNotGrantedDescription = R.string.permissions_location_background_not_granted_description,
+                buttonText = R.string.permissions_location_action
             )
         }
     }
@@ -55,15 +55,15 @@ internal object PermissionItem {
     object Accessibility {
 
         val Granted = PermissionItemUiModel.Granted(
-            name = Strings.Accessibility::Name,
-            permissionGrantedDescription = Strings.Accessibility::PermissionGrantedDescription
+            name = R.string.permissions_accessibility_name,
+            permissionGrantedDescription = R.string.permissions_accessibility_description
         )
 
         val NotGranted = PermissionItemUiModel.NotGranted(
-            name = Strings.Accessibility::Name,
-            description = Strings.Accessibility::Description,
-            permissionNotGrantedDescription = Strings.Accessibility::PermissionNotGrantedDescription,
-            buttonText = Strings.Accessibility::Action
+            name = R.string.permissions_accessibility_name,
+            description = R.string.permissions_accessibility_description,
+            permissionNotGrantedDescription = R.string.permissions_accessibility_not_granted_description,
+            buttonText = R.string.permissions_accessibility_action
         )
     }
 }

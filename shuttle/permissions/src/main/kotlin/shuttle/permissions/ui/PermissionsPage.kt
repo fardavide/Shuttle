@@ -20,6 +20,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
@@ -32,13 +33,12 @@ import shuttle.permissions.model.PermissionItem
 import shuttle.permissions.model.PermissionItemsUiModel
 import shuttle.permissions.model.backgroundPermissionsList
 import shuttle.permissions.model.foregroundPermissionsList
-import shuttle.permissions.resources.Strings
-import shuttle.permissions.resources.get
 import shuttle.permissions.util.openAccessibilitySettings
 import shuttle.permissions.util.openLocationPermissionsOrAppSettings
 import shuttle.permissions.viewmodel.PermissionsViewModel
 import shuttle.permissions.viewmodel.PermissionsViewModel.Action
 import shuttle.permissions.viewmodel.PermissionsViewModel.State
+import studio.forface.shuttle.design.R
 
 @Composable
 @OptIn(ExperimentalPermissionsApi::class)
@@ -89,7 +89,7 @@ private fun PermissionsPageContent(
     val context = LocalContext.current
 
     Scaffold(
-        topBar = { SmallTopAppBar(title = { Text(text = Strings::PermissionsTitle.get()) }) }
+        topBar = { SmallTopAppBar(title = { Text(text = stringResource(id = R.string.permissions_title)) }) }
     ) {
         Column {
             PermissionsList(
@@ -106,7 +106,7 @@ private fun PermissionsPageContent(
                     .padding(Dimens.Margin.Large)
             ) {
                 Button(onClick = toSettings) {
-                    Text(text = Strings::SkipPermissionsAction.get())
+                    Text(text = stringResource(id = R.string.permissions_skip_permissions_action))
                 }
             }
         }
