@@ -1,4 +1,4 @@
-package shuttle.permissions
+package shuttle.permissions.presentation
 
 import android.content.Context
 import org.koin.androidx.viewmodel.dsl.viewModel

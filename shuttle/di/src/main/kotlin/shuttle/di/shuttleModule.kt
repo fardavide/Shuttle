@@ -10,7 +10,7 @@ import shuttle.database.databaseModule
 import shuttle.icons.data.iconsDataModule
 import shuttle.icons.domain.iconsDomainModule
 import shuttle.icons.presentation.iconsPresentationModule
-import shuttle.permissions.permissionsPresentationModule
+import shuttle.permissions.presentation.permissionsPresentationModule
 import shuttle.predictions.domain.predictionsDomainModule
 import shuttle.predictions.presentation.predictionsPresentationModule
 import shuttle.settings.data.settingsDataModule
