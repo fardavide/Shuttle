@@ -21,7 +21,7 @@ class LaunchCounterAccessibilityService: AccessibilityService() {
     private val hasEnabledAccessibilityService: HasEnabledAccessibilityService by inject()
     private val incrementOpenCounterIfNotBlacklisted: IncrementOpenCounterIfNotBlacklisted by inject()
     private val setHasEnabledAccessibilityService: SetHasEnabledAccessibilityService by inject()
-    private val startApp: () -> Unit by inject(StartAppId)
+    private val startApp: () -> Unit by inject(StartAppQualifier)
     private val updateWidget: UpdateWidget by inject()
 
     private var previousPackageName: CharSequence? = null

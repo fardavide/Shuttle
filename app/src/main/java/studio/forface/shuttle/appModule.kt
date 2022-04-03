@@ -9,7 +9,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import org.koin.core.scope.Scope
 import org.koin.dsl.module
-import shuttle.accessibility.StartAppId
+import shuttle.accessibility.StartAppQualifier
 import shuttle.di.shuttleModule
 
 val appModule = module {
@@ -17,7 +17,7 @@ val appModule = module {
     single { CoroutineScope(Job() + Dispatchers.Default) }
     factory<PackageManager> { get<Context>().packageManager }
     factory { get<Context>().resources }
-    factory<() -> Unit>(StartAppId) { ::startMainActivity }
+    factory<() -> Unit>(StartAppQualifier) { ::startMainActivity }
     factory { WorkManager.getInstance(get()) }
 
 } + shuttleModule
