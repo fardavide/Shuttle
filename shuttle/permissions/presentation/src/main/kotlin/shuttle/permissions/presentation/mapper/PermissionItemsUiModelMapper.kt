@@ -2,17 +2,17 @@ package shuttle.permissions.presentation.mapper
 
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.MultiplePermissionsState
-import com.google.accompanist.permissions.PermissionStatus
-import shuttle.permissions.presentation.model.BackgroundLocation
-import shuttle.permissions.presentation.model.CoarseLocation
-import shuttle.permissions.presentation.model.FineLocation
+import shuttle.permissions.domain.usecase.HasBackgroundLocation
+import shuttle.permissions.domain.usecase.HasCoarseLocation
+import shuttle.permissions.domain.usecase.HasFineLocation
 import shuttle.permissions.presentation.model.PermissionItem
 import shuttle.permissions.presentation.model.PermissionItemsUiModel
-import shuttle.util.android.IsAndroidQ
 
 @OptIn(ExperimentalPermissionsApi::class)
 internal class PermissionItemsUiModelMapper(
-    private val isAndroidQ: IsAndroidQ
+    private val hasBackgroundLocation: HasBackgroundLocation,
+    private val hasCoarseLocation: HasCoarseLocation,
+    private val hasFineLocation: HasFineLocation
 ) {
 
     fun toUiModel(
@@ -21,15 +21,15 @@ internal class PermissionItemsUiModelMapper(
     ): PermissionItemsUiModel {
 
         val coarseLocation =
-            if (permissionsState.hasCoarseLocation()) PermissionItem.Location.Coarse.Granted
+            if (hasCoarseLocation(permissionsState)) PermissionItem.Location.Coarse.Granted
             else PermissionItem.Location.Coarse.NotGranted
 
         val fineLocation =
-            if (permissionsState.hasFineLocation()) PermissionItem.Location.Fine.Granted
+            if (hasFineLocation(permissionsState)) PermissionItem.Location.Fine.Granted
             else PermissionItem.Location.Fine.NotGranted
 
         val backgroundLocation =
-            if (permissionsState.hasBackgroundLocation()) PermissionItem.Location.Background.Granted
+            if (hasBackgroundLocation(permissionsState)) PermissionItem.Location.Background.Granted
             else PermissionItem.Location.Background.NotGranted
 
         val accessibilityService =
@@ -43,14 +43,4 @@ internal class PermissionItemsUiModelMapper(
             accessibilityService = accessibilityService
         )
     }
-
-    private fun MultiplePermissionsState.hasCoarseLocation() =
-        permissions.any { it.permission == CoarseLocation && it.status == PermissionStatus.Granted }
-
-    private fun MultiplePermissionsState.hasFineLocation() =
-        permissions.any { it.permission == FineLocation && it.status == PermissionStatus.Granted }
-
-    private fun MultiplePermissionsState.hasBackgroundLocation() =
-        isAndroidQ().not() ||
-            permissions.any { it.permission == BackgroundLocation && it.status == PermissionStatus.Granted }
 }

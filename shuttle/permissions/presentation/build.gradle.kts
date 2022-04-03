@@ -8,6 +8,7 @@ moduleDependencies {
 
     accessibility()
     design()
+    permissions.domain()
     utils.android()
 }
 

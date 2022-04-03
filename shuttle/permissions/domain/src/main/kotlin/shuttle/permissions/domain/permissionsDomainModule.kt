@@ -1,7 +1,15 @@
 package shuttle.permissions.domain
 
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import org.koin.dsl.module
+import shuttle.permissions.domain.usecase.HasBackgroundLocation
+import shuttle.permissions.domain.usecase.HasCoarseLocation
+import shuttle.permissions.domain.usecase.HasFineLocation
 
-val permissionsModule = module {
+@OptIn(ExperimentalPermissionsApi::class)
+val permissionsDomainModule = module {
 
+    factory { HasBackgroundLocation(isAndroidQ = get()) }
+    factory { HasCoarseLocation() }
+    factory { HasFineLocation() }
 }

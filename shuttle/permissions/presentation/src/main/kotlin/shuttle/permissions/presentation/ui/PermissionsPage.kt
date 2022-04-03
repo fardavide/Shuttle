@@ -29,10 +29,10 @@ import shuttle.design.theme.Dimens
 import shuttle.design.theme.ShuttleTheme
 import shuttle.design.ui.LoadingSpinner
 import shuttle.design.util.collectAsStateLifecycleAware
+import shuttle.permissions.domain.model.backgroundPermissionsList
+import shuttle.permissions.domain.model.foregroundPermissionsList
 import shuttle.permissions.presentation.model.PermissionItem
 import shuttle.permissions.presentation.model.PermissionItemsUiModel
-import shuttle.permissions.presentation.model.backgroundPermissionsList
-import shuttle.permissions.presentation.model.foregroundPermissionsList
 import shuttle.permissions.presentation.util.openAccessibilitySettings
 import shuttle.permissions.presentation.util.openLocationPermissionsOrAppSettings
 import shuttle.permissions.presentation.viewmodel.PermissionsViewModel

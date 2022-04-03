@@ -8,9 +8,9 @@ import io.mockk.every
 import io.mockk.mockk
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
-import shuttle.permissions.presentation.model.BackgroundLocation
-import shuttle.permissions.presentation.model.CoarseLocation
-import shuttle.permissions.presentation.model.FineLocation
+import shuttle.permissions.domain.model.BackgroundLocation
+import shuttle.permissions.domain.model.CoarseLocation
+import shuttle.permissions.domain.model.FineLocation
 import shuttle.permissions.presentation.model.PermissionItem
 import shuttle.permissions.presentation.model.PermissionItemsUiModel
 import shuttle.util.android.IsAndroidQ
