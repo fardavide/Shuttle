@@ -16,11 +16,11 @@ import shuttle.settings.presentation.mapper.WidgetPreviewAppUiModelMapper
 import shuttle.settings.presentation.mapper.WidgetSettingsUiModelMapper
 import shuttle.settings.presentation.model.WidgetPreviewAppUiModel
 import shuttle.settings.presentation.model.WidgetSettingsUiModel
-import shuttle.settings.presentation.viewmodel.WidgetSettingsViewModel.Action
-import shuttle.settings.presentation.viewmodel.WidgetSettingsViewModel.State
+import shuttle.settings.presentation.viewmodel.WidgetLayoutViewModel.Action
+import shuttle.settings.presentation.viewmodel.WidgetLayoutViewModel.State
 import shuttle.util.android.viewmodel.ShuttleViewModel
 
-internal class WidgetSettingsViewModel(
+internal class WidgetLayoutViewModel(
     observeAllInstalledApps: ObserveAllInstalledApps,
     observeCurrentIconPack: ObserveCurrentIconPack,
     observeWidgetSettings: ObserveWidgetSettings,

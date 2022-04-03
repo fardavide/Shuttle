@@ -50,9 +50,9 @@ import shuttle.settings.domain.model.WidgetSettings.Companion.TextSizeRange
 import shuttle.settings.domain.model.WidgetSettings.Companion.VerticalSpacingRange
 import shuttle.settings.presentation.model.WidgetPreviewAppUiModel
 import shuttle.settings.presentation.model.WidgetSettingsUiModel
-import shuttle.settings.presentation.viewmodel.WidgetSettingsViewModel
-import shuttle.settings.presentation.viewmodel.WidgetSettingsViewModel.Action
-import shuttle.settings.presentation.viewmodel.WidgetSettingsViewModel.State
+import shuttle.settings.presentation.viewmodel.WidgetLayoutViewModel
+import shuttle.settings.presentation.viewmodel.WidgetLayoutViewModel.Action
+import shuttle.settings.presentation.viewmodel.WidgetLayoutViewModel.State
 import studio.forface.shuttle.design.R
 
 @Composable
@@ -67,7 +67,7 @@ fun WidgetLayoutPage() {
 
 @Composable
 private fun WidgetSettingsContent() {
-    val viewModel: WidgetSettingsViewModel = getViewModel()
+    val viewModel: WidgetLayoutViewModel = getViewModel()
 
     val s by viewModel.state.collectAsStateLifecycleAware()
     @Suppress("UnnecessaryVariable")
