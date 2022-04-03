@@ -33,9 +33,7 @@ internal object EnStrings : Strings {
         object Coarse : Strings.Location.Coarse {
 
             override val Name = "Location permissions"
-            override val Description = "Shuttle needs access to Location, in order to show suggested apps, based on " +
-                "your current location\nBy allowing the permission you consent Shuttle to store a Geo Hash of your " +
-                "current position and store it to the local database"
+            override val Description = "Shuttle needs access to Location, in order to show suggested apps, based on your current location\nBy allowing the permission you consent Shuttle to store a Geo Hash of your current position and store it to the local database"
             override val PermissionGrantedDescription = "Approximate location permission is granted"
             override val PermissionNotGrantedDescription = "Approximate location permission is not granted"
         }
@@ -43,8 +41,7 @@ internal object EnStrings : Strings {
         object Fine : Strings.Location.Fine {
 
             override val Name = "Precise location permissions"
-            override val Description = "Shuttle needs access to Precise Location, in order to create a Geo Hash to " +
-                "store to the local database"
+            override val Description = "Shuttle needs access to Precise Location, in order to create a Geo Hash to store to the local database"
             override val PermissionGrantedDescription = "Precise location permission is granted"
             override val PermissionNotGrantedDescription = "Precise location permission is not granted"
         }
@@ -52,9 +49,7 @@ internal object EnStrings : Strings {
         object Background : Strings.Location.Background {
 
             override val Name = "Background location permissions"
-            override val Description = "Shuttle needs access to Background Location, in order to create a Geo Hash " +
-                "to store to the local database every time an app has been opened. Additionally, Shuttle will use " +
-                "the current location in the Widget, in order to provide suggestions based on the current location"
+            override val Description = "Shuttle needs access to Background Location, in order to create a Geo Hash to store to the local database every time an app has been opened. Additionally, Shuttle will use the current location in the Widget, in order to provide suggestions based on the current location"
             override val PermissionGrantedDescription = "Background location permission is granted"
             override val PermissionNotGrantedDescription = "Background location permission is not granted"
         }
