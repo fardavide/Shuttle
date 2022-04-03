@@ -5,7 +5,7 @@ import shuttle.apps.domain.model.AppId
 import shuttle.apps.domain.model.AppModel
 import shuttle.icons.domain.usecase.GetSystemIconDrawableForApp
 import shuttle.settings.presentation.model.IconPackSettingsItemUiModel
-import shuttle.settings.presentation.resources.Strings
+import studio.forface.shuttle.design.R
 
 internal class IconPackSettingsUiModelMapper(
     private val getSystemIconDrawableForApp: GetSystemIconDrawableForApp
@@ -16,7 +16,7 @@ internal class IconPackSettingsUiModelMapper(
         selectedIconPack: Option<AppId>
     ): List<IconPackSettingsItemUiModel> {
         val systemDefaultUiModel = IconPackSettingsItemUiModel.SystemDefault(
-            name = Strings.IconPack::SystemDefault,
+            name = R.string.settings_icon_pack_system_default,
             isSelected = selectedIconPack.isEmpty()
         )
         val iconsPacksModels = iconPacks

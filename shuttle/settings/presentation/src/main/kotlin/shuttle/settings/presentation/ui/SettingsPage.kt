@@ -16,8 +16,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import shuttle.design.theme.Dimens
 import shuttle.settings.presentation.model.SettingItemUiModel
-import shuttle.settings.presentation.resources.Strings
-import shuttle.settings.presentation.resources.get
 import studio.forface.shuttle.design.R
 
 @Composable
@@ -56,8 +54,8 @@ private fun SettingsContent(
 @Composable
 private fun BlacklistItem(toBlacklist: () -> Unit) {
     val uiModel = SettingItemUiModel(
-        title = Strings.Blacklist::Title.get(),
-        description = Strings.Blacklist::Description.get()
+        title = stringResource(id = R.string.settings_blacklist_title),
+        description = stringResource(id = R.string.settings_blacklist_description)
     )
     SettingsItem(uiModel, toBlacklist)
 }
@@ -65,8 +63,8 @@ private fun BlacklistItem(toBlacklist: () -> Unit) {
 @Composable
 private fun WidgetLayoutItem(toWidgetLayout: () -> Unit) {
     val uiModel = SettingItemUiModel(
-        title = Strings.WidgetLayout::Title.get(),
-        description = Strings.WidgetLayout::Description.get()
+        title = stringResource(id = R.string.settings_widget_layout_title),
+        description = stringResource(id = R.string.settings_widget_layout_description)
     )
     SettingsItem(uiModel, toWidgetLayout)
 }
@@ -74,8 +72,8 @@ private fun WidgetLayoutItem(toWidgetLayout: () -> Unit) {
 @Composable
 private fun IconPackItem(toIconPacks: () -> Unit) {
     val uiModel = SettingItemUiModel(
-        title = Strings.IconPack::Title.get(),
-        description = Strings.IconPack::Description.get()
+        title = stringResource(id = R.string.settings_icon_pack_title),
+        description = stringResource(id = R.string.settings_icon_pack_description)
     )
     SettingsItem(uiModel, toIconPacks)
 }
@@ -83,8 +81,8 @@ private fun IconPackItem(toIconPacks: () -> Unit) {
 @Composable
 private fun CheckPermissionsItem(toPermissions: () -> Unit) {
     val uiModel = SettingItemUiModel(
-        title = Strings.CheckPermissions::Title.get(),
-        description = Strings.CheckPermissions::Description.get()
+        title = stringResource(id = R.string.settings_check_permissions_title),
+        description = stringResource(id = R.string.settings_check_permissions_description)
     )
     SettingsItem(uiModel, toPermissions)
 }
@@ -114,8 +112,8 @@ fun SettingsPagePreview() {
 fun SettingsItemPreview() {
     MaterialTheme {
         val uiModel = SettingItemUiModel(
-            title = Strings.Blacklist::Title.get(),
-            description = Strings.Blacklist::Description.get()
+            title = stringResource(id = R.string.settings_blacklist_title),
+            description = stringResource(id = R.string.settings_blacklist_description)
         )
         SettingsItem(uiModel, onClick = {})
     }

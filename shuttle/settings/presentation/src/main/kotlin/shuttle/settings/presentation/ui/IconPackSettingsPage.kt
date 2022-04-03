@@ -35,8 +35,6 @@ import shuttle.design.util.collectAsStateLifecycleAware
 import shuttle.settings.presentation.model.IconPackSettingsItemUiModel
 import shuttle.settings.presentation.model.IconPackSettingsItemUiModel.FromApp
 import shuttle.settings.presentation.model.IconPackSettingsItemUiModel.SystemDefault
-import shuttle.settings.presentation.resources.Strings
-import shuttle.settings.presentation.resources.get
 import shuttle.settings.presentation.viewmodel.IconPacksSettingsViewModel
 import shuttle.settings.presentation.viewmodel.IconPacksSettingsViewModel.Action
 import shuttle.settings.presentation.viewmodel.IconPacksSettingsViewModel.State
@@ -45,7 +43,7 @@ import studio.forface.shuttle.design.R
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun IconPackSettingsPage() {
-    Scaffold(topBar = { SmallTopAppBar(title = { Text(Strings.IconPack::Title.get()) }) }) {
+    Scaffold(topBar = { SmallTopAppBar(title = { Text(stringResource(id = R.string.settings_icon_pack_title)) }) }) {
         IconPacksSettingsContent()
     }
 }
@@ -75,7 +73,7 @@ private fun IconPackItemsList(
                 iconPackItem = iconPackItem,
                 name = when (iconPackItem) {
                     is FromApp -> iconPackItem.name
-                    is SystemDefault -> iconPackItem.name.get()
+                    is SystemDefault -> stringResource(id = iconPackItem.name)
                 },
                 icon = (iconPackItem as? FromApp)?.icon,
                 onSetCurrentIconPack = onSetCurrentIconPack

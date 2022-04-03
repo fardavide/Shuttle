@@ -32,8 +32,6 @@ import shuttle.design.ui.LoadingSpinner
 import shuttle.design.ui.TextError
 import shuttle.design.util.collectAsStateLifecycleAware
 import shuttle.settings.presentation.model.AppBlacklistSettingUiModel
-import shuttle.settings.presentation.resources.Strings
-import shuttle.settings.presentation.resources.get
 import shuttle.settings.presentation.viewmodel.BlacklistSettingsViewModel
 import shuttle.settings.presentation.viewmodel.BlacklistSettingsViewModel.Action
 import shuttle.settings.presentation.viewmodel.BlacklistSettingsViewModel.State
@@ -42,7 +40,7 @@ import studio.forface.shuttle.design.R
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun BlacklistSettingsPage() {
-    Scaffold(topBar = { SmallTopAppBar(title = { Text(Strings.Blacklist::Title.get()) }) }) {
+    Scaffold(topBar = { SmallTopAppBar(title = { Text(stringResource(id = R.string.settings_blacklist_title)) }) }) {
         BlacklistSettingsContent()
     }
 }

@@ -1,5 +1,6 @@
 package shuttle.settings.presentation.ui
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -49,8 +50,6 @@ import shuttle.settings.domain.model.WidgetSettings.Companion.TextSizeRange
 import shuttle.settings.domain.model.WidgetSettings.Companion.VerticalSpacingRange
 import shuttle.settings.presentation.model.WidgetPreviewAppUiModel
 import shuttle.settings.presentation.model.WidgetSettingsUiModel
-import shuttle.settings.presentation.resources.Strings
-import shuttle.settings.presentation.resources.get
 import shuttle.settings.presentation.viewmodel.WidgetSettingsViewModel
 import shuttle.settings.presentation.viewmodel.WidgetSettingsViewModel.Action
 import shuttle.settings.presentation.viewmodel.WidgetSettingsViewModel.State
@@ -59,7 +58,7 @@ import studio.forface.shuttle.design.R
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun WidgetLayoutPage() {
-    Scaffold(topBar = { SmallTopAppBar(title = { Text(Strings.WidgetLayout::Title.get()) }) }) {
+    Scaffold(topBar = { SmallTopAppBar(title = { Text(stringResource(id = R.string.settings_widget_layout_title)) }) }) {
         WidgetSettingsContent()
     }
 }
@@ -153,7 +152,7 @@ private fun SettingItems(
     LazyColumn {
         item {
             SliderItem(
-                title = Strings.WidgetLayout::RowsCount.get(),
+                title = R.string.settings_widget_layout_rows_count,
                 valueRange = RowsCountRange,
                 stepsSize = 1,
                 value = settings.rowsCount,
@@ -162,7 +161,7 @@ private fun SettingItems(
         }
         item {
             SliderItem(
-                title = Strings.WidgetLayout::ColumnsCount.get(),
+                title = R.string.settings_widget_layout_columns_count,
                 valueRange = ColumnsCountRange,
                 stepsSize = 1,
                 value = settings.columnsCount,
@@ -171,7 +170,7 @@ private fun SettingItems(
         }
         item {
             SliderItem(
-                title = Strings.WidgetLayout::IconsSize.get(),
+                title = R.string.settings_widget_layout_icons_size,
                 valueRange = IconsSizeRange,
                 stepsSize = 1,
                 value = settings.iconSize.value.toInt(),
@@ -180,7 +179,7 @@ private fun SettingItems(
         }
         item {
             SliderItem(
-                title = Strings.WidgetLayout::HorizontalSpacing.get(),
+                title = R.string.settings_widget_layout_horizonal_spacing,
                 valueRange = HorizontalSpacingRange,
                 stepsSize = 1,
                 value = settings.horizontalSpacing.value.toInt(),
@@ -189,7 +188,7 @@ private fun SettingItems(
         }
         item {
             SliderItem(
-                title = Strings.WidgetLayout::VerticalSpacing.get(),
+                title = R.string.settings_widget_layout_vertical_spacing,
                 valueRange = VerticalSpacingRange,
                 stepsSize = 1,
                 value = settings.verticalSpacing.value.toInt(),
@@ -198,7 +197,7 @@ private fun SettingItems(
         }
         item {
             SliderItem(
-                title = Strings.WidgetLayout::TextSize.get(),
+                title = R.string.settings_widget_layout_text_size,
                 valueRange = TextSizeRange,
                 stepsSize = 1,
                 value = settings.textSize.value.toInt(),
@@ -210,7 +209,7 @@ private fun SettingItems(
 
 @Composable
 private fun SliderItem(
-    title: String,
+    @StringRes title: Int,
     valueRange: IntRange,
     stepsSize: Int,
     value: Int,
@@ -219,7 +218,7 @@ private fun SliderItem(
     var state by remember(key1 = title) { mutableStateOf(value.toFloat()) }
     Column(modifier = Modifier.padding(vertical = Dimens.Margin.Small, horizontal = Dimens.Margin.Medium)) {
         Row {
-            Text(text = title, style = MaterialTheme.typography.titleMedium)
+            Text(text = stringResource(id = title), style = MaterialTheme.typography.titleMedium)
             Text(
                 text = "$value",
                 style = MaterialTheme.typography.labelMedium,

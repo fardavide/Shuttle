@@ -1,11 +1,10 @@
 package shuttle.settings.presentation.model
 
 import android.graphics.drawable.Drawable
+import androidx.annotation.StringRes
 import arrow.core.None
 import arrow.core.Option
 import shuttle.apps.domain.model.AppId
-import shuttle.design.StringResource
-import shuttle.settings.presentation.resources.Strings
 
 internal sealed interface IconPackSettingsItemUiModel {
 
@@ -24,7 +23,7 @@ internal sealed interface IconPackSettingsItemUiModel {
     ) : IconPackSettingsItemUiModel
 
     data class SystemDefault(
-        val name: StringResource<Strings.IconPack>,
+        @StringRes val name: Int,
         override val isSelected: Boolean
     ) : IconPackSettingsItemUiModel
 }
