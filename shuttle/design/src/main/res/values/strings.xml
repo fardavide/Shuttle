@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- region Common -->
+    <string name="x_app_icon_description">App icon</string>
+    <!-- endregion -->
+
     <!-- region App -->
     <string name="app_name" translatable="false">Shuttle</string>
     <string name="launch_counter_service_label">App counter service</string>
@@ -13,6 +17,10 @@
     <string name="permissions_accessibility_action">Enable accessibility service</string>
     <string name="permissions_accessibility_granted_description">Accessibility service is enabled</string>
     <string name="permissions_accessibility_not_granted_description">Accessibility service is not enabled</string>
+    <!-- endregion -->
+
+    <!-- region Settings -->
+    <string name="settings_title">Settings</string>
     <!-- endregion -->
 
 </resources>

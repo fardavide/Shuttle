@@ -12,11 +12,13 @@ import androidx.compose.material3.SmallTopAppBar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import shuttle.design.theme.Dimens
 import shuttle.settings.presentation.model.SettingItemUiModel
 import shuttle.settings.presentation.resources.Strings
 import shuttle.settings.presentation.resources.get
+import studio.forface.shuttle.design.R
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
@@ -26,7 +28,7 @@ fun SettingsPage(
     toIconPacks: () -> Unit,
     toPermissions: () -> Unit
 ) {
-    Scaffold(topBar = { SmallTopAppBar(title = { Text(Strings::SettingsTitle.get()) }) }) {
+    Scaffold(topBar = { SmallTopAppBar(title = { Text(stringResource(id = R.string.settings_title)) }) }) {
         SettingsContent(
             toBlacklist = toBlacklist,
             toWidgetLayout = toWidgetLayout,

@@ -26,6 +26,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -53,6 +54,7 @@ import shuttle.settings.presentation.resources.get
 import shuttle.settings.presentation.viewmodel.WidgetSettingsViewModel
 import shuttle.settings.presentation.viewmodel.WidgetSettingsViewModel.Action
 import shuttle.settings.presentation.viewmodel.WidgetSettingsViewModel.State
+import studio.forface.shuttle.design.R
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
@@ -252,7 +254,7 @@ private fun AppIconItem(
 
         Image(
             painter = rememberImagePainter(data = app.icon),
-            contentDescription = Strings::AppIconContentDescription.get(),
+            contentDescription = stringResource(id = R.string.x_app_icon_description),
             modifier = Modifier.size(widgetSettings.iconSize)
         )
         Spacer(modifier = Modifier.height(widgetSettings.verticalSpacing))

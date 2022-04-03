@@ -1,5 +1,0 @@
-<resources>
-    <string name="app_name">Shuttle</string>
-    <string name="launch_counter_service_label">App counter service</string>
-    <string name="launch_counter_service_description">This service will count how many time an app has been launched on the device</string>
-</resources>

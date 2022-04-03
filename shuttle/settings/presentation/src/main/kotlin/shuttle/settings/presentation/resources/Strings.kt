@@ -9,9 +9,6 @@ import shuttle.settings.presentation.resources.it.ItStrings
 
 internal interface Strings {
 
-    val AppIconContentDescription : String
-    val SettingsTitle: String
-
     interface Blacklist {
 
         val Title: String

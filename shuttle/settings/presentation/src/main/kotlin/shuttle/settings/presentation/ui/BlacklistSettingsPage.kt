@@ -23,6 +23,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import coil.compose.rememberImagePainter
 import org.koin.androidx.compose.getViewModel
 import shuttle.apps.domain.model.AppId
@@ -36,6 +37,7 @@ import shuttle.settings.presentation.resources.get
 import shuttle.settings.presentation.viewmodel.BlacklistSettingsViewModel
 import shuttle.settings.presentation.viewmodel.BlacklistSettingsViewModel.Action
 import shuttle.settings.presentation.viewmodel.BlacklistSettingsViewModel.State
+import studio.forface.shuttle.design.R
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
@@ -95,7 +97,7 @@ private fun AppListItem(
     ) {
         Image(
             painter = rememberImagePainter(data = app.icon),
-            contentDescription = Strings::AppIconContentDescription.get(),
+            contentDescription = stringResource(id = R.string.x_app_icon_description),
             modifier = Modifier.size(Dimens.Icon.Medium)
         )
         Spacer(modifier = Modifier.width(Dimens.Margin.Medium))

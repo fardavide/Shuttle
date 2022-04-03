@@ -4,9 +4,6 @@ import shuttle.settings.presentation.resources.Strings
 
 internal object EnStrings : Strings {
 
-    override val AppIconContentDescription = "Application icon"
-    override val SettingsTitle = "Settings"
-
     object Blacklist : Strings.Blacklist {
 
         override val Title = "Blacklist"

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="x_app_icon_description">Icona app</string>
+    <string name="launch_counter_service_description">This service will count how many time an app has been launched on the device</string>
+    <string name="launch_counter_service_label">Questo servizio conterà quante volte un app è stata lanciata sul dispositivo</string>
+    <string name="permissions_accessibility_description">Shuttle necessita the Servizio di Accessibilità, per migliorare i suggerimenti.\\nAbilitando il servizio accetti che Shuttle rilevi gli avvii delle app e li salvi sul database locale</string>
+    <string name="permissions_accessibility_granted_description">Abilita il servizio di accessbilità</string>
+    <string name="permissions_accessibility_name">Servizio di accessbilità abilitato</string>
+    <string name="permissions_accessibility_not_granted_description">Servizio di accessibilità non abilitato</string>
+    <string name="permissions_accessibility_action">Abilita il servizio di accessbilità</string>
+    <string name="settings_title">Impostazioni</string>
+
+</resources>
