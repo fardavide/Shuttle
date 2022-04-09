@@ -3,7 +3,6 @@ package shuttle.predictions.presentation.ui
 import android.content.Intent
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.res.stringResource
 import androidx.glance.GlanceModifier
 import androidx.glance.Image
 import androidx.glance.ImageProvider
@@ -34,7 +33,6 @@ import shuttle.predictions.presentation.model.WidgetAppUiModel
 import shuttle.predictions.presentation.model.WidgetSettingsUiModel
 import shuttle.predictions.presentation.viewmodel.SuggestedAppsWidgetViewModel
 import shuttle.predictions.presentation.viewmodel.SuggestedAppsWidgetViewModel.State
-import studio.forface.shuttle.design.R
 
 class SuggestedAppsWidget : GlanceAppWidget(), KoinComponent {
 
@@ -105,7 +103,7 @@ class SuggestedAppsWidget : GlanceAppWidget(), KoinComponent {
 
             Image(
                 provider = ImageProvider(app.icon),
-                contentDescription = stringResource(id = R.string.x_app_icon_description),
+                contentDescription = "",
                 modifier = GlanceModifier.size(widgetSettings.iconSize)
             )
             Spacer(modifier = GlanceModifier.height(widgetSettings.verticalSpacing))
