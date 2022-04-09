@@ -3,6 +3,7 @@
 package shuttle.settings.presentation.ui
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -21,6 +22,9 @@ import androidx.compose.material3.SmallTopAppBar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -84,14 +88,18 @@ private fun AppListItem(
     onAddToBlacklist: (AppId) -> Unit,
     onRemoveFromBlacklist: (AppId) -> Unit
 ) {
+    var checkedState by remember { mutableStateOf(app.isBlacklisted) }
     val toggleAction = { isChecked: Boolean ->
+        checkedState = isChecked
         if (isChecked) onAddToBlacklist(app.id)
         else onRemoveFromBlacklist(app.id)
     }
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.padding(vertical = Dimens.Margin.XXSmall, horizontal = Dimens.Margin.Small)
+        modifier = Modifier
+            .padding(vertical = Dimens.Margin.XXSmall, horizontal = Dimens.Margin.Small)
+            .clickable { toggleAction(checkedState.not()) }
     ) {
         Image(
             painter = rememberImagePainter(data = app.icon),
@@ -104,7 +112,7 @@ private fun AppListItem(
             style = MaterialTheme.typography.bodyMedium
         )
         Column(horizontalAlignment = Alignment.End, modifier = Modifier.fillMaxWidth()) {
-            Checkbox(checked = app.isBlacklisted, onCheckedChange = toggleAction)
+            Checkbox(checked = checkedState, onCheckedChange = toggleAction)
         }
     }
 }
