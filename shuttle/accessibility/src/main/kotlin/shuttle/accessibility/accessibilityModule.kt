@@ -19,11 +19,10 @@ val accessibilityModule = module {
     }
     factory {
         IsLaunchCounterServiceEnabled(
-            accessibilityServiceComponentName = get(LaunchCounterServiceQualifier),
+            accessibilityServiceComponentName = ComponentName(get(), LaunchCounterAccessibilityService::class.java),
             contentResolver = get()
         )
     }
-    factory(LaunchCounterServiceQualifier) { ComponentName(get(), LaunchCounterAccessibilityService::class.java) }
     single {
         UpdateWidget(
             appContext = get(),
@@ -33,4 +32,3 @@ val accessibilityModule = module {
 }
 
 val StartAppQualifier = named("Start app")
-val LaunchCounterServiceQualifier = named("LaunchCounter Accessibility Service")
