@@ -38,7 +38,8 @@ class SettingsViewModel(
     }
 
     data class State(
-        val permissions: Permissions
+        val permissions: Permissions,
+        val currentLocationOnly: CurrentLocationOnly
     ) {
 
         sealed interface Permissions {
@@ -48,10 +49,18 @@ class SettingsViewModel(
             object Denied : Permissions
         }
 
+        sealed interface CurrentLocationOnly {
+
+            object Loading : CurrentLocationOnly
+            object False : CurrentLocationOnly
+            object True : CurrentLocationOnly
+        }
+
         companion object {
 
             val Loading = State(
-                permissions = Permissions.Loading
+                permissions = Permissions.Loading,
+                currentLocationOnly = CurrentLocationOnly.Loading
             )
         }
     }
