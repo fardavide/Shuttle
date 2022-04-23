@@ -3,9 +3,12 @@ package shuttle.settings.presentation.viewmodel
 import androidx.lifecycle.viewModelScope
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.MultiplePermissionsState
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import shuttle.accessibility.usecase.IsLaunchCounterServiceEnabled
 import shuttle.permissions.domain.usecase.HasAllLocationPermissions
+import shuttle.settings.domain.usecase.ObserveUseCurrentLocationOnly
+import shuttle.settings.domain.usecase.UpdateUseCurrentLocationOnly
 import shuttle.settings.presentation.viewmodel.SettingsViewModel.Action
 import shuttle.settings.presentation.viewmodel.SettingsViewModel.State
 import shuttle.util.android.viewmodel.ShuttleViewModel
@@ -13,8 +16,21 @@ import shuttle.util.android.viewmodel.ShuttleViewModel
 @OptIn(ExperimentalPermissionsApi::class)
 class SettingsViewModel(
     private val hasAllLocationPermissions: HasAllLocationPermissions,
-    private val isLaunchCounterServiceEnabled: IsLaunchCounterServiceEnabled
+    private val isLaunchCounterServiceEnabled: IsLaunchCounterServiceEnabled,
+    private val observeUseCurrentLocationOnly: ObserveUseCurrentLocationOnly,
+    private val updateUseCurrentLocationOnly: UpdateUseCurrentLocationOnly
 ) : ShuttleViewModel<Action, State>(initialState = State.Loading) {
+
+    init {
+        viewModelScope.launch {
+            observeUseCurrentLocationOnly().collectLatest { useCurrentLocationOnly ->
+                val currentLocationOnly =
+                    if (useCurrentLocationOnly) State.CurrentLocationOnly.True else State.CurrentLocationOnly.False
+                val newState = state.value.copy(currentLocationOnly = currentLocationOnly)
+                emit(newState)
+            }
+        }
+    }
 
     override fun submit(action: Action) {
         viewModelScope.launch {
@@ -34,8 +50,11 @@ class SettingsViewModel(
     }
 
     private fun updateCurrentLocationOnly(value: Boolean): State {
-        val currentLocationOnly = if (value) State.CurrentLocationOnly.True else State.CurrentLocationOnly.False
+        viewModelScope.launch {
+            updateUseCurrentLocationOnly(value)
+        }
 
+        val currentLocationOnly = if (value) State.CurrentLocationOnly.True else State.CurrentLocationOnly.False
         return state.value.copy(currentLocationOnly = currentLocationOnly)
     }
 
