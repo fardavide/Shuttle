@@ -16,6 +16,8 @@ interface SettingsRepository {
 
     fun observeCurrentIconPack(): Flow<Option<AppId>>
 
+    fun observeUseCurrentLocationOnly(): Flow<Boolean>
+
     fun observeWidgetSettings(): Flow<WidgetSettings>
 
     suspend fun setBlacklisted(appId: AppId, blacklisted: Boolean)
@@ -23,6 +25,8 @@ interface SettingsRepository {
     suspend fun setCurrentIconPack(id: Option<AppId>)
 
     suspend fun setHasEnabledAccessibilityService()
+
+    suspend fun updateUseCurrentLocationOnly(useCurrentLocationOnly: Boolean)
 
     suspend fun updateWidgetSettings(settings: WidgetSettings)
 }
