@@ -29,7 +29,14 @@ val settingsPresentationModule = module {
             setCurrentIconPack = get()
         )
     }
-    viewModel { SettingsViewModel(hasAllLocationPermissions = get(), isLaunchCounterServiceEnabled = get()) }
+    viewModel {
+        SettingsViewModel(
+            hasAllLocationPermissions = get(),
+            isLaunchCounterServiceEnabled = get(),
+            observeUseCurrentLocationOnly = get(),
+            updateUseCurrentLocationOnly = get()
+        )
+    }
     viewModel {
         WidgetLayoutViewModel(
             observeAllInstalledApps = get(),

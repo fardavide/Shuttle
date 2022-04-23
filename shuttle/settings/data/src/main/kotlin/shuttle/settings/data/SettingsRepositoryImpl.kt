@@ -15,6 +15,7 @@ import shuttle.database.datasource.SettingDataSource
 import shuttle.database.model.DatabaseAppId
 import shuttle.settings.data.model.CurrentIconPackPreferenceKey
 import shuttle.settings.data.model.HasAccessibilityServicePreferenceKey
+import shuttle.settings.data.model.UseCurrentLocationOnlyPreferenceKey
 import shuttle.settings.data.model.WidgetSettingsPreferenceKeys
 import shuttle.settings.domain.SettingsRepository
 import shuttle.settings.domain.model.AppBlacklistSetting
@@ -51,6 +52,11 @@ class SettingsRepositoryImpl(
             Option.fromNullable(it[CurrentIconPackPreferenceKey]?.let(::AppId))
         }.distinctUntilChanged()
 
+    override fun observeUseCurrentLocationOnly(): Flow<Boolean> =
+        dataStore.data.map {
+            it[UseCurrentLocationOnlyPreferenceKey] ?: false
+        }
+
     override fun observeWidgetSettings(): Flow<WidgetSettings> =
         with(WidgetSettingsPreferenceKeys) {
             dataStore.data.map {
@@ -81,6 +87,12 @@ class SettingsRepositoryImpl(
     override suspend fun setHasEnabledAccessibilityService() {
         dataStore.edit {
             it[HasAccessibilityServicePreferenceKey] = true
+        }
+    }
+
+    override suspend fun updateUseCurrentLocationOnly(useCurrentLocationOnly: Boolean) {
+        dataStore.edit {
+            it[UseCurrentLocationOnlyPreferenceKey] = useCurrentLocationOnly
         }
     }
 
