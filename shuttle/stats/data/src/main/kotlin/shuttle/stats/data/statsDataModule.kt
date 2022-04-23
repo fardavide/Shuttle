@@ -6,7 +6,7 @@ import shuttle.stats.domain.StatsRepository
 
 val statsDataModule = module {
 
-    factory { SortAppStatsByCounts(computationDispatcher = Dispatchers.Default) }
+    factory { SortAppStatsByCounts(computationDispatcher = Dispatchers.Default, getUseCurrentLocationOnly = get()) }
     factory<StatsRepository> {
         StatsRepositoryImpl(
             appsRepository = get(),
