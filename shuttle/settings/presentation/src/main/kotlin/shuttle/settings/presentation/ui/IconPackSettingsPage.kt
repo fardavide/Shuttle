@@ -30,6 +30,7 @@ import coil.compose.rememberImagePainter
 import org.koin.androidx.compose.getViewModel
 import shuttle.apps.domain.model.AppId
 import shuttle.design.theme.Dimens
+import shuttle.design.ui.BackIconButton
 import shuttle.design.ui.LoadingSpinner
 import shuttle.design.util.collectAsStateLifecycleAware
 import shuttle.settings.presentation.model.IconPackSettingsItemUiModel
@@ -42,8 +43,12 @@ import studio.forface.shuttle.design.R
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-fun IconPackSettingsPage() {
-    Scaffold(topBar = { SmallTopAppBar(title = { Text(stringResource(id = R.string.settings_icon_pack_title)) }) }) {
+fun IconPackSettingsPage(onBack: () -> Unit) {
+    Scaffold(topBar = {
+        SmallTopAppBar(
+            title = { Text(stringResource(id = R.string.settings_icon_pack_title)) },
+            navigationIcon = { BackIconButton(onBack) })
+    }) {
         IconPacksSettingsContent()
     }
 }

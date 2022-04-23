@@ -43,32 +43,34 @@ class MainActivity : ComponentActivity() {
 @Composable
 private fun App(onFinish: () -> Unit) {
     val navController = rememberNavController()
+    val onBack = { navController.popOrFinish(onFinish) }
+
     NavHost(navController = navController, startDestination = Permissions) {
-        composable(BlacklistSettings) { BlacklistSettingsRoute() }
-        composable(IconPackSettings) { IconPackSettingsRoute() }
+        composable(BlacklistSettings) { BlacklistSettingsRoute(onBack = onBack) }
+        composable(IconPackSettings) { IconPackSettingsRoute(onBack = onBack) }
         composable(Permissions) { PermissionsRoute(navController) }
-        composable(Settings) { SettingsRoute(navController, onFinish = onFinish) }
+        composable(Settings) { SettingsRoute(navController, onBack = onBack) }
         composable(Suggestions) { SuggestionsRoute(navController) }
-        composable(WidgetLayout) { WidgetLayoutRoute() }
+        composable(WidgetLayout) { WidgetLayoutRoute(onBack = onBack) }
     }
 }
 
 @Composable
-private fun BlacklistSettingsRoute() =
-    BlacklistSettingsPage()
+private fun BlacklistSettingsRoute(onBack: () -> Unit) =
+    BlacklistSettingsPage(onBack = onBack)
 
 @Composable
-private fun IconPackSettingsRoute() =
-    IconPackSettingsPage()
+private fun IconPackSettingsRoute(onBack: () -> Unit) =
+    IconPackSettingsPage(onBack = onBack)
 
 @Composable
 private fun PermissionsRoute(navController: NavController) =
     PermissionsPage(toSettings = { navController.navigate(Settings, PopAll) })
 
 @Composable
-private fun SettingsRoute(navController: NavController, onFinish: () -> Unit) =
+private fun SettingsRoute(navController: NavController, onBack: () -> Unit) =
     SettingsPage(
-        onBack = { navController.popOrFinish(onFinish) },
+        onBack = onBack,
         toBlacklist = { navController.navigate(BlacklistSettings) },
         toWidgetLayout = { navController.navigate(WidgetLayout) },
         toIconPacks = { navController.navigate(IconPackSettings) },
@@ -80,8 +82,8 @@ private fun SuggestionsRoute(navController: NavController) =
     SuggestedAppsListPage(onSettings = { navController.navigate(Settings) })
 
 @Composable
-private fun WidgetLayoutRoute() =
-    WidgetLayoutPage()
+private fun WidgetLayoutRoute(onBack: () -> Unit) =
+    WidgetLayoutPage(onBack = onBack)
 
 private val PopAll: NavOptions = NavOptions.Builder()
     .setPopUpTo(Permissions.id, inclusive = true)

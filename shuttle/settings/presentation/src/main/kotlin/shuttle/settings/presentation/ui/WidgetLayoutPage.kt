@@ -36,6 +36,7 @@ import coil.compose.rememberImagePainter
 import org.koin.androidx.compose.getViewModel
 import shuttle.design.PreviewDimens
 import shuttle.design.theme.Dimens
+import shuttle.design.ui.BackIconButton
 import shuttle.design.ui.LoadingSpinner
 import shuttle.design.ui.TextError
 import shuttle.design.util.collectAsStateLifecycleAware
@@ -57,9 +58,14 @@ import studio.forface.shuttle.design.R
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-fun WidgetLayoutPage() {
+fun WidgetLayoutPage(onBack: () -> Unit) {
     Scaffold(
-        topBar = { SmallTopAppBar(title = { Text(stringResource(id = R.string.settings_widget_layout_title)) }) }
+        topBar = {
+            SmallTopAppBar(
+                title = { Text(stringResource(id = R.string.settings_widget_layout_title)) },
+                navigationIcon = { BackIconButton(onBack) }
+            )
+        }
     ) {
         WidgetSettingsContent()
     }

@@ -58,7 +58,7 @@ fun SettingsPage(
     Scaffold(topBar = {
         SmallTopAppBar(
             title = { Text(stringResource(id = R.string.settings_title)) },
-            navigationIcon = { BackIconButton(onBack = onBack) }
+            navigationIcon = { BackIconButton(onBack) }
         )
     }) {
         SettingsContent(
