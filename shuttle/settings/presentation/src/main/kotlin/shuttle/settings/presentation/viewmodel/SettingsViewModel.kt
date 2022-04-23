@@ -8,15 +8,13 @@ import shuttle.accessibility.usecase.IsLaunchCounterServiceEnabled
 import shuttle.permissions.domain.usecase.HasAllLocationPermissions
 import shuttle.settings.presentation.viewmodel.SettingsViewModel.Action
 import shuttle.settings.presentation.viewmodel.SettingsViewModel.State
-import shuttle.settings.presentation.viewmodel.SettingsViewModel.State.Loading
-import shuttle.settings.presentation.viewmodel.SettingsViewModel.State.PermissionsState
 import shuttle.util.android.viewmodel.ShuttleViewModel
 
 @OptIn(ExperimentalPermissionsApi::class)
 class SettingsViewModel(
     private val hasAllLocationPermissions: HasAllLocationPermissions,
     private val isLaunchCounterServiceEnabled: IsLaunchCounterServiceEnabled
-) : ShuttleViewModel<Action, State>(initialState = Loading) {
+) : ShuttleViewModel<Action, State>(initialState = State.Loading) {
 
     override fun submit(action: Action) {
         viewModelScope.launch {
@@ -27,22 +25,34 @@ class SettingsViewModel(
         }
     }
 
-    private fun onPermissionsStateUpdate(permissionsState: MultiplePermissionsState): State =
-        if (hasAllLocationPermissions(permissionsState) && isLaunchCounterServiceEnabled()) PermissionsState.Granted
-        else PermissionsState.Denied
+    private fun onPermissionsStateUpdate(permissionsState: MultiplePermissionsState): State {
+        val hasPermissions = hasAllLocationPermissions(permissionsState) && isLaunchCounterServiceEnabled()
+        val permissions = if (hasPermissions) State.Permissions.Granted else State.Permissions.Denied
+
+        return state.value.copy(permissions = permissions)
+    }
 
     sealed interface Action {
 
         data class UpdatePermissionsState(val permissionsState: MultiplePermissionsState): Action
     }
 
-    sealed interface State {
+    data class State(
+        val permissions: Permissions
+    ) {
 
-        object Loading : State
+        sealed interface Permissions {
 
-        sealed interface PermissionsState : State {
-            object Granted : PermissionsState
-            object Denied : PermissionsState
+            object Loading : Permissions
+            object Granted : Permissions
+            object Denied : Permissions
+        }
+
+        companion object {
+
+            val Loading = State(
+                permissions = Permissions.Loading
+            )
         }
     }
 }

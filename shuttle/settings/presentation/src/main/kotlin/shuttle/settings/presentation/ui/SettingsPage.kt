@@ -88,7 +88,7 @@ private fun SettingsContent(
         item { BlacklistItem(toBlacklist) }
 
         item { PermissionsSection() }
-        item { CheckPermissionsItem(state, toPermissions) }
+        item { CheckPermissionsItem(state.permissions, toPermissions) }
     }
 }
 
@@ -144,21 +144,21 @@ private fun PermissionsSection() {
 }
 
 @Composable
-private fun CheckPermissionsItem(state: State, toPermissions: () -> Unit) {
+private fun CheckPermissionsItem(state: State.Permissions, toPermissions: () -> Unit) {
     val uiModel = SettingsItemUiModel(
         title = stringResource(id = R.string.settings_check_permissions_title),
         description = stringResource(id = R.string.settings_check_permissions_description)
     )
     SettingsItem(item = uiModel, onClick = toPermissions) {
         when (state) {
-            State.Loading -> LoadingSpinner()
-            State.PermissionsState.Denied -> Icon(
+            State.Permissions.Loading -> LoadingSpinner()
+            State.Permissions.Denied -> Icon(
                 painter = rememberVectorPainter(image = Icons.Rounded.Warning),
                 tint = MaterialTheme.colorScheme.error,
                 contentDescription = stringResource(R.string.settings_check_permissions_not_granted_description),
                 modifier = Modifier.size(Dimens.Icon.Small)
             )
-            State.PermissionsState.Granted -> Icon(
+            State.Permissions.Granted -> Icon(
                 painter = rememberVectorPainter(image = Icons.Rounded.CheckCircle),
                 tint = MaterialTheme.colorScheme.secondary,
                 contentDescription = stringResource(R.string.settings_check_permissions_granted_description),
