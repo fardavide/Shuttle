@@ -47,6 +47,10 @@
     <string name="settings_title">Settings</string>
     <string name="settings_icon_description">Settings icon</string>
 
+    <string name="settings_design_section_title">Design</string>
+    <string name="settings_suggestions_section_title">Suggestions</string>
+    <string name="settings_permissions_section_title">Permissions</string>
+
     <string name="settings_blacklist_title">Blacklist</string>
     <string name="settings_blacklist_description">Selected apps won\'t be proposed as suggestions</string>
 

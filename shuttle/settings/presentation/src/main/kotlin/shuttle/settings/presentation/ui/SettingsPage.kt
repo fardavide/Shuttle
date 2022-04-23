@@ -73,20 +73,24 @@ private fun SettingsContent(
     toPermissions: () -> Unit
 ) {
     LazyColumn {
-        item { BlacklistItem(toBlacklist) }
+        item { DesignSection() }
         item { WidgetLayoutItem(toWidgetLayout) }
         item { IconPackItem(toIconPacks) }
+
+        item { SuggestionsSection() }
+        item { BlacklistItem(toBlacklist) }
+
+        item { PermissionsSection() }
         item { CheckPermissionsItem(state, toPermissions) }
     }
 }
 
 @Composable
-private fun BlacklistItem(toBlacklist: () -> Unit) {
-    val uiModel = SettingsItemUiModel(
-        title = stringResource(id = R.string.settings_blacklist_title),
-        description = stringResource(id = R.string.settings_blacklist_description)
+fun DesignSection() {
+    val uiModel = SettingsSectionUiModel(
+        title = stringResource(id = R.string.settings_design_section_title)
     )
-    SettingsItem(item = uiModel, onClick = toBlacklist)
+    SettingsSection(item = uiModel)
 }
 
 @Composable
@@ -105,6 +109,31 @@ private fun IconPackItem(toIconPacks: () -> Unit) {
         description = stringResource(id = R.string.settings_icon_pack_description)
     )
     SettingsItem(item = uiModel, onClick = toIconPacks)
+}
+
+@Composable
+private fun SuggestionsSection() {
+    val uiModel = SettingsSectionUiModel(
+        title = stringResource(id = R.string.settings_suggestions_section_title)
+    )
+    SettingsSection(item = uiModel)
+}
+
+@Composable
+private fun BlacklistItem(toBlacklist: () -> Unit) {
+    val uiModel = SettingsItemUiModel(
+        title = stringResource(id = R.string.settings_blacklist_title),
+        description = stringResource(id = R.string.settings_blacklist_description)
+    )
+    SettingsItem(item = uiModel, onClick = toBlacklist)
+}
+
+@Composable
+private fun PermissionsSection() {
+    val uiModel = SettingsSectionUiModel(
+        title = stringResource(id = R.string.settings_permissions_section_title)
+    )
+    SettingsSection(item = uiModel)
 }
 
 @Composable
@@ -140,7 +169,11 @@ private fun SettingsSection(item: SettingsSectionUiModel) {
 }
 
 @Composable
-private fun SettingsItem(item: SettingsItemUiModel, onClick: () -> Unit, content: @Composable RowScope.() -> Unit = {}) {
+private fun SettingsItem(
+    item: SettingsItemUiModel,
+    onClick: () -> Unit,
+    content: @Composable RowScope.() -> Unit = {}
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -152,7 +185,9 @@ private fun SettingsItem(item: SettingsItemUiModel, onClick: () -> Unit, content
             Text(text = item.description, style = MaterialTheme.typography.bodySmall)
         }
         Row(
-            modifier = Modifier.fillMaxSize().padding(horizontal = Dimens.Margin.Medium),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = Dimens.Margin.Medium),
             horizontalArrangement = Arrangement.End,
             content = content
         )
