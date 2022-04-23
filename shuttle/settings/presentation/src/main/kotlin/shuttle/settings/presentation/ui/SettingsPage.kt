@@ -163,8 +163,8 @@ private fun CheckPermissionsItem(state: State, toPermissions: () -> Unit) {
 
 @Composable
 private fun SettingsSection(item: SettingsSectionUiModel) {
-    Row {
-        Text(text = item.title, style = MaterialTheme.typography.titleLarge)
+    Row(modifier = Modifier.padding(horizontal = Dimens.Margin.Medium, vertical = Dimens.Margin.Small)) {
+        Text(text = item.title, style = MaterialTheme.typography.displaySmall)
     }
 }
 
