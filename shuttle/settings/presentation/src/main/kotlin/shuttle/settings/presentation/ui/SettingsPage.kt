@@ -18,9 +18,13 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SmallTopAppBar
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.res.stringResource
@@ -66,7 +70,8 @@ fun SettingsPage(
             toBlacklist = toBlacklist,
             toWidgetLayout = toWidgetLayout,
             toIconPacks = toIconPacks,
-            toPermissions = toPermissions
+            toPermissions = toPermissions,
+            updateUseCurrentLocationOnly = { viewModel.submit(Action.UpdateCurrentLocationOnly(it)) }
         )
     }
 }
@@ -77,7 +82,8 @@ private fun SettingsContent(
     toBlacklist: () -> Unit,
     toWidgetLayout: () -> Unit,
     toIconPacks: () -> Unit,
-    toPermissions: () -> Unit
+    toPermissions: () -> Unit,
+    updateUseCurrentLocationOnly: (Boolean) -> Unit
 ) {
     LazyColumn {
         item { DesignSection() }
@@ -86,6 +92,7 @@ private fun SettingsContent(
 
         item { SuggestionsSection() }
         item { BlacklistItem(toBlacklist) }
+        item { UseCurrentLocationOnlyItem(state = state.currentLocationOnly, updateUseCurrentLocationOnly) }
 
         item { PermissionsSection() }
         item { CheckPermissionsItem(state.permissions, toPermissions) }
@@ -133,6 +140,30 @@ private fun BlacklistItem(toBlacklist: () -> Unit) {
         description = stringResource(id = R.string.settings_blacklist_description)
     )
     SettingsItem(item = uiModel, onClick = toBlacklist)
+}
+
+@Composable
+private fun UseCurrentLocationOnlyItem(
+    state: State.CurrentLocationOnly,
+    updateUseCurrentLocationOnly: (Boolean) -> Unit
+) {
+    var isUsingCurrentLocationOnly by remember { mutableStateOf(state == State.CurrentLocationOnly.True) }
+    
+    val uiModel = SettingsItemUiModel(
+        title = stringResource(id = R.string.settings_current_location_only_title),
+        description = stringResource(id = R.string.settings_current_location_only_description)
+    )
+    SettingsItem(item = uiModel, onClick = { isUsingCurrentLocationOnly = !isUsingCurrentLocationOnly }) {
+        when (state) {
+            State.CurrentLocationOnly.Loading -> LoadingSpinner()
+            State.CurrentLocationOnly.False, State.CurrentLocationOnly.True -> {
+                Switch(checked = isUsingCurrentLocationOnly, onCheckedChange = { isChecked ->
+                    isUsingCurrentLocationOnly = isChecked
+                    updateUseCurrentLocationOnly(isChecked)
+                })
+            }
+        }
+    }
 }
 
 @Composable
@@ -210,7 +241,9 @@ fun SettingsContentPreview() {
             toBlacklist = {},
             toWidgetLayout = {},
             toIconPacks = {},
-            toPermissions = {})
+            toPermissions = {},
+            updateUseCurrentLocationOnly = {}
+        )
     }
 }
 
