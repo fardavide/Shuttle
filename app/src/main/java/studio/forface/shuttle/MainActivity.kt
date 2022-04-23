@@ -33,7 +33,7 @@ class MainActivity : ComponentActivity() {
             ShuttleTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-                    App()
+                    App(onFinish = this::finish)
                 }
             }
         }
@@ -41,13 +41,13 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-private fun App() {
+private fun App(onFinish: () -> Unit) {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = Permissions) {
         composable(BlacklistSettings) { BlacklistSettingsRoute() }
         composable(IconPackSettings) { IconPackSettingsRoute() }
         composable(Permissions) { PermissionsRoute(navController) }
-        composable(Settings) { SettingsRoute(navController) }
+        composable(Settings) { SettingsRoute(navController, onFinish = onFinish) }
         composable(Suggestions) { SuggestionsRoute(navController) }
         composable(WidgetLayout) { WidgetLayoutRoute() }
     }
@@ -66,8 +66,9 @@ private fun PermissionsRoute(navController: NavController) =
     PermissionsPage(toSettings = { navController.navigate(Settings, PopAll) })
 
 @Composable
-private fun SettingsRoute(navController: NavController) =
+private fun SettingsRoute(navController: NavController, onFinish: () -> Unit) =
     SettingsPage(
+        onBack = { navController.popOrFinish(onFinish) },
         toBlacklist = { navController.navigate(BlacklistSettings) },
         toWidgetLayout = { navController.navigate(WidgetLayout) },
         toIconPacks = { navController.navigate(IconPackSettings) },
@@ -85,3 +86,7 @@ private fun WidgetLayoutRoute() =
 private val PopAll: NavOptions = NavOptions.Builder()
     .setPopUpTo(Permissions.id, inclusive = true)
     .build()
+
+private fun NavController.popOrFinish(onFinish: () -> Unit) {
+    if (popBackStack().not()) onFinish()
+}

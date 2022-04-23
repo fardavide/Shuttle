@@ -3,6 +3,7 @@
 
     <!-- region Common -->
     <string name="x_app_icon_description">App icon</string>
+    <string name="x_back_button_description">Back button</string>
     <!-- endregion -->
 
     <!-- region App -->

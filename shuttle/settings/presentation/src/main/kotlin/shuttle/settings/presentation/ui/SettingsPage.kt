@@ -11,10 +11,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.CheckCircle
 import androidx.compose.material.icons.rounded.Warning
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SmallTopAppBar
@@ -42,6 +44,7 @@ import studio.forface.shuttle.design.R
 @Composable
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class)
 fun SettingsPage(
+    onBack: () -> Unit,
     toBlacklist: () -> Unit,
     toWidgetLayout: () -> Unit,
     toIconPacks: () -> Unit,
@@ -53,7 +56,19 @@ fun SettingsPage(
     val backgroundLocationPermissionsState = rememberMultiplePermissionsState(backgroundPermissionsList)
     viewModel.submit(Action.UpdatePermissionsState(backgroundLocationPermissionsState))
 
-    Scaffold(topBar = { SmallTopAppBar(title = { Text(stringResource(id = R.string.settings_title)) }) }) {
+    Scaffold(topBar = {
+        SmallTopAppBar(
+            title = { Text(stringResource(id = R.string.settings_title)) },
+            navigationIcon = {
+                IconButton(onClick = onBack) {
+                    Icon(
+                        imageVector = Icons.Rounded.ArrowBack,
+                        contentDescription = stringResource(id = R.string.x_back_button_description)
+                    )
+                }
+            }
+        )
+    }) {
         SettingsContent(
             state = state,
             toBlacklist = toBlacklist,

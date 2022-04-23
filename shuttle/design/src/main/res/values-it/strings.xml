@@ -48,6 +48,7 @@
     <string name="settings_widget_layout_title">Disposizone Widget</string>
     <string name="settings_widget_layout_vertical_spacing">Spazio verticale tra le icone</string>
     <string name="x_app_icon_description">Icona app</string>
+    <string name="x_back_button_description">Bottone indietro</string>
     <string name="settings_check_permissions_granted_description">Tutti i permessi necessary sono abilitati</string>
     <string name="settings_check_permissions_not_granted_description">Non tutti i permessi necessari sono abilitati</string>
 
