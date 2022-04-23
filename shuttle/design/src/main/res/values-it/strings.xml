@@ -31,6 +31,9 @@
     <string name="settings_blacklist_title">Blacklist</string>
     <string name="settings_check_permissions_description">Verifica lo stato dei permessi necessari</string>
     <string name="settings_check_permissions_title">Controlla i permessi</string>
+    <string name="settings_design_section_title">Design</string>
+    <string name="settings_permissions_section_title">Permessi</string>
+    <string name="settings_suggestions_section_title">Suggerimenti apps</string>
     <string name="settings_icon_description">Icona impostazioni</string>
     <string name="settings_icon_pack_description">Scegli un Pacchetto d\'Icone</string>
     <string name="settings_icon_pack_system_default">Icone di sistema</string>
@@ -45,6 +48,7 @@
     <string name="settings_widget_layout_title">Disposizone Widget</string>
     <string name="settings_widget_layout_vertical_spacing">Spazio verticale tra le icone</string>
     <string name="x_app_icon_description">Icona app</string>
+    <string name="x_back_button_description">Bottone indietro</string>
     <string name="settings_check_permissions_granted_description">Tutti i permessi necessary sono abilitati</string>
     <string name="settings_check_permissions_not_granted_description">Non tutti i permessi necessari sono abilitati</string>
 

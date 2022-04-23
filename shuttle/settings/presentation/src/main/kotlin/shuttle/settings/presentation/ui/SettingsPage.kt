@@ -29,10 +29,12 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import org.koin.androidx.compose.getViewModel
 import shuttle.design.theme.Dimens
+import shuttle.design.ui.BackIconButton
 import shuttle.design.ui.LoadingSpinner
 import shuttle.design.util.collectAsStateLifecycleAware
 import shuttle.permissions.domain.model.backgroundPermissionsList
-import shuttle.settings.presentation.model.SettingItemUiModel
+import shuttle.settings.presentation.model.SettingsItemUiModel
+import shuttle.settings.presentation.model.SettingsSectionUiModel
 import shuttle.settings.presentation.viewmodel.SettingsViewModel
 import shuttle.settings.presentation.viewmodel.SettingsViewModel.Action
 import shuttle.settings.presentation.viewmodel.SettingsViewModel.State
@@ -41,6 +43,7 @@ import studio.forface.shuttle.design.R
 @Composable
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class)
 fun SettingsPage(
+    onBack: () -> Unit,
     toBlacklist: () -> Unit,
     toWidgetLayout: () -> Unit,
     toIconPacks: () -> Unit,
@@ -52,7 +55,12 @@ fun SettingsPage(
     val backgroundLocationPermissionsState = rememberMultiplePermissionsState(backgroundPermissionsList)
     viewModel.submit(Action.UpdatePermissionsState(backgroundLocationPermissionsState))
 
-    Scaffold(topBar = { SmallTopAppBar(title = { Text(stringResource(id = R.string.settings_title)) }) }) {
+    Scaffold(topBar = {
+        SmallTopAppBar(
+            title = { Text(stringResource(id = R.string.settings_title)) },
+            navigationIcon = { BackIconButton(onBack) }
+        )
+    }) {
         SettingsContent(
             state = state,
             toBlacklist = toBlacklist,
@@ -72,25 +80,29 @@ private fun SettingsContent(
     toPermissions: () -> Unit
 ) {
     LazyColumn {
-        item { BlacklistItem(toBlacklist) }
+        item { DesignSection() }
         item { WidgetLayoutItem(toWidgetLayout) }
         item { IconPackItem(toIconPacks) }
+
+        item { SuggestionsSection() }
+        item { BlacklistItem(toBlacklist) }
+
+        item { PermissionsSection() }
         item { CheckPermissionsItem(state, toPermissions) }
     }
 }
 
 @Composable
-private fun BlacklistItem(toBlacklist: () -> Unit) {
-    val uiModel = SettingItemUiModel(
-        title = stringResource(id = R.string.settings_blacklist_title),
-        description = stringResource(id = R.string.settings_blacklist_description)
+fun DesignSection() {
+    val uiModel = SettingsSectionUiModel(
+        title = stringResource(id = R.string.settings_design_section_title)
     )
-    SettingsItem(item = uiModel, onClick = toBlacklist)
+    SettingsSection(item = uiModel)
 }
 
 @Composable
 private fun WidgetLayoutItem(toWidgetLayout: () -> Unit) {
-    val uiModel = SettingItemUiModel(
+    val uiModel = SettingsItemUiModel(
         title = stringResource(id = R.string.settings_widget_layout_title),
         description = stringResource(id = R.string.settings_widget_layout_description)
     )
@@ -99,7 +111,7 @@ private fun WidgetLayoutItem(toWidgetLayout: () -> Unit) {
 
 @Composable
 private fun IconPackItem(toIconPacks: () -> Unit) {
-    val uiModel = SettingItemUiModel(
+    val uiModel = SettingsItemUiModel(
         title = stringResource(id = R.string.settings_icon_pack_title),
         description = stringResource(id = R.string.settings_icon_pack_description)
     )
@@ -107,8 +119,33 @@ private fun IconPackItem(toIconPacks: () -> Unit) {
 }
 
 @Composable
+private fun SuggestionsSection() {
+    val uiModel = SettingsSectionUiModel(
+        title = stringResource(id = R.string.settings_suggestions_section_title)
+    )
+    SettingsSection(item = uiModel)
+}
+
+@Composable
+private fun BlacklistItem(toBlacklist: () -> Unit) {
+    val uiModel = SettingsItemUiModel(
+        title = stringResource(id = R.string.settings_blacklist_title),
+        description = stringResource(id = R.string.settings_blacklist_description)
+    )
+    SettingsItem(item = uiModel, onClick = toBlacklist)
+}
+
+@Composable
+private fun PermissionsSection() {
+    val uiModel = SettingsSectionUiModel(
+        title = stringResource(id = R.string.settings_permissions_section_title)
+    )
+    SettingsSection(item = uiModel)
+}
+
+@Composable
 private fun CheckPermissionsItem(state: State, toPermissions: () -> Unit) {
-    val uiModel = SettingItemUiModel(
+    val uiModel = SettingsItemUiModel(
         title = stringResource(id = R.string.settings_check_permissions_title),
         description = stringResource(id = R.string.settings_check_permissions_description)
     )
@@ -132,7 +169,18 @@ private fun CheckPermissionsItem(state: State, toPermissions: () -> Unit) {
 }
 
 @Composable
-private fun SettingsItem(item: SettingItemUiModel, onClick: () -> Unit, content: @Composable RowScope.() -> Unit = {}) {
+private fun SettingsSection(item: SettingsSectionUiModel) {
+    Row(modifier = Modifier.padding(horizontal = Dimens.Margin.Medium, vertical = Dimens.Margin.Small)) {
+        Text(text = item.title, style = MaterialTheme.typography.displaySmall)
+    }
+}
+
+@Composable
+private fun SettingsItem(
+    item: SettingsItemUiModel,
+    onClick: () -> Unit,
+    content: @Composable RowScope.() -> Unit = {}
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -144,7 +192,9 @@ private fun SettingsItem(item: SettingItemUiModel, onClick: () -> Unit, content:
             Text(text = item.description, style = MaterialTheme.typography.bodySmall)
         }
         Row(
-            modifier = Modifier.fillMaxSize().padding(horizontal = Dimens.Margin.Medium),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = Dimens.Margin.Medium),
             horizontalArrangement = Arrangement.End,
             content = content
         )
@@ -168,7 +218,7 @@ fun SettingsContentPreview() {
 @Preview(showBackground = true)
 fun SettingsItemPreview() {
     MaterialTheme {
-        val uiModel = SettingItemUiModel(
+        val uiModel = SettingsItemUiModel(
             title = stringResource(id = R.string.settings_blacklist_title),
             description = stringResource(id = R.string.settings_blacklist_description)
         )
