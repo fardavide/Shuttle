@@ -1,6 +1,6 @@
 package shuttle.settings.presentation.model
 
-data class SettingItemUiModel(
+data class SettingsItemUiModel(
     val title: String,
     val description: String
 )

@@ -32,7 +32,8 @@ import shuttle.design.theme.Dimens
 import shuttle.design.ui.LoadingSpinner
 import shuttle.design.util.collectAsStateLifecycleAware
 import shuttle.permissions.domain.model.backgroundPermissionsList
-import shuttle.settings.presentation.model.SettingItemUiModel
+import shuttle.settings.presentation.model.SettingsItemUiModel
+import shuttle.settings.presentation.model.SettingsSectionUiModel
 import shuttle.settings.presentation.viewmodel.SettingsViewModel
 import shuttle.settings.presentation.viewmodel.SettingsViewModel.Action
 import shuttle.settings.presentation.viewmodel.SettingsViewModel.State
@@ -81,7 +82,7 @@ private fun SettingsContent(
 
 @Composable
 private fun BlacklistItem(toBlacklist: () -> Unit) {
-    val uiModel = SettingItemUiModel(
+    val uiModel = SettingsItemUiModel(
         title = stringResource(id = R.string.settings_blacklist_title),
         description = stringResource(id = R.string.settings_blacklist_description)
     )
@@ -90,7 +91,7 @@ private fun BlacklistItem(toBlacklist: () -> Unit) {
 
 @Composable
 private fun WidgetLayoutItem(toWidgetLayout: () -> Unit) {
-    val uiModel = SettingItemUiModel(
+    val uiModel = SettingsItemUiModel(
         title = stringResource(id = R.string.settings_widget_layout_title),
         description = stringResource(id = R.string.settings_widget_layout_description)
     )
@@ -99,7 +100,7 @@ private fun WidgetLayoutItem(toWidgetLayout: () -> Unit) {
 
 @Composable
 private fun IconPackItem(toIconPacks: () -> Unit) {
-    val uiModel = SettingItemUiModel(
+    val uiModel = SettingsItemUiModel(
         title = stringResource(id = R.string.settings_icon_pack_title),
         description = stringResource(id = R.string.settings_icon_pack_description)
     )
@@ -108,7 +109,7 @@ private fun IconPackItem(toIconPacks: () -> Unit) {
 
 @Composable
 private fun CheckPermissionsItem(state: State, toPermissions: () -> Unit) {
-    val uiModel = SettingItemUiModel(
+    val uiModel = SettingsItemUiModel(
         title = stringResource(id = R.string.settings_check_permissions_title),
         description = stringResource(id = R.string.settings_check_permissions_description)
     )
@@ -132,7 +133,14 @@ private fun CheckPermissionsItem(state: State, toPermissions: () -> Unit) {
 }
 
 @Composable
-private fun SettingsItem(item: SettingItemUiModel, onClick: () -> Unit, content: @Composable RowScope.() -> Unit = {}) {
+private fun SettingsSection(item: SettingsSectionUiModel) {
+    Row {
+        Text(text = item.title, style = MaterialTheme.typography.titleLarge)
+    }
+}
+
+@Composable
+private fun SettingsItem(item: SettingsItemUiModel, onClick: () -> Unit, content: @Composable RowScope.() -> Unit = {}) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -168,7 +176,7 @@ fun SettingsContentPreview() {
 @Preview(showBackground = true)
 fun SettingsItemPreview() {
     MaterialTheme {
-        val uiModel = SettingItemUiModel(
+        val uiModel = SettingsItemUiModel(
             title = stringResource(id = R.string.settings_blacklist_title),
             description = stringResource(id = R.string.settings_blacklist_description)
         )
