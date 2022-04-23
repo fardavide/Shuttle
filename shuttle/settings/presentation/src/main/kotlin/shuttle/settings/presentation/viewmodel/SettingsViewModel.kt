@@ -20,6 +20,7 @@ class SettingsViewModel(
         viewModelScope.launch {
             val newState = when (action) {
                 is Action.UpdatePermissionsState -> onPermissionsStateUpdate(action.permissionsState)
+                is Action.UpdateCurrentLocationOnly -> updateCurrentLocationOnly(action.value)
             }
             emit(newState)
         }
@@ -32,9 +33,16 @@ class SettingsViewModel(
         return state.value.copy(permissions = permissions)
     }
 
+    private fun updateCurrentLocationOnly(value: Boolean): State {
+        val currentLocationOnly = if (value) State.CurrentLocationOnly.True else State.CurrentLocationOnly.False
+
+        return state.value.copy(currentLocationOnly = currentLocationOnly)
+    }
+
     sealed interface Action {
 
         data class UpdatePermissionsState(val permissionsState: MultiplePermissionsState): Action
+        data class UpdateCurrentLocationOnly(val value: Boolean): Action
     }
 
     data class State(
