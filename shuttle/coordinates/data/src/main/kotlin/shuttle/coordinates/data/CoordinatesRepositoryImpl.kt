@@ -1,5 +1,6 @@
 package shuttle.coordinates.data
 
+import arrow.core.Either
 import arrow.core.left
 import arrow.core.right
 import kotlinx.coroutines.CoroutineScope
@@ -14,6 +15,7 @@ import shuttle.coordinates.data.datasource.TimeDataSource
 import shuttle.coordinates.data.mapper.GeoHashMapper
 import shuttle.coordinates.data.worker.RefreshLocationWorker
 import shuttle.coordinates.domain.CoordinatesRepository
+import shuttle.coordinates.domain.error.LocationError
 import shuttle.coordinates.domain.error.LocationNotAvailable
 import shuttle.coordinates.domain.model.CoordinatesResult
 import shuttle.coordinates.domain.model.GeoHash
@@ -44,10 +46,9 @@ internal class CoordinatesRepositoryImpl(
     override fun observeCurrentCoordinates(): Flow<CoordinatesResult> =
         coordinatesSharedFlow
 
-    override suspend fun refreshLocation() {
+    override suspend fun refreshLocation(): Either<LocationError, Unit> =
         deviceLocationDataSource.getLocation().tap { location ->
             val geoHash = geoHashMapper.toGeoHash(location)
             lastLocationDataSource.insert(DatabaseGeoHash(geoHash.value))
-        }
-    }
+        }.void()
 }

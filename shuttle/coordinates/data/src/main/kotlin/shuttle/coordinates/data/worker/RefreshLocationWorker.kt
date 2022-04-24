@@ -8,6 +8,7 @@ import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import co.touchlab.kermit.Logger
 import shuttle.coordinates.domain.CoordinatesRepository
+import shuttle.coordinates.domain.error.LocationError
 import kotlin.time.Duration
 
 internal class RefreshLocationWorker(
@@ -17,10 +18,16 @@ internal class RefreshLocationWorker(
     private val logger: Logger
 ) : CoroutineWorker(appContext, params) {
 
-    override suspend fun doWork(): Result {
-        coordinatesRepository.refreshLocation()
-        return Result.success()
-    }
+    override suspend fun doWork(): Result =
+        coordinatesRepository.refreshLocation().fold(
+            ifLeft = { locationError ->
+                logger.w(locationError.toString())
+                when (locationError) {
+                    LocationError.ExpiredLocation, LocationError.NoCachedLocation -> Result.retry()
+                }
+            },
+            ifRight = { Result.success() }
+        )
 
     class Scheduler(
         private val workManager: WorkManager,

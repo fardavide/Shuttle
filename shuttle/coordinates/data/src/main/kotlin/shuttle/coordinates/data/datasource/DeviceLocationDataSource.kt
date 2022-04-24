@@ -13,8 +13,9 @@ import com.google.android.gms.tasks.CancellationTokenSource
 import com.google.android.gms.tasks.Task
 import com.soywiz.klock.DateTime
 import kotlinx.coroutines.suspendCancellableCoroutine
-import shuttle.coordinates.data.datasource.LocationError.ExpiredLocation
-import shuttle.coordinates.data.datasource.LocationError.NoCachedLocation
+import shuttle.coordinates.domain.error.LocationError
+import shuttle.coordinates.domain.error.LocationError.ExpiredLocation
+import shuttle.coordinates.domain.error.LocationError.NoCachedLocation
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.time.Duration
@@ -57,9 +58,4 @@ internal class DeviceLocationDataSource(
             addOnFailureListener(continuation::resumeWithException)
             addOnCanceledListener(continuation::cancel)
         }
-}
-
-sealed interface LocationError {
-    object NoCachedLocation: LocationError
-    object ExpiredLocation: LocationError
 }
