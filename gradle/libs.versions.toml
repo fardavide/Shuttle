@@ -16,6 +16,7 @@ geohash = "1.4.0"
 glance = "1.0.0-alpha03"
 hiltViewModel = "1.0.0-alpha03"
 junit = "4.13.2"
+kermit = "1.1.1"
 klock = "2.5.1"
 koin = "3.2.0-beta-1"
 kotlin = "1.6.10"
@@ -58,6 +59,7 @@ compose-uiTooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "
 compose-uiToolingPreview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
 geohash = { module = "ch.hsr:geohash", version.ref = "geohash" }
 junit = { module = "junit:junit", version.ref = "junit" }
+kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
 klock = { module = "com.soywiz.korlibs.klock:klock", version.ref = "klock" }
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 koin-android-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
@@ -80,7 +82,7 @@ sqlDelight-sqlite = { module = "com.squareup.sqldelight:sqlite-driver", version.
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 
 [bundles]
-base = [ "arrow-core", "koin-core", "kotlin-coroutines" ]
+base = [ "arrow-core", "kermit", "koin-core", "kotlin-coroutines" ]
 compose = [ "coil-compose", "compose-ui", "compose-uiToolingPreview", "koin-android-compose", "material3" ]
 test-android = [ "androidx-test-core", "androidx-test-junit", "androidx-test-espresso", "koin-test", "koin-test-junit4", "mockk-android" ]
 test-kotlin = [ "kotlin-coroutines-test", "kotlin-test-junit", "mockk", "turbine" ]
