@@ -23,6 +23,7 @@ internal class RefreshLocationWorker(
             ifLeft = { locationError ->
                 logger.w(locationError.toString())
                 when (locationError) {
+                    LocationError.MissingPermissions -> Result.failure()
                     LocationError.ExpiredLocation, LocationError.NoCachedLocation -> Result.retry()
                 }
             },

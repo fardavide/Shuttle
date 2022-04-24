@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.location.Location
 import arrow.core.Either
 import arrow.core.ensure
-import arrow.core.handleError
+import arrow.core.handleErrorWith
 import arrow.core.left
 import arrow.core.right
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -15,9 +15,9 @@ import com.soywiz.klock.DateTime
 import kotlinx.coroutines.suspendCancellableCoroutine
 import shuttle.coordinates.domain.error.LocationError
 import shuttle.coordinates.domain.error.LocationError.ExpiredLocation
+import shuttle.coordinates.domain.error.LocationError.MissingPermissions
 import shuttle.coordinates.domain.error.LocationError.NoCachedLocation
 import kotlin.coroutines.resume
-import kotlin.coroutines.resumeWithException
 import kotlin.time.Duration
 
 @SuppressLint("MissingPermission")
@@ -28,7 +28,7 @@ internal class DeviceLocationDataSource(
 
     suspend fun getLocation(): Either<LocationError, Location> {
         val lastLocation = fusedLocationClient.lastLocation.tryGet()
-        return notExpired(lastLocation).handleError {
+        return notExpired(lastLocation).handleErrorWith {
             fusedLocationClient.getCurrentLocation(
                 LocationRequest.PRIORITY_HIGH_ACCURACY,
                 CancellationTokenSource().token
@@ -36,26 +36,26 @@ internal class DeviceLocationDataSource(
         }
     }
 
-    private fun notExpired(location: Either<NoCachedLocation, Location>): Either<LocationError, Location> =
+    private fun notExpired(location: Either<LocationError, Location>): Either<LocationError, Location> =
         location.ensure({ ExpiredLocation }, { isExpired(it.time).not() })
 
     private fun isExpired(locationTime: Long): Boolean =
         DateTime.nowUnixLong() - locationTime > locationExpiration.inWholeMilliseconds
 
-    private suspend fun Task<Location?>.tryGet(): Either<NoCachedLocation, Location> =
+    private suspend fun Task<Location?>.tryGet(): Either<LocationError, Location> =
         suspendCancellableCoroutine { continuation ->
             addOnSuccessListener { location ->
                 val either = location?.right() ?: NoCachedLocation.left()
                 continuation.resume(either)
             }
-            addOnFailureListener(continuation::resumeWithException)
+            addOnFailureListener { continuation.resume(MissingPermissions.left()) }
             addOnCanceledListener(continuation::cancel)
         }
 
-    private suspend fun Task<Location>.get(): Location =
+    private suspend fun Task<Location>.get(): Either<LocationError, Location> =
         suspendCancellableCoroutine { continuation ->
-            addOnSuccessListener(continuation::resume)
-            addOnFailureListener(continuation::resumeWithException)
+            addOnSuccessListener { continuation.resume(it.right()) }
+            addOnFailureListener { continuation.resume(MissingPermissions.left()) }
             addOnCanceledListener(continuation::cancel)
         }
 }
