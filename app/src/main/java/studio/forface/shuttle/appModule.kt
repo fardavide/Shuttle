@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.work.WorkManager
+import co.touchlab.kermit.Logger
+import co.touchlab.kermit.LoggerConfig
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -15,6 +17,7 @@ import shuttle.di.shuttleModule
 val appModule = module {
 
     single { CoroutineScope(Job() + Dispatchers.Default) }
+    single { Logger(LoggerConfig.default) }
     factory<PackageManager> { get<Context>().packageManager }
     factory { get<Context>().resources }
     factory<() -> Unit>(StartAppQualifier) { ::startMainActivity }

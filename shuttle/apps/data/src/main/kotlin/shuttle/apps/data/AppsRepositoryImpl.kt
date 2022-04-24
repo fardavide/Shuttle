@@ -9,6 +9,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.filterNot
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
@@ -51,9 +52,11 @@ class AppsRepositoryImpl(
         }
 
     private fun observeAllInstalledAppsFromCache(): Flow<List<AppModel>> =
-        dataSource.findAllApps().map { list ->
-            list.map { AppModel(AppId(it.id.value), AppName(it.name)) }
-        }
+        dataSource.findAllApps()
+            .filterNot { it.isEmpty() }
+            .map { list ->
+                list.map { AppModel(AppId(it.id.value), AppName(it.name)) }
+            }
 
     private fun observeAndRefreshAppsFromDevice(): Flow<List<AppModel>> =
         flow {

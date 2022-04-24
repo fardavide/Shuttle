@@ -33,7 +33,8 @@ val coordinatesDataModule = module {
         RefreshLocationWorker(
             appContext = get(),
             params = get(),
-            coordinatesRepository = get()
+            coordinatesRepository = get(),
+            logger = get()
         )
     }
     factory {

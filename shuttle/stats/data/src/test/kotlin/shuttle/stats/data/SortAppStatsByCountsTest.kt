@@ -1,5 +1,7 @@
 package shuttle.stats.data
 
+import io.mockk.coEvery
+import io.mockk.mockk
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
 import shuttle.apps.domain.model.AppId
@@ -10,13 +12,17 @@ import shuttle.database.testdata.TestData.FirstAppId
 import shuttle.database.testdata.TestData.FourthAppId
 import shuttle.database.testdata.TestData.SecondAppId
 import shuttle.database.testdata.TestData.ThirdAppId
+import shuttle.settings.domain.usecase.GetUseCurrentLocationOnly
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class SortAppStatsByCountsTest {
 
     private val dispatcher = StandardTestDispatcher()
-    private val sort = SortAppStatsByCounts(dispatcher)
+    private val getUseCurrentLocationOnly: GetUseCurrentLocationOnly = mockk {
+        coEvery { this@mockk() } returns false
+    }
+    private val sort = SortAppStatsByCounts(dispatcher, getUseCurrentLocationOnly = getUseCurrentLocationOnly)
 
     @Test
     fun `empty list returns an empty list`() = runTest(dispatcher) {
