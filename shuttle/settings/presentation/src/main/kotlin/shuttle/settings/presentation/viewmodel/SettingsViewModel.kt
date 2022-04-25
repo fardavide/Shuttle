@@ -12,9 +12,11 @@ import shuttle.settings.domain.usecase.UpdateUseCurrentLocationOnly
 import shuttle.settings.presentation.viewmodel.SettingsViewModel.Action
 import shuttle.settings.presentation.viewmodel.SettingsViewModel.State
 import shuttle.util.android.viewmodel.ShuttleViewModel
+import shuttle.utils.kotlin.GetAppVersion
 
 @OptIn(ExperimentalPermissionsApi::class)
 class SettingsViewModel(
+    private val getAppVersion: GetAppVersion,
     private val hasAllLocationPermissions: HasAllLocationPermissions,
     private val isLaunchCounterServiceEnabled: IsLaunchCounterServiceEnabled,
     private val observeUseCurrentLocationOnly: ObserveUseCurrentLocationOnly,
@@ -22,6 +24,10 @@ class SettingsViewModel(
 ) : ShuttleViewModel<Action, State>(initialState = State.Loading) {
 
     init {
+        viewModelScope.launch {
+            val newState = state.value.copy(appVersion = getAppVersion().toString())
+            emit(newState)
+        }
         viewModelScope.launch {
             observeUseCurrentLocationOnly().collectLatest { useCurrentLocationOnly ->
                 val currentLocationOnly =
@@ -66,7 +72,8 @@ class SettingsViewModel(
 
     data class State(
         val permissions: Permissions,
-        val currentLocationOnly: CurrentLocationOnly
+        val currentLocationOnly: CurrentLocationOnly,
+        val appVersion: String
     ) {
 
         sealed interface Permissions {
@@ -87,7 +94,8 @@ class SettingsViewModel(
 
             val Loading = State(
                 permissions = Permissions.Loading,
-                currentLocationOnly = CurrentLocationOnly.Loading
+                currentLocationOnly = CurrentLocationOnly.Loading,
+                appVersion = ""
             )
         }
     }

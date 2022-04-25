@@ -2,9 +2,11 @@ package shuttle.settings.presentation.ui
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -25,6 +27,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.res.stringResource
@@ -85,7 +88,7 @@ private fun SettingsContent(
     toPermissions: () -> Unit,
     updateUseCurrentLocationOnly: (Boolean) -> Unit
 ) {
-    LazyColumn {
+    LazyColumn(modifier = Modifier.fillMaxHeight()) {
         item { DesignSection() }
         item { WidgetLayoutItem(toWidgetLayout) }
         item { IconPackItem(toIconPacks) }
@@ -96,6 +99,8 @@ private fun SettingsContent(
 
         item { PermissionsSection() }
         item { CheckPermissionsItem(state.permissions, toPermissions) }
+
+        item { AppVersionFooter(version = state.appVersion) }
     }
 }
 
@@ -229,6 +234,16 @@ private fun SettingsItem(
             horizontalArrangement = Arrangement.End,
             content = content
         )
+    }
+}
+
+@Composable
+private fun AppVersionFooter(version: String) {
+    Box(
+        modifier = Modifier.fillMaxWidth().padding(Dimens.Margin.Large),
+        contentAlignment = Alignment.BottomCenter
+    ) {
+        Text(text = stringResource(id = R.string.settings_footer_app_version, version))
     }
 }
 

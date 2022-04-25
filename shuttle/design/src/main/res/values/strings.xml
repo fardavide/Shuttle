@@ -75,6 +75,8 @@
     <string name="settings_widget_layout_vertical_spacing">Vertical spacing between icons</string>
     <string name="settings_widget_layout_horizontal_spacing">Horizontal spacing between icons</string>
     <string name="settings_widget_layout_text_size">Text size</string>
+
+    <string name="settings_footer_app_version">Version %s</string>
     <!-- endregion -->
 
 </resources>

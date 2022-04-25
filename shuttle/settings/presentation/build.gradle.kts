@@ -12,7 +12,10 @@ moduleDependencies {
     icons.domain()
     permissions.domain()
     settings.domain()
-    utils.android()
+    utils {
+        android()
+        kotlin()
+    }
 }
 
 dependencies {

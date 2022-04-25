@@ -37,7 +37,10 @@ moduleDependencies {
         data()
         domain()
     }
-    utils.android()
+    utils {
+        android()
+        kotlin()
+    }
 }
 
 dependencies {

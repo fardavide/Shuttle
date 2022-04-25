@@ -42,6 +42,7 @@ fun StatsModuleCatalog.data() = create("data")
 fun StatsModuleCatalog.domain() = create("domain")
 
 fun UtilsModuleCatalog.android() = create("android")
+fun UtilsModuleCatalog.kotlin() = create("kotlin")
 
 
 class AppsModuleCatalog(project: Project): ModuleCatalog(project, ":shuttle:apps:shuttle-apps-")
