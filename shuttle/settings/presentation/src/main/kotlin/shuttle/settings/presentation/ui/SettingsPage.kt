@@ -192,13 +192,13 @@ private fun CheckPermissionsItem(state: State.Permissions, toPermissions: () -> 
                 painter = rememberVectorPainter(image = Icons.Rounded.Warning),
                 tint = MaterialTheme.colorScheme.error,
                 contentDescription = stringResource(R.string.settings_check_permissions_not_granted_description),
-                modifier = Modifier.size(Dimens.Icon.Small)
+                modifier = Modifier.padding(end = Dimens.Margin.Small).size(Dimens.Icon.Small)
             )
             State.Permissions.Granted -> Icon(
                 painter = rememberVectorPainter(image = Icons.Rounded.CheckCircle),
                 tint = MaterialTheme.colorScheme.secondary,
                 contentDescription = stringResource(R.string.settings_check_permissions_granted_description),
-                modifier = Modifier.size(Dimens.Icon.Small)
+                modifier = Modifier.padding(end = Dimens.Margin.Small).size(Dimens.Icon.Small)
             )
         }
     }
@@ -230,7 +230,7 @@ private fun SettingsItem(
         Row(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = Dimens.Margin.Medium),
+                .padding(start = Dimens.Margin.Small),
             horizontalArrangement = Arrangement.End,
             content = content
         )
