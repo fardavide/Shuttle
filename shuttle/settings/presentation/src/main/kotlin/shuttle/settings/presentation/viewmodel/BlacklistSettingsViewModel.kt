@@ -8,8 +8,8 @@ import kotlinx.coroutines.launch
 import shuttle.apps.domain.model.AppId
 import shuttle.settings.domain.model.AppBlacklistSetting
 import shuttle.settings.domain.usecase.AddToBlacklist
-import shuttle.settings.domain.usecase.ObserveAppsBlacklistSettings
 import shuttle.settings.domain.usecase.RemoveFromBlacklist
+import shuttle.settings.domain.usecase.SearchAppsBlacklistSettings
 import shuttle.settings.presentation.mapper.AppBlacklistSettingUiModelMapper
 import shuttle.settings.presentation.model.AppBlacklistSettingUiModel
 import shuttle.settings.presentation.viewmodel.BlacklistSettingsViewModel.Action
@@ -18,15 +18,15 @@ import shuttle.util.android.viewmodel.ShuttleViewModel
 
 internal class BlacklistSettingsViewModel(
     private val appUiModelMapper: AppBlacklistSettingUiModelMapper,
-    observeAppsBlacklistSettings: ObserveAppsBlacklistSettings,
     private val addToBlacklist: AddToBlacklist,
-    private val removeFromBlacklist: RemoveFromBlacklist
+    private val removeFromBlacklist: RemoveFromBlacklist,
+    private val searchAppsBlacklistSettings: SearchAppsBlacklistSettings
 ) : ShuttleViewModel<Action, State>(initialState = State.Loading) {
 
     private var sortingOrder: List<AppId>? = null
 
     init {
-        observeAppsBlacklistSettings()
+        searchAppsBlacklistSettings()
             .map { list -> State.Data(appUiModelMapper.toUiModels(list.sortIfFirstData())) }
             .onEach(::emit)
             .launchIn(viewModelScope)
@@ -38,6 +38,7 @@ internal class BlacklistSettingsViewModel(
             val newState = when (action) {
                 is Action.AddToBlacklist -> onAddToBlacklist(currentState, action.appId)
                 is Action.RemoveFromBlacklist -> onRemoveFromBlacklist(currentState, action.appId)
+                is Action.Search -> onSearch(action.query)
             }
             emit(newState)
         }
@@ -69,6 +70,11 @@ internal class BlacklistSettingsViewModel(
         return State.Data(newData)
     }
 
+    private fun onSearch(query: String): State {
+        searchAppsBlacklistSettings(query)
+        return state.value
+    }
+
     private fun List<AppBlacklistSetting>.sortIfFirstData(): List<AppBlacklistSetting> {
         return if (sortingOrder == null) {
             val sorted = sortedByDescending { it.inBlacklist }
@@ -90,5 +96,6 @@ internal class BlacklistSettingsViewModel(
 
         data class AddToBlacklist(val appId: AppId): Action
         data class RemoveFromBlacklist(val appId: AppId): Action
+        data class Search(val query: String): Action
     }
 }

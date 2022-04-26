@@ -16,9 +16,9 @@ val settingsPresentationModule = module {
     viewModel {
         BlacklistSettingsViewModel(
             appUiModelMapper = get(),
-            observeAppsBlacklistSettings = get(),
             addToBlacklist = get(),
-            removeFromBlacklist = get()
+            removeFromBlacklist = get(),
+            searchAppsBlacklistSettings = get()
         )
     }
     viewModel {

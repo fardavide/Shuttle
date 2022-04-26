@@ -18,7 +18,7 @@ class SearchAppsBlacklistSettings(
         appBlacklistSettings.filter { query inNoCase it.app.name.value }
     }
 
-    operator fun invoke(query: String): Flow<List<AppBlacklistSetting>> {
+    operator fun invoke(query: String = ""): Flow<List<AppBlacklistSetting>> {
         searchQuery.value = query
         return result
     }
