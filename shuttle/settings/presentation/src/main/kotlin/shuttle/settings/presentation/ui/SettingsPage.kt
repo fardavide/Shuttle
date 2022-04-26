@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -223,14 +222,12 @@ private fun SettingsItem(
             .clickable(onClick = onClick)
             .padding(horizontal = Dimens.Margin.Medium, vertical = Dimens.Margin.Small)
     ) {
-        Column {
+        Column(modifier = Modifier.weight(1f)) {
             Text(text = item.title, style = MaterialTheme.typography.titleMedium)
             Text(text = item.description, style = MaterialTheme.typography.bodySmall)
         }
         Row(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(start = Dimens.Margin.Small),
+            modifier = Modifier.padding(start = Dimens.Margin.Small),
             horizontalArrangement = Arrangement.End,
             content = content
         )
