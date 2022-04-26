@@ -6,6 +6,7 @@ moduleDependencies {
 
     apps.domain()
     stats.domain()
+    utils.kotlin()
 }
 
 dependencies {

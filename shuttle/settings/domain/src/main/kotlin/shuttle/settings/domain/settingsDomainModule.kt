@@ -10,6 +10,7 @@ import shuttle.settings.domain.usecase.ObserveCurrentIconPack
 import shuttle.settings.domain.usecase.ObserveUseCurrentLocationOnly
 import shuttle.settings.domain.usecase.ObserveWidgetSettings
 import shuttle.settings.domain.usecase.RemoveFromBlacklist
+import shuttle.settings.domain.usecase.SearchAppsBlacklistSettings
 import shuttle.settings.domain.usecase.SetCurrentIconPack
 import shuttle.settings.domain.usecase.SetHasEnabledAccessibilityService
 import shuttle.settings.domain.usecase.UpdateUseCurrentLocationOnly
@@ -26,6 +27,7 @@ val settingsDomainModule = module {
     factory { ObserveUseCurrentLocationOnly(settingsRepository = get()) }
     factory { ObserveWidgetSettings(settingsRepository = get()) }
     factory { RemoveFromBlacklist(settingsRepository = get()) }
+    factory { SearchAppsBlacklistSettings(observeAppsBlacklistSettings = get()) }
     factory { SetCurrentIconPack(settingsRepository = get()) }
     factory { SetHasEnabledAccessibilityService(settingsRepository = get()) }
     factory { UpdateUseCurrentLocationOnly(settingsRepository = get()) }
