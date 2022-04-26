@@ -1,10 +1,12 @@
 package shuttle.predictions.presentation.viewmodel
 
 import androidx.annotation.StringRes
+import arrow.core.Either
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
+import shuttle.icons.domain.error.GetSystemIconError
 import shuttle.predictions.domain.error.ObserveSuggestedAppsError
 import shuttle.predictions.domain.usecase.ObserveSuggestedApps
 import shuttle.predictions.presentation.mapper.WidgetAppUiModelMapper
@@ -33,7 +35,7 @@ internal class SuggestedAppsWidgetViewModel(
             suggestedAppsEither.fold(
                 ifRight = { suggestedApps ->
                     State.Data(
-                        apps = appUiModelMapper.toUiModels(suggestedApps, currentIconPack),
+                        apps = appUiModelMapper.toUiModels(suggestedApps, currentIconPack).filterRight(),
                         widgetSettings = widgetSettingsUiModelMapper.toUiModel(widgetSettings)
                     )
                 },
@@ -41,6 +43,9 @@ internal class SuggestedAppsWidgetViewModel(
             )
         }.first()
     }
+
+    private fun List<Either<GetSystemIconError, WidgetAppUiModel>>.filterRight(): List<WidgetAppUiModel> =
+        mapNotNull { it.orNull() }
 
     sealed interface State {
 

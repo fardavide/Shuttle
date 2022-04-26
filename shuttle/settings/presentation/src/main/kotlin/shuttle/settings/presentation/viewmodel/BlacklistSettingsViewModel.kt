@@ -1,11 +1,13 @@
 package shuttle.settings.presentation.viewmodel
 
 import androidx.lifecycle.viewModelScope
+import arrow.core.Either
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import shuttle.apps.domain.model.AppId
+import shuttle.icons.domain.error.GetSystemIconError
 import shuttle.settings.domain.model.AppBlacklistSetting
 import shuttle.settings.domain.usecase.AddToBlacklist
 import shuttle.settings.domain.usecase.RemoveFromBlacklist
@@ -27,7 +29,7 @@ internal class BlacklistSettingsViewModel(
 
     init {
         searchAppsBlacklistSettings()
-            .map { list -> State.Data(appUiModelMapper.toUiModels(list.sortIfFirstData())) }
+            .map { list -> State.Data(appUiModelMapper.toUiModels(list.sortIfFirstData()).filterRight()) }
             .onEach(::emit)
             .launchIn(viewModelScope)
     }
@@ -84,6 +86,9 @@ internal class BlacklistSettingsViewModel(
             sortingOrder!!.mapNotNull { sorted -> find { sorted == it.app.id } }
         }
     }
+
+    private fun List<Either<GetSystemIconError, AppBlacklistSettingUiModel>>.filterRight():
+        List<AppBlacklistSettingUiModel> = mapNotNull { it.orNull() }
 
     sealed interface State {
 

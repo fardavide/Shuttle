@@ -1,6 +1,7 @@
 package shuttle.settings.presentation.viewmodel
 
 import androidx.lifecycle.viewModelScope
+import arrow.core.Either
 import arrow.core.None
 import arrow.core.Option
 import kotlinx.coroutines.flow.combine
@@ -9,6 +10,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import shuttle.apps.domain.model.AppId
+import shuttle.icons.domain.error.GetSystemIconError
 import shuttle.icons.domain.usecase.ObserveInstalledIconPacks
 import shuttle.settings.domain.usecase.ObserveCurrentIconPack
 import shuttle.settings.domain.usecase.SetCurrentIconPack
@@ -31,7 +33,7 @@ internal class IconPacksSettingsViewModel(
             observeCurrentIconPack().onStart { emit(None) }
         ) { iconPacks, currentIconPack ->
             val uiModels = iconPackSettingsMapper.toUiModels(iconPacks, currentIconPack)
-            State.Data(uiModels)
+            State.Data(uiModels.filterRight())
         }
             .onEach(::emit)
             .launchIn(viewModelScope)
@@ -59,6 +61,9 @@ internal class IconPacksSettingsViewModel(
         }
         return State.Data(newData)
     }
+
+    private fun List<Either<GetSystemIconError, IconPackSettingsItemUiModel>>.filterRight():
+        List<IconPackSettingsItemUiModel> = mapNotNull { it.orNull() }
 
     sealed interface State {
 

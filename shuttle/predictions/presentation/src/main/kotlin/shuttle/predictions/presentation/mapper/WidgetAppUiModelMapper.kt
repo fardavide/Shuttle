@@ -7,9 +7,12 @@ import android.graphics.Paint
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import androidx.core.graphics.applyCanvas
+import arrow.core.Either
 import arrow.core.Option
+import arrow.core.computations.either
 import shuttle.apps.domain.model.AppId
 import shuttle.apps.domain.model.SuggestedAppModel
+import shuttle.icons.domain.error.GetSystemIconError
 import shuttle.icons.domain.usecase.GetIconBitmapForApp
 import shuttle.predictions.presentation.model.WidgetAppUiModel
 import shuttle.util.android.GetLaunchIntentForApp
@@ -19,17 +22,22 @@ class WidgetAppUiModelMapper(
     private val getLaunchIntentForApp: GetLaunchIntentForApp
 ) {
 
-    suspend fun toUiModel(appModel: SuggestedAppModel, iconPackId: Option<AppId>) = WidgetAppUiModel(
-        id = appModel.id,
-        name = appModel.name.value,
-        icon = getIconBitmapForApp(id = appModel.id, iconPackId = iconPackId).withTint(appModel.isSuggested),
-        launchIntent = getLaunchIntentForApp(appModel.id)
-    )
+    suspend fun toUiModel(
+        appModel: SuggestedAppModel,
+        iconPackId: Option<AppId>
+    ): Either<GetSystemIconError, WidgetAppUiModel> = either {
+        WidgetAppUiModel(
+            id = appModel.id,
+            name = appModel.name.value,
+            icon = getIconBitmapForApp(id = appModel.id, iconPackId = iconPackId).bind().withTint(appModel.isSuggested),
+            launchIntent = getLaunchIntentForApp(appModel.id)
+        )
+    }
 
     suspend fun toUiModels(
         appModels: Collection<SuggestedAppModel>,
         iconPackId: Option<AppId>
-    ): List<WidgetAppUiModel> =
+    ): List<Either<GetSystemIconError, WidgetAppUiModel>> =
         appModels.map { toUiModel(appModel = it, iconPackId = iconPackId) }
 
     private fun Bitmap.withTint(isSuggested: Boolean): Bitmap {

@@ -4,19 +4,22 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
+import arrow.core.Either
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import shuttle.apps.domain.model.AppId
+import shuttle.icons.domain.error.GetSystemIconError
 
 class GetSystemIconBitmapForApp(
     private val getSystemIconDrawableForApp: GetSystemIconDrawableForApp,
     private val ioDispatcher: CoroutineDispatcher
 ) {
 
-    suspend operator fun invoke(id: AppId): Bitmap =
+    suspend operator fun invoke(id: AppId): Either<GetSystemIconError, Bitmap> =
         withContext(ioDispatcher) {
-            val drawable = getSystemIconDrawableForApp(id)
-            Bitmap.createBitmap(toBitmap(drawable))
+            getSystemIconDrawableForApp(id).map { drawable ->
+                Bitmap.createBitmap(toBitmap(drawable))
+            }
         }
 
     private fun toBitmap(drawable: Drawable): Bitmap {

@@ -5,6 +5,7 @@ import android.content.pm.PackageManager
 import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import arrow.core.Either
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -14,6 +15,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import shuttle.apps.domain.model.AppId
+import shuttle.icons.domain.error.GetSystemIconError
 import shuttle.predictions.domain.error.ObserveSuggestedAppsError
 import shuttle.predictions.domain.usecase.ObserveSuggestedApps
 import shuttle.predictions.presentation.mapper.AppUiModelMapper
@@ -37,7 +39,7 @@ internal class SuggestedAppsListViewModel(
         observeSuggestedApps().map { either ->
             either.map { appUiModelMapper.toUiModels(it) }
                 .fold(
-                    ifRight = State::Data,
+                    ifRight = { State.Data(it.filterRight()) },
                     ifLeft = { error -> State.Error(error.toMessage()) }
                 )
         }.onEach { mutableState.emit(it) }
@@ -57,6 +59,9 @@ internal class SuggestedAppsListViewModel(
         val intent = packageManager.getLaunchIntentForPackage(appId.value)!!
         return State.RequestOpenApp(intent)
     }
+
+    private fun List<Either<GetSystemIconError, AppUiModel>>.filterRight(): List<AppUiModel> =
+        mapNotNull { it.orNull() }
 
     private fun ObserveSuggestedAppsError.toMessage() = when(this) {
         ObserveSuggestedAppsError.LocationNotAvailable -> R.string.predictions_location_not_available

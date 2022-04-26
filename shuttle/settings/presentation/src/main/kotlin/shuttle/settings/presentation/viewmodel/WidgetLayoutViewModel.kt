@@ -1,11 +1,13 @@
 package shuttle.settings.presentation.viewmodel
 
 import androidx.lifecycle.viewModelScope
+import arrow.core.Either
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import shuttle.apps.domain.usecase.ObserveAllInstalledApps
+import shuttle.icons.domain.error.GetSystemIconError
 import shuttle.settings.domain.model.Dp
 import shuttle.settings.domain.model.Sp
 import shuttle.settings.domain.model.WidgetSettings
@@ -36,7 +38,10 @@ internal class WidgetLayoutViewModel(
             observeWidgetSettings(),
         ) { installedApps, currentIconPack, widgetSettings ->
             State.Data(
-                previewApps = widgetPreviewAppUiModelMapper.toUiModels(installedApps, currentIconPack).shuffled(),
+                previewApps = widgetPreviewAppUiModelMapper
+                    .toUiModels(installedApps, currentIconPack)
+                    .filterRight()
+                    .shuffled(),
                 widgetSettingsDomainModel = widgetSettings,
                 widgetSettingsUiModel = widgetSettingsUiModelMapper.toUiModel(widgetSettings)
             )
@@ -113,6 +118,9 @@ internal class WidgetLayoutViewModel(
             widgetSettingsUiModel = widgetSettingsUiModelMapper.toUiModel(newSettings)
         )
     }
+
+    private fun List<Either<GetSystemIconError, WidgetPreviewAppUiModel>>.filterRight(): List<WidgetPreviewAppUiModel> =
+        mapNotNull { it.orNull() }
 
     sealed interface State {
 
