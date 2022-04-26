@@ -20,6 +20,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SmallTopAppBar
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -28,6 +29,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.TextFieldValue
 import coil.compose.rememberImagePainter
 import org.koin.androidx.compose.getViewModel
 import shuttle.apps.domain.model.AppId
@@ -65,7 +67,9 @@ private fun BlacklistSettingsContent() {
         is State.Data -> IconPackItemsList(
             state.apps,
             onAddToBlacklist = { viewModel.submit(Action.AddToBlacklist(it)) },
-            onRemoveFromBlacklist = { viewModel.submit(Action.RemoveFromBlacklist(it)) })
+            onRemoveFromBlacklist = { viewModel.submit(Action.RemoveFromBlacklist(it)) },
+            onSearch = { viewModel.submit(Action.Search(it)) }
+        )
         is State.Error -> TextError(text = state.message)
     }
 }
@@ -74,9 +78,11 @@ private fun BlacklistSettingsContent() {
 private fun IconPackItemsList(
     apps: List<AppBlacklistSettingUiModel>,
     onAddToBlacklist: (AppId) -> Unit,
-    onRemoveFromBlacklist: (AppId) -> Unit
+    onRemoveFromBlacklist: (AppId) -> Unit,
+    onSearch: (String) -> Unit
 ) {
     LazyColumn(contentPadding = PaddingValues(Dimens.Margin.Small)) {
+        item { SearchBar(onSearch = onSearch) }
         items(apps) {
             AppListItem(
                 app = it,
@@ -85,6 +91,16 @@ private fun IconPackItemsList(
             )
         }
     }
+}
+
+@Composable
+private fun SearchBar(onSearch: (String) -> Unit) {
+    var textFieldValue = TextFieldValue()
+
+    TextField(value = textFieldValue, onValueChange = {
+        textFieldValue = it
+        onSearch(it.text)
+    })
 }
 
 @Composable
