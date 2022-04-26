@@ -44,7 +44,7 @@ fun ShuttleTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composabl
     MaterialTheme(
         colorScheme = colorScheme,
         typography = Typography,
-//        shapes = Shapes,
+        shapes = Shapes,
         content = content
     )
 }

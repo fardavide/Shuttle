@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -29,6 +30,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.TextFieldValue
 import coil.compose.rememberImagePainter
 import org.koin.androidx.compose.getViewModel
@@ -64,25 +67,46 @@ private fun BlacklistSettingsContent() {
     val s by viewModel.state.collectAsStateLifecycleAware()
     when (val state = s) {
         State.Loading -> LoadingSpinner()
-        is State.Data -> IconPackItemsList(
-            state.apps,
-            onAddToBlacklist = { viewModel.submit(Action.AddToBlacklist(it)) },
-            onRemoveFromBlacklist = { viewModel.submit(Action.RemoveFromBlacklist(it)) },
-            onSearch = { viewModel.submit(Action.Search(it)) }
-        )
+        is State.Data -> Column {
+            SearchBar(onSearch = { viewModel.submit(Action.Search(it)) })
+            IconPackItemsList(
+                state.apps,
+                onAddToBlacklist = { viewModel.submit(Action.AddToBlacklist(it)) }
+            ) { viewModel.submit(Action.RemoveFromBlacklist(it)) }
+        }
         is State.Error -> TextError(text = state.message)
     }
+}
+
+@Composable
+private fun SearchBar(onSearch: (String) -> Unit) {
+    var textFieldValue by remember { mutableStateOf(TextFieldValue()) }
+
+    TextField(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = Dimens.Margin.Large, end = Dimens.Margin.Large, bottom = Dimens.Margin.Small),
+        placeholder = { Text(text = stringResource(id = R.string.settings_blacklist_search)) },
+        singleLine = true,
+        keyboardOptions = KeyboardOptions(
+            capitalization = KeyboardCapitalization.Sentences,
+            imeAction = ImeAction.Done
+        ),
+        value = textFieldValue,
+        onValueChange = { newTextFieldValue ->
+            textFieldValue = newTextFieldValue
+            onSearch(newTextFieldValue.text)
+        }
+    )
 }
 
 @Composable
 private fun IconPackItemsList(
     apps: List<AppBlacklistSettingUiModel>,
     onAddToBlacklist: (AppId) -> Unit,
-    onRemoveFromBlacklist: (AppId) -> Unit,
-    onSearch: (String) -> Unit
+    onRemoveFromBlacklist: (AppId) -> Unit
 ) {
     LazyColumn(contentPadding = PaddingValues(Dimens.Margin.Small)) {
-        item { SearchBar(onSearch = onSearch) }
         items(apps) {
             AppListItem(
                 app = it,
@@ -91,16 +115,6 @@ private fun IconPackItemsList(
             )
         }
     }
-}
-
-@Composable
-private fun SearchBar(onSearch: (String) -> Unit) {
-    var textFieldValue = TextFieldValue()
-
-    TextField(value = textFieldValue, onValueChange = {
-        textFieldValue = it
-        onSearch(it.text)
-    })
 }
 
 @Composable
