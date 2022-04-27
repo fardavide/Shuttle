@@ -124,7 +124,7 @@ private fun AppListItem(
     onAddToBlacklist: (AppId) -> Unit,
     onRemoveFromBlacklist: (AppId) -> Unit
 ) {
-    var checkedState by remember { mutableStateOf(app.isBlacklisted) }
+    var checkedState by remember(app.id) { mutableStateOf(app.isBlacklisted) }
     val toggleAction = { isChecked: Boolean ->
         checkedState = isChecked
         if (isChecked) onAddToBlacklist(app.id)
