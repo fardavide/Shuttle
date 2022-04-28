@@ -5,21 +5,21 @@ import kotlinx.coroutines.withContext
 import shuttle.apps.domain.model.AppId
 import shuttle.database.model.DatabaseAppId
 import shuttle.database.model.DatabaseAppStat
-import shuttle.settings.domain.usecase.GetUseCurrentLocationOnly
+import shuttle.settings.domain.usecase.GetPrioritizeLocation
 import kotlin.math.pow
 
 class SortAppStatsByCounts(
     private val computationDispatcher: CoroutineDispatcher,
-    private val getUseCurrentLocationOnly: GetUseCurrentLocationOnly
+    private val getPrioritizeLocation: GetPrioritizeLocation
 ) {
 
     suspend operator fun invoke(stats: Collection<DatabaseAppStat>): List<AppId> = withContext(computationDispatcher) {
-        val useCurrentLocationOnly = getUseCurrentLocationOnly()
+        val prioritizeLocation = getPrioritizeLocation()
         val groupingResult = group(stats)
 
         val locationPartialRatio = groupingResult.byTimeCount / groupingResult.byLocationCount
         val (locationRatio, timeRatio) =
-            if (useCurrentLocationOnly) locationPartialRatio.pow(99) to 0.5
+            if (prioritizeLocation) locationPartialRatio.pow(99) to 0.5
             else locationPartialRatio.pow(4) to 1.0
 
         groupingResult.groupedByAppId

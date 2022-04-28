@@ -34,8 +34,8 @@ val settingsPresentationModule = module {
             getAppVersion = get(),
             hasAllLocationPermissions = get(),
             isLaunchCounterServiceEnabled = get(),
-            observeUseCurrentLocationOnly = get(),
-            updateUseCurrentLocationOnly = get()
+            observePrioritizeLocation = get(),
+            updatePrioritizeLocation = get()
         )
     }
     viewModel {

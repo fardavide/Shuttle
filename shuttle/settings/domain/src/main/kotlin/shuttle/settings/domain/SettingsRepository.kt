@@ -16,7 +16,7 @@ interface SettingsRepository {
 
     fun observeCurrentIconPack(): Flow<Option<AppId>>
 
-    fun observeUseCurrentLocationOnly(): Flow<Boolean>
+    fun observePrioritizeLocation(): Flow<Boolean>
 
     fun observeWidgetSettings(): Flow<WidgetSettings>
 
@@ -26,7 +26,7 @@ interface SettingsRepository {
 
     suspend fun setHasEnabledAccessibilityService()
 
-    suspend fun updateUseCurrentLocationOnly(useCurrentLocationOnly: Boolean)
+    suspend fun updatePrioritizeLocation(prioritizeLocation: Boolean)
 
     suspend fun updateWidgetSettings(settings: WidgetSettings)
 }

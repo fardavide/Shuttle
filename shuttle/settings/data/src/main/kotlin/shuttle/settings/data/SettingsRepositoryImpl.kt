@@ -57,7 +57,7 @@ internal class SettingsRepositoryImpl(
             Option.fromNullable(it[CurrentIconPackPreferenceKey]?.let(::AppId))
         }.distinctUntilChanged()
 
-    override fun observeUseCurrentLocationOnly(): Flow<Boolean> =
+    override fun observePrioritizeLocation(): Flow<Boolean> =
         dataStore.data.map {
             it[PrioritizeLocationPreferenceKey] ?: false
         }
@@ -95,9 +95,9 @@ internal class SettingsRepositoryImpl(
         }
     }
 
-    override suspend fun updateUseCurrentLocationOnly(useCurrentLocationOnly: Boolean) {
+    override suspend fun updatePrioritizeLocation(prioritizeLocation: Boolean) {
         dataStore.edit {
-            it[PrioritizeLocationPreferenceKey] = useCurrentLocationOnly
+            it[PrioritizeLocationPreferenceKey] = prioritizeLocation
         }
     }
 

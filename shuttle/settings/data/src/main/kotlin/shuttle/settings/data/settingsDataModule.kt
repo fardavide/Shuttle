@@ -11,7 +11,13 @@ import shuttle.settings.domain.SettingsRepository
 val settingsDataModule = module {
 
     factory { MigratePreferences(dataStore = dataStore) }
-    factory<SettingsRepository> { SettingsRepositoryImpl(dataStore = dataStore, settingDataSource = get()) }
+    factory<SettingsRepository> {
+        SettingsRepositoryImpl(
+            dataStore = dataStore,
+            migratePreferences = get(),
+            settingDataSource = get()
+        )
+    }
 }
 
 val Scope.dataStore get() = get<Context>().dataStore

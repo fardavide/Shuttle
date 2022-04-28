@@ -73,7 +73,7 @@ fun SettingsPage(
             toWidgetLayout = toWidgetLayout,
             toIconPacks = toIconPacks,
             toPermissions = toPermissions,
-            updateUseCurrentLocationOnly = { viewModel.submit(Action.UpdateCurrentLocationOnly(it)) }
+            updatePrioritizeLocation = { viewModel.submit(Action.UpdatePrioritizeLocation(it)) }
         )
     }
 }
@@ -85,7 +85,7 @@ private fun SettingsContent(
     toWidgetLayout: () -> Unit,
     toIconPacks: () -> Unit,
     toPermissions: () -> Unit,
-    updateUseCurrentLocationOnly: (Boolean) -> Unit
+    updatePrioritizeLocation: (Boolean) -> Unit
 ) {
     LazyColumn(modifier = Modifier.fillMaxHeight()) {
         item { DesignSection() }
@@ -94,7 +94,7 @@ private fun SettingsContent(
 
         item { SuggestionsSection() }
         item { BlacklistItem(toBlacklist) }
-        item { UseCurrentLocationOnlyItem(state = state.currentLocationOnly, updateUseCurrentLocationOnly) }
+        item { PrioritizeLocationItem(state = state.prioritizeLocation, updatePrioritizeLocation) }
 
         item { PermissionsSection() }
         item { CheckPermissionsItem(state.permissions, toPermissions) }
@@ -147,23 +147,23 @@ private fun BlacklistItem(toBlacklist: () -> Unit) {
 }
 
 @Composable
-private fun UseCurrentLocationOnlyItem(
-    state: State.CurrentLocationOnly,
-    updateUseCurrentLocationOnly: (Boolean) -> Unit
+private fun PrioritizeLocationItem(
+    state: State.PrioritizeLocation,
+    updatePrioritizeLocation: (Boolean) -> Unit
 ) {
-    var isUsingCurrentLocationOnly by remember { mutableStateOf(state == State.CurrentLocationOnly.True) }
+    var isPrioritizingLocation by remember { mutableStateOf(state == State.PrioritizeLocation.True) }
     
     val uiModel = SettingsItemUiModel(
         title = stringResource(id = R.string.settings_current_location_only_title),
         description = stringResource(id = R.string.settings_current_location_only_description)
     )
-    SettingsItem(item = uiModel, onClick = { isUsingCurrentLocationOnly = !isUsingCurrentLocationOnly }) {
+    SettingsItem(item = uiModel, onClick = { isPrioritizingLocation = !isPrioritizingLocation }) {
         when (state) {
-            State.CurrentLocationOnly.Loading -> LoadingSpinner()
-            State.CurrentLocationOnly.False, State.CurrentLocationOnly.True -> {
-                Switch(checked = isUsingCurrentLocationOnly, onCheckedChange = { isChecked ->
-                    isUsingCurrentLocationOnly = isChecked
-                    updateUseCurrentLocationOnly(isChecked)
+            State.PrioritizeLocation.Loading -> LoadingSpinner()
+            State.PrioritizeLocation.False, State.PrioritizeLocation.True -> {
+                Switch(checked = isPrioritizingLocation, onCheckedChange = { isChecked ->
+                    isPrioritizingLocation = isChecked
+                    updatePrioritizeLocation(isChecked)
                 })
             }
         }
@@ -254,7 +254,7 @@ fun SettingsContentPreview() {
             toWidgetLayout = {},
             toIconPacks = {},
             toPermissions = {},
-            updateUseCurrentLocationOnly = {}
+            updatePrioritizeLocation = {}
         )
     }
 }
