@@ -154,8 +154,8 @@ private fun PrioritizeLocationItem(
     var isPrioritizingLocation by remember { mutableStateOf(state == State.PrioritizeLocation.True) }
     
     val uiModel = SettingsItemUiModel(
-        title = stringResource(id = R.string.settings_current_location_only_title),
-        description = stringResource(id = R.string.settings_current_location_only_description)
+        title = stringResource(id = R.string.settings_prioritize_location_title),
+        description = stringResource(id = R.string.settings_prioritize_location_description)
     )
     SettingsItem(item = uiModel, onClick = { isPrioritizingLocation = !isPrioritizingLocation }) {
         when (state) {

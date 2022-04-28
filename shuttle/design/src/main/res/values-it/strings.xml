@@ -31,8 +31,8 @@
     <string name="settings_blacklist_title">Blacklist</string>
     <string name="settings_check_permissions_description">Verifica lo stato dei permessi necessari</string>
     <string name="settings_check_permissions_title">Controlla i permessi</string>
-    <string name="settings_current_location_only_description">Abilita questo settaggio, per ricevere suggestimenti solamente per la posizione corrente.\nQuesto settaggio è sperimentale</string>
-    <string name="settings_current_location_only_title">Usa solamente la posizione corrente</string>
+    <string name="settings_prioritize_location_description">Abilita questo settaggio, per ricevere suggestimenti dando priorità alla posizione corrente.\nQuesto settaggio è sperimentale</string>
+    <string name="settings_prioritize_location_title">Dai priorità ai suggestimenti basati sulla posizione corrente</string>
     <string name="settings_design_section_title">Design</string>
     <string name="settings_permissions_section_title">Permessi</string>
     <string name="settings_suggestions_section_title">Suggerimenti apps</string>
