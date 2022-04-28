@@ -12,17 +12,17 @@ import shuttle.database.testdata.TestData.FirstAppId
 import shuttle.database.testdata.TestData.FourthAppId
 import shuttle.database.testdata.TestData.SecondAppId
 import shuttle.database.testdata.TestData.ThirdAppId
-import shuttle.settings.domain.usecase.GetUseCurrentLocationOnly
+import shuttle.settings.domain.usecase.GetPrioritizeLocation
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class SortAppStatsByCountsTest {
 
     private val dispatcher = StandardTestDispatcher()
-    private val getUseCurrentLocationOnly: GetUseCurrentLocationOnly = mockk {
+    private val getPrioritizeLocation: GetPrioritizeLocation = mockk {
         coEvery { this@mockk() } returns false
     }
-    private val sort = SortAppStatsByCounts(dispatcher, getUseCurrentLocationOnly = getUseCurrentLocationOnly)
+    private val sort = SortAppStatsByCounts(dispatcher, getPrioritizeLocation = getPrioritizeLocation)
 
     @Test
     fun `empty list returns an empty list`() = runTest(dispatcher) {

@@ -7,8 +7,8 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import shuttle.accessibility.usecase.IsLaunchCounterServiceEnabled
 import shuttle.permissions.domain.usecase.HasAllLocationPermissions
-import shuttle.settings.domain.usecase.ObserveUseCurrentLocationOnly
-import shuttle.settings.domain.usecase.UpdateUseCurrentLocationOnly
+import shuttle.settings.domain.usecase.ObservePrioritizeLocation
+import shuttle.settings.domain.usecase.UpdatePrioritizeLocation
 import shuttle.settings.presentation.viewmodel.SettingsViewModel.Action
 import shuttle.settings.presentation.viewmodel.SettingsViewModel.State
 import shuttle.util.android.viewmodel.ShuttleViewModel
@@ -19,8 +19,8 @@ class SettingsViewModel(
     private val getAppVersion: GetAppVersion,
     private val hasAllLocationPermissions: HasAllLocationPermissions,
     private val isLaunchCounterServiceEnabled: IsLaunchCounterServiceEnabled,
-    private val observeUseCurrentLocationOnly: ObserveUseCurrentLocationOnly,
-    private val updateUseCurrentLocationOnly: UpdateUseCurrentLocationOnly
+    private val observePrioritizeLocation: ObservePrioritizeLocation,
+    private val updatePrioritizeLocation: UpdatePrioritizeLocation
 ) : ShuttleViewModel<Action, State>(initialState = State.Loading) {
 
     init {
@@ -29,10 +29,10 @@ class SettingsViewModel(
             emit(newState)
         }
         viewModelScope.launch {
-            observeUseCurrentLocationOnly().collectLatest { useCurrentLocationOnly ->
-                val currentLocationOnly =
-                    if (useCurrentLocationOnly) State.CurrentLocationOnly.True else State.CurrentLocationOnly.False
-                val newState = state.value.copy(currentLocationOnly = currentLocationOnly)
+            observePrioritizeLocation().collectLatest { prioritizeLocation ->
+                val prioritizeLocationValue =
+                    if (prioritizeLocation) State.PrioritizeLocation.True else State.PrioritizeLocation.False
+                val newState = state.value.copy(prioritizeLocation = prioritizeLocationValue)
                 emit(newState)
             }
         }
@@ -42,7 +42,7 @@ class SettingsViewModel(
         viewModelScope.launch {
             val newState = when (action) {
                 is Action.UpdatePermissionsState -> onPermissionsStateUpdate(action.permissionsState)
-                is Action.UpdateCurrentLocationOnly -> updateCurrentLocationOnly(action.value)
+                is Action.UpdatePrioritizeLocation -> updatePrioritizeLocation(action.value)
             }
             emit(newState)
         }
@@ -55,24 +55,24 @@ class SettingsViewModel(
         return state.value.copy(permissions = permissions)
     }
 
-    private fun updateCurrentLocationOnly(value: Boolean): State {
+    private fun updatePrioritizeLocation(value: Boolean): State {
         viewModelScope.launch {
-            updateUseCurrentLocationOnly(value)
+            updatePrioritizeLocation(value)
         }
 
-        val currentLocationOnly = if (value) State.CurrentLocationOnly.True else State.CurrentLocationOnly.False
-        return state.value.copy(currentLocationOnly = currentLocationOnly)
+        val prioritizeLocation = if (value) State.PrioritizeLocation.True else State.PrioritizeLocation.False
+        return state.value.copy(prioritizeLocation = prioritizeLocation)
     }
 
     sealed interface Action {
 
         data class UpdatePermissionsState(val permissionsState: MultiplePermissionsState): Action
-        data class UpdateCurrentLocationOnly(val value: Boolean): Action
+        data class UpdatePrioritizeLocation(val value: Boolean): Action
     }
 
     data class State(
         val permissions: Permissions,
-        val currentLocationOnly: CurrentLocationOnly,
+        val prioritizeLocation: PrioritizeLocation,
         val appVersion: String
     ) {
 
@@ -83,18 +83,18 @@ class SettingsViewModel(
             object Denied : Permissions
         }
 
-        sealed interface CurrentLocationOnly {
+        sealed interface PrioritizeLocation {
 
-            object Loading : CurrentLocationOnly
-            object False : CurrentLocationOnly
-            object True : CurrentLocationOnly
+            object Loading : PrioritizeLocation
+            object False : PrioritizeLocation
+            object True : PrioritizeLocation
         }
 
         companion object {
 
             val Loading = State(
                 permissions = Permissions.Loading,
-                currentLocationOnly = CurrentLocationOnly.Loading,
+                prioritizeLocation = PrioritizeLocation.Loading,
                 appVersion = ""
             )
         }

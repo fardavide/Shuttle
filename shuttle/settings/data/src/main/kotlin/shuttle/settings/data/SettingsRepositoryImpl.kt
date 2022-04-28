@@ -15,7 +15,7 @@ import shuttle.database.datasource.SettingDataSource
 import shuttle.database.model.DatabaseAppId
 import shuttle.settings.data.model.CurrentIconPackPreferenceKey
 import shuttle.settings.data.model.HasAccessibilityServicePreferenceKey
-import shuttle.settings.data.model.UseCurrentLocationOnlyPreferenceKey
+import shuttle.settings.data.model.PrioritizeLocationPreferenceKey
 import shuttle.settings.data.model.WidgetSettingsPreferenceKeys
 import shuttle.settings.domain.SettingsRepository
 import shuttle.settings.domain.model.AppBlacklistSetting
@@ -23,10 +23,15 @@ import shuttle.settings.domain.model.Dp
 import shuttle.settings.domain.model.Sp
 import shuttle.settings.domain.model.WidgetSettings
 
-class SettingsRepositoryImpl(
+internal class SettingsRepositoryImpl(
     private val dataStore: DataStore<Preferences>,
+    migratePreferences: MigratePreferences,
     private val settingDataSource: SettingDataSource
 ) : SettingsRepository {
+
+    init {
+        migratePreferences()
+    }
 
     override suspend fun hasEnabledAccessibilityService(): Boolean =
         dataStore.data.map {
@@ -52,9 +57,9 @@ class SettingsRepositoryImpl(
             Option.fromNullable(it[CurrentIconPackPreferenceKey]?.let(::AppId))
         }.distinctUntilChanged()
 
-    override fun observeUseCurrentLocationOnly(): Flow<Boolean> =
+    override fun observePrioritizeLocation(): Flow<Boolean> =
         dataStore.data.map {
-            it[UseCurrentLocationOnlyPreferenceKey] ?: false
+            it[PrioritizeLocationPreferenceKey] ?: false
         }
 
     override fun observeWidgetSettings(): Flow<WidgetSettings> =
@@ -90,9 +95,9 @@ class SettingsRepositoryImpl(
         }
     }
 
-    override suspend fun updateUseCurrentLocationOnly(useCurrentLocationOnly: Boolean) {
+    override suspend fun updatePrioritizeLocation(prioritizeLocation: Boolean) {
         dataStore.edit {
-            it[UseCurrentLocationOnlyPreferenceKey] = useCurrentLocationOnly
+            it[PrioritizeLocationPreferenceKey] = prioritizeLocation
         }
     }
 
