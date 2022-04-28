@@ -13,9 +13,10 @@ import shuttle.database.datasource.StatDataSource
 import shuttle.database.model.DatabaseAppId
 import shuttle.database.model.DatabaseGeoHash
 import shuttle.database.model.DatabaseTime
+import shuttle.stats.data.usecase.SortAppStatsByCounts
 import shuttle.stats.domain.StatsRepository
 
-class StatsRepositoryImpl(
+internal class StatsRepositoryImpl(
     private val appsRepository: AppsRepository,
     private val statDataSource: StatDataSource,
     private val sortAppStatsByCounts: SortAppStatsByCounts,

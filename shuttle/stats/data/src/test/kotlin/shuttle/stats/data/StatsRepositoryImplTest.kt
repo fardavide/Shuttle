@@ -24,6 +24,7 @@ import shuttle.database.testdata.TestData.FirstAppId
 import shuttle.database.testdata.TestData.FourthAppId
 import shuttle.database.testdata.TestData.SecondAppId
 import shuttle.database.testdata.TestData.ThirdAppId
+import shuttle.stats.data.usecase.SortAppStatsByCounts
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

@@ -1,34 +1,27 @@
-package shuttle.stats.data
+package shuttle.stats.data.usecase
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import shuttle.apps.domain.model.AppId
-import shuttle.database.model.DatabaseAppId
 import shuttle.database.model.DatabaseAppStat
-import shuttle.settings.domain.usecase.GetPrioritizeLocation
-import kotlin.math.pow
+import shuttle.stats.data.model.GroupedDatabaseAppStats
 
-class SortAppStatsByCounts(
+internal class SortAppStatsByCounts(
     private val computationDispatcher: CoroutineDispatcher,
-    private val getPrioritizeLocation: GetPrioritizeLocation
+    private val getSortingRatios: GetSortingRatios
 ) {
 
     suspend operator fun invoke(stats: Collection<DatabaseAppStat>): List<AppId> = withContext(computationDispatcher) {
-        val prioritizeLocation = getPrioritizeLocation()
         val groupingResult = group(stats)
-
-        val locationPartialRatio = groupingResult.byTimeCount / groupingResult.byLocationCount
-        val (locationRatio, timeRatio) =
-            if (prioritizeLocation) locationPartialRatio.pow(99) to 0.5
-            else locationPartialRatio.pow(4) to 1.0
+        val sortingRatios = getSortingRatios(groupingResult)
 
         groupingResult.groupedByAppId
             .asSequence()
             .map {
                 val value = it.second.sumOf { stat ->
                     when (stat) {
-                        is DatabaseAppStat.ByLocation -> stat.count * locationRatio
-                        is DatabaseAppStat.ByTime -> stat.count.toDouble() * timeRatio
+                        is DatabaseAppStat.ByLocation -> stat.count * sortingRatios.byLocation
+                        is DatabaseAppStat.ByTime -> stat.count.toDouble() * sortingRatios.byTime
                     }
                 }
                 Triple(it.first, it.second, value)
@@ -39,7 +32,7 @@ class SortAppStatsByCounts(
             .toList()
     }
 
-    private fun group(stats: Collection<DatabaseAppStat>): GroupingResult {
+    private fun group(stats: Collection<DatabaseAppStat>): GroupedDatabaseAppStats {
         val groupedByAppId = stats.groupBy { it.appId }.toList()
         val (byTimeCount, byLocationCount) = run {
             var both = 0
@@ -65,16 +58,10 @@ class SortAppStatsByCounts(
             both + timeOnly to both + locationOnly
         }
 
-        return GroupingResult(
+        return GroupedDatabaseAppStats(
             byTimeCount = byTimeCount.toDouble(),
             byLocationCount = byLocationCount.toDouble(),
             groupedByAppId = groupedByAppId
         )
     }
-
-    private data class GroupingResult(
-        val byTimeCount: Double,
-        val byLocationCount: Double,
-        val groupedByAppId: List<Pair<DatabaseAppId, List<DatabaseAppStat>>>
-    )
 }
