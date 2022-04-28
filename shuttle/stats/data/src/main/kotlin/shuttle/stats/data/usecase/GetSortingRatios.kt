@@ -31,8 +31,8 @@ internal class GetSortingRatios(
     private object BaseRatios {
 
         const val LocationNotPrioritized = 4.0
-        const val LocationPrioritized = 99.0
+        const val LocationPrioritized = 9.0
         const val TimeWithLocationNotPrioritized = 1.0
-        const val TimeWithLocationPrioritized = 0.5
+        const val TimeWithLocationPrioritized = 0.2
     }
 }
