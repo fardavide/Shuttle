@@ -42,7 +42,7 @@ class SettingsViewModel(
         viewModelScope.launch {
             val newState = when (action) {
                 is Action.UpdatePermissionsState -> onPermissionsStateUpdate(action.permissionsState)
-                is Action.UpdatePrioritizeLocation -> updatePrioritizeLocation(action.value)
+                is Action.UpdatePrioritizeLocation -> onUpdatePrioritizeLocation(action.value)
             }
             emit(newState)
         }
@@ -55,7 +55,7 @@ class SettingsViewModel(
         return state.value.copy(permissions = permissions)
     }
 
-    private fun updatePrioritizeLocation(value: Boolean): State {
+    private fun onUpdatePrioritizeLocation(value: Boolean): State {
         viewModelScope.launch {
             updatePrioritizeLocation(value)
         }
