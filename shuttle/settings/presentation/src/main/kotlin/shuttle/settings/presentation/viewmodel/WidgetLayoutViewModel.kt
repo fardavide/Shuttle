@@ -60,6 +60,7 @@ internal class WidgetLayoutViewModel(
                 is Action.UpdateVerticalSpacing -> updateVerticalSpacing(currentState, action.value)
                 is Action.UpdateHorizontalSpacing -> updateHorizontalSpacing(currentState, action.value)
                 is Action.UpdateTextSize -> updateTextSize(currentState, action.value)
+                is Action.UpdateAllowTwoLines -> updateAllowTwoLines(currentState, action.value)
             }
             emit(newState)
         }
@@ -119,6 +120,15 @@ internal class WidgetLayoutViewModel(
         )
     }
 
+    private suspend fun updateAllowTwoLines(currentState: State.Data, value: Boolean): State {
+        val newSettings = currentState.widgetSettingsDomainModel.copy(allowTwoLines = value)
+        updateWidgetSettings(newSettings)
+        return currentState.copy(
+            widgetSettingsDomainModel = newSettings,
+            widgetSettingsUiModel = widgetSettingsUiModelMapper.toUiModel(newSettings)
+        )
+    }
+
     private fun List<Either<GetSystemIconError, WidgetPreviewAppUiModel>>.filterRight(): List<WidgetPreviewAppUiModel> =
         mapNotNull { it.orNull() }
 
@@ -142,5 +152,6 @@ internal class WidgetLayoutViewModel(
         data class UpdateHorizontalSpacing(val value: Int) : Action
         data class UpdateVerticalSpacing(val value: Int) : Action
         data class UpdateTextSize(val value: Int) : Action
+        data class UpdateAllowTwoLines(val value: Boolean) : Action
     }
 }

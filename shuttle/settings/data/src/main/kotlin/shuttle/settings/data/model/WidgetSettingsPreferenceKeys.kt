@@ -1,5 +1,6 @@
 package shuttle.settings.data.model
 
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.intPreferencesKey
 
 internal object WidgetSettingsPreferenceKeys {
@@ -10,4 +11,5 @@ internal object WidgetSettingsPreferenceKeys {
     val HorizontalSpacing = intPreferencesKey("horizontal spacing")
     val VerticalSpacing = intPreferencesKey("vertical spacing")
     val TextSize = intPreferencesKey("text size")
+    val AllowTwoLines = booleanPreferencesKey("allow two lines")
 }

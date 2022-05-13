@@ -9,5 +9,6 @@ data class WidgetSettingsUiModel(
     val iconSize: Dp,
     val horizontalSpacing: Dp,
     val verticalSpacing: Dp,
-    val textSize: TextUnit
+    val textSize: TextUnit,
+    val maxLines: Int
 )
