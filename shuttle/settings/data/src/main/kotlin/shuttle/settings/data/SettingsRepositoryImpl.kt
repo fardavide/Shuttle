@@ -71,7 +71,8 @@ internal class SettingsRepositoryImpl(
                     iconsSize = it[IconSize]?.let(::Dp) ?: WidgetSettings.Default.iconsSize,
                     horizontalSpacing = it[HorizontalSpacing]?.let(::Dp) ?: WidgetSettings.Default.horizontalSpacing,
                     verticalSpacing = it[VerticalSpacing]?.let(::Dp) ?: WidgetSettings.Default.verticalSpacing,
-                    textSize = it[TextSize]?.let(::Sp) ?: WidgetSettings.Default.textSize
+                    textSize = it[TextSize]?.let(::Sp) ?: WidgetSettings.Default.textSize,
+                    allowTwoLines = it[AllowTwoLines] ?: WidgetSettings.Default.allowTwoLines
                 )
             }.distinctUntilChanged()
         }
@@ -110,6 +111,7 @@ internal class SettingsRepositoryImpl(
                 it[HorizontalSpacing] = settings.horizontalSpacing.value
                 it[VerticalSpacing] = settings.verticalSpacing.value
                 it[TextSize] = settings.textSize.value
+                it[AllowTwoLines] = settings.allowTwoLines
             }
         }
     }

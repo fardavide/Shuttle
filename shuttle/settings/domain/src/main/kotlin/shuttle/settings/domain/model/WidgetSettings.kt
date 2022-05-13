@@ -6,7 +6,8 @@ data class WidgetSettings(
     val iconsSize: Dp,
     val horizontalSpacing: Dp,
     val verticalSpacing: Dp,
-    val textSize: Sp
+    val textSize: Sp,
+    val allowTwoLines: Boolean
 ) {
 
     companion object {
@@ -24,7 +25,8 @@ data class WidgetSettings(
             iconsSize = Dp(48),
             horizontalSpacing = Dp(8),
             verticalSpacing = Dp(8),
-            textSize = Sp(12)
+            textSize = Sp(12),
+            allowTwoLines = false
         )
     }
 }

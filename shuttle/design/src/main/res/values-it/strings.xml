@@ -47,6 +47,7 @@
     <string name="settings_widget_layout_icons_size">Dimensione icone</string>
     <string name="settings_widget_layout_rows_count">Numero righe</string>
     <string name="settings_widget_layout_text_size">Dimensione testo</string>
+    <string name="settings_widget_layout_two_lines">Etichette app su due linee</string>
     <string name="settings_widget_layout_title">Disposizone Widget</string>
     <string name="settings_widget_layout_vertical_spacing">Spazio verticale tra le icone</string>
     <string name="x_app_icon_description">Icona app</string>

@@ -13,6 +13,7 @@ class WidgetSettingsUiModelMapper {
         iconSize = settings.iconsSize.value.dp,
         horizontalSpacing = settings.horizontalSpacing.value.dp,
         verticalSpacing = settings.verticalSpacing.value.dp,
-        textSize = settings.textSize.value.sp
+        textSize = settings.textSize.value.sp,
+        maxLines = if (settings.allowTwoLines) 2 else 1
     )
 }

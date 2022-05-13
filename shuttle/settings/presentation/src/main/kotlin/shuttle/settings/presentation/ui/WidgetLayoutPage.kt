@@ -18,6 +18,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SmallTopAppBar
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -86,7 +87,8 @@ private fun WidgetSettingsContent() {
             onIconSizeUpdated = { viewModel.submit(Action.UpdateIconsSize(it)) },
             onHorizontalSpacingUpdated = { viewModel.submit(Action.UpdateHorizontalSpacing(it)) },
             onVerticalSpacingUpdated = { viewModel.submit(Action.UpdateVerticalSpacing(it)) },
-            onTextSizeUpdated = { viewModel.submit(Action.UpdateTextSize(it)) }
+            onTextSizeUpdated = { viewModel.submit(Action.UpdateTextSize(it)) },
+            onAllowTwoLinesUpdated = { viewModel.submit(Action.UpdateAllowTwoLines(it)) }
         )
         is State.Error -> TextError(text = state.message)
     }
@@ -100,7 +102,8 @@ private fun WidgetSettings(
     onIconSizeUpdated: (Int) -> Unit,
     onHorizontalSpacingUpdated: (Int) -> Unit,
     onVerticalSpacingUpdated: (Int) -> Unit,
-    onTextSizeUpdated: (Int) -> Unit
+    onTextSizeUpdated: (Int) -> Unit,
+    onAllowTwoLinesUpdated: (Boolean) -> Unit
 ) {
     Column {
         WidgetPreview(previewApps = data.previewApps, widgetSettings = data.widgetSettingsUiModel)
@@ -111,7 +114,8 @@ private fun WidgetSettings(
             onIconSizeUpdated = onIconSizeUpdated,
             onHorizontalSpacingUpdated = onHorizontalSpacingUpdated,
             onVerticalSpacingUpdated = onVerticalSpacingUpdated,
-            onTextSizeUpdated = onTextSizeUpdated
+            onTextSizeUpdated = onTextSizeUpdated,
+            onAllowTwoLinesUpdated = onAllowTwoLinesUpdated
         )
     }
 }
@@ -155,7 +159,8 @@ private fun SettingItems(
     onIconSizeUpdated: (Int) -> Unit,
     onHorizontalSpacingUpdated: (Int) -> Unit,
     onVerticalSpacingUpdated: (Int) -> Unit,
-    onTextSizeUpdated: (Int) -> Unit
+    onTextSizeUpdated: (Int) -> Unit,
+    onAllowTwoLinesUpdated: (Boolean) -> Unit
 ) {
     LazyColumn {
         item {
@@ -212,6 +217,13 @@ private fun SettingItems(
                 onValueChange = onTextSizeUpdated
             )
         }
+        item {
+            SwitchItem(
+                title = R.string.settings_widget_layout_two_lines,
+                value = settings.allowTwoLines,
+                onValueChange = onAllowTwoLinesUpdated
+            )
+        }
     }
 }
 
@@ -243,6 +255,27 @@ private fun SliderItem(
                 onValueChange(it.toInt())
             }
         )
+    }
+}
+
+@Composable
+private fun SwitchItem(
+    @StringRes title: Int,
+    value: Boolean,
+    onValueChange: (Boolean) -> Unit
+) {
+    var state by remember(key1 = title) { mutableStateOf(value) }
+    Column(modifier = Modifier.padding(vertical = Dimens.Margin.Small, horizontal = Dimens.Margin.Medium)) {
+        Row {
+            Text(text = stringResource(id = title), style = MaterialTheme.typography.titleMedium)
+            Switch(
+                checked = state,
+                onCheckedChange = {
+                    state = it
+                    onValueChange(it)
+                },
+            )
+        }
     }
 }
 
@@ -289,6 +322,7 @@ private fun WidgetPreviewPreview() {
         horizontalSpacing = WidgetSettings.Default.horizontalSpacing.dp,
         verticalSpacing = WidgetSettings.Default.verticalSpacing.dp,
         textSize = WidgetSettings.Default.textSize.sp,
+        allowTwoLines = WidgetSettings.Default.allowTwoLines
     )
     MaterialTheme {
         WidgetPreview(previewApps = apps, widgetSettings = widgetSettings)
@@ -305,9 +339,10 @@ private fun SettingItemsPreview() {
         horizontalSpacing = WidgetSettings.Default.horizontalSpacing.value.dp,
         verticalSpacing = WidgetSettings.Default.verticalSpacing.value.dp,
         textSize = WidgetSettings.Default.textSize.value.sp,
+        allowTwoLines = WidgetSettings.Default.allowTwoLines
     )
     MaterialTheme {
-        SettingItems(widgetSettings, {}, {}, {}, {}, {}, {})
+        SettingItems(widgetSettings, {}, {}, {}, {}, {}, {}, {})
     }
 }
 

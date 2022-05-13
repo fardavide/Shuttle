@@ -49,9 +49,10 @@ class SuggestedAppsWidget : GlanceAppWidget(), KoinComponent {
                 is State.Data -> SuggestedAppsList(data = state) { intent ->
                     actionStartActivity(intent)
                 }
-                is State.Error -> Box(modifier = GlanceModifier
-                    .padding(Dimens.Margin.Small)
-                    .background(MaterialTheme.colorScheme.background.copy(alpha = 0.78f))
+                is State.Error -> Box(
+                    modifier = GlanceModifier
+                        .padding(Dimens.Margin.Small)
+                        .background(MaterialTheme.colorScheme.background.copy(alpha = 0.78f))
                 ) {
                     Text(text = state.toString())
                 }
@@ -109,7 +110,7 @@ class SuggestedAppsWidget : GlanceAppWidget(), KoinComponent {
             Spacer(modifier = GlanceModifier.height(widgetSettings.verticalSpacing))
             Text(
                 text = app.name,
-                maxLines = 1,
+                maxLines = widgetSettings.maxLines,
                 style = TextStyle(fontSize = widgetSettings.textSize, textAlign = TextAlign.Center),
                 modifier = GlanceModifier.width(widgetSettings.iconSize)
             )
