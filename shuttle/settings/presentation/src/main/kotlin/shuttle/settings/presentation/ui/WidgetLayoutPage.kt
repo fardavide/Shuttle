@@ -1,6 +1,7 @@
 package shuttle.settings.presentation.ui
 
 import androidx.annotation.StringRes
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -265,17 +266,21 @@ private fun SwitchItem(
     onValueChange: (Boolean) -> Unit
 ) {
     var state by remember(key1 = title) { mutableStateOf(value) }
-    Column(modifier = Modifier.padding(vertical = Dimens.Margin.Small, horizontal = Dimens.Margin.Medium)) {
-        Row {
-            Text(text = stringResource(id = title), style = MaterialTheme.typography.titleMedium)
-            Switch(
-                checked = state,
-                onCheckedChange = {
-                    state = it
-                    onValueChange(it)
-                },
-            )
-        }
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = Dimens.Margin.Small, horizontal = Dimens.Margin.Medium),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(text = stringResource(id = title), style = MaterialTheme.typography.titleMedium)
+        Switch(
+            checked = state,
+            onCheckedChange = {
+                state = it
+                onValueChange(it)
+            }
+        )
     }
 }
 
