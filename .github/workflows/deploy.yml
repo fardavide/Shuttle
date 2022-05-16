@@ -58,11 +58,11 @@ jobs:
           releaseFiles: app/build/outputs/bundle/release/*.aab
           mappingFile: app/build/outputs/mapping/release/mapping.txt
 
-      - name: Upload Android Release to Play Store - Beta track
-        uses: r0adkll/upload-google-play@v1.0.15
-        with:
-          track: beta
-          serviceAccountJsonPlainText: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
-          packageName: studio.forface.shuttle
-          releaseFiles: app/build/outputs/bundle/release/*.aab
-          mappingFile: app/build/outputs/mapping/release/mapping.txt
+#      - name: Upload Android Release to Play Store - Beta track
+#        uses: r0adkll/upload-google-play@v1.0.15
+#        with:
+#          track: beta
+#          serviceAccountJsonPlainText: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
+#          packageName: studio.forface.shuttle
+#          releaseFiles: app/build/outputs/bundle/release/*.aab
+#          mappingFile: app/build/outputs/mapping/release/mapping.txt
