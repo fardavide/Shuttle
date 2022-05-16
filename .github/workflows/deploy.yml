@@ -17,6 +17,10 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v2
 
+      - name: Create google-services json
+        run: |
+          echo '${{ secrets.FIREBASE_SECRET }}' > ${GITHUB_WORKSPACE}/app/google-services.json
+
       - name: Assemble Debug Apk
         run: ./gradlew assembleDebug
         env:

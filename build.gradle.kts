@@ -10,6 +10,8 @@ buildscript {
     }
     dependencies {
         classpath(libs.gradle.android)
+        classpath(libs.gradle.crashlytics)
+        classpath(libs.gradle.gsm)
         classpath(libs.gradle.kotlin)
         classpath(libs.gradle.sqlDelight)
     }

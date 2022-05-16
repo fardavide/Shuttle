@@ -25,6 +25,8 @@ moduleDependencies {
 
 dependencies {
 
+    implementation(platform(libs.firebase.bom))
+
     implementation(libs.bundles.base)
     implementation(libs.bundles.compose)
 
@@ -33,6 +35,8 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime)
     implementation(libs.androidx.lifecycle.viewModel)
     implementation(libs.androidx.workManager)
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.crashlytics)
     implementation(libs.koin.android)
     implementation(libs.koin.android.workManager)
     implementation(libs.navigation.compose)
