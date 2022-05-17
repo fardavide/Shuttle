@@ -12,8 +12,16 @@ abstract class ShuttleAndroidPlugin : Plugin<Project> {
 
 private fun Project.setupAndroidPlugin() {
     apply(plugin = "org.jetbrains.kotlin.android")
-    apply(plugin = "com.android.${ if (name == "app") "application" else "library" }")
+    if (isApp()) {
+        apply(plugin = "com.android.application")
+        apply(plugin = "com.google.gms.google-services")
+        apply(plugin = "com.google.firebase.crashlytics")
+    } else {
+        apply(plugin = "com.android.library")
+    }
     apply<ShuttleKotlinPlugin>()
 
     configureTestedExtension()
 }
+
+private fun Project.isApp() = name == "app"

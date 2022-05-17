@@ -11,10 +11,13 @@ arrow = "1.0.1"
 coil = "1.4.0"
 compose = "1.2.0-alpha07"
 constraintLayout = "1.0.0"
+crashlytics = "2.8.1"
 dataStore = "1.0.0"
 detekt = "1.20.0-RC1"
+firebase = "30.0.1"
 geohash = "1.4.0"
 glance = "1.0.0-alpha03"
+gsm = "4.3.10"
 hiltViewModel = "1.0.0-alpha03"
 junit = "4.13.2"
 kermit = "1.1.1"
@@ -36,7 +39,9 @@ kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 
 [libraries]
 gradle-android = { module = "com.android.tools.build:gradle", version.ref = "androidGradle" }
+gradle-crashlytics = { module = "com.google.firebase:firebase-crashlytics-gradle", version.ref = "crashlytics" }
 gradle-detekt = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
+gradle-gsm = { module = "com.google.gms:google-services", version.ref = "gsm" }
 gradle-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 gradle-sqlDelight = { module = "com.squareup.sqldelight:gradle-plugin", version.ref = "sqlDelight" }
 
@@ -59,6 +64,9 @@ compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
 compose-uiTest = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "compose" }
 compose-uiTooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
 compose-uiToolingPreview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
+firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebase" }
+firebase-analytics = { module = "com.google.firebase:firebase-analytics-ktx" }
+firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-ktx" }
 geohash = { module = "ch.hsr:geohash", version.ref = "geohash" }
 junit = { module = "junit:junit", version.ref = "junit" }
 kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
