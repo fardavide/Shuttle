@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="window_background">#fffbfe</color>
+    <bool name="should_use_light_status_bar">true</bool>
 </resources>
