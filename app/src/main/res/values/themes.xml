@@ -3,6 +3,7 @@
 
     <style name="Theme.Shuttle" parent="android:Theme.Material.Light.NoActionBar">
         <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowBackground">@color/window_background</item>
+        <item name="android:windowLightStatusBar">@bool/should_use_light_status_bar</item>
     </style>
 </resources>
