@@ -4,14 +4,17 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -21,6 +24,7 @@ import androidx.compose.material3.Slider
 import androidx.compose.material3.SmallTopAppBar
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -28,6 +32,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -61,43 +66,54 @@ import studio.forface.shuttle.design.R
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun WidgetLayoutPage(onBack: () -> Unit) {
-    Scaffold(
-        topBar = {
-            SmallTopAppBar(
-                title = { Text(stringResource(id = R.string.settings_widget_layout_title)) },
-                navigationIcon = { BackIconButton(onBack) }
+    val viewModel: WidgetLayoutViewModel = getViewModel()
+    val state by viewModel.state.collectAsStateLifecycleAware()
+
+    Column(modifier = Modifier.fillMaxHeight().background(color = MaterialTheme.colorScheme.primaryContainer)) {
+        Box(
+            modifier = Modifier
+                .fillMaxHeight(fraction = 0.25f)
+                .fillMaxWidth(),
+            contentAlignment = Alignment.Center
+        ) {
+            WidgetPreviewContent(state = state)
+        }
+        Scaffold(
+            modifier = Modifier.background(MaterialTheme.colorScheme.surface, shape = MaterialTheme.shapes.extraLarge),
+            containerColor = Color.Transparent,
+            topBar = {
+                SmallTopAppBar(
+                    colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color.Transparent),
+                    title = { Text(stringResource(id = R.string.settings_widget_layout_title)) },
+                    navigationIcon = { BackIconButton(onBack) }
+                )
+            }
+        ) {
+            WidgetSettingsContent(
+                state = state,
+                onRowsUpdated = { viewModel.submit(Action.UpdateRows(it)) },
+                onColumnsUpdated = { viewModel.submit(Action.UpdateColumns(it)) },
+                onIconSizeUpdated = { viewModel.submit(Action.UpdateIconsSize(it)) },
+                onHorizontalSpacingUpdated = { viewModel.submit(Action.UpdateHorizontalSpacing(it)) },
+                onVerticalSpacingUpdated = { viewModel.submit(Action.UpdateVerticalSpacing(it)) },
+                onTextSizeUpdated = { viewModel.submit(Action.UpdateTextSize(it)) },
+                onAllowTwoLinesUpdated = { viewModel.submit(Action.UpdateAllowTwoLines(it)) }
             )
         }
-    ) {
-        WidgetSettingsContent()
     }
 }
 
 @Composable
-private fun WidgetSettingsContent() {
-    val viewModel: WidgetLayoutViewModel = getViewModel()
-
-    val s by viewModel.state.collectAsStateLifecycleAware()
-    @Suppress("UnnecessaryVariable")
-    when (val state = s) {
-        State.Loading -> LoadingSpinner()
-        is State.Data -> WidgetSettings(
-            data = state,
-            onRowsUpdated = { viewModel.submit(Action.UpdateRows(it)) },
-            onColumnsUpdated = { viewModel.submit(Action.UpdateColumns(it)) },
-            onIconSizeUpdated = { viewModel.submit(Action.UpdateIconsSize(it)) },
-            onHorizontalSpacingUpdated = { viewModel.submit(Action.UpdateHorizontalSpacing(it)) },
-            onVerticalSpacingUpdated = { viewModel.submit(Action.UpdateVerticalSpacing(it)) },
-            onTextSizeUpdated = { viewModel.submit(Action.UpdateTextSize(it)) },
-            onAllowTwoLinesUpdated = { viewModel.submit(Action.UpdateAllowTwoLines(it)) }
-        )
-        is State.Error -> TextError(text = state.message)
+private fun WidgetPreviewContent(state: State) {
+    when (state) {
+        State.Loading, is State.Error -> LoadingSpinner()
+        is State.Data -> WidgetPreview(previewApps = state.previewApps, widgetSettings = state.widgetSettingsUiModel)
     }
 }
 
 @Composable
-private fun WidgetSettings(
-    data: State.Data,
+private fun WidgetSettingsContent(
+    state: State,
     onRowsUpdated: (Int) -> Unit,
     onColumnsUpdated: (Int) -> Unit,
     onIconSizeUpdated: (Int) -> Unit,
@@ -106,10 +122,11 @@ private fun WidgetSettings(
     onTextSizeUpdated: (Int) -> Unit,
     onAllowTwoLinesUpdated: (Boolean) -> Unit
 ) {
-    Column {
-        WidgetPreview(previewApps = data.previewApps, widgetSettings = data.widgetSettingsUiModel)
-        SettingItems(
-            settings = data.widgetSettingsUiModel,
+    @Suppress("UnnecessaryVariable")
+    when (state) {
+        State.Loading -> LoadingSpinner()
+        is State.Data -> SettingItems(
+            settings = state.widgetSettingsUiModel,
             onRowsUpdated = onRowsUpdated,
             onColumnsUpdated = onColumnsUpdated,
             onIconSizeUpdated = onIconSizeUpdated,
@@ -118,6 +135,7 @@ private fun WidgetSettings(
             onTextSizeUpdated = onTextSizeUpdated,
             onAllowTwoLinesUpdated = onAllowTwoLinesUpdated
         )
+        is State.Error -> TextError(text = state.message)
     }
 }
 
@@ -133,9 +151,10 @@ private fun WidgetPreview(
 
     Column(
         modifier = Modifier
+            .wrapContentSize()
             .padding(horizontal = widgetSettings.horizontalSpacing, vertical = widgetSettings.verticalSpacing)
             .background(
-                color = MaterialTheme.colorScheme.primaryContainer,
+                color = MaterialTheme.colorScheme.surface.copy(alpha = 0.78f),
                 shape = RoundedCornerShape(Dimens.Margin.Large)
             )
     ) {
