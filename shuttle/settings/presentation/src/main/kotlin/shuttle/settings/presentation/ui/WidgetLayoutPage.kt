@@ -19,7 +19,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SmallTopAppBar
 import androidx.compose.material3.Switch
@@ -44,6 +43,7 @@ import org.koin.androidx.compose.getViewModel
 import shuttle.design.PreviewDimens
 import shuttle.design.theme.Dimens
 import shuttle.design.ui.BackIconButton
+import shuttle.design.ui.BottomSheetScaffold
 import shuttle.design.ui.LoadingSpinner
 import shuttle.design.ui.TextError
 import shuttle.design.util.collectAsStateLifecycleAware
@@ -78,9 +78,7 @@ fun WidgetLayoutPage(onBack: () -> Unit) {
         ) {
             WidgetPreviewContent(state = state)
         }
-        Scaffold(
-            modifier = Modifier.background(MaterialTheme.colorScheme.surface, shape = MaterialTheme.shapes.extraLarge),
-            containerColor = Color.Transparent,
+        BottomSheetScaffold(
             topBar = {
                 SmallTopAppBar(
                     colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color.Transparent),
