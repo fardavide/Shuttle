@@ -71,7 +71,11 @@
     <string name="settings_widget_go_to">Go to %s</string>
     <string name="settings_widget_layout_title">Widget layout</string>
     <string name="settings_widget_layout_description">Customise the layout of the Widget</string>
+
     <string name="settings_widget_layout_grid">Widget grid</string>
+    <string name="settings_widget_layout_icons_dimensions">Icons\' dimensions</string>
+    <string name="settings_widget_layout_apps_labels">Apps\' labels</string>
+
     <string name="settings_widget_layout_rows_count">Rows count</string>
     <string name="settings_widget_layout_columns_count">Columns count</string>
     <string name="settings_widget_layout_icons_size">Icons size</string>

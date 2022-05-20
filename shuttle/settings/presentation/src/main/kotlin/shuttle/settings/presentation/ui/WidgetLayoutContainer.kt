@@ -73,8 +73,10 @@ internal fun WidgetLayoutContainer(
                     navigationIcon = { BackIconButton(onBack) }
                 )
             }
-        ) {
-            content()
+        ) { paddingValues ->
+            Box(modifier = Modifier.padding(paddingValues)) {
+                content()
+            }
         }
     }
 }
