@@ -11,19 +11,17 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.rememberNavController
+import shuttle.design.NavHost
+import shuttle.design.composable
+import shuttle.design.navigate
 import shuttle.design.theme.ShuttleTheme
 import shuttle.permissions.presentation.ui.PermissionsPage
 import shuttle.predictions.presentation.ui.SuggestedAppsListPage
+import shuttle.settings.presentation.WidgetLayout
 import shuttle.settings.presentation.ui.BlacklistSettingsPage
 import shuttle.settings.presentation.ui.IconPackSettingsPage
 import shuttle.settings.presentation.ui.SettingsPage
 import shuttle.settings.presentation.ui.WidgetLayoutPage
-import studio.forface.shuttle.Destination.BlacklistSettings
-import studio.forface.shuttle.Destination.IconPackSettings
-import studio.forface.shuttle.Destination.Permissions
-import studio.forface.shuttle.Destination.Settings
-import studio.forface.shuttle.Destination.Suggestions
-import studio.forface.shuttle.Destination.WidgetLayout
 
 class MainActivity : ComponentActivity() {
 

@@ -26,6 +26,7 @@ dependencies {
     implementation(libs.accompanist.permissions)
     implementation(libs.androidx.lifecycle.viewModel)
     implementation(libs.koin.android)
+    implementation(libs.navigation.compose)
 
     debugImplementation(libs.compose.uiTooling)
 
