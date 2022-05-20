@@ -59,7 +59,7 @@ internal fun WidgetLayoutContainer(
     ) {
         Box(
             modifier = Modifier
-                .fillMaxHeight(fraction = 0.25f)
+                .fillMaxHeight(fraction = 0.3f)
                 .fillMaxWidth(),
             contentAlignment = Alignment.Center
         ) {
