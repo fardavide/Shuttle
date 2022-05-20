@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="settings_widget_go_to">Vai a %s</string>
+    <string name="settings_widget_layout_grid">Griglia Widget</string>
     <string name="launch_counter_service_description">This service will count how many time an app has been launched on the device</string>
     <string name="launch_counter_service_label">Questo servizio conterà quante volte un app è stata lanciata sul dispositivo</string>
     <string name="permissions_accessibility_action">Abilita il servizio di accessbilità</string>

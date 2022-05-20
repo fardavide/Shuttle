@@ -1,168 +1,50 @@
 package shuttle.settings.presentation.ui
 
-import androidx.annotation.StringRes
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Slider
-import androidx.compose.material3.SmallTopAppBar
-import androidx.compose.material3.Switch
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import coil.compose.rememberImagePainter
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import org.koin.androidx.compose.getViewModel
-import shuttle.design.PreviewDimens
-import shuttle.design.theme.Dimens
-import shuttle.design.ui.BackIconButton
-import shuttle.design.ui.BottomSheetScaffold
+import shuttle.design.NavHost
+import shuttle.design.composable
 import shuttle.design.ui.LoadingSpinner
 import shuttle.design.ui.TextError
 import shuttle.design.util.collectAsStateLifecycleAware
-import shuttle.settings.domain.model.Dp
-import shuttle.settings.domain.model.Sp
-import shuttle.settings.domain.model.WidgetSettings
-import shuttle.settings.domain.model.WidgetSettings.Companion.ColumnsCountRange
-import shuttle.settings.domain.model.WidgetSettings.Companion.HorizontalSpacingRange
-import shuttle.settings.domain.model.WidgetSettings.Companion.IconsSizeRange
-import shuttle.settings.domain.model.WidgetSettings.Companion.RowsCountRange
-import shuttle.settings.domain.model.WidgetSettings.Companion.TextSizeRange
-import shuttle.settings.domain.model.WidgetSettings.Companion.VerticalSpacingRange
-import shuttle.settings.presentation.model.WidgetPreviewAppUiModel
-import shuttle.settings.presentation.model.WidgetSettingsUiModel
+import shuttle.settings.presentation.WidgetLayout
+import shuttle.settings.presentation.navigate
 import shuttle.settings.presentation.viewmodel.WidgetLayoutViewModel
 import shuttle.settings.presentation.viewmodel.WidgetLayoutViewModel.Action
 import shuttle.settings.presentation.viewmodel.WidgetLayoutViewModel.State
-import studio.forface.shuttle.design.R
 
 @Composable
-@OptIn(ExperimentalMaterial3Api::class)
 fun WidgetLayoutPage(onBack: () -> Unit) {
+    val navController = rememberNavController()
+    val onWidgetLayoutBack = { navController.popOrBack(onBack) }
     val viewModel: WidgetLayoutViewModel = getViewModel()
-    val state by viewModel.state.collectAsStateLifecycleAware()
+    val state = viewModel.state.collectAsStateLifecycleAware()
+    val titleState = remember { mutableStateOf(WidgetLayout.Home.title) }
 
-    Column(modifier = Modifier.fillMaxHeight().background(color = MaterialTheme.colorScheme.primaryContainer)) {
-        Box(
-            modifier = Modifier
-                .fillMaxHeight(fraction = 0.25f)
-                .fillMaxWidth(),
-            contentAlignment = Alignment.Center
-        ) {
-            WidgetPreviewContent(state = state)
-        }
-        BottomSheetScaffold(
-            topBar = {
-                SmallTopAppBar(
-                    colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color.Transparent),
-                    title = { Text(stringResource(id = R.string.settings_widget_layout_title)) },
-                    navigationIcon = { BackIconButton(onBack) }
-                )
-            }
-        ) {
-            WidgetSettingsContent(
-                state = state,
-                onRowsUpdated = { viewModel.submit(Action.UpdateRows(it)) },
-                onColumnsUpdated = { viewModel.submit(Action.UpdateColumns(it)) },
-                onIconSizeUpdated = { viewModel.submit(Action.UpdateIconsSize(it)) },
-                onHorizontalSpacingUpdated = { viewModel.submit(Action.UpdateHorizontalSpacing(it)) },
-                onVerticalSpacingUpdated = { viewModel.submit(Action.UpdateVerticalSpacing(it)) },
-                onTextSizeUpdated = { viewModel.submit(Action.UpdateTextSize(it)) },
-                onAllowTwoLinesUpdated = { viewModel.submit(Action.UpdateAllowTwoLines(it)) }
-            )
-        }
-    }
-}
-
-@Composable
-private fun WidgetPreviewContent(state: State) {
-    when (state) {
-        State.Loading, is State.Error -> LoadingSpinner()
-        is State.Data -> WidgetPreview(previewApps = state.previewApps, widgetSettings = state.widgetSettingsUiModel)
-    }
-}
-
-@Composable
-private fun WidgetSettingsContent(
-    state: State,
-    onRowsUpdated: (Int) -> Unit,
-    onColumnsUpdated: (Int) -> Unit,
-    onIconSizeUpdated: (Int) -> Unit,
-    onHorizontalSpacingUpdated: (Int) -> Unit,
-    onVerticalSpacingUpdated: (Int) -> Unit,
-    onTextSizeUpdated: (Int) -> Unit,
-    onAllowTwoLinesUpdated: (Boolean) -> Unit
-) {
-    @Suppress("UnnecessaryVariable")
-    when (state) {
-        State.Loading -> LoadingSpinner()
-        is State.Data -> SettingItems(
-            settings = state.widgetSettingsUiModel,
-            onRowsUpdated = onRowsUpdated,
-            onColumnsUpdated = onColumnsUpdated,
-            onIconSizeUpdated = onIconSizeUpdated,
-            onHorizontalSpacingUpdated = onHorizontalSpacingUpdated,
-            onVerticalSpacingUpdated = onVerticalSpacingUpdated,
-            onTextSizeUpdated = onTextSizeUpdated,
-            onAllowTwoLinesUpdated = onAllowTwoLinesUpdated
-        )
-        is State.Error -> TextError(text = state.message)
-    }
-}
-
-@Composable
-private fun WidgetPreview(
-    previewApps: List<WidgetPreviewAppUiModel>,
-    widgetSettings: WidgetSettingsUiModel
-) {
-    val rows = widgetSettings.rowsCount
-    val columns = widgetSettings.columnsCount
-    val apps = previewApps.take(rows * columns).reversed()
-    var index = 0
-
-    Column(
-        modifier = Modifier
-            .wrapContentSize()
-            .padding(horizontal = widgetSettings.horizontalSpacing, vertical = widgetSettings.verticalSpacing)
-            .background(
-                color = MaterialTheme.colorScheme.surface.copy(alpha = 0.78f),
-                shape = RoundedCornerShape(Dimens.Margin.Large)
-            )
-    ) {
-        repeat(rows) {
-            Row {
-                repeat(columns) {
-                    AppIconItem(
-                        app = apps[index++],
-                        widgetSettings = widgetSettings
-                    )
+    WidgetLayoutContainer(title = titleState.value, state = state.value, onBack = onWidgetLayoutBack) {
+        when (val s = state.value) {
+            State.Loading -> LoadingSpinner()
+            is State.Error -> TextError(text = s.message)
+            is State.Data -> NavHost(navController = navController, startDestination = WidgetLayout.Home) {
+                composable(WidgetLayout.Home) {
+                    HomeWidgetLayoutRoute(
+                        state = s,
+                        toGrid = { navController.navigate(WidgetLayout.Grid, titleState) },
+                        onIconSizeUpdated = { viewModel.submit(Action.UpdateIconsSize(it)) },
+                        onHorizontalSpacingUpdated = { viewModel.submit(Action.UpdateHorizontalSpacing(it)) },
+                        onVerticalSpacingUpdated = { viewModel.submit(Action.UpdateVerticalSpacing(it)) },
+                        onTextSizeUpdated = { viewModel.submit(Action.UpdateTextSize(it)) }
+                    ) { viewModel.submit(Action.UpdateAllowTwoLines(it)) }
+                }
+                composable(WidgetLayout.Grid) {
+                    WidgetGridRoute(
+                        state = s,
+                        onRowsUpdated = { viewModel.submit(Action.UpdateRows(it)) },
+                        onColumnsUpdated = { viewModel.submit(Action.UpdateColumns(it)) })
                 }
             }
         }
@@ -170,203 +52,38 @@ private fun WidgetPreview(
 }
 
 @Composable
-private fun SettingItems(
-    settings: WidgetSettingsUiModel,
-    onRowsUpdated: (Int) -> Unit,
-    onColumnsUpdated: (Int) -> Unit,
+private fun HomeWidgetLayoutRoute(
+    state: State.Data,
+    toGrid: () -> Unit,
     onIconSizeUpdated: (Int) -> Unit,
     onHorizontalSpacingUpdated: (Int) -> Unit,
     onVerticalSpacingUpdated: (Int) -> Unit,
     onTextSizeUpdated: (Int) -> Unit,
     onAllowTwoLinesUpdated: (Boolean) -> Unit
-) {
-    LazyColumn {
-        item {
-            SliderItem(
-                title = R.string.settings_widget_layout_rows_count,
-                valueRange = RowsCountRange,
-                stepsSize = 1,
-                value = settings.rowsCount,
-                onValueChange = onRowsUpdated
-            )
-        }
-        item {
-            SliderItem(
-                title = R.string.settings_widget_layout_columns_count,
-                valueRange = ColumnsCountRange,
-                stepsSize = 1,
-                value = settings.columnsCount,
-                onValueChange = onColumnsUpdated
-            )
-        }
-        item {
-            SliderItem(
-                title = R.string.settings_widget_layout_icons_size,
-                valueRange = IconsSizeRange,
-                stepsSize = 1,
-                value = settings.iconSize.value.toInt(),
-                onValueChange = onIconSizeUpdated
-            )
-        }
-        item {
-            SliderItem(
-                title = R.string.settings_widget_layout_horizontal_spacing,
-                valueRange = HorizontalSpacingRange,
-                stepsSize = 1,
-                value = settings.horizontalSpacing.value.toInt(),
-                onValueChange = onHorizontalSpacingUpdated
-            )
-        }
-        item {
-            SliderItem(
-                title = R.string.settings_widget_layout_vertical_spacing,
-                valueRange = VerticalSpacingRange,
-                stepsSize = 1,
-                value = settings.verticalSpacing.value.toInt(),
-                onValueChange = onVerticalSpacingUpdated
-            )
-        }
-        item {
-            SliderItem(
-                title = R.string.settings_widget_layout_text_size,
-                valueRange = TextSizeRange,
-                stepsSize = 1,
-                value = settings.textSize.value.toInt(),
-                onValueChange = onTextSizeUpdated
-            )
-        }
-        item {
-            SwitchItem(
-                title = R.string.settings_widget_layout_two_lines,
-                value = settings.allowTwoLines,
-                onValueChange = onAllowTwoLinesUpdated
-            )
-        }
-    }
-}
+) = HomeWidgetLayoutContent(
+    settings = state.widgetSettingsUiModel,
+    toGrid = toGrid,
+    onIconSizeUpdated = onIconSizeUpdated,
+    onHorizontalSpacingUpdated = onHorizontalSpacingUpdated,
+    onVerticalSpacingUpdated = onVerticalSpacingUpdated,
+    onTextSizeUpdated = onTextSizeUpdated,
+    onAllowTwoLinesUpdated = onAllowTwoLinesUpdated
+)
 
 @Composable
-private fun SliderItem(
-    @StringRes title: Int,
-    valueRange: IntRange,
-    stepsSize: Int,
-    value: Int,
-    onValueChange: (Int) -> Unit
+private fun WidgetGridRoute(
+    state: State.Data,
+    onRowsUpdated: (Int) -> Unit,
+    onColumnsUpdated: (Int) -> Unit
 ) {
-    var state by remember(key1 = title) { mutableStateOf(value.toFloat()) }
-    Column(modifier = Modifier.padding(vertical = Dimens.Margin.Small, horizontal = Dimens.Margin.Medium)) {
-        Row {
-            Text(text = stringResource(id = title), style = MaterialTheme.typography.titleMedium)
-            Text(
-                text = "$value",
-                style = MaterialTheme.typography.labelMedium,
-                textAlign = TextAlign.End,
-                modifier = Modifier.fillMaxWidth()
-            )
-        }
-        Slider(
-            valueRange = valueRange.first.toFloat()..valueRange.last.toFloat(),
-            steps = (valueRange.last - valueRange.first) / stepsSize,
-            value = state,
-            onValueChange = {
-                state = it
-                onValueChange(it.toInt())
-            }
-        )
-    }
-}
-
-@Composable
-private fun SwitchItem(
-    @StringRes title: Int,
-    value: Boolean,
-    onValueChange: (Boolean) -> Unit
-) {
-    var state by remember(key1 = title) { mutableStateOf(value) }
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = Dimens.Margin.Small, horizontal = Dimens.Margin.Medium),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Text(text = stringResource(id = title), style = MaterialTheme.typography.titleMedium)
-        Switch(
-            checked = state,
-            onCheckedChange = {
-                state = it
-                onValueChange(it)
-            }
-        )
-    }
-}
-
-@Composable
-private fun AppIconItem(
-    app: WidgetPreviewAppUiModel,
-    widgetSettings: WidgetSettingsUiModel
-) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.padding(
-            vertical = widgetSettings.verticalSpacing,
-            horizontal = widgetSettings.horizontalSpacing
-        )
-    ) {
-
-        Image(
-            painter = rememberImagePainter(data = app.icon),
-            contentDescription = stringResource(id = R.string.x_app_icon_description),
-            modifier = Modifier.size(widgetSettings.iconSize)
-        )
-        Spacer(modifier = Modifier.height(widgetSettings.verticalSpacing))
-        Text(
-            text = app.name,
-            maxLines = if (widgetSettings.allowTwoLines) 2 else 1,
-            fontSize = widgetSettings.textSize,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.width(widgetSettings.iconSize)
-        )
-    }
-}
-
-@Composable
-@Preview(showBackground = true, widthDp = PreviewDimens.Medium.Width, heightDp = PreviewDimens.Medium.Height)
-private fun WidgetPreviewPreview() {
-    val icon = LocalContext.current.getDrawable(androidx.core.R.drawable.notification_bg_low)!!
-    val apps = listOf(
-        WidgetPreviewAppUiModel("Shuttle", icon)
+    WidgetGridContent(
+        settings = state.widgetSettingsUiModel,
+        onRowsUpdated = onRowsUpdated,
+        onColumnsUpdated = onColumnsUpdated
     )
-    val widgetSettings = WidgetSettingsUiModel(
-        rowsCount = WidgetSettings.Default.rowsCount,
-        columnsCount = WidgetSettings.Default.columnsCount,
-        iconSize = WidgetSettings.Default.iconsSize.dp,
-        horizontalSpacing = WidgetSettings.Default.horizontalSpacing.dp,
-        verticalSpacing = WidgetSettings.Default.verticalSpacing.dp,
-        textSize = WidgetSettings.Default.textSize.sp,
-        allowTwoLines = WidgetSettings.Default.allowTwoLines
-    )
-    MaterialTheme {
-        WidgetPreview(previewApps = apps, widgetSettings = widgetSettings)
-    }
 }
 
-@Composable
-@Preview(showBackground = true, widthDp = PreviewDimens.Medium.Width, heightDp = PreviewDimens.Medium.Height)
-private fun SettingItemsPreview() {
-    val widgetSettings = WidgetSettingsUiModel(
-        rowsCount = WidgetSettings.Default.rowsCount,
-        columnsCount = WidgetSettings.Default.columnsCount,
-        iconSize = WidgetSettings.Default.iconsSize.value.dp,
-        horizontalSpacing = WidgetSettings.Default.horizontalSpacing.value.dp,
-        verticalSpacing = WidgetSettings.Default.verticalSpacing.value.dp,
-        textSize = WidgetSettings.Default.textSize.value.sp,
-        allowTwoLines = WidgetSettings.Default.allowTwoLines
-    )
-    MaterialTheme {
-        SettingItems(widgetSettings, {}, {}, {}, {}, {}, {}, {})
-    }
+private fun NavController.popOrBack(onBack: () -> Unit) {
+    if (popBackStack().not()) onBack()
 }
 
-private val Dp.dp get() = value.dp
-private val Sp.sp get() = value.sp

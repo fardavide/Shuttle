@@ -10,6 +10,7 @@ dependencies {
     implementation(libs.bundles.compose)
 
     implementation(libs.androidx.lifecycle.runtime)
+    implementation(libs.navigation.compose)
 
     debugImplementation(libs.compose.uiTooling)
 
