@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="settings_widget_layout_toolbar_drag_description">Trascina verticalmente per dimensionare</string>
     <string name="settings_widget_layout_icons_dimensions">Dimensioni icone</string>
     <string name="settings_widget_layout_apps_labels">Etichette app</string>
-    <string name="settings_widget_go_to">Vai a %s</string>
+    <string name="settings_widget_layout_go_to">Vai a %s</string>
     <string name="settings_widget_layout_grid">Griglia Widget</string>
     <string name="launch_counter_service_description">This service will count how many time an app has been launched on the device</string>
     <string name="launch_counter_service_label">Questo servizio conterà quante volte un app è stata lanciata sul dispositivo</string>

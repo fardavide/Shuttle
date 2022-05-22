@@ -68,7 +68,8 @@
     <string name="settings_icon_pack_description">Choose an Icon Pack for your icons</string>
     <string name="settings_icon_pack_system_default">System icons</string>
 
-    <string name="settings_widget_go_to">Go to %s</string>
+    <string name="settings_widget_layout_go_to">Go to %s</string>
+    <string name="settings_widget_layout_toolbar_drag_description">Drag vertically to resize</string>
     <string name="settings_widget_layout_title">Widget layout</string>
     <string name="settings_widget_layout_description">Customise the layout of the Widget</string>
 

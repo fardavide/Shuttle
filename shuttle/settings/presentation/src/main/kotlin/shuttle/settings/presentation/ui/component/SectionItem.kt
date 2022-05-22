@@ -30,7 +30,7 @@ internal fun SectionItem(
     onClick: () -> Unit
 ) {
     val titleString = stringResource(id = title)
-    val contentDescription = stringResource(id = R.string.settings_widget_go_to, titleString)
+    val contentDescription = stringResource(id = R.string.settings_widget_layout_go_to, titleString)
     Row(
         modifier = Modifier
             .fillMaxWidth()
