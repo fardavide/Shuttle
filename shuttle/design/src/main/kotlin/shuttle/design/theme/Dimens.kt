@@ -21,4 +21,14 @@ object Dimens {
         val XLarge = 32.dp
         val XXLarge = 48.dp
     }
+
+    object Component {
+
+        val Small = 48.dp
+        val Medium = 56.dp
+        val Large = 64.dp
+        val XLarge = 96.dp
+        val XXLarge = 128.dp
+        val XXXLarge = 256.dp
+    }
 }
