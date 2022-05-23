@@ -96,7 +96,7 @@ private fun SettingsContent(
         item { BlacklistItem(toBlacklist) }
         item { PrioritizeLocationItem(state = state.prioritizeLocation, updatePrioritizeLocation) }
 
-        item { PermissionsSection() }
+        item { InfoSection() }
         item { CheckPermissionsItem(state.permissions, toPermissions) }
 
         item { AppVersionFooter(version = state.appVersion) }
@@ -152,7 +152,7 @@ private fun PrioritizeLocationItem(
     updatePrioritizeLocation: (Boolean) -> Unit
 ) {
     var isPrioritizingLocation by remember { mutableStateOf(state == State.PrioritizeLocation.True) }
-    
+
     val uiModel = SettingsItemUiModel(
         title = stringResource(id = R.string.settings_prioritize_location_title),
         description = stringResource(id = R.string.settings_prioritize_location_description)
@@ -171,9 +171,9 @@ private fun PrioritizeLocationItem(
 }
 
 @Composable
-private fun PermissionsSection() {
+private fun InfoSection() {
     val uiModel = SettingsSectionUiModel(
-        title = stringResource(id = R.string.settings_permissions_section_title)
+        title = stringResource(id = R.string.settings_info_section_title)
     )
     SettingsSection(item = uiModel)
 }
@@ -247,9 +247,14 @@ private fun AppVersionFooter(version: String) {
 @Composable
 @Preview(showBackground = true)
 fun SettingsContentPreview() {
+    val state = State(
+        permissions = State.Permissions.Granted,
+        prioritizeLocation = State.PrioritizeLocation.True,
+        appVersion = "123"
+    )
     MaterialTheme {
         SettingsContent(
-            state = State.Loading,
+            state = state,
             toBlacklist = {},
             toWidgetLayout = {},
             toIconPacks = {},
