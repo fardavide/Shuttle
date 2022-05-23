@@ -4,6 +4,7 @@
     <!-- region Common -->
     <string name="x_app_icon_description">App icon</string>
     <string name="x_back_button_description">Back button</string>
+    <string name="x_coming_soon">Coming soon!</string>
     <!-- endregion -->
 
     <!-- region App -->
@@ -52,6 +53,23 @@
     <string name="settings_suggestions_section_title">Suggestions</string>
     <string name="settings_permissions_section_title">Permissions</string>
     <string name="settings_info_section_title">Info</string>
+
+    <string name="settings_about_title">About the app</string>
+    <string name="settings_about_description">Info about this app and the developer</string>
+    <string name="settings_about_dev_info_title">About the developer</string>
+    <string name="settings_about_dev_info_description">I\'m Davide, a passionate Android developer and a freelance from Italy. I love coding, video-games, gym and my wife</string>
+    <string name="settings_about_app_info_title">About the app</string>
+    <string name="settings_about_app_info_description">This app is born from a single developer during the free time.\nThe app is created in Kotlin using Jetpack Compose, Glance Widget, SqlDelight and few more libraries from awesome developers.\nThis app will always be free, open source and ads-free. If you appreciate my job, feel free to support me from any channel below.</string>
+    <string name="settings_about_github_project_title">⭐️ the project on GitHub</string>
+    <string name="settings_about_github_project_link" translatable="false">https://github.com/4face-studi0/Shuttle</string>
+    <string name="settings_about_github_issues_title">Open an issue on GitHub for requests or 🐛</string>
+    <string name="settings_about_github_issues_link" translatable="false">https://github.com/4face-studi0/Shuttle/issues</string>
+    <string name="settings_about_github_dev_title">Follow me on GitHub</string>
+    <string name="settings_about_github_dev_link" translatable="false">https://github.com/4face-studi0</string>
+    <string name="settings_about_twitter_dev_title">Follow me on Twitter</string>
+    <string name="settings_about_twitter_dev_link" translatable="false">https://twitter.com/4face91</string>
+    <string name="settings_about_coffee_title">Buy me a ☕️ ( 0.99€ )</string>
+    <string name="settings_about_makeup_title">Buy my wife some 💄️ so she won\'t get angry when I work late ( 4.99€ )</string>
 
     <string name="settings_blacklist_title">Blacklist</string>
     <string name="settings_blacklist_description">Selected apps won\'t be proposed as suggestions</string>

@@ -59,7 +59,9 @@
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.516" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.516" />
         <entry key="shuttle/accessibility/src/main/res/xml/launch_counter_service_config.xml" value="0.8916666666666667" />
+        <entry key="shuttle/settings/presentation/src/main/kotlin/shuttle/settings/presentation/ui/SettingsPage.kt" value="0.24046242774566473" />
         <entry key="shuttle/settings/presentation/src/main/kotlin/shuttle/settings/presentation/ui/WidgetLayoutContainer.kt" value="0.232996632996633" />
+        <entry key="shuttle/settings/presentation/src/main/kotlin/shuttle/settings/presentation/ui/page/AboutPage.kt" value="0.26371308016877637" />
       </map>
     </option>
   </component>

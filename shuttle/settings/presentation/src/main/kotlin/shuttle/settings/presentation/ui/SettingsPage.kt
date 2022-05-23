@@ -44,7 +44,7 @@ import shuttle.settings.presentation.model.SettingsSectionUiModel
 import shuttle.settings.presentation.viewmodel.SettingsViewModel
 import shuttle.settings.presentation.viewmodel.SettingsViewModel.Action
 import shuttle.settings.presentation.viewmodel.SettingsViewModel.State
-import studio.forface.shuttle.design.R
+import studio.forface.shuttle.design.R.string
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class)
@@ -53,7 +53,8 @@ fun SettingsPage(
     toBlacklist: () -> Unit,
     toWidgetLayout: () -> Unit,
     toIconPacks: () -> Unit,
-    toPermissions: () -> Unit
+    toPermissions: () -> Unit,
+    toAbout: () -> Unit
 ) {
     val viewModel = getViewModel<SettingsViewModel>()
     val state by viewModel.state.collectAsStateLifecycleAware()
@@ -63,7 +64,7 @@ fun SettingsPage(
 
     Scaffold(topBar = {
         SmallTopAppBar(
-            title = { Text(stringResource(id = R.string.settings_title)) },
+            title = { Text(stringResource(id = string.settings_title)) },
             navigationIcon = { BackIconButton(onBack) }
         )
     }) {
@@ -73,6 +74,7 @@ fun SettingsPage(
             toWidgetLayout = toWidgetLayout,
             toIconPacks = toIconPacks,
             toPermissions = toPermissions,
+            toAbout = toAbout,
             updatePrioritizeLocation = { viewModel.submit(Action.UpdatePrioritizeLocation(it)) }
         )
     }
@@ -85,6 +87,7 @@ private fun SettingsContent(
     toWidgetLayout: () -> Unit,
     toIconPacks: () -> Unit,
     toPermissions: () -> Unit,
+    toAbout: () -> Unit,
     updatePrioritizeLocation: (Boolean) -> Unit
 ) {
     LazyColumn(modifier = Modifier.fillMaxHeight()) {
@@ -98,6 +101,7 @@ private fun SettingsContent(
 
         item { InfoSection() }
         item { CheckPermissionsItem(state.permissions, toPermissions) }
+        item { AboutItem(toAbout) }
 
         item { AppVersionFooter(version = state.appVersion) }
     }
@@ -106,7 +110,7 @@ private fun SettingsContent(
 @Composable
 fun DesignSection() {
     val uiModel = SettingsSectionUiModel(
-        title = stringResource(id = R.string.settings_design_section_title)
+        title = stringResource(id = string.settings_design_section_title)
     )
     SettingsSection(item = uiModel)
 }
@@ -114,8 +118,8 @@ fun DesignSection() {
 @Composable
 private fun WidgetLayoutItem(toWidgetLayout: () -> Unit) {
     val uiModel = SettingsItemUiModel(
-        title = stringResource(id = R.string.settings_widget_layout_title),
-        description = stringResource(id = R.string.settings_widget_layout_description)
+        title = stringResource(id = string.settings_widget_layout_title),
+        description = stringResource(id = string.settings_widget_layout_description)
     )
     SettingsItem(item = uiModel, onClick = toWidgetLayout)
 }
@@ -123,8 +127,8 @@ private fun WidgetLayoutItem(toWidgetLayout: () -> Unit) {
 @Composable
 private fun IconPackItem(toIconPacks: () -> Unit) {
     val uiModel = SettingsItemUiModel(
-        title = stringResource(id = R.string.settings_icon_pack_title),
-        description = stringResource(id = R.string.settings_icon_pack_description)
+        title = stringResource(id = string.settings_icon_pack_title),
+        description = stringResource(id = string.settings_icon_pack_description)
     )
     SettingsItem(item = uiModel, onClick = toIconPacks)
 }
@@ -132,7 +136,7 @@ private fun IconPackItem(toIconPacks: () -> Unit) {
 @Composable
 private fun SuggestionsSection() {
     val uiModel = SettingsSectionUiModel(
-        title = stringResource(id = R.string.settings_suggestions_section_title)
+        title = stringResource(id = string.settings_suggestions_section_title)
     )
     SettingsSection(item = uiModel)
 }
@@ -140,8 +144,8 @@ private fun SuggestionsSection() {
 @Composable
 private fun BlacklistItem(toBlacklist: () -> Unit) {
     val uiModel = SettingsItemUiModel(
-        title = stringResource(id = R.string.settings_blacklist_title),
-        description = stringResource(id = R.string.settings_blacklist_description)
+        title = stringResource(id = string.settings_blacklist_title),
+        description = stringResource(id = string.settings_blacklist_description)
     )
     SettingsItem(item = uiModel, onClick = toBlacklist)
 }
@@ -154,8 +158,8 @@ private fun PrioritizeLocationItem(
     var isPrioritizingLocation by remember { mutableStateOf(state == State.PrioritizeLocation.True) }
 
     val uiModel = SettingsItemUiModel(
-        title = stringResource(id = R.string.settings_prioritize_location_title),
-        description = stringResource(id = R.string.settings_prioritize_location_description)
+        title = stringResource(id = string.settings_prioritize_location_title),
+        description = stringResource(id = string.settings_prioritize_location_description)
     )
     SettingsItem(item = uiModel, onClick = { isPrioritizingLocation = !isPrioritizingLocation }) {
         when (state) {
@@ -173,7 +177,7 @@ private fun PrioritizeLocationItem(
 @Composable
 private fun InfoSection() {
     val uiModel = SettingsSectionUiModel(
-        title = stringResource(id = R.string.settings_info_section_title)
+        title = stringResource(id = string.settings_info_section_title)
     )
     SettingsSection(item = uiModel)
 }
@@ -181,8 +185,8 @@ private fun InfoSection() {
 @Composable
 private fun CheckPermissionsItem(state: State.Permissions, toPermissions: () -> Unit) {
     val uiModel = SettingsItemUiModel(
-        title = stringResource(id = R.string.settings_check_permissions_title),
-        description = stringResource(id = R.string.settings_check_permissions_description)
+        title = stringResource(id = string.settings_check_permissions_title),
+        description = stringResource(id = string.settings_check_permissions_description)
     )
     SettingsItem(item = uiModel, onClick = toPermissions) {
         when (state) {
@@ -190,17 +194,30 @@ private fun CheckPermissionsItem(state: State.Permissions, toPermissions: () -> 
             State.Permissions.Denied -> Icon(
                 painter = rememberVectorPainter(image = Icons.Rounded.Warning),
                 tint = MaterialTheme.colorScheme.error,
-                contentDescription = stringResource(R.string.settings_check_permissions_not_granted_description),
-                modifier = Modifier.padding(end = Dimens.Margin.Small).size(Dimens.Icon.Small)
+                contentDescription = stringResource(string.settings_check_permissions_not_granted_description),
+                modifier = Modifier
+                    .padding(end = Dimens.Margin.Small)
+                    .size(Dimens.Icon.Small)
             )
             State.Permissions.Granted -> Icon(
                 painter = rememberVectorPainter(image = Icons.Rounded.CheckCircle),
                 tint = MaterialTheme.colorScheme.secondary,
-                contentDescription = stringResource(R.string.settings_check_permissions_granted_description),
-                modifier = Modifier.padding(end = Dimens.Margin.Small).size(Dimens.Icon.Small)
+                contentDescription = stringResource(string.settings_check_permissions_granted_description),
+                modifier = Modifier
+                    .padding(end = Dimens.Margin.Small)
+                    .size(Dimens.Icon.Small)
             )
         }
     }
+}
+
+@Composable
+private fun AboutItem(toAbout: () -> Unit) {
+    val uiModel = SettingsItemUiModel(
+        title = stringResource(id = string.settings_about_title),
+        description = stringResource(id = string.settings_about_description)
+    )
+    SettingsItem(item = uiModel, onClick = toAbout)
 }
 
 @Composable
@@ -237,10 +254,12 @@ private fun SettingsItem(
 @Composable
 private fun AppVersionFooter(version: String) {
     Box(
-        modifier = Modifier.fillMaxWidth().padding(Dimens.Margin.Large),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(Dimens.Margin.Large),
         contentAlignment = Alignment.BottomCenter
     ) {
-        Text(text = stringResource(id = R.string.settings_footer_app_version, version))
+        Text(text = stringResource(id = string.settings_footer_app_version, version))
     }
 }
 
@@ -259,7 +278,8 @@ fun SettingsContentPreview() {
             toWidgetLayout = {},
             toIconPacks = {},
             toPermissions = {},
-            updatePrioritizeLocation = {}
+            updatePrioritizeLocation = {},
+            toAbout = {}
         )
     }
 }
@@ -269,8 +289,8 @@ fun SettingsContentPreview() {
 fun SettingsItemPreview() {
     MaterialTheme {
         val uiModel = SettingsItemUiModel(
-            title = stringResource(id = R.string.settings_blacklist_title),
-            description = stringResource(id = R.string.settings_blacklist_description)
+            title = stringResource(id = string.settings_blacklist_title),
+            description = stringResource(id = string.settings_blacklist_description)
         )
         SettingsItem(item = uiModel, onClick = {})
     }
