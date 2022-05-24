@@ -9,12 +9,17 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SmallTopAppBar
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import kotlinx.coroutines.launch
 import shuttle.design.theme.Dimens
 import shuttle.design.theme.ShuttleTheme
 import shuttle.design.ui.BackIconButton
@@ -23,29 +28,41 @@ import studio.forface.shuttle.design.R.string
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun AboutPage(onBack: () -> Unit) {
+
+    val scope = rememberCoroutineScope()
     val uriHandler = LocalUriHandler.current
+    val snackbarHostState = remember { SnackbarHostState() }
+
     val ghProjectUrl = stringResource(id = string.settings_about_github_project_link)
     val ghIssuesUrl = stringResource(id = string.settings_about_github_issues_link)
     val ghDevUrl = stringResource(id = string.settings_about_github_dev_link)
     val twitterDevUrl = stringResource(id = string.settings_about_twitter_dev_link)
+    val comingSoonString = stringResource(id = string.x_coming_soon)
 
     val actions = Actions(
         toGitHubProject = { uriHandler.openUri(ghProjectUrl) },
         toGitHubIssues = { uriHandler.openUri(ghIssuesUrl) },
         toGitHubDev = { uriHandler.openUri(ghDevUrl) },
         toTwitterDev = { uriHandler.openUri(twitterDevUrl) },
-        buyCoffee = { TODO() },
-        buyMakeup = { TODO() },
+        buyCoffee = { scope.launch { snackbarHostState.showSnackbarIfNone(comingSoonString) } },
+        buyMakeup = { scope.launch { snackbarHostState.showSnackbarIfNone(comingSoonString) } }
     )
 
-    Scaffold(topBar = {
-        SmallTopAppBar(
-            title = { Text(stringResource(id = string.settings_about_title)) },
-            navigationIcon = { BackIconButton(onBack) }
-        )
-    }) { paddingValues ->
+    Scaffold(
+        topBar = {
+            SmallTopAppBar(
+                title = { Text(stringResource(id = string.settings_about_title)) },
+                navigationIcon = { BackIconButton(onBack) }
+            )
+        },
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
+    ) { paddingValues ->
         AboutContent(actions, modifier = Modifier.padding(paddingValues))
     }
+}
+
+private suspend fun SnackbarHostState.showSnackbarIfNone(message: String) {
+    if (currentSnackbarData == null) showSnackbar(message)
 }
 
 @Composable
@@ -76,7 +93,7 @@ private fun TitleText(@StringRes textRes: Int) {
 @Composable
 private fun DescriptionText(@StringRes textRes: Int) {
     Text(
-        modifier = Modifier.padding(bottom = Dimens.Margin.Medium),
+        modifier = Modifier.padding(bottom = Dimens.Margin.XLarge),
         text = stringResource(id = textRes),
         style = MaterialTheme.typography.bodyLarge
     )
