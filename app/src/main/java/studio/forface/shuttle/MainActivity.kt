@@ -22,6 +22,7 @@ import shuttle.settings.presentation.ui.BlacklistSettingsPage
 import shuttle.settings.presentation.ui.IconPackSettingsPage
 import shuttle.settings.presentation.ui.SettingsPage
 import shuttle.settings.presentation.ui.WidgetLayoutPage
+import shuttle.settings.presentation.ui.page.AboutPage
 
 class MainActivity : ComponentActivity() {
 
@@ -44,6 +45,7 @@ private fun App(onFinish: () -> Unit) {
     val onBack = { navController.popOrFinish(onFinish) }
 
     NavHost(navController = navController, startDestination = Permissions) {
+        composable(About) { AboutRoute(onBack = onBack) }
         composable(BlacklistSettings) { BlacklistSettingsRoute(onBack = onBack) }
         composable(IconPackSettings) { IconPackSettingsRoute(onBack = onBack) }
         composable(Permissions) { PermissionsRoute(navController) }
@@ -52,6 +54,10 @@ private fun App(onFinish: () -> Unit) {
         composable(WidgetLayout) { WidgetLayoutRoute(onBack = onBack) }
     }
 }
+
+@Composable
+private fun AboutRoute(onBack: () -> Unit) =
+    AboutPage(onBack = onBack)
 
 @Composable
 private fun BlacklistSettingsRoute(onBack: () -> Unit) =
@@ -72,7 +78,8 @@ private fun SettingsRoute(navController: NavController, onBack: () -> Unit) =
         toBlacklist = { navController.navigate(BlacklistSettings) },
         toWidgetLayout = { navController.navigate(WidgetLayout) },
         toIconPacks = { navController.navigate(IconPackSettings) },
-        toPermissions = { navController.navigate(Permissions) }
+        toPermissions = { navController.navigate(Permissions) },
+        toAbout = { navController.navigate(About) }
     )
 
 @Composable
