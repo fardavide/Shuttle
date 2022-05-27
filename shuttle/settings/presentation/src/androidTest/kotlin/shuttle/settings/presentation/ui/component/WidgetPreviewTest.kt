@@ -10,7 +10,7 @@ import org.junit.Rule
 import shuttle.settings.presentation.model.WidgetPreviewAppUiModel
 import shuttle.settings.presentation.model.WidgetSettingsUiModel
 import shuttle.test.compose.createComposeTestRule
-import kotlin.test.*
+import kotlin.test.Test
 
 internal class WidgetPreviewTest {
 
