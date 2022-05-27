@@ -1,4 +1,4 @@
-package shuttle.settings.presentation.ui
+package shuttle.settings.presentation.ui.page
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -67,9 +67,10 @@ fun SettingsPage(
             title = { Text(stringResource(id = string.settings_title)) },
             navigationIcon = { BackIconButton(onBack) }
         )
-    }) {
+    }) { paddingValues ->
         SettingsContent(
             state = state,
+            modifier = Modifier.padding(paddingValues),
             toBlacklist = toBlacklist,
             toWidgetLayout = toWidgetLayout,
             toIconPacks = toIconPacks,
@@ -83,6 +84,7 @@ fun SettingsPage(
 @Composable
 private fun SettingsContent(
     state: State,
+    modifier: Modifier,
     toBlacklist: () -> Unit,
     toWidgetLayout: () -> Unit,
     toIconPacks: () -> Unit,
@@ -274,6 +276,7 @@ fun SettingsContentPreview() {
     MaterialTheme {
         SettingsContent(
             state = state,
+            modifier = Modifier,
             toBlacklist = {},
             toWidgetLayout = {},
             toIconPacks = {},

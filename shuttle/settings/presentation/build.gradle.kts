@@ -12,6 +12,7 @@ moduleDependencies {
     icons.domain()
     permissions.domain()
     settings.domain()
+    test.compose()
     utils {
         android()
         kotlin()

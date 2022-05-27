@@ -1,9 +1,10 @@
 @file:Suppress("UnnecessaryVariable")
 
-package shuttle.settings.presentation.ui
+package shuttle.settings.presentation.ui.page
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -55,8 +56,10 @@ fun BlacklistSettingsPage(onBack: () -> Unit) {
             title = { Text(stringResource(id = R.string.settings_blacklist_title)) },
             navigationIcon = { BackIconButton(onBack) }
         )
-    }) {
-        BlacklistSettingsContent()
+    }) { paddingValues ->
+        Box(modifier = Modifier.padding(paddingValues)) {
+            BlacklistSettingsContent()
+        }
     }
 }
 

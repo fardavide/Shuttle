@@ -1,4 +1,4 @@
-package shuttle.settings.presentation.ui
+package shuttle.settings.presentation.ui.page
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -15,9 +15,11 @@ import shuttle.design.ui.LoadingSpinner
 import shuttle.design.ui.TextError
 import shuttle.design.util.collectAsStateLifecycleAware
 import shuttle.settings.presentation.WidgetLayout
+import shuttle.settings.presentation.ui.content.HomeWidgetLayoutContent
 import shuttle.settings.presentation.ui.content.WidgetAppsLabelsContent
 import shuttle.settings.presentation.ui.content.WidgetGridContent
 import shuttle.settings.presentation.ui.content.WidgetIconsDimensionsContent
+import shuttle.settings.presentation.ui.content.WidgetLayoutContainer
 import shuttle.settings.presentation.viewmodel.WidgetLayoutViewModel
 import shuttle.settings.presentation.viewmodel.WidgetLayoutViewModel.Action
 import shuttle.settings.presentation.viewmodel.WidgetLayoutViewModel.State

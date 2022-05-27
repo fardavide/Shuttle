@@ -1,4 +1,4 @@
-package shuttle.settings.presentation.ui
+package shuttle.settings.presentation.ui.content
 
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
