@@ -33,6 +33,7 @@ import shuttle.predictions.presentation.model.WidgetAppUiModel
 import shuttle.predictions.presentation.model.WidgetSettingsUiModel
 import shuttle.predictions.presentation.viewmodel.SuggestedAppsWidgetViewModel
 import shuttle.predictions.presentation.viewmodel.SuggestedAppsWidgetViewModel.State
+import shuttle.utils.kotlin.takeOrFillWithNulls
 
 class SuggestedAppsWidget : GlanceAppWidget(), KoinComponent {
 
@@ -68,7 +69,7 @@ class SuggestedAppsWidget : GlanceAppWidget(), KoinComponent {
         val settings = data.widgetSettings
         val rows = settings.rowsCount
         val columns = settings.columnsCount
-        val apps = data.apps.take(rows * columns).reversed()
+        val apps = data.apps.takeOrFillWithNulls(rows * columns).reversed()
         var index = 0
 
         Column(modifier = GlanceModifier
@@ -91,10 +92,12 @@ class SuggestedAppsWidget : GlanceAppWidget(), KoinComponent {
 
     @Composable
     private fun AppIconItem(
-        app: WidgetAppUiModel,
+        app: WidgetAppUiModel?,
         widgetSettings: WidgetSettingsUiModel,
         onAppClick: (Intent) -> Action
     ) {
+        app ?: return
+
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = GlanceModifier

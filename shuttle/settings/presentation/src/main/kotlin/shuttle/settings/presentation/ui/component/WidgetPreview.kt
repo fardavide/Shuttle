@@ -30,6 +30,7 @@ import shuttle.settings.domain.model.Sp
 import shuttle.settings.domain.model.WidgetSettings
 import shuttle.settings.presentation.model.WidgetPreviewAppUiModel
 import shuttle.settings.presentation.model.WidgetSettingsUiModel
+import shuttle.utils.kotlin.takeOrFillWithNulls
 import studio.forface.shuttle.design.R
 
 @Composable
@@ -39,7 +40,7 @@ fun WidgetPreview(
 ) {
     val rows = widgetSettings.rowsCount
     val columns = widgetSettings.columnsCount
-    val apps = previewApps.take(rows * columns).reversed()
+    val apps = previewApps.takeOrFillWithNulls(rows * columns).reversed()
     var index = 0
 
     Column(
@@ -66,9 +67,11 @@ fun WidgetPreview(
 
 @Composable
 private fun AppIconItem(
-    app: WidgetPreviewAppUiModel,
+    app: WidgetPreviewAppUiModel?,
     widgetSettings: WidgetSettingsUiModel
 ) {
+    app ?: return
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.padding(

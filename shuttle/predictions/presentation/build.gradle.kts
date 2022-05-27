@@ -12,7 +12,10 @@ moduleDependencies {
     predictions.domain()
     settings.domain()
     stats.domain()
-    utils.android()
+    utils {
+        android()
+        kotlin()
+    }
 }
 
 dependencies {
