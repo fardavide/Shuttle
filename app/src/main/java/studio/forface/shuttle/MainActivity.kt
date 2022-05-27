@@ -18,11 +18,11 @@ import shuttle.design.theme.ShuttleTheme
 import shuttle.permissions.presentation.ui.PermissionsPage
 import shuttle.predictions.presentation.ui.SuggestedAppsListPage
 import shuttle.settings.presentation.WidgetLayout
-import shuttle.settings.presentation.ui.BlacklistSettingsPage
-import shuttle.settings.presentation.ui.IconPackSettingsPage
-import shuttle.settings.presentation.ui.SettingsPage
-import shuttle.settings.presentation.ui.WidgetLayoutPage
 import shuttle.settings.presentation.ui.page.AboutPage
+import shuttle.settings.presentation.ui.page.BlacklistSettingsPage
+import shuttle.settings.presentation.ui.page.IconPackSettingsPage
+import shuttle.settings.presentation.ui.page.SettingsPage
+import shuttle.settings.presentation.ui.page.WidgetLayoutPage
 
 class MainActivity : ComponentActivity() {
 

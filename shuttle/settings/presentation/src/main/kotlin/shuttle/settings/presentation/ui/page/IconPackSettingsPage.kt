@@ -1,9 +1,10 @@
 @file:Suppress("UnnecessaryVariable")
 
-package shuttle.settings.presentation.ui
+package shuttle.settings.presentation.ui.page
 
 import android.graphics.drawable.Drawable
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -48,8 +49,10 @@ fun IconPackSettingsPage(onBack: () -> Unit) {
         SmallTopAppBar(
             title = { Text(stringResource(id = R.string.settings_icon_pack_title)) },
             navigationIcon = { BackIconButton(onBack) })
-    }) {
-        IconPacksSettingsContent()
+    }) { paddingValues ->
+        Box(modifier = Modifier.padding(paddingValues)) {
+            IconPacksSettingsContent()
+        }
     }
 }
 
