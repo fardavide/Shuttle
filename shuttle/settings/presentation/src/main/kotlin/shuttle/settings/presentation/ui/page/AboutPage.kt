@@ -15,21 +15,24 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import arrow.core.Either
-import kotlinx.coroutines.launch
+import org.koin.androidx.compose.viewModel
 import shuttle.design.theme.Dimens
 import shuttle.design.theme.ShuttleTheme
 import shuttle.design.ui.BackIconButton
+import shuttle.design.util.ConsumableLaunchedEffect
+import shuttle.design.util.collectAsStateLifecycleAware
+import shuttle.payments.domain.model.PaymentError
 import shuttle.payments.domain.model.Product
-import shuttle.payments.domain.model.PurchaseError
 import shuttle.payments.domain.model.PurchaseSuccess
-import shuttle.payments.presentation.launchPurchaseFlow
+import shuttle.settings.presentation.viewmodel.AboutViewModel
+import shuttle.settings.presentation.viewmodel.AboutViewModel.Action
+import shuttle.settings.presentation.viewmodel.AboutViewModel.State
 import studio.forface.shuttle.design.R.string
 
 @Composable
@@ -37,8 +40,8 @@ import studio.forface.shuttle.design.R.string
 fun AboutPage(onBack: () -> Unit) {
 
     val activity = LocalContext.current as Activity
-    val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
+    val viewModel: AboutViewModel by viewModel()
     val uriHandler = LocalUriHandler.current
 
     val actionsStrings = ActionsStrings()
@@ -48,9 +51,15 @@ fun AboutPage(onBack: () -> Unit) {
         toGitHubIssues = { uriHandler.openUri(actionsStrings.gitHubIssuesUrl) },
         toGitHubDev = { uriHandler.openUri(actionsStrings.gitHubDevUrl) },
         toTwitterDev = { uriHandler.openUri(actionsStrings.twitterDevUrl) },
-        buyCoffee = { scope.launch { launchPurchaseFlow(activity, Product.Small).handle(snackbarHostState) } },
-        buyMakeup = { scope.launch { launchPurchaseFlow(activity, Product.Large).handle(snackbarHostState) } }
+        buyCoffee = { viewModel.submit(Action.LaunchPurchase(activity, Product.Small)) },
+        buyMakeup = { viewModel.submit(Action.LaunchPurchase(activity, Product.Large)) }
     )
+    val state = viewModel.state.collectAsStateLifecycleAware()
+    when (val s = state.value) {
+        is State.Data -> ConsumableLaunchedEffect(effect = s.purchaseResult) { result ->
+            result.handle(snackbarHostState)
+        }
+    }
 
     Scaffold(
         topBar = {
@@ -65,7 +74,7 @@ fun AboutPage(onBack: () -> Unit) {
     }
 }
 
-private suspend fun Either<PurchaseError, PurchaseSuccess>.handle(snackbarHostState: SnackbarHostState) {
+private suspend fun Either<PaymentError, PurchaseSuccess>.handle(snackbarHostState: SnackbarHostState) {
     with(snackbarHostState) {
         tapLeft { showSnackbarIfNone("$it") }
     }

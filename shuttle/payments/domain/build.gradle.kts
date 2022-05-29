@@ -1,5 +1,5 @@
 plugins {
-    id("shuttle.kotlin")
+    id("shuttle.android")
 }
 
 moduleDependencies {
@@ -13,6 +13,7 @@ dependencies {
 
     implementation(libs.bundles.base)
 
+    implementation(libs.android.billing)
     implementation(libs.klock)
     implementation(libs.koin.core)
 

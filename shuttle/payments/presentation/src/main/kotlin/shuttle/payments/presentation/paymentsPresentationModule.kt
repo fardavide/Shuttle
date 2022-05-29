@@ -1,9 +1,9 @@
 package shuttle.payments.presentation
 
 import org.koin.dsl.module
-import shuttle.payments.presentation.mapper.QueryProductDetailsParamsMapper
+import shuttle.payments.presentation.util.LaunchPurchaseFlow
 
 val paymentsPresentationModule = module {
 
-    factory { QueryProductDetailsParamsMapper() }
+    factory { LaunchPurchaseFlow(billingClient = get(), getProductDetails = get()) }
 }
