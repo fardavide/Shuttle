@@ -6,6 +6,7 @@ import shuttle.settings.presentation.mapper.AppBlacklistSettingUiModelMapper
 import shuttle.settings.presentation.mapper.IconPackSettingsUiModelMapper
 import shuttle.settings.presentation.mapper.WidgetPreviewAppUiModelMapper
 import shuttle.settings.presentation.mapper.WidgetSettingsUiModelMapper
+import shuttle.settings.presentation.viewmodel.AboutViewModel
 import shuttle.settings.presentation.viewmodel.BlacklistSettingsViewModel
 import shuttle.settings.presentation.viewmodel.IconPacksSettingsViewModel
 import shuttle.settings.presentation.viewmodel.SettingsViewModel
@@ -13,6 +14,9 @@ import shuttle.settings.presentation.viewmodel.WidgetLayoutViewModel
 
 val settingsPresentationModule = module {
 
+    viewModel {
+        AboutViewModel(launchPurchaseFlow = get())
+    }
     viewModel {
         BlacklistSettingsViewModel(
             appUiModelMapper = get(),
