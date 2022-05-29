@@ -23,6 +23,7 @@ moduleDependencies {
     payments {
         data()
         domain()
+        presentation()
     }
     permissions {
         domain()

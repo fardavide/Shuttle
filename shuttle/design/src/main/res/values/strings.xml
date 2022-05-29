@@ -68,8 +68,8 @@
     <string name="settings_about_github_dev_link" translatable="false">https://github.com/4face-studi0</string>
     <string name="settings_about_twitter_dev_title">Follow me on Twitter</string>
     <string name="settings_about_twitter_dev_link" translatable="false">https://twitter.com/4face91</string>
-    <string name="settings_about_coffee_title">Buy me a ☕️ ( 0.99€ )</string>
-    <string name="settings_about_makeup_title">Buy my wife some 💄️ so she won\'t get angry when I work late ( 4.99€ )</string>
+    <string name="settings_about_coffee_title">Buy me a ☕️</string>
+    <string name="settings_about_makeup_title">Buy my wife some 💄️ so she won\'t get angry when I work late</string>
 
     <string name="settings_blacklist_title">Blacklist</string>
     <string name="settings_blacklist_description">Selected apps won\'t be proposed as suggestions</string>

@@ -28,7 +28,7 @@ private fun Project.setupDetekt() {
     subprojects {
         tasks.withType<Detekt> {
 
-            allRules = true
+            allRules = false
             basePath = rootDir.path
             config.setFrom("${rootDir.path}/detekt/config.yml")
             reports.sarif.required.set(true)

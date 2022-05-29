@@ -10,6 +10,10 @@ moduleDependencies {
     apps.domain()
     design()
     icons.domain()
+    payments {
+        domain()
+        presentation()
+    }
     permissions.domain()
     settings.domain()
     test.compose()

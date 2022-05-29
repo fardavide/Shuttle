@@ -4,6 +4,7 @@ plugins {
 
 moduleDependencies {
 
+    payments.domain()
     utils {
         android()
         kotlin()
