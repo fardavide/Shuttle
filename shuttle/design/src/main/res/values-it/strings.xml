@@ -10,8 +10,8 @@
     <string name="settings_about_github_issues_title">Apri un issue to GitHub per richieste o 🐛</string>
     <string name="settings_about_github_dev_title">Seguimi su GitHub</string>
     <string name="settings_about_twitter_dev_title">Seguimi su Twitter</string>
-    <string name="settings_about_coffee_title">Offimi un ☕️ ( 0.99€ )</string>
-    <string name="settings_about_makeup_title">Compra qualche 💄️ per mia moglie, almeno non si arrabbia quando lavoro fino a tardi ( 4.99€ )</string>
+    <string name="settings_about_coffee_title">Offimi un ☕️</string>
+    <string name="settings_about_makeup_title">Compra qualche 💄️ per mia moglie, almeno non si arrabbia quando lavoro fino a tardi</string>
     <string name="launch_counter_service_description">Questo servizio conterà quante volte un app è stata avviata sul dispositivo</string>
     <string name="launch_counter_service_label">Servizio per contari gli avvii delle app</string>
     <string name="permissions_accessibility_action">Abilita il servizio di accessbilità</string>

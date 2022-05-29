@@ -1,5 +1,6 @@
 package shuttle.settings.presentation.ui.page
 
+import android.app.Activity
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
@@ -16,36 +17,39 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import arrow.core.Either
 import kotlinx.coroutines.launch
 import shuttle.design.theme.Dimens
 import shuttle.design.theme.ShuttleTheme
 import shuttle.design.ui.BackIconButton
+import shuttle.payments.domain.model.Product
+import shuttle.payments.domain.model.PurchaseError
+import shuttle.payments.domain.model.PurchaseSuccess
+import shuttle.payments.presentation.launchPurchaseFlow
 import studio.forface.shuttle.design.R.string
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun AboutPage(onBack: () -> Unit) {
 
+    val activity = LocalContext.current as Activity
     val scope = rememberCoroutineScope()
-    val uriHandler = LocalUriHandler.current
     val snackbarHostState = remember { SnackbarHostState() }
+    val uriHandler = LocalUriHandler.current
 
-    val ghProjectUrl = stringResource(id = string.settings_about_github_project_link)
-    val ghIssuesUrl = stringResource(id = string.settings_about_github_issues_link)
-    val ghDevUrl = stringResource(id = string.settings_about_github_dev_link)
-    val twitterDevUrl = stringResource(id = string.settings_about_twitter_dev_link)
-    val comingSoonString = stringResource(id = string.x_coming_soon)
+    val actionsStrings = ActionsStrings()
 
     val actions = Actions(
-        toGitHubProject = { uriHandler.openUri(ghProjectUrl) },
-        toGitHubIssues = { uriHandler.openUri(ghIssuesUrl) },
-        toGitHubDev = { uriHandler.openUri(ghDevUrl) },
-        toTwitterDev = { uriHandler.openUri(twitterDevUrl) },
-        buyCoffee = { scope.launch { snackbarHostState.showSnackbarIfNone(comingSoonString) } },
-        buyMakeup = { scope.launch { snackbarHostState.showSnackbarIfNone(comingSoonString) } }
+        toGitHubProject = { uriHandler.openUri(actionsStrings.gitHubProjectUrl) },
+        toGitHubIssues = { uriHandler.openUri(actionsStrings.gitHubIssuesUrl) },
+        toGitHubDev = { uriHandler.openUri(actionsStrings.gitHubDevUrl) },
+        toTwitterDev = { uriHandler.openUri(actionsStrings.twitterDevUrl) },
+        buyCoffee = { scope.launch { launchPurchaseFlow(activity, Product.Small).handle(snackbarHostState) } },
+        buyMakeup = { scope.launch { launchPurchaseFlow(activity, Product.Large).handle(snackbarHostState) } }
     )
 
     Scaffold(
@@ -58,6 +62,12 @@ fun AboutPage(onBack: () -> Unit) {
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
     ) { paddingValues ->
         AboutContent(actions, modifier = Modifier.padding(paddingValues))
+    }
+}
+
+private suspend fun Either<PurchaseError, PurchaseSuccess>.handle(snackbarHostState: SnackbarHostState) {
+    with(snackbarHostState) {
+        tapLeft { showSnackbarIfNone("$it") }
     }
 }
 
@@ -130,3 +140,22 @@ private class Actions(
     val buyCoffee: () -> Unit,
     val buyMakeup: () -> Unit
 )
+
+private class ActionsStrings(
+    val gitHubProjectUrl: String,
+    val gitHubIssuesUrl: String,
+    val gitHubDevUrl: String,
+    val twitterDevUrl: String
+) {
+
+    companion object {
+
+        @Composable
+        operator fun invoke() = ActionsStrings(
+            gitHubProjectUrl = stringResource(id = string.settings_about_github_project_link),
+            gitHubIssuesUrl = stringResource(id = string.settings_about_github_issues_link),
+            gitHubDevUrl = stringResource(id = string.settings_about_github_dev_link),
+            twitterDevUrl = stringResource(id = string.settings_about_twitter_dev_link)
+        )
+    }
+}
