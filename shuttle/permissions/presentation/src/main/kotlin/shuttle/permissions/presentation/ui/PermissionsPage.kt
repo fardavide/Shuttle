@@ -91,9 +91,9 @@ private fun PermissionsPageContent(
 
     Scaffold(
         topBar = { SmallTopAppBar(title = { Text(text = stringResource(id = R.string.permissions_title)) }) }
-    ) {
+    ) { paddingValues ->
         val scrollState = rememberScrollState()
-        Column(modifier = Modifier.verticalScroll(scrollState)) {
+        Column(modifier = Modifier.padding(paddingValues).verticalScroll(scrollState)) {
             PermissionsList(
                 permissions = permissions,
                 onRequestLocation = onRequestLocation,
