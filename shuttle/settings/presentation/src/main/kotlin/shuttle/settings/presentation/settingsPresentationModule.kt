@@ -15,7 +15,7 @@ import shuttle.settings.presentation.viewmodel.WidgetLayoutViewModel
 val settingsPresentationModule = module {
 
     viewModel {
-        AboutViewModel(launchPurchaseFlow = get())
+        AboutViewModel(getProductPrice = get(), launchPurchaseFlow = get(), logger = get())
     }
     viewModel {
         BlacklistSettingsViewModel(

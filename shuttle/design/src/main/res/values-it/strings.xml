@@ -1,17 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="x_coming_soon">Presto disponibile!</string>
-    <string name="settings_about_dev_info_title">Circa lo sviluppatore</string>
-    <string name="settings_about_dev_info_description">Sono Davide, un passionato sviluppatore Android e freelance dall\'Italia. Adoro programmare, i videogiochi, la palestra e mia moglie</string>
-    <string name="settings_about_app_info_title">Cirla l\'app</string>
-    <string name="settings_about_app_info_description">Quest\'app è nata da un singolo sviluppatore durante il tempo libero.\nL\'app è create in Kotlin usange Jetpack Compose, Glance Widget, SqlDelight e qualche altra libraria da magnifici sviluppatori.\nQuest\'app sarà sempre gratuita, oper source e senza pubblicità. Se apprezzi il mio lavoro, sentiti libero di supportarmi attraverso i canali elencati qui sotto.</string>
-    <string name="settings_about_github_project_title">⭐️ il progetto su GitHub</string>
-    <string name="settings_about_github_issues_title">Apri un issue to GitHub per richieste o 🐛</string>
-    <string name="settings_about_github_dev_title">Seguimi su GitHub</string>
-    <string name="settings_about_twitter_dev_title">Seguimi su Twitter</string>
-    <string name="settings_about_coffee_title">Offimi un ☕️</string>
-    <string name="settings_about_makeup_title">Compra qualche 💄️ per mia moglie, almeno non si arrabbia quando lavoro fino a tardi</string>
     <string name="launch_counter_service_description">Questo servizio conterà quante volte un app è stata avviata sul dispositivo</string>
     <string name="launch_counter_service_label">Servizio per contari gli avvii delle app</string>
     <string name="permissions_accessibility_action">Abilita il servizio di accessbilità</string>
@@ -38,8 +27,18 @@
     <string name="permissions_skip_permissions_action">Ignora permessi</string>
     <string name="permissions_title">Permessi</string>
     <string name="predictions_location_not_available">La locazione non è momentaneamente disponibile</string>
-    <string name="settings_about_title">Circa l\'app</string>
+    <string name="settings_about_app_info_description">Quest\'app è nata da un singolo sviluppatore durante il tempo libero.\nL\'app è create in Kotlin usange Jetpack Compose, Glance Widget, SqlDelight e qualche altra libraria da magnifici sviluppatori.\nQuest\'app sarà sempre gratuita, oper source e senza pubblicità. Se apprezzi il mio lavoro, sentiti libero di supportarmi attraverso i canali elencati qui sotto.</string>
+    <string name="settings_about_app_info_title">Cirla l\'app</string>
+    <string name="settings_about_coffee_title">Offimi un ☕️ ( %s )</string>
     <string name="settings_about_description">Informazioni circa quest\'app e lo sviluppatore</string>
+    <string name="settings_about_dev_info_description">Sono Davide, un passionato sviluppatore Android e freelance dall\'Italia. Adoro programmare, i videogiochi, la palestra e mia moglie</string>
+    <string name="settings_about_dev_info_title">Circa lo sviluppatore</string>
+    <string name="settings_about_github_dev_title">Seguimi su GitHub</string>
+    <string name="settings_about_github_issues_title">Apri un issue to GitHub per richieste o 🐛</string>
+    <string name="settings_about_github_project_title">⭐️ il progetto su GitHub</string>
+    <string name="settings_about_makeup_title">Compra qualche 💄️ per mia moglie, almeno non si arrabbia quando lavoro fino a tardi ( %s )</string>
+    <string name="settings_about_title">Circa l\'app</string>
+    <string name="settings_about_twitter_dev_title">Seguimi su Twitter</string>
     <string name="settings_blacklist_description">Le app selezionate non verranno proposte come suggerimenti</string>
     <string name="settings_blacklist_search">Cerca</string>
     <string name="settings_blacklist_title">Blacklist</string>
@@ -75,5 +74,7 @@
     <string name="settings_widget_layout_vertical_spacing">Spazio verticale tra le icone</string>
     <string name="x_app_icon_description">Icona app</string>
     <string name="x_back_button_description">Bottone indietro</string>
+    <string name="x_coming_soon">Presto disponibile!</string>
+    <string name="x_generic_error">Qualcosa è andato storto!</string>
 
 </resources>

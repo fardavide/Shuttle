@@ -25,7 +25,10 @@ import org.koin.androidx.compose.viewModel
 import shuttle.design.theme.Dimens
 import shuttle.design.theme.ShuttleTheme
 import shuttle.design.ui.BackIconButton
+import shuttle.design.ui.LoadingSpinner
+import shuttle.design.ui.TextError
 import shuttle.design.util.ConsumableLaunchedEffect
+import shuttle.design.util.Effect
 import shuttle.design.util.collectAsStateLifecycleAware
 import shuttle.payments.domain.model.PaymentError
 import shuttle.payments.domain.model.Product
@@ -55,11 +58,6 @@ fun AboutPage(onBack: () -> Unit) {
         buyMakeup = { viewModel.submit(Action.LaunchPurchase(activity, Product.Large)) }
     )
     val state = viewModel.state.collectAsStateLifecycleAware()
-    when (val s = state.value) {
-        is State.Data -> ConsumableLaunchedEffect(effect = s.purchaseResult) { result ->
-            result.handle(snackbarHostState)
-        }
-    }
 
     Scaffold(
         topBar = {
@@ -70,7 +68,16 @@ fun AboutPage(onBack: () -> Unit) {
         },
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
     ) { paddingValues ->
-        AboutContent(actions, modifier = Modifier.padding(paddingValues))
+        when (val s = state.value) {
+            is State.Data ->  AboutContent(
+                modifier = Modifier.padding(paddingValues),
+                state = s,
+                actions = actions,
+                snackbarHostState = snackbarHostState
+            )
+            State.Loading -> LoadingSpinner()
+            State.Error -> TextError(text = stringResource(id = string.x_generic_error))
+        }
     }
 }
 
@@ -85,7 +92,16 @@ private suspend fun SnackbarHostState.showSnackbarIfNone(message: String) {
 }
 
 @Composable
-private fun AboutContent(actions: Actions, modifier: Modifier) {
+private fun AboutContent(
+    modifier: Modifier,
+    state: State.Data,
+    actions: Actions,
+    snackbarHostState: SnackbarHostState
+) {
+    ConsumableLaunchedEffect(effect = state.purchaseResult) { result ->
+        result.handle(snackbarHostState)
+    }
+
     LazyColumn(modifier = modifier, contentPadding = PaddingValues(Dimens.Margin.Medium)) {
         item { TitleText(textRes = string.settings_about_dev_info_title) }
         item { DescriptionText(textRes = string.settings_about_dev_info_description) }
@@ -95,8 +111,18 @@ private fun AboutContent(actions: Actions, modifier: Modifier) {
         item { ClickableItem(textRes = string.settings_about_github_issues_title, actions.toGitHubIssues) }
         item { ClickableItem(textRes = string.settings_about_github_dev_title, actions.toGitHubDev) }
         item { ClickableItem(textRes = string.settings_about_twitter_dev_title, actions.toTwitterDev) }
-        item { ClickableItem(textRes = string.settings_about_coffee_title, actions.buyCoffee) }
-        item { ClickableItem(textRes = string.settings_about_makeup_title, actions.buyMakeup) }
+        item {
+            ClickableItem(
+                text = stringResource(id = string.settings_about_coffee_title, state.smallProductFormattedPrice),
+                onClick = actions.buyCoffee
+            )
+        }
+        item {
+            ClickableItem(
+                text = stringResource(id = string.settings_about_makeup_title, state.largeProductFormattedPrice),
+                onClick = actions.buyMakeup
+            )
+        }
     }
 }
 
@@ -120,14 +146,24 @@ private fun DescriptionText(@StringRes textRes: Int) {
 
 @Composable
 private fun ClickableItem(@StringRes textRes: Int, onClick: () -> Unit) {
+    ClickableItem(text = stringResource(id = textRes), onClick = onClick)
+}
+
+@Composable
+private fun ClickableItem(text: String, onClick: () -> Unit) {
     ElevatedButton(modifier = Modifier.padding(bottom = Dimens.Margin.Small), onClick = onClick) {
-        Text(text = stringResource(id = textRes))
+        Text(text = text)
     }
 }
 
 @Composable
 @Preview(showSystemUi = true)
 private fun AboutContentPreview() {
+    val state = State.Data(
+        smallProductFormattedPrice = "1.19 $",
+        largeProductFormattedPrice = "5.49 $",
+        purchaseResult = Effect.empty()
+    )
     val actions = Actions(
         toGitHubProject = {},
         toGitHubIssues = {},
@@ -137,7 +173,12 @@ private fun AboutContentPreview() {
         buyMakeup = {},
     )
     ShuttleTheme {
-        AboutContent(actions, Modifier)
+        AboutContent(
+            modifier = Modifier,
+            state = state,
+            actions = actions,
+            snackbarHostState = SnackbarHostState()
+        )
     }
 }
 
