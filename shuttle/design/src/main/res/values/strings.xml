@@ -14,6 +14,13 @@
     <string name="launch_counter_service_description">This service will count how many time an app has been launched on the device</string>
     <!-- endregion -->
 
+    <!-- region Onboarding -->
+    <string name="onboarding_main_title">Welcome to Shuttle!</string>
+    <string name="onboarding_main_description">Please follow a quick introduction to the app</string>
+
+    <string name="onboarding_action_complete">Complete</string>
+    <!-- endregion -->
+
     <!-- region Permissions -->
     <string name="permissions_title">Permissions</string>
     <string name="permissions_skip_permissions_action">Skip permissions</string>
