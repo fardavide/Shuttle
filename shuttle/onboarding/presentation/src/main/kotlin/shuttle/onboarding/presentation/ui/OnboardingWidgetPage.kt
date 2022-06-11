@@ -13,22 +13,22 @@ import shuttle.design.model.WidgetPreviewUiModel
 import shuttle.design.theme.ShuttleTheme
 import shuttle.design.ui.LoadingSpinner
 import shuttle.design.ui.WidgetPreview
-import shuttle.onboarding.presentation.model.OnboardingState
+import shuttle.onboarding.presentation.model.OnboardingWidgetPreviewState
 import shuttle.onboarding.presentation.viewmodel.OnboardingViewModel
 import studio.forface.shuttle.design.R.string
 
 @Composable
 internal fun OnboardingWidgetPage(
-    onboardingState: OnboardingState,
+    state: OnboardingWidgetPreviewState,
     actions: OnboardingWidgetPage.Actions
 ) {
-    OnboardingContent(
+    OnboardingPageContent(
         title = string.onboarding_widget_title,
         image = {
-            when (onboardingState) {
-                OnboardingState.Loading -> LoadingSpinner()
-                is OnboardingState.Data -> WidgetPreview(
-                    model = onboardingState.widgetPreview
+            when (state) {
+                OnboardingWidgetPreviewState.Loading -> LoadingSpinner()
+                is OnboardingWidgetPreviewState.Data -> WidgetPreview(
+                    model = state.widgetPreview
                 )
             }
         },
@@ -61,7 +61,7 @@ private fun OnboardingWidgetPagePreview() {
         .createBitmap(1, 1, Bitmap.Config.ARGB_8888)
         .toDrawable(LocalContext.current.resources)
 
-    val state = OnboardingState.Data(
+    val state = OnboardingWidgetPreviewState.Data(
         widgetPreview = WidgetPreviewUiModel(
             layout = OnboardingViewModel.WidgetLayout,
             apps = listOf(
@@ -74,6 +74,6 @@ private fun OnboardingWidgetPagePreview() {
     )
     val actions = OnboardingWidgetPage.Actions(onPreviousPage = {}, onNextPage = {})
     ShuttleTheme {
-        OnboardingWidgetPage(onboardingState = state, actions = actions)
+        OnboardingWidgetPage(state = state, actions = actions)
     }
 }

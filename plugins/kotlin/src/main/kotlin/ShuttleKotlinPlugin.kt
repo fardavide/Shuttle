@@ -12,6 +12,8 @@ abstract class ShuttleKotlinPlugin : Plugin<Project> {
 }
 
 private fun Project.setupKotlinPlugin() {
+    apply(plugin = "com.google.devtools.ksp")
+
     if (hasKotlinAndroidPlugin().not()) {
         apply(plugin = "org.jetbrains.kotlin.jvm")
     }
@@ -23,6 +25,8 @@ private fun Project.setupKotlinPlugin() {
                 "-opt-in=kotlin.RequiresOptIn"
             )
         }
+        setSource("build/generated/ksp/main/kotlin")
+        setSource("build/generated/ksp/test/kotlin")
     }
 }
 

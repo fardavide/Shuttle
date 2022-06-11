@@ -19,6 +19,8 @@ moduleDependencies {
 
 dependencies {
 
+    ksp(libs.ksp.arrow)
+
     implementation(libs.bundles.base)
     implementation(libs.bundles.compose)
 

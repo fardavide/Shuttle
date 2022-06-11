@@ -8,6 +8,8 @@ import shuttle.settings.domain.model.WidgetSettings
 
 interface SettingsRepository {
 
+    suspend fun didShowOnboarding(): Boolean
+
     suspend fun hasEnabledAccessibilityService(): Boolean
 
     suspend fun isBlacklisted(appId: AppId): Boolean
@@ -25,6 +27,8 @@ interface SettingsRepository {
     suspend fun setCurrentIconPack(id: Option<AppId>)
 
     suspend fun setHasEnabledAccessibilityService()
+
+    suspend fun setOnboardingShow()
 
     suspend fun updatePrioritizeLocation(prioritizeLocation: Boolean)
 

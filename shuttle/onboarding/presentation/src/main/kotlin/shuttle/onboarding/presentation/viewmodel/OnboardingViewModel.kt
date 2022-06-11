@@ -7,46 +7,69 @@ import arrow.core.Either
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import shuttle.apps.domain.usecase.ObserveAllInstalledApps
 import shuttle.design.model.WidgetLayoutUiModel
 import shuttle.design.model.WidgetPreviewAppUiModel
 import shuttle.design.model.WidgetPreviewUiModel
 import shuttle.icons.domain.error.GetSystemIconError
+import shuttle.onboarding.domain.usecase.DidShowOnboarding
+import shuttle.onboarding.domain.usecase.SetOnboardingShown
 import shuttle.onboarding.presentation.mapper.WidgetPreviewAppUiModelMapper
 import shuttle.onboarding.presentation.model.OnboardingState
+import shuttle.onboarding.presentation.model.OnboardingWidgetPreviewState
 import shuttle.util.android.viewmodel.ShuttleViewModel
 
 internal class OnboardingViewModel(
+    didShowOnboarding: DidShowOnboarding,
     observeAllInstalledApps: ObserveAllInstalledApps,
+    private val setOnboardingShown: SetOnboardingShown,
     private val widgetPreviewAppUiModelMapper: WidgetPreviewAppUiModelMapper
 ) : ShuttleViewModel<OnboardingViewModel.Action, OnboardingState>(
     initialState = OnboardingState.Loading
 ) {
 
     init {
-        observeAllInstalledApps().map { installedApps ->
-            OnboardingState.Data(
-                widgetPreview = WidgetPreviewUiModel(
-                    apps = widgetPreviewAppUiModelMapper
-                        .toUiModels(installedApps)
-                        .filterRight()
-                        .shuffled(),
-                    layout = WidgetLayout
-                )
-            )
+        viewModelScope.launch {
+            if (didShowOnboarding()) {
+                emit(OnboardingState.OnboardingAlreadyShown)
+            } else {
+                emit(OnboardingState.ShowOnboarding(OnboardingWidgetPreviewState.Loading))
+                observeAllInstalledApps().map { installedApps ->
+                    val widgetState = OnboardingWidgetPreviewState.Data(
+                        widgetPreview = WidgetPreviewUiModel(
+                            apps = widgetPreviewAppUiModelMapper
+                                .toUiModels(installedApps)
+                                .filterRight()
+                                .shuffled(),
+                            layout = WidgetLayout
+                        )
+                    )
+                    OnboardingState.ShowOnboarding(widgetState)
+                }.onEach(::emit).launchIn(this)
+            }
         }
-            .onEach(::emit)
-            .launchIn(viewModelScope)
     }
 
     override fun submit(action: Action) {
+        viewModelScope.launch {
+            when (action) {
+                Action.SetOnboardingShown -> onSetOnboardingShown()
+            }
+        }
+    }
 
+    private suspend fun onSetOnboardingShown() {
+        setOnboardingShown()
     }
 
     private fun List<Either<GetSystemIconError, WidgetPreviewAppUiModel>>.filterRight(): List<WidgetPreviewAppUiModel> =
         mapNotNull { it.orNull() }
 
-    object Action
+    sealed interface Action {
+
+        object SetOnboardingShown : Action
+    }
 
     companion object {
 

@@ -16,7 +16,7 @@ import studio.forface.shuttle.design.R.string
 
 @Composable
 internal fun OnboardingMainPage(actions: OnboardingMainPage.Actions) {
-    OnboardingContent(
+    OnboardingPageContent(
         title = string.onboarding_main_title,
         image = {
             Image(

@@ -9,5 +9,12 @@ val onboardingPresentationModule = module {
 
     factory { WidgetPreviewAppUiModelMapper(getIconDrawableForApp = get()) }
 
-    viewModel { OnboardingViewModel(observeAllInstalledApps = get(), widgetPreviewAppUiModelMapper = get()) }
+    viewModel {
+        OnboardingViewModel(
+            didShowOnboarding = get(),
+            observeAllInstalledApps = get(),
+            setOnboardingShown = get(),
+            widgetPreviewAppUiModelMapper = get()
+        )
+    }
 }

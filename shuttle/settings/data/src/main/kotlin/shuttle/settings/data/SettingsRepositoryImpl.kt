@@ -14,6 +14,7 @@ import shuttle.apps.domain.model.AppName
 import shuttle.database.datasource.SettingDataSource
 import shuttle.database.model.DatabaseAppId
 import shuttle.settings.data.model.CurrentIconPackPreferenceKey
+import shuttle.settings.data.model.DidShowOnboardingPreferenceKey
 import shuttle.settings.data.model.HasAccessibilityServicePreferenceKey
 import shuttle.settings.data.model.PrioritizeLocationPreferenceKey
 import shuttle.settings.data.model.WidgetSettingsPreferenceKeys
@@ -32,6 +33,11 @@ internal class SettingsRepositoryImpl(
     init {
         migratePreferences()
     }
+
+    override suspend fun didShowOnboarding(): Boolean =
+        dataStore.data.map {
+            it[DidShowOnboardingPreferenceKey] ?: false
+        }.first()
 
     override suspend fun hasEnabledAccessibilityService(): Boolean =
         dataStore.data.map {
@@ -93,6 +99,12 @@ internal class SettingsRepositoryImpl(
     override suspend fun setHasEnabledAccessibilityService() {
         dataStore.edit {
             it[HasAccessibilityServicePreferenceKey] = true
+        }
+    }
+
+    override suspend fun setOnboardingShow() {
+        dataStore.edit {
+            it[DidShowOnboardingPreferenceKey] = true
         }
     }
 

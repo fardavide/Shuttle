@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -26,15 +27,38 @@ import androidx.compose.ui.tooling.preview.Preview
 import org.koin.androidx.compose.viewModel
 import shuttle.design.theme.Dimens
 import shuttle.design.theme.ShuttleTheme
+import shuttle.design.ui.LoadingSpinner
 import shuttle.design.util.collectAsStateLifecycleAware
+import shuttle.onboarding.presentation.model.OnboardingState
+import shuttle.onboarding.presentation.model.OnboardingWidgetPreviewState
 import shuttle.onboarding.presentation.ui.OnboardingPage.Index
 import shuttle.onboarding.presentation.viewmodel.OnboardingViewModel
 
 @Composable
 fun OnboardingPage(actions: OnboardingPage.Actions) {
     val viewModel: OnboardingViewModel by viewModel()
-    val state by viewModel.state.collectAsStateLifecycleAware()
+    val stateWrapper = viewModel.state.collectAsStateLifecycleAware()
 
+    @Suppress("NAME_SHADOWING")
+    val actions = actions.copy(
+        onOnboardingComplete = {
+            viewModel.submit(OnboardingViewModel.Action.SetOnboardingShown)
+            actions.onOnboardingComplete()
+        }
+    )
+
+    when (val state = stateWrapper.value) {
+        OnboardingState.Loading -> LoadingSpinner()
+        OnboardingState.OnboardingAlreadyShown -> LaunchedEffect(key1 = 0) { actions.onOnboardingComplete() }
+        is OnboardingState.ShowOnboarding -> OnboardingContent(state = state.widgetPreview, actions)
+    }
+}
+
+@Composable
+private fun OnboardingContent(
+    state: OnboardingWidgetPreviewState,
+    actions: OnboardingPage.Actions
+) {
     var index by remember { mutableStateOf(Index.MAIN) }
     Crossfade(targetState = index) { indexState ->
 
@@ -45,7 +69,7 @@ fun OnboardingPage(actions: OnboardingPage.Actions) {
                 )
             )
             Index.WIDGET -> OnboardingWidgetPage(
-                onboardingState = state,
+                state = state,
                 actions = OnboardingWidgetPage.Actions(
                     onPreviousPage = { index = Index.MAIN },
                     onNextPage = actions.onOnboardingComplete
@@ -56,7 +80,7 @@ fun OnboardingPage(actions: OnboardingPage.Actions) {
 }
 
 @Composable
-internal fun OnboardingContent(
+internal fun OnboardingPageContent(
     @StringRes title: Int,
     image: @Composable () -> Unit,
     @StringRes description: Int,
