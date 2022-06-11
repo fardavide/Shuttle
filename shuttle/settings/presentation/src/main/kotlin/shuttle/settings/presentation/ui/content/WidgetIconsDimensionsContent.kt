@@ -2,14 +2,14 @@ package shuttle.settings.presentation.ui.content
 
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
+import shuttle.design.model.WidgetLayoutUiModel
 import shuttle.settings.domain.model.WidgetSettings
-import shuttle.settings.presentation.model.WidgetSettingsUiModel
 import shuttle.settings.presentation.ui.component.SliderItem
 import studio.forface.shuttle.design.R
 
 @Composable
 internal fun WidgetIconsDimensionsContent(
-    settings: WidgetSettingsUiModel,
+    settings: WidgetLayoutUiModel,
     onIconSizeUpdated: (Int) -> Unit,
     onHorizontalSpacingUpdated: (Int) -> Unit,
     onVerticalSpacingUpdated: (Int) -> Unit

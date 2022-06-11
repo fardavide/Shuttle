@@ -2,12 +2,12 @@ package shuttle.settings.presentation.mapper
 
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import shuttle.design.model.WidgetLayoutUiModel
 import shuttle.settings.domain.model.WidgetSettings
-import shuttle.settings.presentation.model.WidgetSettingsUiModel
 
 class WidgetSettingsUiModelMapper {
 
-    fun toUiModel(settings: WidgetSettings) = WidgetSettingsUiModel(
+    fun toUiModel(settings: WidgetSettings) = WidgetLayoutUiModel(
         rowsCount = settings.rowsCount,
         columnsCount = settings.columnsCount,
         iconSize = settings.iconsSize.value.dp,

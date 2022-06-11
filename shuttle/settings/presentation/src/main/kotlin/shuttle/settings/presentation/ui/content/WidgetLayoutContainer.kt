@@ -29,11 +29,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import shuttle.design.model.WidgetPreviewUiModel
 import shuttle.design.theme.Dimens
 import shuttle.design.ui.BackIconButton
 import shuttle.design.ui.BottomSheetScaffold
 import shuttle.design.ui.LoadingSpinner
-import shuttle.settings.presentation.ui.component.WidgetPreview
+import shuttle.design.ui.WidgetPreview
 import shuttle.settings.presentation.viewmodel.WidgetLayoutViewModel.State
 import studio.forface.shuttle.design.R.drawable
 import studio.forface.shuttle.design.R.string
@@ -99,8 +100,10 @@ private fun WidgetPreviewContent(state: State, height: androidx.compose.ui.unit.
         when (state) {
             State.Loading, is State.Error -> LoadingSpinner()
             is State.Data -> WidgetPreview(
-                previewApps = state.previewApps,
-                widgetSettings = state.widgetSettingsUiModel
+                WidgetPreviewUiModel(
+                    apps = state.previewApps,
+                    layout = state.Layout
+                )
             )
         }
     }

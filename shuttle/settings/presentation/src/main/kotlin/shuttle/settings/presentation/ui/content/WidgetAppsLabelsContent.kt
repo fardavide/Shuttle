@@ -2,15 +2,15 @@ package shuttle.settings.presentation.ui.content
 
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
+import shuttle.design.model.WidgetLayoutUiModel
 import shuttle.settings.domain.model.WidgetSettings
-import shuttle.settings.presentation.model.WidgetSettingsUiModel
 import shuttle.settings.presentation.ui.component.SliderItem
 import shuttle.settings.presentation.ui.component.SwitchItem
 import studio.forface.shuttle.design.R
 
 @Composable
 internal fun WidgetAppsLabelsContent(
-    settings: WidgetSettingsUiModel,
+    settings: WidgetLayoutUiModel,
     onTextSizeUpdated: (Int) -> Unit,
     onAllowTwoLinesUpdated: (Boolean) -> Unit
 ) {

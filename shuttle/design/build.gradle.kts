@@ -4,6 +4,12 @@ plugins {
 
 shuttleAndroid.useCompose()
 
+moduleDependencies {
+
+    test.compose()
+    utils.kotlin()
+}
+
 dependencies {
 
     implementation(libs.bundles.base)

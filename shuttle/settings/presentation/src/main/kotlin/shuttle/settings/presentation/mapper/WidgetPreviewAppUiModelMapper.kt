@@ -5,9 +5,9 @@ import arrow.core.Option
 import arrow.core.computations.either
 import shuttle.apps.domain.model.AppId
 import shuttle.apps.domain.model.AppModel
+import shuttle.design.model.WidgetPreviewAppUiModel
 import shuttle.icons.domain.error.GetSystemIconError
 import shuttle.icons.domain.usecase.GetIconDrawableForApp
-import shuttle.settings.presentation.model.WidgetPreviewAppUiModel
 
 class WidgetPreviewAppUiModelMapper(
     private val getIconDrawableForApp: GetIconDrawableForApp

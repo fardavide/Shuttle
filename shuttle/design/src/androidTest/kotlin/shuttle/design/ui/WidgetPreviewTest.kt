@@ -1,4 +1,4 @@
-package shuttle.settings.presentation.ui.component
+package shuttle.design.ui
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -7,8 +7,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.drawable.toDrawable
 import androidx.test.core.app.ApplicationProvider
-import shuttle.settings.presentation.model.WidgetPreviewAppUiModel
-import shuttle.settings.presentation.model.WidgetSettingsUiModel
+import shuttle.design.model.WidgetLayoutUiModel
+import shuttle.design.model.WidgetPreviewAppUiModel
+import shuttle.design.model.WidgetPreviewUiModel
 import shuttle.test.compose.ComposeTest
 import shuttle.test.compose.runComposeTest
 import kotlin.test.Test
@@ -30,9 +31,9 @@ internal class WidgetPreviewTest {
 
     private fun ComposeTest.setContentWithState(
         previewApps: List<WidgetPreviewAppUiModel>,
-        widgetSettings: WidgetSettingsUiModel
+        widgetSettings: WidgetLayoutUiModel
     ) {
-        setContent { WidgetPreview(previewApps, widgetSettings) }
+        setContent { WidgetPreview(WidgetPreviewUiModel(previewApps, widgetSettings)) }
     }
 
     private companion object TestData {
@@ -52,7 +53,7 @@ internal class WidgetPreviewTest {
         fun buildWidgetSettings(
             rowsCount: Int = 1,
             columnsCount: Int = 1
-        ) = WidgetSettingsUiModel(
+        ) = WidgetLayoutUiModel(
             rowsCount = rowsCount,
             columnsCount = columnsCount,
             iconSize = 1.dp,

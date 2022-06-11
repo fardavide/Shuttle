@@ -7,6 +7,8 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import shuttle.apps.domain.usecase.ObserveAllInstalledApps
+import shuttle.design.model.WidgetLayoutUiModel
+import shuttle.design.model.WidgetPreviewAppUiModel
 import shuttle.icons.domain.error.GetSystemIconError
 import shuttle.settings.domain.model.Dp
 import shuttle.settings.domain.model.Sp
@@ -16,8 +18,6 @@ import shuttle.settings.domain.usecase.ObserveWidgetSettings
 import shuttle.settings.domain.usecase.UpdateWidgetSettings
 import shuttle.settings.presentation.mapper.WidgetPreviewAppUiModelMapper
 import shuttle.settings.presentation.mapper.WidgetSettingsUiModelMapper
-import shuttle.settings.presentation.model.WidgetPreviewAppUiModel
-import shuttle.settings.presentation.model.WidgetSettingsUiModel
 import shuttle.settings.presentation.viewmodel.WidgetLayoutViewModel.Action
 import shuttle.settings.presentation.viewmodel.WidgetLayoutViewModel.State
 import shuttle.util.android.viewmodel.ShuttleViewModel
@@ -43,7 +43,7 @@ internal class WidgetLayoutViewModel(
                     .filterRight()
                     .shuffled(),
                 widgetSettingsDomainModel = widgetSettings,
-                widgetSettingsUiModel = widgetSettingsUiModelMapper.toUiModel(widgetSettings)
+                Layout = widgetSettingsUiModelMapper.toUiModel(widgetSettings)
             )
         }
             .onEach(::emit)
@@ -71,7 +71,7 @@ internal class WidgetLayoutViewModel(
         updateWidgetSettings(newSettings)
         return currentState.copy(
             widgetSettingsDomainModel = newSettings,
-            widgetSettingsUiModel = widgetSettingsUiModelMapper.toUiModel(newSettings)
+            Layout = widgetSettingsUiModelMapper.toUiModel(newSettings)
         )
     }
 
@@ -80,7 +80,7 @@ internal class WidgetLayoutViewModel(
         updateWidgetSettings(newSettings)
         return currentState.copy(
             widgetSettingsDomainModel = newSettings,
-            widgetSettingsUiModel = widgetSettingsUiModelMapper.toUiModel(newSettings)
+            Layout = widgetSettingsUiModelMapper.toUiModel(newSettings)
         )
     }
 
@@ -89,7 +89,7 @@ internal class WidgetLayoutViewModel(
         updateWidgetSettings(newSettings)
         return currentState.copy(
             widgetSettingsDomainModel = newSettings,
-            widgetSettingsUiModel = widgetSettingsUiModelMapper.toUiModel(newSettings)
+            Layout = widgetSettingsUiModelMapper.toUiModel(newSettings)
         )
     }
 
@@ -98,7 +98,7 @@ internal class WidgetLayoutViewModel(
         updateWidgetSettings(newSettings)
         return currentState.copy(
             widgetSettingsDomainModel = newSettings,
-            widgetSettingsUiModel = widgetSettingsUiModelMapper.toUiModel(newSettings)
+            Layout = widgetSettingsUiModelMapper.toUiModel(newSettings)
         )
     }
 
@@ -107,7 +107,7 @@ internal class WidgetLayoutViewModel(
         updateWidgetSettings(newSettings)
         return currentState.copy(
             widgetSettingsDomainModel = newSettings,
-            widgetSettingsUiModel = widgetSettingsUiModelMapper.toUiModel(newSettings)
+            Layout = widgetSettingsUiModelMapper.toUiModel(newSettings)
         )
     }
 
@@ -116,7 +116,7 @@ internal class WidgetLayoutViewModel(
         updateWidgetSettings(newSettings)
         return currentState.copy(
             widgetSettingsDomainModel = newSettings,
-            widgetSettingsUiModel = widgetSettingsUiModelMapper.toUiModel(newSettings)
+            Layout = widgetSettingsUiModelMapper.toUiModel(newSettings)
         )
     }
 
@@ -125,7 +125,7 @@ internal class WidgetLayoutViewModel(
         updateWidgetSettings(newSettings)
         return currentState.copy(
             widgetSettingsDomainModel = newSettings,
-            widgetSettingsUiModel = widgetSettingsUiModelMapper.toUiModel(newSettings)
+            Layout = widgetSettingsUiModelMapper.toUiModel(newSettings)
         )
     }
 
@@ -138,7 +138,7 @@ internal class WidgetLayoutViewModel(
         data class Data(
             val previewApps: List<WidgetPreviewAppUiModel>,
             val widgetSettingsDomainModel: WidgetSettings,
-            val widgetSettingsUiModel: WidgetSettingsUiModel
+            val Layout: WidgetLayoutUiModel
         ) : State
 
         data class Error(val message: String) : State

@@ -1,4 +1,4 @@
-package shuttle.settings.presentation.ui.component
+package shuttle.design.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -24,29 +24,26 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberImagePainter
 import shuttle.design.PreviewDimens
+import shuttle.design.model.WidgetLayoutUiModel
+import shuttle.design.model.WidgetPreviewAppUiModel
+import shuttle.design.model.WidgetPreviewUiModel
 import shuttle.design.theme.Dimens
-import shuttle.settings.domain.model.Dp
-import shuttle.settings.domain.model.Sp
-import shuttle.settings.domain.model.WidgetSettings
-import shuttle.settings.presentation.model.WidgetPreviewAppUiModel
-import shuttle.settings.presentation.model.WidgetSettingsUiModel
 import shuttle.utils.kotlin.takeOrFillWithNulls
 import studio.forface.shuttle.design.R
 
 @Composable
-fun WidgetPreview(
-    previewApps: List<WidgetPreviewAppUiModel>,
-    widgetSettings: WidgetSettingsUiModel
-) {
-    val rows = widgetSettings.rowsCount
-    val columns = widgetSettings.columnsCount
-    val apps = previewApps.takeOrFillWithNulls(rows * columns).reversed()
+fun WidgetPreview(model: WidgetPreviewUiModel) {
+    val layout = model.layout
+
+    val rows = layout.rowsCount
+    val columns = layout.columnsCount
+    val apps = model.apps.takeOrFillWithNulls(rows * columns).reversed()
     var index = 0
 
     Column(
         modifier = Modifier
             .wrapContentSize()
-            .padding(horizontal = widgetSettings.horizontalSpacing, vertical = widgetSettings.verticalSpacing)
+            .padding(horizontal = layout.horizontalSpacing, vertical = layout.verticalSpacing)
             .background(
                 color = MaterialTheme.colorScheme.surface.copy(alpha = 0.78f),
                 shape = RoundedCornerShape(Dimens.Margin.Large)
@@ -57,7 +54,7 @@ fun WidgetPreview(
                 repeat(columns) {
                     AppIconItem(
                         app = apps[index++],
-                        widgetSettings = widgetSettings
+                        widgetSettings = layout
                     )
                 }
             }
@@ -68,7 +65,7 @@ fun WidgetPreview(
 @Composable
 private fun AppIconItem(
     app: WidgetPreviewAppUiModel?,
-    widgetSettings: WidgetSettingsUiModel
+    widgetSettings: WidgetLayoutUiModel
 ) {
     app ?: return
 
@@ -104,19 +101,16 @@ private fun WidgetPreviewPreview() {
     val apps = listOf(
         WidgetPreviewAppUiModel("Shuttle", icon)
     )
-    val widgetSettings = WidgetSettingsUiModel(
-        rowsCount = WidgetSettings.Default.rowsCount,
-        columnsCount = WidgetSettings.Default.columnsCount,
-        iconSize = WidgetSettings.Default.iconsSize.dp,
-        horizontalSpacing = WidgetSettings.Default.horizontalSpacing.dp,
-        verticalSpacing = WidgetSettings.Default.verticalSpacing.dp,
-        textSize = WidgetSettings.Default.textSize.sp,
-        allowTwoLines = WidgetSettings.Default.allowTwoLines
+    val widgetSettings = WidgetLayoutUiModel(
+        rowsCount = 2,
+        columnsCount = 4,
+        iconSize = 48.dp,
+        horizontalSpacing = 10.dp,
+        verticalSpacing = 10.dp,
+        textSize = 12.sp,
+        allowTwoLines = true
     )
     MaterialTheme {
-        WidgetPreview(previewApps = apps, widgetSettings = widgetSettings)
+        WidgetPreview(WidgetPreviewUiModel(apps = apps, layout = widgetSettings))
     }
 }
-
-private val Dp.dp get() = value.dp
-private val Sp.sp get() = value.sp
