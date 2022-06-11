@@ -12,8 +12,8 @@ import shuttle.design.theme.Dimens
 import shuttle.design.theme.ShuttleTheme
 
 @Composable
-fun LoadingSpinner() {
-    Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
+fun LoadingSpinner(modifier: Modifier = Modifier) {
+    Box(contentAlignment = Alignment.Center, modifier = modifier.fillMaxSize()) {
         CircularProgressIndicator(modifier = Modifier.size(Dimens.Icon.Large))
     }
 }

@@ -21,6 +21,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
@@ -85,11 +86,13 @@ private fun PermissionsPageContent(
     permissions: PermissionItemsUiModel,
     onRequestLocation: () -> Unit,
     onRequestAccessibilityService: () -> Unit,
-    toSettings: () -> Unit
+    toSettings: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
 
     Scaffold(
+        modifier = modifier.testTag(PermissionsPage.TEST_TAG),
         topBar = { SmallTopAppBar(title = { Text(text = stringResource(id = R.string.permissions_title)) }) }
     ) { paddingValues ->
         val scrollState = rememberScrollState()
@@ -140,6 +143,11 @@ private fun PermissionsList(
             onRequestPermission = onRequestAccessibilityService
         )
     }
+}
+
+object PermissionsPage {
+
+    const val TEST_TAG = "PermissionsPage"
 }
 
 @Composable

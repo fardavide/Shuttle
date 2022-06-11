@@ -18,9 +18,11 @@ moduleDependencies {
     apps.presentation()
     design()
     di()
+    onboarding.presentation()
     permissions.presentation()
     predictions.presentation()
     settings.presentation()
+    test.compose()
 }
 
 dependencies {

@@ -2,23 +2,22 @@ package shuttle.settings.presentation.ui.component
 
 import android.content.Context
 import android.graphics.Bitmap
+import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.drawable.toDrawable
 import androidx.test.core.app.ApplicationProvider
-import org.junit.Rule
 import shuttle.settings.presentation.model.WidgetPreviewAppUiModel
 import shuttle.settings.presentation.model.WidgetSettingsUiModel
-import shuttle.test.compose.createComposeTestRule
+import shuttle.test.compose.ComposeTest
+import shuttle.test.compose.runComposeTest
 import kotlin.test.Test
 
+@OptIn(ExperimentalTestApi::class)
 internal class WidgetPreviewTest {
 
-    @get:Rule
-    val composeTestRule = createComposeTestRule()
-
     @Test
-    fun givenAListOfApps_whenTheGridHasMoreSlotsThanTheApps_thenAddsEmptySpacesWithoutCrashing() {
+    fun givenAListOfApps_whenTheGridHasMoreSlotsThanTheApps_thenAddsEmptySpacesWithoutCrashing() = runComposeTest {
         // given
         val previewApps = buildPreviewApps(count = 2)
 
@@ -29,11 +28,11 @@ internal class WidgetPreviewTest {
         // then doesn't crash
     }
 
-    private fun setContentWithState(
+    private fun ComposeTest.setContentWithState(
         previewApps: List<WidgetPreviewAppUiModel>,
         widgetSettings: WidgetSettingsUiModel
     ) {
-        composeTestRule.setContent { WidgetPreview(previewApps, widgetSettings) }
+        setContent { WidgetPreview(previewApps, widgetSettings) }
     }
 
     private companion object TestData {
