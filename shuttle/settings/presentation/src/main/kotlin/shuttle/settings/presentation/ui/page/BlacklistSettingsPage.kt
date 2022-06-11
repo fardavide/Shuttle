@@ -10,8 +10,10 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -51,12 +53,15 @@ import studio.forface.shuttle.design.R
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun BlacklistSettingsPage(onBack: () -> Unit) {
-    Scaffold(topBar = {
-        SmallTopAppBar(
-            title = { Text(stringResource(id = R.string.settings_blacklist_title)) },
-            navigationIcon = { BackIconButton(onBack) }
-        )
-    }) { paddingValues ->
+    Scaffold(
+        modifier = Modifier.statusBarsPadding().navigationBarsPadding(),
+        topBar = {
+            SmallTopAppBar(
+                title = { Text(stringResource(id = R.string.settings_blacklist_title)) },
+                navigationIcon = { BackIconButton(onBack) }
+            )
+        }
+    ) { paddingValues ->
         Box(modifier = Modifier.padding(paddingValues)) {
             BlacklistSettingsContent()
         }
