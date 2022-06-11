@@ -1,36 +1,68 @@
 package shuttle.onboarding.presentation.ui
 
-import androidx.compose.foundation.Image
+import androidx.annotation.StringRes
+import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import org.koin.androidx.compose.viewModel
 import shuttle.design.theme.Dimens
 import shuttle.design.theme.ShuttleTheme
-import studio.forface.shuttle.design.R
+import shuttle.design.util.collectAsStateLifecycleAware
+import shuttle.onboarding.presentation.ui.OnboardingPage.Index
+import shuttle.onboarding.presentation.viewmodel.OnboardingViewModel
 
 @Composable
 fun OnboardingPage(actions: OnboardingPage.Actions) {
-    OnboardingContent(actions = actions)
+    val viewModel: OnboardingViewModel by viewModel()
+    val state by viewModel.state.collectAsStateLifecycleAware()
+
+    var index by remember { mutableStateOf(Index.MAIN) }
+    Crossfade(targetState = index) { indexState ->
+
+        when (indexState) {
+            Index.MAIN -> OnboardingMainPage(
+                actions = OnboardingMainPage.Actions(
+                    onNextPage = { index = Index.WIDGET }
+                )
+            )
+            Index.WIDGET -> OnboardingWidgetPage(
+                onboardingState = state,
+                actions = OnboardingWidgetPage.Actions(
+                    onPreviousPage = { index = Index.MAIN },
+                    onNextPage = actions.onOnboardingComplete
+                )
+            )
+        }
+    }
 }
 
 @Composable
-private fun OnboardingContent(actions: OnboardingPage.Actions) {
+internal fun OnboardingContent(
+    @StringRes title: Int,
+    image: @Composable () -> Unit,
+    @StringRes description: Int,
+    previousButton: @Composable () -> Unit = { Box(Modifier) },
+    nextButton: @Composable () -> Unit
+) {
     Column(
         modifier = Modifier
             .testTag(OnboardingPage.TEST_TAG)
@@ -42,26 +74,21 @@ private fun OnboardingContent(actions: OnboardingPage.Actions) {
     ) {
 
         Text(
-            text = stringResource(id = R.string.onboarding_main_title),
+            text = stringResource(id = title),
             style = MaterialTheme.typography.displayMedium
         )
 
-        Image(
-            modifier = Modifier.size(Dimens.Component.XXXLarge),
-            painter = painterResource(id = R.drawable.ic_shuttle_foreground),
-            contentDescription = stringResource(id = R.string.x_app_icon_description)
-        )
+        image()
 
         Text(
-            text = stringResource(id = R.string.onboarding_main_description),
+            text = stringResource(id = description),
             style = MaterialTheme.typography.bodyLarge,
             textAlign = TextAlign.Center
         )
 
-        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-            Button(onClick = actions.onOnboardingComplete) {
-                Text(text = stringResource(id = R.string.onboarding_action_complete))
-            }
+        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+            previousButton()
+            nextButton()
         }
     }
 }
@@ -70,6 +97,10 @@ object OnboardingPage {
 
     const val TEST_TAG = "OnboardingPage"
 
+    enum class Index {
+        MAIN, WIDGET
+    }
+
     data class Actions(
         val onOnboardingComplete: () -> Unit
     )
@@ -77,9 +108,9 @@ object OnboardingPage {
 
 @Composable
 @Preview(showSystemUi = true)
-private fun OnboardingContentPreview() {
+private fun OnboardingPagePreview() {
     val actions = OnboardingPage.Actions(onOnboardingComplete = {})
     ShuttleTheme {
-        OnboardingContent(actions = actions)
+        OnboardingPage(actions = actions)
     }
 }

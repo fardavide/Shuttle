@@ -43,7 +43,7 @@ internal class WidgetLayoutViewModel(
                     .filterRight()
                     .shuffled(),
                 widgetSettingsDomainModel = widgetSettings,
-                Layout = widgetSettingsUiModelMapper.toUiModel(widgetSettings)
+                layout = widgetSettingsUiModelMapper.toUiModel(widgetSettings)
             )
         }
             .onEach(::emit)
@@ -71,7 +71,7 @@ internal class WidgetLayoutViewModel(
         updateWidgetSettings(newSettings)
         return currentState.copy(
             widgetSettingsDomainModel = newSettings,
-            Layout = widgetSettingsUiModelMapper.toUiModel(newSettings)
+            layout = widgetSettingsUiModelMapper.toUiModel(newSettings)
         )
     }
 
@@ -80,7 +80,7 @@ internal class WidgetLayoutViewModel(
         updateWidgetSettings(newSettings)
         return currentState.copy(
             widgetSettingsDomainModel = newSettings,
-            Layout = widgetSettingsUiModelMapper.toUiModel(newSettings)
+            layout = widgetSettingsUiModelMapper.toUiModel(newSettings)
         )
     }
 
@@ -89,7 +89,7 @@ internal class WidgetLayoutViewModel(
         updateWidgetSettings(newSettings)
         return currentState.copy(
             widgetSettingsDomainModel = newSettings,
-            Layout = widgetSettingsUiModelMapper.toUiModel(newSettings)
+            layout = widgetSettingsUiModelMapper.toUiModel(newSettings)
         )
     }
 
@@ -98,7 +98,7 @@ internal class WidgetLayoutViewModel(
         updateWidgetSettings(newSettings)
         return currentState.copy(
             widgetSettingsDomainModel = newSettings,
-            Layout = widgetSettingsUiModelMapper.toUiModel(newSettings)
+            layout = widgetSettingsUiModelMapper.toUiModel(newSettings)
         )
     }
 
@@ -107,7 +107,7 @@ internal class WidgetLayoutViewModel(
         updateWidgetSettings(newSettings)
         return currentState.copy(
             widgetSettingsDomainModel = newSettings,
-            Layout = widgetSettingsUiModelMapper.toUiModel(newSettings)
+            layout = widgetSettingsUiModelMapper.toUiModel(newSettings)
         )
     }
 
@@ -116,7 +116,7 @@ internal class WidgetLayoutViewModel(
         updateWidgetSettings(newSettings)
         return currentState.copy(
             widgetSettingsDomainModel = newSettings,
-            Layout = widgetSettingsUiModelMapper.toUiModel(newSettings)
+            layout = widgetSettingsUiModelMapper.toUiModel(newSettings)
         )
     }
 
@@ -125,7 +125,7 @@ internal class WidgetLayoutViewModel(
         updateWidgetSettings(newSettings)
         return currentState.copy(
             widgetSettingsDomainModel = newSettings,
-            Layout = widgetSettingsUiModelMapper.toUiModel(newSettings)
+            layout = widgetSettingsUiModelMapper.toUiModel(newSettings)
         )
     }
 
@@ -138,7 +138,7 @@ internal class WidgetLayoutViewModel(
         data class Data(
             val previewApps: List<WidgetPreviewAppUiModel>,
             val widgetSettingsDomainModel: WidgetSettings,
-            val Layout: WidgetLayoutUiModel
+            val layout: WidgetLayoutUiModel
         ) : State
 
         data class Error(val message: String) : State

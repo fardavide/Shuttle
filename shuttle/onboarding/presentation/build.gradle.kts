@@ -6,7 +6,9 @@ shuttleAndroid.useCompose()
 
 moduleDependencies {
 
+    apps.domain()
     design()
+    icons.domain()
     onboarding.domain()
     test.compose()
     utils {

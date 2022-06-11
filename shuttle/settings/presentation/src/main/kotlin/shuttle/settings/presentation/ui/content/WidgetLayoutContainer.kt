@@ -102,7 +102,7 @@ private fun WidgetPreviewContent(state: State, height: androidx.compose.ui.unit.
             is State.Data -> WidgetPreview(
                 WidgetPreviewUiModel(
                     apps = state.previewApps,
-                    layout = state.Layout
+                    layout = state.layout
                 )
             )
         }

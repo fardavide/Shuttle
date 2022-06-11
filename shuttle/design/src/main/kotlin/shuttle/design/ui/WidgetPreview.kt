@@ -43,11 +43,11 @@ fun WidgetPreview(model: WidgetPreviewUiModel) {
     Column(
         modifier = Modifier
             .wrapContentSize()
-            .padding(horizontal = layout.horizontalSpacing, vertical = layout.verticalSpacing)
             .background(
                 color = MaterialTheme.colorScheme.surface.copy(alpha = 0.78f),
                 shape = RoundedCornerShape(Dimens.Margin.Large)
             )
+            .padding(horizontal = layout.horizontalSpacing, vertical = layout.verticalSpacing)
     ) {
         repeat(rows) {
             Row {

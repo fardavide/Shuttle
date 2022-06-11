@@ -1,0 +1,24 @@
+package shuttle.onboarding.presentation.mapper
+
+import arrow.core.Either
+import arrow.core.computations.either
+import shuttle.apps.domain.model.AppModel
+import shuttle.design.model.WidgetPreviewAppUiModel
+import shuttle.icons.domain.error.GetSystemIconError
+import shuttle.icons.domain.usecase.GetSystemIconDrawableForApp
+
+class WidgetPreviewAppUiModelMapper(
+    private val getIconDrawableForApp: GetSystemIconDrawableForApp
+) {
+
+    suspend fun toUiModel(app: AppModel): Either<GetSystemIconError, WidgetPreviewAppUiModel> =
+        either {
+            WidgetPreviewAppUiModel(
+                name = app.name.value,
+                icon = getIconDrawableForApp(id = app.id).bind()
+            )
+        }
+
+    suspend fun toUiModels(apps: Collection<AppModel>): List<Either<GetSystemIconError, WidgetPreviewAppUiModel>> =
+        apps.map { toUiModel(app = it) }
+}
