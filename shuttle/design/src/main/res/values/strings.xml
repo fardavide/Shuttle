@@ -26,6 +26,9 @@
     <string name="onboarding_widget_layout_title">Customise your widget</string>
     <string name="onboarding_widget_layout_description">You can customise the widget, changing its layout or using a custom Icon Pack</string>
 
+    <string name="onboarding_blacklist_title">Create your blacklist</string>
+    <string name="onboarding_blacklist_description">Select apps that you never want to be suggested</string>
+
     <string name="onboarding_action_complete">Complete</string>
     <string name="onboarding_action_next">Next</string>
     <string name="onboarding_action_previous">Previous</string>

@@ -88,5 +88,7 @@
     <string name="onboarding_widget_layout_title">Personalizza il tuo widget</string>
     <string name="onboarding_widget_layout_description">Puoi personalizzare il tuo widget, cambiandone la disposizione o usando un Pacchetto Icone</string>
     <string name="navigable_item_go_to">Vai a %s</string>
+    <string name="onboarding_blacklist_title">Crea la tua blacklist</string>
+    <string name="onboarding_blacklist_description">Seleziona le app che non vuoi ti vengano suggerite</string>
 
 </resources>

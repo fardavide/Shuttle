@@ -1,11 +1,8 @@
 package shuttle.onboarding.presentation.ui
 
 import android.graphics.Bitmap
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.graphics.drawable.toDrawable
 import shuttle.design.model.WidgetPreviewAppUiModel
@@ -20,7 +17,7 @@ import studio.forface.shuttle.design.R.string
 @Composable
 internal fun OnboardingWidgetPage(
     state: OnboardingWidgetPreviewState,
-    actions: OnboardingWidgetPage.Actions
+    actions: OnboardingPage.NavigationActions
 ) {
     OnboardingPageContent(
         index = OnboardingPage.Index.WIDGET,
@@ -34,24 +31,7 @@ internal fun OnboardingWidgetPage(
             }
         },
         description = string.onboarding_widget_description,
-        previousButton = {
-            Button(onClick = actions.onPreviousPage) {
-                Text(text = stringResource(id = string.onboarding_action_previous))
-            }
-        },
-        nextButton = {
-            Button(onClick = actions.onNextPage) {
-                Text(text = stringResource(id = string.onboarding_action_next))
-            }
-        }
-    )
-}
-
-internal object OnboardingWidgetPage {
-
-    data class Actions(
-        val onPreviousPage: () -> Unit,
-        val onNextPage: () -> Unit
+        navigationActions = actions
     )
 }
 
@@ -73,7 +53,7 @@ private fun OnboardingWidgetPagePreview() {
             )
         )
     )
-    val actions = OnboardingWidgetPage.Actions(onPreviousPage = {}, onNextPage = {})
+    val actions = OnboardingPage.NavigationActions(onPrevious = {}, onNext = {}, onComplete = {})
     ShuttleTheme {
         OnboardingWidgetPage(state = state, actions = actions)
     }

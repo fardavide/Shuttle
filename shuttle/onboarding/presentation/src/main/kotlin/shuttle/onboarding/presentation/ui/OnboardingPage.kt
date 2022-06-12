@@ -4,13 +4,13 @@ import androidx.annotation.StringRes
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
@@ -34,6 +34,8 @@ import shuttle.onboarding.presentation.model.OnboardingState
 import shuttle.onboarding.presentation.model.OnboardingWidgetPreviewState
 import shuttle.onboarding.presentation.ui.OnboardingPage.Index
 import shuttle.onboarding.presentation.viewmodel.OnboardingViewModel
+import shuttle.utils.kotlin.exhaustive
+import studio.forface.shuttle.design.R
 
 @Composable
 fun OnboardingPage(actions: OnboardingPage.Actions) {
@@ -61,30 +63,20 @@ private fun OnboardingContent(
     actions: OnboardingPage.Actions
 ) {
     val index = remember { mutableStateOf(Index.MAIN) }
-    val (onPrevious, onNext) = { index -= 1 } to { index += 1 }
+    val navigationActions = OnboardingPage.NavigationActions(
+        onPrevious = { index -= 1 },
+        onNext = { index += 1 },
+        onComplete = actions.onOnboardingComplete
+    )
 
     Crossfade(targetState = index.value) { indexState ->
 
         when (indexState) {
-            Index.MAIN -> OnboardingMainPage(
-                actions = OnboardingMainPage.Actions(
-                    onNextPage = onNext
-                )
-            )
-            Index.WIDGET -> OnboardingWidgetPage(
-                state = state,
-                actions = OnboardingWidgetPage.Actions(
-                    onPreviousPage = onPrevious,
-                    onNextPage = onNext
-                )
-            )
-            Index.WIDGET_LAYOUT -> OnboardingWidgetLayoutPage(
-                actions = OnboardingWidgetLayoutPage.Actions(
-                    onPreviousPage = onPrevious,
-                    onNextPage = actions.onOnboardingComplete
-                )
-            )
-        }
+            Index.MAIN -> OnboardingMainPage(navigationActions)
+            Index.WIDGET -> OnboardingWidgetPage(state, navigationActions)
+            Index.WIDGET_LAYOUT -> OnboardingWidgetLayoutPage(navigationActions)
+            Index.BLACKLIST -> OnboardingBlacklistPage(navigationActions)
+        }.exhaustive
     }
 }
 
@@ -94,8 +86,7 @@ internal fun OnboardingPageContent(
     @StringRes title: Int,
     image: @Composable () -> Unit,
     @StringRes description: Int,
-    previousButton: @Composable () -> Unit = { Box(Modifier) },
-    nextButton: @Composable () -> Unit
+    navigationActions: OnboardingPage.NavigationActions
 ) {
     Column(
         modifier = Modifier
@@ -141,8 +132,20 @@ internal fun OnboardingPageContent(
         }
         
         Section(weight = 1, horizontalArrangement = Arrangement.SpaceBetween) {
-            previousButton()
-            nextButton()
+            if (index.isFirst().not()) {
+                Button(onClick = navigationActions.onPrevious) {
+                    Text(text = stringResource(id = R.string.onboarding_action_previous))
+                }
+            }
+            if (index.isLast().not()) {
+                Button(onClick = navigationActions.onNext) {
+                    Text(text = stringResource(id = R.string.onboarding_action_next))
+                }
+            } else {
+                Button(onClick = navigationActions.onComplete) {
+                    Text(text = stringResource(id = R.string.onboarding_action_complete))
+                }
+            }
         }
     }
 }
@@ -169,11 +172,21 @@ object OnboardingPage {
     const val TEST_TAG = "OnboardingPage"
 
     enum class Index {
-        MAIN, WIDGET, WIDGET_LAYOUT
+        MAIN, WIDGET, WIDGET_LAYOUT, BLACKLIST;
+
+        fun intValue() = values().indexOf(this)
+        fun isFirst() = intValue() == 0
+        fun isLast() = intValue() == values().lastIndex
     }
 
     data class Actions(
         val onOnboardingComplete: () -> Unit
+    )
+
+    internal data class NavigationActions(
+        val onPrevious: () -> Unit,
+        val onNext: () -> Unit,
+        val onComplete: () -> Unit
     )
 }
 
@@ -186,8 +199,6 @@ private operator fun MutableState<Index>.minusAssign(intValue: Int) {
     val newIntValue = value.intValue() - intValue
     value = Index.values()[newIntValue]
 }
-
-private fun Index.intValue() = Index.values().indexOf(this)
 
 @Composable
 @Preview(showSystemUi = true)

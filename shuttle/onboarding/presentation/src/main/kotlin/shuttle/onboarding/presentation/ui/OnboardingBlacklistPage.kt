@@ -13,10 +13,10 @@ import studio.forface.shuttle.design.R
 import studio.forface.shuttle.design.R.string
 
 @Composable
-internal fun OnboardingMainPage(actions: OnboardingPage.NavigationActions) {
+internal fun OnboardingBlacklistPage(actions: OnboardingPage.NavigationActions) {
     OnboardingPageContent(
-        index = OnboardingPage.Index.MAIN,
-        title = string.onboarding_main_title,
+        index = OnboardingPage.Index.BLACKLIST,
+        title = string.onboarding_blacklist_title,
         image = {
             Image(
                 modifier = Modifier.size(Dimens.Component.XXXLarge),
@@ -24,16 +24,16 @@ internal fun OnboardingMainPage(actions: OnboardingPage.NavigationActions) {
                 contentDescription = stringResource(id = string.x_app_icon_description)
             )
         },
-        description = string.onboarding_main_description,
+        description = string.onboarding_blacklist_description,
         navigationActions = actions
     )
 }
 
 @Composable
 @Preview(showSystemUi = true)
-private fun OnboardingMainPagePreview() {
+private fun OnboardingBlacklistPagePreview() {
     val actions = OnboardingPage.NavigationActions(onPrevious = {}, onNext = {}, onComplete = {})
     ShuttleTheme {
-        OnboardingMainPage(actions = actions)
+        OnboardingBlacklistPage(actions = actions)
     }
 }
