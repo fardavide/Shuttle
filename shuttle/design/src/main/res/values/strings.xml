@@ -21,6 +21,9 @@
     <string name="onboarding_widget_title">Setup the widget</string>
     <string name="onboarding_widget_description">Add \'Shuttle\' widget to you home screen, to have a list of your suggested apps always ready to be launched</string>
 
+    <string name="onboarding_widget_layout_title">Customise your widget</string>
+    <string name="onboarding_widget_layout_description">You can customise the widget, changing its layout or using a custom Icon Pack</string>
+
     <string name="onboarding_action_complete">Complete</string>
     <string name="onboarding_action_next">Next</string>
     <string name="onboarding_action_previous">Previous</string>
