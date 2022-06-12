@@ -39,6 +39,8 @@ import org.koin.androidx.compose.getViewModel
 import shuttle.design.theme.Dimens
 import shuttle.design.ui.BackIconButton
 import shuttle.design.ui.LoadingSpinner
+import shuttle.design.util.ConsumableLaunchedEffect
+import shuttle.design.util.Effect
 import shuttle.design.util.collectAsStateLifecycleAware
 import shuttle.permissions.domain.model.backgroundPermissionsList
 import shuttle.settings.presentation.model.SettingsItemUiModel
@@ -54,16 +56,12 @@ fun SettingsPage(actions: SettingsPage.Actions) {
     val viewModel = getViewModel<SettingsViewModel>()
     val state by viewModel.state.collectAsStateLifecycleAware()
 
+    ConsumableLaunchedEffect(effect = state.openOnboardingEffect) {
+        actions.toOnboarding()
+    }
+
     val backgroundLocationPermissionsState = rememberMultiplePermissionsState(backgroundPermissionsList)
     viewModel.submit(Action.UpdatePermissionsState(backgroundLocationPermissionsState))
-
-    @Suppress("NAME_SHADOWING")
-    val actions = actions.copy(
-        toOnboarding = {
-            viewModel.submit(Action.ResetOnboardingShown)
-            actions.toOnboarding()
-        }
-    )
 
     Scaffold(
         modifier = Modifier
@@ -79,6 +77,7 @@ fun SettingsPage(actions: SettingsPage.Actions) {
         SettingsContent(
             state = state,
             actions = actions,
+            resetOnboardingShown = { viewModel.submit(Action.ResetOnboardingShown) },
             modifier = Modifier.padding(paddingValues),
             updatePrioritizeLocation = { viewModel.submit(Action.UpdatePrioritizeLocation(it)) }
         )
@@ -89,6 +88,7 @@ fun SettingsPage(actions: SettingsPage.Actions) {
 private fun SettingsContent(
     state: SettingsState,
     actions: SettingsPage.Actions,
+    resetOnboardingShown: () -> Unit,
     modifier: Modifier,
     updatePrioritizeLocation: (Boolean) -> Unit
 ) {
@@ -102,7 +102,7 @@ private fun SettingsContent(
         item { PrioritizeLocationItem(state = state.prioritizeLocation, updatePrioritizeLocation) }
 
         item { InfoSection() }
-        item { RestartOnboardingItem(actions.toOnboarding) }
+        item { RestartOnboardingItem(resetOnboardingShown) }
         item { CheckPermissionsItem(state.permissions, actions.toPermissions) }
         item { AboutItem(actions.toAbout) }
 
@@ -294,7 +294,8 @@ fun SettingsContentPreview() {
     val state = SettingsState(
         permissions = SettingsState.Permissions.Granted,
         prioritizeLocation = SettingsState.PrioritizeLocation.True,
-        appVersion = "123"
+        appVersion = "123",
+        openOnboardingEffect = Effect.empty()
     )
     MaterialTheme {
         SettingsContent(
@@ -308,6 +309,7 @@ fun SettingsContentPreview() {
                 toPermissions = {},
                 toAbout = {}
             ),
+            resetOnboardingShown = {},
             modifier = Modifier,
             updatePrioritizeLocation = {}
         )

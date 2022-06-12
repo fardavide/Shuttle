@@ -6,6 +6,7 @@ import com.google.accompanist.permissions.MultiplePermissionsState
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import shuttle.accessibility.usecase.IsLaunchCounterServiceEnabled
+import shuttle.design.util.Effect
 import shuttle.permissions.domain.usecase.HasAllLocationPermissions
 import shuttle.settings.domain.usecase.ObservePrioritizeLocation
 import shuttle.settings.domain.usecase.ResetOnboardingShown
@@ -54,7 +55,7 @@ class SettingsViewModel(
 
     private suspend fun onResetOnboardingShown(): SettingsState {
         resetOnboardingShown()
-        return state.value
+        return state.value.copy(openOnboardingEffect = Effect.of(Unit))
     }
 
     private fun onPermissionsStateUpdate(permissionsState: MultiplePermissionsState): SettingsState {

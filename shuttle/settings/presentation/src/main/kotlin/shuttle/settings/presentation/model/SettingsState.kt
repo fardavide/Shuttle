@@ -1,9 +1,12 @@
 package shuttle.settings.presentation.model
 
+import shuttle.design.util.Effect
+
 data class SettingsState(
     val permissions: Permissions,
     val prioritizeLocation: PrioritizeLocation,
-    val appVersion: String
+    val appVersion: String,
+    val openOnboardingEffect: Effect<Unit>
 ) {
 
     sealed interface Permissions {
@@ -25,7 +28,8 @@ data class SettingsState(
         val Loading = SettingsState(
             permissions = Permissions.Loading,
             prioritizeLocation = PrioritizeLocation.Loading,
-            appVersion = ""
+            appVersion = "",
+            openOnboardingEffect = Effect.empty()
         )
     }
 }
