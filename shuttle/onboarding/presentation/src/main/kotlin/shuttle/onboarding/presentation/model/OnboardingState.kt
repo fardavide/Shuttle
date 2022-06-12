@@ -1,30 +1,38 @@
 package shuttle.onboarding.presentation.model
 
-import arrow.optics.optics
 import shuttle.design.model.WidgetPreviewUiModel
 
-@optics sealed interface OnboardingState {
+sealed interface OnboardingState {
 
     object Loading : OnboardingState
 
-    @optics data class ShowOnboarding(
-        val widgetPreview: OnboardingWidgetPreviewState
+    data class ShowOnboarding(
+        val widgetPreview: OnboardingWidgetPreviewState,
+        val blacklist: OnboardingBlacklistState
     ) : OnboardingState {
-        companion object
+
+        companion object {
+
+            val Loading = ShowOnboarding(
+                widgetPreview = OnboardingWidgetPreviewState.Loading,
+                blacklist = OnboardingBlacklistState.Loading
+            )
+        }
     }
 
     object OnboardingAlreadyShown : OnboardingState
-
-    companion object
 }
 
-@optics sealed interface OnboardingWidgetPreviewState {
+sealed interface OnboardingWidgetPreviewState {
 
     object Loading : OnboardingWidgetPreviewState
 
-    @optics data class Data(val widgetPreview: WidgetPreviewUiModel): OnboardingWidgetPreviewState {
-        companion object
-    }
+    data class Data(val widgetPreview: WidgetPreviewUiModel): OnboardingWidgetPreviewState
+}
 
-    companion object
+sealed interface OnboardingBlacklistState {
+
+    object Loading : OnboardingBlacklistState
+
+    data class Data(val blacklist: OnboardingBlacklistUiModel) : OnboardingBlacklistState
 }

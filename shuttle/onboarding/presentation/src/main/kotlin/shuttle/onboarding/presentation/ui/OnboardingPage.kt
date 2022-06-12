@@ -4,6 +4,7 @@ import androidx.annotation.StringRes
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
@@ -21,6 +22,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -31,7 +33,6 @@ import shuttle.design.theme.ShuttleTheme
 import shuttle.design.ui.LoadingSpinner
 import shuttle.design.util.collectAsStateLifecycleAware
 import shuttle.onboarding.presentation.model.OnboardingState
-import shuttle.onboarding.presentation.model.OnboardingWidgetPreviewState
 import shuttle.onboarding.presentation.ui.OnboardingPage.Index
 import shuttle.onboarding.presentation.viewmodel.OnboardingViewModel
 import shuttle.utils.kotlin.exhaustive
@@ -53,13 +54,13 @@ fun OnboardingPage(actions: OnboardingPage.Actions) {
     when (val state = stateWrapper.value) {
         OnboardingState.Loading -> LoadingSpinner()
         OnboardingState.OnboardingAlreadyShown -> LaunchedEffect(key1 = 0) { actions.onOnboardingComplete() }
-        is OnboardingState.ShowOnboarding -> OnboardingContent(state = state.widgetPreview, actions)
+        is OnboardingState.ShowOnboarding -> OnboardingContent(state = state, actions)
     }
 }
 
 @Composable
 private fun OnboardingContent(
-    state: OnboardingWidgetPreviewState,
+    state: OnboardingState.ShowOnboarding,
     actions: OnboardingPage.Actions
 ) {
     val index = remember { mutableStateOf(Index.MAIN) }
@@ -73,9 +74,9 @@ private fun OnboardingContent(
 
         when (indexState) {
             Index.MAIN -> OnboardingMainPage(navigationActions)
-            Index.WIDGET -> OnboardingWidgetPage(state, navigationActions)
+            Index.WIDGET -> OnboardingWidgetPage(state.widgetPreview, navigationActions)
             Index.WIDGET_LAYOUT -> OnboardingWidgetLayoutPage(navigationActions)
-            Index.BLACKLIST -> OnboardingBlacklistPage(navigationActions)
+            Index.BLACKLIST -> OnboardingBlacklistPage(state.blacklist, navigationActions)
         }.exhaustive
     }
 }
@@ -136,6 +137,8 @@ internal fun OnboardingPageContent(
                 Button(onClick = navigationActions.onPrevious) {
                     Text(text = stringResource(id = R.string.onboarding_action_previous))
                 }
+            } else {
+                Box(modifier = Modifier)
             }
             if (index.isLast().not()) {
                 Button(onClick = navigationActions.onNext) {
@@ -165,6 +168,13 @@ private fun ColumnScope.Section(
     ) {
         content()
     }
+}
+
+internal fun Modifier.imageContainerBackground() = composed {
+    background(
+        color = MaterialTheme.colorScheme.surface,
+        shape = MaterialTheme.shapes.large
+    )
 }
 
 object OnboardingPage {

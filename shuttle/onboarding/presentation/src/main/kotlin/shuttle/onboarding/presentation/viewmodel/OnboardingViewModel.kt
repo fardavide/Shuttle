@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import shuttle.apps.domain.model.AppModel
 import shuttle.apps.domain.usecase.ObserveAllInstalledApps
 import shuttle.design.model.WidgetLayoutUiModel
 import shuttle.design.model.WidgetPreviewAppUiModel
@@ -15,7 +16,9 @@ import shuttle.design.model.WidgetPreviewUiModel
 import shuttle.icons.domain.error.GetSystemIconError
 import shuttle.onboarding.domain.usecase.DidShowOnboarding
 import shuttle.onboarding.domain.usecase.SetOnboardingShown
+import shuttle.onboarding.presentation.mapper.OnboardingBlacklistUiModelMapper
 import shuttle.onboarding.presentation.mapper.WidgetPreviewAppUiModelMapper
+import shuttle.onboarding.presentation.model.OnboardingBlacklistState
 import shuttle.onboarding.presentation.model.OnboardingState
 import shuttle.onboarding.presentation.model.OnboardingWidgetPreviewState
 import shuttle.util.android.viewmodel.ShuttleViewModel
@@ -23,6 +26,7 @@ import shuttle.util.android.viewmodel.ShuttleViewModel
 internal class OnboardingViewModel(
     didShowOnboarding: DidShowOnboarding,
     observeAllInstalledApps: ObserveAllInstalledApps,
+    private val onboardingBlacklistUiModelMapper: OnboardingBlacklistUiModelMapper,
     private val setOnboardingShown: SetOnboardingShown,
     private val widgetPreviewAppUiModelMapper: WidgetPreviewAppUiModelMapper
 ) : ShuttleViewModel<OnboardingViewModel.Action, OnboardingState>(
@@ -34,18 +38,12 @@ internal class OnboardingViewModel(
             if (didShowOnboarding()) {
                 emit(OnboardingState.OnboardingAlreadyShown)
             } else {
-                emit(OnboardingState.ShowOnboarding(OnboardingWidgetPreviewState.Loading))
+                emit(OnboardingState.ShowOnboarding.Loading)
                 observeAllInstalledApps().map { installedApps ->
-                    val widgetState = OnboardingWidgetPreviewState.Data(
-                        widgetPreview = WidgetPreviewUiModel(
-                            apps = widgetPreviewAppUiModelMapper
-                                .toUiModels(installedApps)
-                                .filterRight()
-                                .shuffled(),
-                            layout = WidgetLayout
-                        )
+                    OnboardingState.ShowOnboarding(
+                        widgetPreview = buildOnboardingWidgetPreviewData(installedApps),
+                        buildOnboardingBlacklistState(installedApps)
                     )
-                    OnboardingState.ShowOnboarding(widgetState)
                 }.onEach(::emit).launchIn(this)
             }
         }
@@ -62,6 +60,20 @@ internal class OnboardingViewModel(
     private suspend fun onSetOnboardingShown() {
         setOnboardingShown()
     }
+
+    private suspend fun buildOnboardingWidgetPreviewData(apps: List<AppModel>) = OnboardingWidgetPreviewState.Data(
+        widgetPreview = WidgetPreviewUiModel(
+            apps = widgetPreviewAppUiModelMapper
+                .toUiModels(apps)
+                .filterRight()
+                .shuffled(),
+            layout = WidgetLayout
+        )
+    )
+
+    private suspend fun buildOnboardingBlacklistState(apps: List<AppModel>) = OnboardingBlacklistState.Data(
+        onboardingBlacklistUiModelMapper.toUiModel(apps, take = 4)
+    )
 
     private fun List<Either<GetSystemIconError, WidgetPreviewAppUiModel>>.filterRight(): List<WidgetPreviewAppUiModel> =
         mapNotNull { it.orNull() }

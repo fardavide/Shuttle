@@ -3,6 +3,18 @@
 
     <string name="launch_counter_service_description">Questo servizio conterà quante volte un app è stata avviata sul dispositivo</string>
     <string name="launch_counter_service_label">Servizio per contari gli avvii delle app</string>
+    <string name="navigable_item_go_to">Vai a %s</string>
+    <string name="onboarding_action_complete">Completo</string>
+    <string name="onboarding_action_next">Prossimo</string>
+    <string name="onboarding_action_previous">Precendente</string>
+    <string name="onboarding_blacklist_description">Seleziona le app che non vuoi ti vengano suggerite, come nell\'esempio qui sopra</string>
+    <string name="onboarding_blacklist_title">Crea la tua blacklist</string>
+    <string name="onboarding_main_description">Prego segui una breve introduzione all\'app</string>
+    <string name="onboarding_main_title">Benvenuto in Shuttle!</string>
+    <string name="onboarding_widget_description">Aggiungi il widget \'Shuttle\' alla tua home screen, per avere una lista delle applicazioni suggerite per te, sempre pronte per essere lanciate</string>
+    <string name="onboarding_widget_layout_description">Puoi personalizzare il tuo widget, cambiandone la disposizione o usando un Pacchetto Icone</string>
+    <string name="onboarding_widget_layout_title">Personalizza il tuo widget</string>
+    <string name="onboarding_widget_title">Imposta il widget</string>
     <string name="permissions_accessibility_action">Abilita il servizio di accessbilità</string>
     <string name="permissions_accessibility_description">Shuttle necessita the Servizio di Accessibilità, per migliorare i suggerimenti.\\nAbilitando il servizio accetti che Shuttle rilevi gli avvii delle app e li salvi sul database locale</string>
     <string name="permissions_accessibility_dialog_cancel_action">Annulla</string>
@@ -56,6 +68,8 @@
     <string name="settings_permissions_section_title">Permessi</string>
     <string name="settings_prioritize_location_description">Abilita questo settaggio, per ricevere suggestimenti dando priorità alla posizione corrente.\nQuesto settaggio è sperimentale</string>
     <string name="settings_prioritize_location_title">Dai priorità ai suggestimenti basati sulla posizione corrente</string>
+    <string name="settings_restart_onboarding_description">Guarda do nuovo l\'introduzione all\'app, in caso ti fossi perso qualcosa</string>
+    <string name="settings_restart_onboarding_title">Guarda tutorial</string>
     <string name="settings_suggestions_section_title">Suggerimenti apps</string>
     <string name="settings_title">Impostazioni</string>
     <string name="settings_widget_layout_apps_labels">Etichette app</string>
@@ -76,19 +90,5 @@
     <string name="x_back_button_description">Indietro</string>
     <string name="x_coming_soon">Presto disponibile!</string>
     <string name="x_generic_error">Qualcosa è andato storto!</string>
-    <string name="onboarding_main_title">Benvenuto in Shuttle!</string>
-    <string name="onboarding_main_description">Prego segui una breve introduzione all\'app</string>
-    <string name="onboarding_widget_title">Imposta il widget</string>
-    <string name="onboarding_widget_description">Aggiungi il widget \'Shuttle\' alla tua home screen, per avere una lista delle applicazioni suggerite per te, sempre pronte per essere lanciate</string>
-    <string name="onboarding_action_complete">Completo</string>
-    <string name="onboarding_action_next">Prossimo</string>
-    <string name="onboarding_action_previous">Precendente</string>
-    <string name="settings_restart_onboarding_title">Guarda tutorial</string>
-    <string name="settings_restart_onboarding_description">Guarda do nuovo l\'introduzione all\'app, in caso ti fossi perso qualcosa</string>
-    <string name="onboarding_widget_layout_title">Personalizza il tuo widget</string>
-    <string name="onboarding_widget_layout_description">Puoi personalizzare il tuo widget, cambiandone la disposizione o usando un Pacchetto Icone</string>
-    <string name="navigable_item_go_to">Vai a %s</string>
-    <string name="onboarding_blacklist_title">Crea la tua blacklist</string>
-    <string name="onboarding_blacklist_description">Seleziona le app che non vuoi ti vengano suggerite</string>
 
 </resources>

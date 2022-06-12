@@ -30,13 +30,14 @@ fun CheckableListItem(
     title: String,
     id: Any = title,
     iconDrawable: Drawable,
-    contentDescription: String,
+    contentDescription: String?,
     isChecked: Boolean,
     onCheckChange: (isChecked: Boolean) -> Unit
 ) {
     var checkedState by remember(id) { mutableStateOf(isChecked) }
     val toggleAction = { isCheckboxChecked: Boolean ->
         checkedState = isCheckboxChecked
+        onCheckChange(isCheckboxChecked)
     }
 
     Row(
@@ -56,7 +57,7 @@ fun CheckableListItem(
             style = MaterialTheme.typography.bodyMedium
         )
         Column(horizontalAlignment = Alignment.End, modifier = Modifier.fillMaxWidth()) {
-            Checkbox(checked = checkedState, onCheckedChange = onCheckChange)
+            Checkbox(checked = checkedState, onCheckedChange = toggleAction)
         }
     }
 }

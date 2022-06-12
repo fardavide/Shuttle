@@ -1,28 +1,40 @@
 package shuttle.onboarding.presentation.ui
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import arrow.core.nonEmptyListOf
+import shuttle.design.PreviewUtils
 import shuttle.design.theme.Dimens
 import shuttle.design.theme.ShuttleTheme
-import studio.forface.shuttle.design.R
+import shuttle.design.ui.CheckableListItem
+import shuttle.design.ui.LoadingSpinner
+import shuttle.design.util.NoContentDescription
+import shuttle.onboarding.presentation.model.OnboardingBlacklistAppUiModel
+import shuttle.onboarding.presentation.model.OnboardingBlacklistState
+import shuttle.onboarding.presentation.model.OnboardingBlacklistUiModel
+import shuttle.utils.kotlin.exhaustive
 import studio.forface.shuttle.design.R.string
 
 @Composable
-internal fun OnboardingBlacklistPage(actions: OnboardingPage.NavigationActions) {
+internal fun OnboardingBlacklistPage(
+    state: OnboardingBlacklistState,
+    actions: OnboardingPage.NavigationActions
+) {
     OnboardingPageContent(
         index = OnboardingPage.Index.BLACKLIST,
         title = string.onboarding_blacklist_title,
         image = {
-            Image(
-                modifier = Modifier.size(Dimens.Component.XXXLarge),
-                painter = painterResource(id = R.drawable.ic_shuttle_foreground),
-                contentDescription = stringResource(id = string.x_app_icon_description)
-            )
+            Box(modifier = Modifier.imageContainerBackground().padding(Dimens.Margin.Small)) {
+                when (state) {
+                    OnboardingBlacklistState.Loading -> LoadingSpinner()
+                    is OnboardingBlacklistState.Data -> OnboardingBlacklistImage(uiModel = state.blacklist)
+                }.exhaustive
+            }
         },
         description = string.onboarding_blacklist_description,
         navigationActions = actions
@@ -30,10 +42,35 @@ internal fun OnboardingBlacklistPage(actions: OnboardingPage.NavigationActions) 
 }
 
 @Composable
+private fun OnboardingBlacklistImage(uiModel: OnboardingBlacklistUiModel) {
+    LazyColumn {
+        items(uiModel.apps) { app ->
+            CheckableListItem(
+                title = app.name,
+                iconDrawable = app.icon,
+                contentDescription = NoContentDescription,
+                isChecked = app.isBlacklisted,
+                onCheckChange = {}
+            )
+        }
+    }
+}
+
+@Composable
 @Preview(showSystemUi = true)
 private fun OnboardingBlacklistPagePreview() {
+    val apps = listOf(
+        OnboardingBlacklistAppUiModel("Shuttle", PreviewUtils.ShuttleIconDrawable, isBlacklisted = true),
+        OnboardingBlacklistAppUiModel("Proton Mail", PreviewUtils.ShuttleIconDrawable, isBlacklisted = false),
+        OnboardingBlacklistAppUiModel("Proton Drive", PreviewUtils.ShuttleIconDrawable, isBlacklisted = false),
+    )
+    val state = OnboardingBlacklistState.Data(
+        blacklist = OnboardingBlacklistUiModel(
+            apps = nonEmptyListOf(apps[0], apps[1], apps[2])
+        )
+    )
     val actions = OnboardingPage.NavigationActions(onPrevious = {}, onNext = {}, onComplete = {})
     ShuttleTheme {
-        OnboardingBlacklistPage(actions = actions)
+        OnboardingBlacklistPage(state = state, actions = actions)
     }
 }

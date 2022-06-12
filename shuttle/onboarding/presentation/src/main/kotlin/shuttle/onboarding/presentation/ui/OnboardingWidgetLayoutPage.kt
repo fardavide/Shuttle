@@ -1,8 +1,6 @@
 package shuttle.onboarding.presentation.ui
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -17,12 +15,7 @@ internal fun OnboardingWidgetLayoutPage(actions: OnboardingPage.NavigationAction
         index = OnboardingPage.Index.WIDGET_LAYOUT,
         title = string.onboarding_widget_layout_title,
         image = {
-            LazyColumn(
-                modifier = Modifier.background(
-                    color = MaterialTheme.colorScheme.surface,
-                    shape = MaterialTheme.shapes.large
-                )
-            ) {
+            LazyColumn(modifier = Modifier.imageContainerBackground()) {
                 item {
                     NavigableListItem(
                         title = string.settings_widget_layout_grid,
