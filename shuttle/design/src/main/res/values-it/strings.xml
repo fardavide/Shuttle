@@ -76,5 +76,12 @@
     <string name="x_back_button_description">Bottone indietro</string>
     <string name="x_coming_soon">Presto disponibile!</string>
     <string name="x_generic_error">Qualcosa è andato storto!</string>
+    <string name="onboarding_main_title">Benvenuto in Shuttle!</string>
+    <string name="onboarding_main_description">Prego segui una breve introduzione all\'app</string>
+    <string name="onboarding_widget_title">Imposta il widget</string>
+    <string name="onboarding_widget_description">Aggiungi il widget \'Shuttle\' alla tua home screen, per avere una lista delle applicazioni suggerite per te, sempre pronte per essere lanciate</string>
+    <string name="onboarding_action_complete">Completo</string>
+    <string name="onboarding_action_next">Prossimo</string>
+    <string name="onboarding_action_previous">Precendente</string>
 
 </resources>
