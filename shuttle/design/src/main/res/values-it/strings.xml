@@ -48,7 +48,7 @@
     <string name="settings_check_permissions_title">Controlla i permessi</string>
     <string name="settings_design_section_title">Design</string>
     <string name="settings_footer_app_version">Versione %s</string>
-    <string name="settings_icon_description">Icona impostazioni</string>
+    <string name="settings_icon_description">Impostazioni</string>
     <string name="settings_icon_pack_description">Scegli un Pacchetto d\'Icone</string>
     <string name="settings_icon_pack_system_default">Icone di sistema</string>
     <string name="settings_icon_pack_title">Pacchetti Icone</string>
@@ -73,7 +73,7 @@
     <string name="settings_widget_layout_two_lines">Etichette app su due linee</string>
     <string name="settings_widget_layout_vertical_spacing">Spazio verticale tra le icone</string>
     <string name="x_app_icon_description">Icona app</string>
-    <string name="x_back_button_description">Bottone indietro</string>
+    <string name="x_back_button_description">Indietro</string>
     <string name="x_coming_soon">Presto disponibile!</string>
     <string name="x_generic_error">Qualcosa è andato storto!</string>
     <string name="onboarding_main_title">Benvenuto in Shuttle!</string>

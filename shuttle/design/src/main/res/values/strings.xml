@@ -3,7 +3,7 @@
 
     <!-- region Common -->
     <string name="x_app_icon_description">App icon</string>
-    <string name="x_back_button_description">Back button</string>
+    <string name="x_back_button_description">Back</string>
     <string name="x_coming_soon">Coming soon!</string>
     <string name="x_generic_error">Something wrong happened!</string>
     <!-- endregion -->
@@ -60,7 +60,7 @@
 
     <!-- region Settings -->
     <string name="settings_title">Settings</string>
-    <string name="settings_icon_description">Settings icon</string>
+    <string name="settings_icon_description">Settings</string>
 
     <string name="settings_design_section_title">Design</string>
     <string name="settings_suggestions_section_title">Suggestions</string>
