@@ -25,7 +25,7 @@ import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import shuttle.design.PreviewDimens
+import shuttle.design.PreviewUtils
 import shuttle.design.theme.Dimens
 import shuttle.design.theme.ShuttleTheme
 import shuttle.permissions.presentation.model.PermissionItemUiModel
@@ -113,7 +113,7 @@ private fun NotGrantedPermissionItem(
 }
 
 @Composable
-@Preview(showBackground = true, widthDp = PreviewDimens.Medium.Width)
+@Preview(showBackground = true, widthDp = PreviewUtils.Dimens.Medium.Width)
 private fun GrantedPermissionItemPreview() {
     val uiModel = PermissionItemUiModel.Granted(
         name = R.string.permissions_location_background_name,
@@ -125,7 +125,7 @@ private fun GrantedPermissionItemPreview() {
 }
 
 @Composable
-@Preview(showBackground = true, widthDp = PreviewDimens.Medium.Width)
+@Preview(showBackground = true, widthDp = PreviewUtils.Dimens.Medium.Width)
 private fun NotGrantedPermissionItemPreview() {
     val uiModel = PermissionItemUiModel.NotGranted(
         name = R.string.permissions_location_background_name,

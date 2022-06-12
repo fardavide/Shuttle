@@ -2,25 +2,17 @@
 
 package shuttle.settings.presentation.ui.page
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SmallTopAppBar
 import androidx.compose.material3.Text
@@ -30,17 +22,19 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.TextFieldValue
-import coil.compose.rememberImagePainter
+import androidx.compose.ui.tooling.preview.Preview
 import org.koin.androidx.compose.getViewModel
 import shuttle.apps.domain.model.AppId
+import shuttle.design.PreviewUtils
 import shuttle.design.theme.Dimens
+import shuttle.design.theme.ShuttleTheme
 import shuttle.design.ui.BackIconButton
+import shuttle.design.ui.CheckableListItem
 import shuttle.design.ui.LoadingSpinner
 import shuttle.design.ui.TextError
 import shuttle.design.util.collectAsStateLifecycleAware
@@ -54,7 +48,9 @@ import studio.forface.shuttle.design.R
 @OptIn(ExperimentalMaterial3Api::class)
 fun BlacklistSettingsPage(onBack: () -> Unit) {
     Scaffold(
-        modifier = Modifier.statusBarsPadding().navigationBarsPadding(),
+        modifier = Modifier
+            .statusBarsPadding()
+            .navigationBarsPadding(),
         topBar = {
             SmallTopAppBar(
                 title = { Text(stringResource(id = R.string.settings_blacklist_title)) },
@@ -77,7 +73,7 @@ private fun BlacklistSettingsContent() {
         State.Loading -> LoadingSpinner()
         is State.Data -> Column {
             SearchBar(onSearch = { viewModel.submit(Action.Search(it)) })
-            IconPackItemsList(
+            BlacklistItemsList(
                 state.apps,
                 onAddToBlacklist = { viewModel.submit(Action.AddToBlacklist(it)) }
             ) { viewModel.submit(Action.RemoveFromBlacklist(it)) }
@@ -109,7 +105,7 @@ private fun SearchBar(onSearch: (String) -> Unit) {
 }
 
 @Composable
-private fun IconPackItemsList(
+private fun BlacklistItemsList(
     apps: List<AppBlacklistSettingUiModel>,
     onAddToBlacklist: (AppId) -> Unit,
     onRemoveFromBlacklist: (AppId) -> Unit
@@ -126,37 +122,35 @@ private fun IconPackItemsList(
 }
 
 @Composable
-@OptIn(ExperimentalMaterial3Api::class)
 private fun AppListItem(
     app: AppBlacklistSettingUiModel,
     onAddToBlacklist: (AppId) -> Unit,
     onRemoveFromBlacklist: (AppId) -> Unit
 ) {
-    var checkedState by remember(app.id) { mutableStateOf(app.isBlacklisted) }
-    val toggleAction = { isChecked: Boolean ->
-        checkedState = isChecked
+    val onCheckChange = { isChecked: Boolean ->
         if (isChecked) onAddToBlacklist(app.id)
         else onRemoveFromBlacklist(app.id)
     }
+    CheckableListItem(
+        id = app.id,
+        title = app.name,
+        iconDrawable = app.icon,
+        contentDescription = stringResource(id = R.string.x_app_icon_description),
+        isChecked = app.isBlacklisted,
+        onCheckChange = onCheckChange
+    )
+}
 
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
-            .padding(vertical = Dimens.Margin.XXSmall, horizontal = Dimens.Margin.Small)
-            .clickable { toggleAction(checkedState.not()) }
-    ) {
-        Image(
-            painter = rememberImagePainter(data = app.icon),
-            contentDescription = stringResource(id = R.string.x_app_icon_description),
-            modifier = Modifier.size(Dimens.Icon.Medium)
-        )
-        Spacer(modifier = Modifier.width(Dimens.Margin.Medium))
-        Text(
-            text = app.name,
-            style = MaterialTheme.typography.bodyMedium
-        )
-        Column(horizontalAlignment = Alignment.End, modifier = Modifier.fillMaxWidth()) {
-            Checkbox(checked = checkedState, onCheckedChange = toggleAction)
-        }
+@Composable
+@Preview(showBackground = true)
+private fun AppListItemPreview() {
+    val app = AppBlacklistSettingUiModel(
+        id = AppId("shuttle"),
+        name = "Shuttle",
+        icon = PreviewUtils.ShuttleIconDrawable,
+        isBlacklisted = true
+    )
+    ShuttleTheme {
+        AppListItem(app = app, onAddToBlacklist = {}, onRemoveFromBlacklist = {})
     }
 }

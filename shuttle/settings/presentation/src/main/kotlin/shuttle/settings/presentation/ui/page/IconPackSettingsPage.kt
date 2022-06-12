@@ -68,7 +68,7 @@ private fun IconPacksSettingsContent() {
     val s by viewModel.state.collectAsStateLifecycleAware()
     when (val state = s) {
         State.Loading -> LoadingSpinner()
-        is State.Data -> IconPackItemsList(
+        is State.Data -> BlacklistItemsList(
             state.iconPackSettingItems,
             onSetCurrentIconPack = { viewModel.submit(Action.SetCurrentIconPack(it)) }
         )
@@ -76,7 +76,7 @@ private fun IconPacksSettingsContent() {
 }
 
 @Composable
-private fun IconPackItemsList(
+private fun BlacklistItemsList(
     iconPackItems: List<IconPackSettingsItemUiModel>,
     onSetCurrentIconPack: (Option<AppId>) -> Unit
 ) {

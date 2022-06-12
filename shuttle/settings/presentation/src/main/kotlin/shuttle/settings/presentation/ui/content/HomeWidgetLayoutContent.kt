@@ -4,7 +4,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import shuttle.design.PreviewDimens
+import shuttle.design.PreviewUtils
 import shuttle.design.ui.NavigableListItem
 import shuttle.settings.presentation.WidgetLayout
 import studio.forface.shuttle.design.R
@@ -41,7 +41,11 @@ internal fun HomeWidgetLayoutContent(
 }
 
 @Composable
-@Preview(showBackground = true, widthDp = PreviewDimens.Medium.Width, heightDp = PreviewDimens.Medium.Height)
+@Preview(
+    showBackground = true,
+    widthDp = PreviewUtils.Dimens.Medium.Width,
+    heightDp = PreviewUtils.Dimens.Medium.Height
+)
 private fun HomeWidgetLayoutContentPreview() {
     MaterialTheme {
         HomeWidgetLayoutContent({}, {}, {})

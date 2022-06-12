@@ -23,7 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberImagePainter
-import shuttle.design.PreviewDimens
+import shuttle.design.PreviewUtils
 import shuttle.design.model.WidgetLayoutUiModel
 import shuttle.design.model.WidgetPreviewAppUiModel
 import shuttle.design.model.WidgetPreviewUiModel
@@ -95,7 +95,11 @@ private fun AppIconItem(
 }
 
 @Composable
-@Preview(showBackground = true, widthDp = PreviewDimens.Medium.Width, heightDp = PreviewDimens.Medium.Height)
+@Preview(
+    showBackground = true,
+    widthDp = PreviewUtils.Dimens.Medium.Width,
+    heightDp = PreviewUtils.Dimens.Medium.Height
+)
 private fun WidgetPreviewPreview() {
     val icon = LocalContext.current.getDrawable(androidx.core.R.drawable.notification_bg_low)!!
     val apps = listOf(
