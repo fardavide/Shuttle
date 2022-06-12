@@ -5,8 +5,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import shuttle.design.PreviewDimens
+import shuttle.design.ui.NavigableListItem
 import shuttle.settings.presentation.WidgetLayout
-import shuttle.settings.presentation.ui.component.SectionItem
 import studio.forface.shuttle.design.R
 
 @Composable
@@ -17,21 +17,21 @@ internal fun HomeWidgetLayoutContent(
 ) {
     LazyColumn {
         item {
-            SectionItem(
+            NavigableListItem(
                 title = WidgetLayout.Grid.title,
                 icon = R.drawable.ic_grid,
                 onClick = toGrid
             )
         }
         item {
-            SectionItem(
+            NavigableListItem(
                 title = WidgetLayout.IconsDimensions.title,
                 icon = R.drawable.ic_dimensions,
                 onClick = toIconsDimensions
             )
         }
         item {
-            SectionItem(
+            NavigableListItem(
                 title = WidgetLayout.AppsLabels.title,
                 icon = R.drawable.ic_label,
                 onClick = toAppsLabels

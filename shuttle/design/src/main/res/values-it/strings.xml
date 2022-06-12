@@ -87,5 +87,6 @@
     <string name="settings_restart_onboarding_description">Guarda do nuovo l\'introduzione all\'app, in caso ti fossi perso qualcosa</string>
     <string name="onboarding_widget_layout_title">Personalizza il tuo widget</string>
     <string name="onboarding_widget_layout_description">Puoi personalizzare il tuo widget, cambiandone la disposizione o usando un Pacchetto Icone</string>
+    <string name="navigable_item_go_to">Vai a %s</string>
 
 </resources>

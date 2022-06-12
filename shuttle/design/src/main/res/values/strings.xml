@@ -6,6 +6,8 @@
     <string name="x_back_button_description">Back</string>
     <string name="x_coming_soon">Coming soon!</string>
     <string name="x_generic_error">Something wrong happened!</string>
+
+    <string name="navigable_item_go_to">Go to %s</string>
     <!-- endregion -->
 
     <!-- region App -->
