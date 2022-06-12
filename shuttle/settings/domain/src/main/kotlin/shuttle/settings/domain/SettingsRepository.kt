@@ -22,6 +22,8 @@ interface SettingsRepository {
 
     fun observeWidgetSettings(): Flow<WidgetSettings>
 
+    suspend fun resetOnboardingShown()
+
     suspend fun setBlacklisted(appId: AppId, blacklisted: Boolean)
 
     suspend fun setCurrentIconPack(id: Option<AppId>)

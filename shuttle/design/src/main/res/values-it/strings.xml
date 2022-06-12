@@ -83,5 +83,7 @@
     <string name="onboarding_action_complete">Completo</string>
     <string name="onboarding_action_next">Prossimo</string>
     <string name="onboarding_action_previous">Precendente</string>
+    <string name="settings_restart_onboarding_title">Guarda tutorial</string>
+    <string name="settings_restart_onboarding_description">Guarda do nuovo l\'introduzione all\'app, in caso ti fossi perso qualcosa</string>
 
 </resources>

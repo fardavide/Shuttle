@@ -8,9 +8,10 @@ import kotlinx.coroutines.launch
 import shuttle.accessibility.usecase.IsLaunchCounterServiceEnabled
 import shuttle.permissions.domain.usecase.HasAllLocationPermissions
 import shuttle.settings.domain.usecase.ObservePrioritizeLocation
+import shuttle.settings.domain.usecase.ResetOnboardingShown
 import shuttle.settings.domain.usecase.UpdatePrioritizeLocation
+import shuttle.settings.presentation.model.SettingsState
 import shuttle.settings.presentation.viewmodel.SettingsViewModel.Action
-import shuttle.settings.presentation.viewmodel.SettingsViewModel.State
 import shuttle.util.android.viewmodel.ShuttleViewModel
 import shuttle.utils.kotlin.GetAppVersion
 
@@ -20,8 +21,9 @@ class SettingsViewModel(
     private val hasAllLocationPermissions: HasAllLocationPermissions,
     private val isLaunchCounterServiceEnabled: IsLaunchCounterServiceEnabled,
     private val observePrioritizeLocation: ObservePrioritizeLocation,
+    private val resetOnboardingShown: ResetOnboardingShown,
     private val updatePrioritizeLocation: UpdatePrioritizeLocation
-) : ShuttleViewModel<Action, State>(initialState = State.Loading) {
+) : ShuttleViewModel<Action, SettingsState>(initialState = SettingsState.Loading) {
 
     init {
         viewModelScope.launch {
@@ -31,7 +33,8 @@ class SettingsViewModel(
         viewModelScope.launch {
             observePrioritizeLocation().collectLatest { prioritizeLocation ->
                 val prioritizeLocationValue =
-                    if (prioritizeLocation) State.PrioritizeLocation.True else State.PrioritizeLocation.False
+                    if (prioritizeLocation) SettingsState.PrioritizeLocation.True
+                    else SettingsState.PrioritizeLocation.False
                 val newState = state.value.copy(prioritizeLocation = prioritizeLocationValue)
                 emit(newState)
             }
@@ -41,6 +44,7 @@ class SettingsViewModel(
     override fun submit(action: Action) {
         viewModelScope.launch {
             val newState = when (action) {
+                Action.ResetOnboardingShown -> onResetOnboardingShown()
                 is Action.UpdatePermissionsState -> onPermissionsStateUpdate(action.permissionsState)
                 is Action.UpdatePrioritizeLocation -> onUpdatePrioritizeLocation(action.value)
             }
@@ -48,55 +52,31 @@ class SettingsViewModel(
         }
     }
 
-    private fun onPermissionsStateUpdate(permissionsState: MultiplePermissionsState): State {
+    private suspend fun onResetOnboardingShown(): SettingsState {
+        resetOnboardingShown()
+        return state.value
+    }
+
+    private fun onPermissionsStateUpdate(permissionsState: MultiplePermissionsState): SettingsState {
         val hasPermissions = hasAllLocationPermissions(permissionsState) && isLaunchCounterServiceEnabled()
-        val permissions = if (hasPermissions) State.Permissions.Granted else State.Permissions.Denied
+        val permissions = if (hasPermissions) SettingsState.Permissions.Granted else SettingsState.Permissions.Denied
 
         return state.value.copy(permissions = permissions)
     }
 
-    private fun onUpdatePrioritizeLocation(value: Boolean): State {
+    private fun onUpdatePrioritizeLocation(value: Boolean): SettingsState {
         viewModelScope.launch {
             updatePrioritizeLocation(value)
         }
 
-        val prioritizeLocation = if (value) State.PrioritizeLocation.True else State.PrioritizeLocation.False
+        val prioritizeLocation = if (value) SettingsState.PrioritizeLocation.True else SettingsState.PrioritizeLocation.False
         return state.value.copy(prioritizeLocation = prioritizeLocation)
     }
 
     sealed interface Action {
 
+        object ResetOnboardingShown : Action
         data class UpdatePermissionsState(val permissionsState: MultiplePermissionsState): Action
         data class UpdatePrioritizeLocation(val value: Boolean): Action
-    }
-
-    data class State(
-        val permissions: Permissions,
-        val prioritizeLocation: PrioritizeLocation,
-        val appVersion: String
-    ) {
-
-        sealed interface Permissions {
-
-            object Loading : Permissions
-            object Granted : Permissions
-            object Denied : Permissions
-        }
-
-        sealed interface PrioritizeLocation {
-
-            object Loading : PrioritizeLocation
-            object False : PrioritizeLocation
-            object True : PrioritizeLocation
-        }
-
-        companion object {
-
-            val Loading = State(
-                permissions = Permissions.Loading,
-                prioritizeLocation = PrioritizeLocation.Loading,
-                appVersion = ""
-            )
-        }
     }
 }

@@ -100,6 +100,9 @@
     <string name="settings_icon_pack_description">Choose an Icon Pack for your icons</string>
     <string name="settings_icon_pack_system_default">System icons</string>
 
+    <string name="settings_restart_onboarding_title">Watch tutorial</string>
+    <string name="settings_restart_onboarding_description">Watch again the introduction to the app, in case you missed something</string>
+
     <string name="settings_widget_layout_go_to">Go to %s</string>
     <string name="settings_widget_layout_toolbar_drag_description">Drag vertically to resize</string>
     <string name="settings_widget_layout_title">Widget layout</string>

@@ -39,6 +39,7 @@ val settingsPresentationModule = module {
             hasAllLocationPermissions = get(),
             isLaunchCounterServiceEnabled = get(),
             observePrioritizeLocation = get(),
+            resetOnboardingShown = get(),
             updatePrioritizeLocation = get()
         )
     }

@@ -83,6 +83,12 @@ internal class SettingsRepositoryImpl(
             }.distinctUntilChanged()
         }
 
+    override suspend fun resetOnboardingShown() {
+        dataStore.edit {
+            it[DidShowOnboardingPreferenceKey] = false
+        }
+    }
+
     override suspend fun setBlacklisted(appId: AppId, blacklisted: Boolean) {
         settingDataSource.setBlacklisted(DatabaseAppId(appId.value), blacklisted)
     }

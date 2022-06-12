@@ -10,6 +10,7 @@ import shuttle.settings.domain.usecase.ObserveCurrentIconPack
 import shuttle.settings.domain.usecase.ObservePrioritizeLocation
 import shuttle.settings.domain.usecase.ObserveWidgetSettings
 import shuttle.settings.domain.usecase.RemoveFromBlacklist
+import shuttle.settings.domain.usecase.ResetOnboardingShown
 import shuttle.settings.domain.usecase.SearchAppsBlacklistSettings
 import shuttle.settings.domain.usecase.SetCurrentIconPack
 import shuttle.settings.domain.usecase.SetHasEnabledAccessibilityService
@@ -27,6 +28,7 @@ val settingsDomainModule = module {
     factory { ObservePrioritizeLocation(settingsRepository = get()) }
     factory { ObserveWidgetSettings(settingsRepository = get()) }
     factory { RemoveFromBlacklist(settingsRepository = get()) }
+    factory { ResetOnboardingShown(settingsRepository = get()) }
     factory { SearchAppsBlacklistSettings(observeAppsBlacklistSettings = get()) }
     factory { SetCurrentIconPack(settingsRepository = get()) }
     factory { SetHasEnabledAccessibilityService(settingsRepository = get()) }

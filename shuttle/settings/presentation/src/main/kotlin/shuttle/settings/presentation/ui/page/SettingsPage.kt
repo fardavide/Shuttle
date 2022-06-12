@@ -43,44 +43,43 @@ import shuttle.design.util.collectAsStateLifecycleAware
 import shuttle.permissions.domain.model.backgroundPermissionsList
 import shuttle.settings.presentation.model.SettingsItemUiModel
 import shuttle.settings.presentation.model.SettingsSectionUiModel
+import shuttle.settings.presentation.model.SettingsState
 import shuttle.settings.presentation.viewmodel.SettingsViewModel
 import shuttle.settings.presentation.viewmodel.SettingsViewModel.Action
-import shuttle.settings.presentation.viewmodel.SettingsViewModel.State
 import studio.forface.shuttle.design.R.string
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class)
-fun SettingsPage(
-    onBack: () -> Unit,
-    toBlacklist: () -> Unit,
-    toWidgetLayout: () -> Unit,
-    toIconPacks: () -> Unit,
-    toPermissions: () -> Unit,
-    toAbout: () -> Unit
-) {
+fun SettingsPage(actions: SettingsPage.Actions) {
     val viewModel = getViewModel<SettingsViewModel>()
     val state by viewModel.state.collectAsStateLifecycleAware()
 
     val backgroundLocationPermissionsState = rememberMultiplePermissionsState(backgroundPermissionsList)
     viewModel.submit(Action.UpdatePermissionsState(backgroundLocationPermissionsState))
 
+    @Suppress("NAME_SHADOWING")
+    val actions = actions.copy(
+        toOnboarding = {
+            viewModel.submit(Action.ResetOnboardingShown)
+            actions.toOnboarding()
+        }
+    )
+
     Scaffold(
-        modifier = Modifier.statusBarsPadding().navigationBarsPadding(),
+        modifier = Modifier
+            .statusBarsPadding()
+            .navigationBarsPadding(),
         topBar = {
             SmallTopAppBar(
                 title = { Text(stringResource(id = string.settings_title)) },
-                navigationIcon = { BackIconButton(onBack) }
+                navigationIcon = { BackIconButton(actions.onBack) }
             )
         }
     ) { paddingValues ->
         SettingsContent(
             state = state,
+            actions = actions,
             modifier = Modifier.padding(paddingValues),
-            toBlacklist = toBlacklist,
-            toWidgetLayout = toWidgetLayout,
-            toIconPacks = toIconPacks,
-            toPermissions = toPermissions,
-            toAbout = toAbout,
             updatePrioritizeLocation = { viewModel.submit(Action.UpdatePrioritizeLocation(it)) }
         )
     }
@@ -88,27 +87,24 @@ fun SettingsPage(
 
 @Composable
 private fun SettingsContent(
-    state: State,
+    state: SettingsState,
+    actions: SettingsPage.Actions,
     modifier: Modifier,
-    toBlacklist: () -> Unit,
-    toWidgetLayout: () -> Unit,
-    toIconPacks: () -> Unit,
-    toPermissions: () -> Unit,
-    toAbout: () -> Unit,
     updatePrioritizeLocation: (Boolean) -> Unit
 ) {
-    LazyColumn(modifier = Modifier.fillMaxHeight()) {
+    LazyColumn(modifier = modifier.fillMaxHeight()) {
         item { DesignSection() }
-        item { WidgetLayoutItem(toWidgetLayout) }
-        item { IconPackItem(toIconPacks) }
+        item { WidgetLayoutItem(actions.toWidgetLayout) }
+        item { IconPackItem(actions.toIconPacks) }
 
         item { SuggestionsSection() }
-        item { BlacklistItem(toBlacklist) }
+        item { BlacklistItem(actions.toBlacklist) }
         item { PrioritizeLocationItem(state = state.prioritizeLocation, updatePrioritizeLocation) }
 
         item { InfoSection() }
-        item { CheckPermissionsItem(state.permissions, toPermissions) }
-        item { AboutItem(toAbout) }
+        item { RestartOnboardingItem(actions.toOnboarding) }
+        item { CheckPermissionsItem(state.permissions, actions.toPermissions) }
+        item { AboutItem(actions.toAbout) }
 
         item { AppVersionFooter(version = state.appVersion) }
     }
@@ -159,10 +155,10 @@ private fun BlacklistItem(toBlacklist: () -> Unit) {
 
 @Composable
 private fun PrioritizeLocationItem(
-    state: State.PrioritizeLocation,
+    state: SettingsState.PrioritizeLocation,
     updatePrioritizeLocation: (Boolean) -> Unit
 ) {
-    var isPrioritizingLocation by remember { mutableStateOf(state == State.PrioritizeLocation.True) }
+    var isPrioritizingLocation by remember { mutableStateOf(state == SettingsState.PrioritizeLocation.True) }
 
     val uiModel = SettingsItemUiModel(
         title = stringResource(id = string.settings_prioritize_location_title),
@@ -170,8 +166,8 @@ private fun PrioritizeLocationItem(
     )
     SettingsItem(item = uiModel, onClick = { isPrioritizingLocation = !isPrioritizingLocation }) {
         when (state) {
-            State.PrioritizeLocation.Loading -> LoadingSpinner()
-            State.PrioritizeLocation.False, State.PrioritizeLocation.True -> {
+            SettingsState.PrioritizeLocation.Loading -> LoadingSpinner()
+            SettingsState.PrioritizeLocation.False, SettingsState.PrioritizeLocation.True -> {
                 Switch(checked = isPrioritizingLocation, onCheckedChange = { isChecked ->
                     isPrioritizingLocation = isChecked
                     updatePrioritizeLocation(isChecked)
@@ -190,15 +186,24 @@ private fun InfoSection() {
 }
 
 @Composable
-private fun CheckPermissionsItem(state: State.Permissions, toPermissions: () -> Unit) {
+private fun RestartOnboardingItem(toOnboarding: () -> Unit) {
+    val uiModel = SettingsItemUiModel(
+        title = stringResource(id = string.settings_restart_onboarding_title),
+        description = stringResource(id = string.settings_restart_onboarding_description)
+    )
+    SettingsItem(item = uiModel, onClick = toOnboarding)
+}
+
+@Composable
+private fun CheckPermissionsItem(state: SettingsState.Permissions, toPermissions: () -> Unit) {
     val uiModel = SettingsItemUiModel(
         title = stringResource(id = string.settings_check_permissions_title),
         description = stringResource(id = string.settings_check_permissions_description)
     )
     SettingsItem(item = uiModel, onClick = toPermissions) {
         when (state) {
-            State.Permissions.Loading -> LoadingSpinner()
-            State.Permissions.Denied -> Icon(
+            SettingsState.Permissions.Loading -> LoadingSpinner()
+            SettingsState.Permissions.Denied -> Icon(
                 painter = rememberVectorPainter(image = Icons.Rounded.Warning),
                 tint = MaterialTheme.colorScheme.error,
                 contentDescription = stringResource(string.settings_check_permissions_not_granted_description),
@@ -206,7 +211,7 @@ private fun CheckPermissionsItem(state: State.Permissions, toPermissions: () -> 
                     .padding(end = Dimens.Margin.Small)
                     .size(Dimens.Icon.Small)
             )
-            State.Permissions.Granted -> Icon(
+            SettingsState.Permissions.Granted -> Icon(
                 painter = rememberVectorPainter(image = Icons.Rounded.CheckCircle),
                 tint = MaterialTheme.colorScheme.secondary,
                 contentDescription = stringResource(string.settings_check_permissions_granted_description),
@@ -270,24 +275,41 @@ private fun AppVersionFooter(version: String) {
     }
 }
 
+object SettingsPage {
+
+    data class Actions(
+        val onBack: () -> Unit,
+        val toBlacklist: () -> Unit,
+        val toWidgetLayout: () -> Unit,
+        val toIconPacks: () -> Unit,
+        val toOnboarding: () -> Unit,
+        val toPermissions: () -> Unit,
+        val toAbout: () -> Unit
+    )
+}
+
 @Composable
 @Preview(showBackground = true)
 fun SettingsContentPreview() {
-    val state = State(
-        permissions = State.Permissions.Granted,
-        prioritizeLocation = State.PrioritizeLocation.True,
+    val state = SettingsState(
+        permissions = SettingsState.Permissions.Granted,
+        prioritizeLocation = SettingsState.PrioritizeLocation.True,
         appVersion = "123"
     )
     MaterialTheme {
         SettingsContent(
             state = state,
+            actions = SettingsPage.Actions(
+                onBack = {},
+                toBlacklist = {},
+                toWidgetLayout = {},
+                toIconPacks = {},
+                toOnboarding = {},
+                toPermissions = {},
+                toAbout = {}
+            ),
             modifier = Modifier,
-            toBlacklist = {},
-            toWidgetLayout = {},
-            toIconPacks = {},
-            toPermissions = {},
-            updatePrioritizeLocation = {},
-            toAbout = {}
+            updatePrioritizeLocation = {}
         )
     }
 }

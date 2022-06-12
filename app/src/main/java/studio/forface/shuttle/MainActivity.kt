@@ -87,12 +87,15 @@ private fun PermissionsRoute(navController: NavController) =
 @Composable
 private fun SettingsRoute(navController: NavController, onBack: () -> Unit) =
     SettingsPage(
-        onBack = onBack,
-        toBlacklist = { navController.navigate(BlacklistSettings) },
-        toWidgetLayout = { navController.navigate(WidgetLayout) },
-        toIconPacks = { navController.navigate(IconPackSettings) },
-        toPermissions = { navController.navigate(Permissions) },
-        toAbout = { navController.navigate(About) }
+        actions = SettingsPage.Actions(
+            onBack = onBack,
+            toBlacklist = { navController.navigate(BlacklistSettings) },
+            toWidgetLayout = { navController.navigate(WidgetLayout) },
+            toIconPacks = { navController.navigate(IconPackSettings) },
+            toOnboarding = { navController.navigate(Onboarding) },
+            toPermissions = { navController.navigate(Permissions) },
+            toAbout = { navController.navigate(About) }
+        )
     )
 
 @Composable
