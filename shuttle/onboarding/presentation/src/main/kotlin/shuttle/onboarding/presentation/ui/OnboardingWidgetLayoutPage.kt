@@ -1,24 +1,17 @@
 package shuttle.onboarding.presentation.ui
 
-import android.graphics.Bitmap
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.background
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.core.graphics.drawable.toDrawable
-import shuttle.design.model.WidgetPreviewAppUiModel
-import shuttle.design.model.WidgetPreviewUiModel
-import shuttle.design.theme.Dimens
 import shuttle.design.theme.ShuttleTheme
-import shuttle.onboarding.presentation.model.OnboardingWidgetPreviewState
-import shuttle.onboarding.presentation.viewmodel.OnboardingViewModel
-import studio.forface.shuttle.design.R
+import shuttle.design.ui.NavigableListItem
+import studio.forface.shuttle.design.R.drawable
 import studio.forface.shuttle.design.R.string
 
 @Composable
@@ -29,11 +22,34 @@ internal fun OnboardingWidgetLayoutPage(
         index = OnboardingPage.Index.WIDGET_LAYOUT,
         title = string.onboarding_widget_layout_title,
         image = {
-            Image(
-                modifier = Modifier.size(Dimens.Component.XXXLarge),
-                painter = painterResource(id = R.drawable.ic_shuttle_foreground),
-                contentDescription = stringResource(id = string.x_app_icon_description)
-            )
+            LazyColumn(
+                modifier = Modifier.background(
+                    color = MaterialTheme.colorScheme.surface,
+                    shape = MaterialTheme.shapes.large
+                )
+            ) {
+                item {
+                    NavigableListItem(
+                        title = string.settings_widget_layout_grid,
+                        icon = drawable.ic_grid,
+                        onClick = {}
+                    )
+                }
+                item {
+                    NavigableListItem(
+                        title = string.settings_widget_layout_icons_dimensions,
+                        icon = drawable.ic_dimensions,
+                        onClick = {}
+                    )
+                }
+                item {
+                    NavigableListItem(
+                        title = string.settings_widget_layout_apps_labels,
+                        icon = drawable.ic_label,
+                        onClick = {}
+                    )
+                }
+            }
         },
         description = string.onboarding_widget_layout_description,
         previousButton = {
@@ -59,24 +75,9 @@ internal object OnboardingWidgetLayoutPage {
 
 @Composable
 @Preview(showSystemUi = true)
-private fun OnboardingWidgetPagePreview() {
-    val emptyDrawable = Bitmap
-        .createBitmap(1, 1, Bitmap.Config.ARGB_8888)
-        .toDrawable(LocalContext.current.resources)
-
-    val state = OnboardingWidgetPreviewState.Data(
-        widgetPreview = WidgetPreviewUiModel(
-            layout = OnboardingViewModel.WidgetLayout,
-            apps = listOf(
-                WidgetPreviewAppUiModel("Shuttle", emptyDrawable),
-                WidgetPreviewAppUiModel("Proton Mail", emptyDrawable),
-                WidgetPreviewAppUiModel("Proton Drive", emptyDrawable),
-                WidgetPreviewAppUiModel("Telegram", emptyDrawable),
-            )
-        )
-    )
-    val actions = OnboardingWidgetPage.Actions(onPreviousPage = {}, onNextPage = {})
+private fun OnboardingWidgetLayoutPagePreview() {
+    val actions = OnboardingWidgetLayoutPage.Actions(onPreviousPage = {}, onNextPage = {})
     ShuttleTheme {
-        OnboardingWidgetPage(state = state, actions = actions)
+        OnboardingWidgetLayoutPage(actions = actions)
     }
 }
