@@ -69,7 +69,9 @@ class SettingsViewModel(
             updatePrioritizeLocation(value)
         }
 
-        val prioritizeLocation = if (value) SettingsState.PrioritizeLocation.True else SettingsState.PrioritizeLocation.False
+        val prioritizeLocation =
+            if (value) SettingsState.PrioritizeLocation.True
+            else SettingsState.PrioritizeLocation.False
         return state.value.copy(prioritizeLocation = prioritizeLocation)
     }
 
