@@ -35,6 +35,7 @@ class OnboardingViewModelTest {
         OnboardingViewModel(
             didShowOnboarding = didShowOnboarding,
             observeAllInstalledApps = observeAllInstalledApps,
+            setOnboardingShown = mockk(relaxUnitFun = true),
             widgetPreviewAppUiModelMapper = widgetPreviewAppUiModelMapper
         )
     }
