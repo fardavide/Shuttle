@@ -1,0 +1,13 @@
+import shuttle.database.model.DatabaseAppId;
+import shuttle.database.model.DatabaseDate;
+import shuttle.database.model.DatabaseGeoHash;
+import shuttle.database.model.DatabaseTime;
+
+CREATE TABLE IF NOT EXISTS stat (
+    appId TEXT AS DatabaseAppId NOT NULL,
+    geoHash TEXT AS DatabaseGeoHash,
+    date INTEGER AS DatabaseDate NOT NULL,
+    time INTEGER AS DatabaseTime NOT NULL,
+
+    PRIMARY KEY (appId, geoHash, date, time)
+);

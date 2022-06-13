@@ -1,5 +1,7 @@
 package shuttle.stats.data
 
+import arrow.core.Option
+import com.soywiz.klock.Date
 import com.soywiz.klock.Time
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
@@ -13,27 +15,29 @@ import shuttle.database.datasource.StatDataSource
 import shuttle.database.model.DatabaseAppId
 import shuttle.database.model.DatabaseGeoHash
 import shuttle.database.model.DatabaseTime
-import shuttle.stats.data.usecase.SortAppStatsByCounts
+import shuttle.stats.data.mapper.DatabaseDateMapper
+import shuttle.stats.data.usecase.SortAppStats
 import shuttle.stats.domain.StatsRepository
 
 internal class StatsRepositoryImpl(
     private val appsRepository: AppsRepository,
+    private val databaseDateMapper: DatabaseDateMapper,
     private val statDataSource: StatDataSource,
-    private val sortAppStatsByCounts: SortAppStatsByCounts,
+    private val sortAppStats: SortAppStats,
 ) : StatsRepository {
 
-    override fun observeSuggestedApps(
-        location: GeoHash,
+    override fun observeSuggestedAppsWithDate(
+        location: Option<GeoHash>,
         startTime: Time,
         endTime: Time
     ): Flow<List<SuggestedAppModel>> =
         combine(
             appsRepository.observeNotBlacklistedApps(),
             statDataSource.findAllStats(
-                geoHash = location.toDatabaseGeoHash(),
+                geoHash = location.map { it.toDatabaseGeoHash() },
                 startTime = startTime.toDatabaseTime(),
                 endTime = endTime.toDatabaseTime()
-            ).map { sortAppStatsByCounts(it) }
+            ).map { sortAppStats(it) }
         ) { installedAppEither, sortedAppsIds ->
             val allInstalledApp = installedAppEither
                 .toMutableList()
@@ -47,16 +51,17 @@ internal class StatsRepositoryImpl(
             appsFromStats + allInstalledApp.map(::toNotSuggestedAppModel).shuffled()
         }
 
-    override suspend fun incrementCounter(appId: AppId, location: GeoHash?, time: Time) {
-        statDataSource.incrementCounter(
-            appId = appId.toDatabaseAppId(),
-            geoHash = location?.toDatabaseGeoHash(),
-            time = time.toDatabaseTimeAdjusted()
-        )
-    }
-
     override suspend fun deleteCountersFor(appId: AppId) {
         statDataSource.deleteAllCountersFor(appId.toDatabaseAppId())
+    }
+
+    override suspend fun storeOpenStats(appId: AppId, location: Option<GeoHash>, time: Time, date: Date) {
+        statDataSource.insertOpenStats(
+            appId = appId.toDatabaseAppId(),
+            geoHash = location.map { it.toDatabaseGeoHash() },
+            date = databaseDateMapper.toDatabaseDate(date),
+            time = time.toDatabaseTimeAdjusted()
+        )
     }
 }
 

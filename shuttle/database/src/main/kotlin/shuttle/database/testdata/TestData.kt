@@ -1,11 +1,13 @@
 package shuttle.database.testdata
 
 import shuttle.database.model.DatabaseAppId
+import shuttle.database.model.DatabaseDate
 import shuttle.database.model.DatabaseGeoHash
 import shuttle.database.model.DatabaseTime
 
 object TestData {
 
+    val Date = DatabaseDate(34)
     val GeoHash = DatabaseGeoHash("123")
     val AnotherGeoHash = DatabaseGeoHash("abc")
     val ExactTime = DatabaseTime(100)

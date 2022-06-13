@@ -341,12 +341,12 @@ class StatQueriesTest : DatabaseTest() {
     fun `find all stats`() = runTest {
         // given
         val expected = listOf(
-            FindAllStats(null, FirstAppId, countByLocation = 0, countByTime = 4),
-            FindAllStats(null, SecondAppId, countByLocation = 0, countByTime = 5),
-            FindAllStats(null, ThirdAppId, countByLocation = 0, countByTime = 3),
-            FindAllStats(FirstAppId, null, countByLocation = 3, countByTime = 0),
-            FindAllStats(SecondAppId, null, countByLocation = 2, countByTime = 0),
-            FindAllStats(ThirdAppId, null, countByLocation = 5, countByTime = 0),
+            FindAllStatsOld(null, FirstAppId, countByLocation = 0, countByTime = 4),
+            FindAllStatsOld(null, SecondAppId, countByLocation = 0, countByTime = 5),
+            FindAllStatsOld(null, ThirdAppId, countByLocation = 0, countByTime = 3),
+            FindAllStatsOld(FirstAppId, null, countByLocation = 3, countByTime = 0),
+            FindAllStatsOld(SecondAppId, null, countByLocation = 2, countByTime = 0),
+            FindAllStatsOld(ThirdAppId, null, countByLocation = 5, countByTime = 0),
         )
 
         // when
@@ -370,7 +370,7 @@ class StatQueriesTest : DatabaseTest() {
             // Third App: 3 * 1 = 3
             insertTimeStat(ThirdAppId, time = ExactTime, count = 3)
 
-            val result = findAllStats(
+            val result = findAllStatsOld(
                 geoHash = GeoHash,
                 startTime = RangeStartTime,
                 endTime = RangeEndTime
@@ -385,9 +385,9 @@ class StatQueriesTest : DatabaseTest() {
     fun `find by location even if no time in range`() = runTest {
         // given
         val expected = listOf(
-            FindAllStats(FirstAppId, null, countByLocation = 3, countByTime = 0),
-            FindAllStats(SecondAppId, null, countByLocation = 2, countByTime = 0),
-            FindAllStats(ThirdAppId, null, countByLocation = 5, countByTime = 0),
+            FindAllStatsOld(FirstAppId, null, countByLocation = 3, countByTime = 0),
+            FindAllStatsOld(SecondAppId, null, countByLocation = 2, countByTime = 0),
+            FindAllStatsOld(ThirdAppId, null, countByLocation = 5, countByTime = 0),
         )
 
         // when
@@ -399,7 +399,7 @@ class StatQueriesTest : DatabaseTest() {
             // Third App: 5
             insertLocationStat(ThirdAppId, geoHash = GeoHash, count = 5)
 
-            val result = findAllStats(
+            val result = findAllStatsOld(
                 geoHash = GeoHash,
                 startTime = RangeStartTime,
                 endTime = RangeEndTime
@@ -414,9 +414,9 @@ class StatQueriesTest : DatabaseTest() {
     fun `find by time even if no location in range`() = runTest {
         // given
         val expected = listOf(
-            FindAllStats(null, FirstAppId, countByLocation = 0, countByTime = 4),
-            FindAllStats(null, SecondAppId, countByLocation = 0, countByTime = 5),
-            FindAllStats(null, ThirdAppId, countByLocation = 0, countByTime = 3),
+            FindAllStatsOld(null, FirstAppId, countByLocation = 0, countByTime = 4),
+            FindAllStatsOld(null, SecondAppId, countByLocation = 0, countByTime = 5),
+            FindAllStatsOld(null, ThirdAppId, countByLocation = 0, countByTime = 3),
         )
 
         // when
@@ -433,7 +433,7 @@ class StatQueriesTest : DatabaseTest() {
             // Third App: 3 * 1 = 3
             insertTimeStat(ThirdAppId, time = ExactTime, count = 3)
 
-            val result = findAllStats(
+            val result = findAllStatsOld(
                 geoHash = GeoHash,
                 startTime = RangeStartTime,
                 endTime = RangeEndTime

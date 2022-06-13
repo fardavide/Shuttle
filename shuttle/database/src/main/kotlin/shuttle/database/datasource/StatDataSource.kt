@@ -1,14 +1,17 @@
 package shuttle.database.datasource
 
+import arrow.core.Option
 import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToList
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import shuttle.database.FindAllStats
+import shuttle.database.FindAllStatsOld
+import shuttle.database.Stat
 import shuttle.database.StatQueries
 import shuttle.database.model.DatabaseAppId
 import shuttle.database.model.DatabaseAppStat
+import shuttle.database.model.DatabaseDate
 import shuttle.database.model.DatabaseGeoHash
 import shuttle.database.model.DatabaseTime
 import shuttle.database.util.suspendTransaction
@@ -16,14 +19,22 @@ import shuttle.database.util.suspendTransaction
 interface StatDataSource {
 
     fun findAllStats(
+        geoHash: Option<DatabaseGeoHash>,
+        startTime: DatabaseTime,
+        endTime: DatabaseTime
+    ): Flow<List<Stat>>
+
+    @Deprecated("Use findAllStats", ReplaceWith("findAllStats(geoHash, startTime, endTime)"))
+    fun findAllStatsOld(
         geoHash: DatabaseGeoHash,
         startTime: DatabaseTime,
         endTime: DatabaseTime
     ): Flow<List<DatabaseAppStat>>
 
-    suspend fun incrementCounter(
+    suspend fun insertOpenStats(
         appId: DatabaseAppId,
-        geoHash: DatabaseGeoHash?,
+        geoHash: Option<DatabaseGeoHash>,
+        date: DatabaseDate,
         time: DatabaseTime
     )
 
@@ -36,18 +47,40 @@ internal class StatDataSourceImpl(
 ): StatDataSource {
 
     override fun findAllStats(
+        geoHash: Option<DatabaseGeoHash>,
+        startTime: DatabaseTime,
+        endTime: DatabaseTime
+    ): Flow<List<Stat>> {
+        val geoHashValue = geoHash.orNull()
+        val query =
+            if (geoHashValue == null) {
+                statQueries.findAllStats(
+                    startTime = startTime,
+                    endTime = endTime
+                )
+            }else {
+                statQueries.findAllStatsByGeoHash(
+                    geoHash = geoHashValue,
+                    startTime = startTime,
+                    endTime = endTime
+                )
+            }
+        return query.asFlow().mapToList(ioDispatcher)
+    }
+
+    override fun findAllStatsOld(
         geoHash: DatabaseGeoHash,
         startTime: DatabaseTime,
         endTime: DatabaseTime
-    ): Flow<List<DatabaseAppStat>> = statQueries.findAllStats(
+    ): Flow<List<DatabaseAppStat>> = statQueries.findAllStatsOld(
         geoHash = geoHash,
         startTime = startTime,
         endTime = endTime
     ).asFlow().mapToList(ioDispatcher).map(::toAppStats)
 
-    private fun toAppStats(items: List<FindAllStats>) = items.map(::toAppStat)
+    private fun toAppStats(items: List<FindAllStatsOld>) = items.map(::toAppStat)
 
-    private fun toAppStat(item: FindAllStats): DatabaseAppStat = when {
+    private fun toAppStat(item: FindAllStatsOld): DatabaseAppStat = when {
         item.appIdByLocation != null -> {
             DatabaseAppStat.ByLocation(item.appIdByLocation, requireNotNull(item.countByLocation).toInt())
         }
@@ -57,17 +90,18 @@ internal class StatDataSourceImpl(
         else -> throw AssertionError("item cannot be parsed: $item")
     }
 
-    override suspend fun incrementCounter(
+    override suspend fun insertOpenStats(
         appId: DatabaseAppId,
-        geoHash: DatabaseGeoHash?,
+        geoHash: Option<DatabaseGeoHash>,
+        date: DatabaseDate,
         time: DatabaseTime
     ) {
-        statQueries.suspendTransaction(ioDispatcher) {
-            geoHash?.let {
-                incrementLocationCounter(appId, it)
-            }
-            incrementTimeCounter(appId, time)
-        }
+        statQueries.insertStat(
+            appId = appId,
+            geoHash = geoHash.orNull(),
+            date = date,
+            time = time
+        )
     }
 
     private fun StatQueries.incrementLocationCounter(

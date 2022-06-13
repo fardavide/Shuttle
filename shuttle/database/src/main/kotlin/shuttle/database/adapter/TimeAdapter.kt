@@ -7,5 +7,5 @@ internal class TimeAdapter : ColumnAdapter<DatabaseTime, Long> {
 
     override fun decode(databaseValue: Long) = DatabaseTime(databaseValue.toInt())
 
-    override fun encode(value: DatabaseTime): Long = value.minute.toLong()
+    override fun encode(value: DatabaseTime): Long = value.minuteOfTheDay.toLong()
 }

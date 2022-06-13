@@ -1,5 +1,6 @@
 package shuttle.predictions.domain.usecase
 
+import arrow.core.Option
 import kotlinx.coroutines.flow.Flow
 import shuttle.apps.domain.model.SuggestedAppModel
 import shuttle.coordinates.domain.model.Coordinates
@@ -21,11 +22,11 @@ internal class ObserveSuggestedAppsByCoordinatesImpl(
     override operator fun invoke(
         coordinates: Coordinates
     ): Flow<List<SuggestedAppModel>> {
-        val (startTime, endTime) = with(timeToTimeRange(coordinates.time, DefaultValuesSpans.Time)) {
+        val (startTime, endTime) = with(timeToTimeRange(coordinates.dateTime.time, DefaultValuesSpans.Time)) {
             start to endInclusive
         }
-        return statsRepository.observeSuggestedApps(
-            location = coordinates.location,
+        return statsRepository.observeSuggestedAppsWithDate(
+            location = Option(coordinates.location),
             startTime = startTime,
             endTime = endTime
         )

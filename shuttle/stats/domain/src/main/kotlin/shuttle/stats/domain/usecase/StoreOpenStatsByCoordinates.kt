@@ -4,15 +4,16 @@ import shuttle.apps.domain.model.AppId
 import shuttle.coordinates.domain.model.CoordinatesResult
 import shuttle.stats.domain.StatsRepository
 
-class IncrementOpenCounterByCoordinates(
-    private val statsRepository: StatsRepository,
+class StoreOpenStatsByCoordinates(
+    private val statsRepository: StatsRepository
 ) {
 
     suspend operator fun invoke(appId: AppId, coordinatesResult: CoordinatesResult) {
-        statsRepository.incrementCounter(
+        statsRepository.storeOpenStats(
             appId = appId,
-            location = coordinatesResult.location.orNull(),
-            time = coordinatesResult.time
+            location = coordinatesResult.location.orNone(),
+            time = coordinatesResult.dateTime.time,
+            date = coordinatesResult.dateTime.date
         )
     }
 }

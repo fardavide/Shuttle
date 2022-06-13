@@ -2,14 +2,14 @@ package shuttle.coordinates.data
 
 import app.cash.turbine.test
 import arrow.core.left
-import com.soywiz.klock.Time
+import com.soywiz.klock.DateTime
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runTest
-import shuttle.coordinates.data.datasource.TimeDataSource
+import shuttle.coordinates.data.datasource.DateTimeDataSource
 import shuttle.coordinates.data.mapper.GeoHashMapper
 import shuttle.coordinates.domain.error.LocationNotAvailable
 import shuttle.coordinates.domain.model.CoordinatesResult
@@ -24,8 +24,8 @@ class CoordinatesRepositoryImplTest {
     private val lastLocationDataSource: LastLocationDataSource = mockk {
         every { find() } returns flowOf(null)
     }
-    private val timeDataSource: TimeDataSource = mockk {
-        every { timeFlow } returns flowOf(CoordinatesResult.time)
+    private val dateTimeDataSource: DateTimeDataSource = mockk {
+        every { flow } returns flowOf(CoordinatesResult.dateTime)
     }
     private val repository = CoordinatesRepositoryImpl(
         appScope = appScope,
@@ -33,7 +33,7 @@ class CoordinatesRepositoryImplTest {
         geoHashMapper = GeoHashMapper(),
         lastLocationDataSource = lastLocationDataSource,
         refreshLocationWorkerScheduler = mockk(relaxUnitFun = true),
-        timeDataSource = timeDataSource
+        dateTimeDataSource = dateTimeDataSource
     )
 
     @Test
@@ -62,8 +62,8 @@ class CoordinatesRepositoryImplTest {
     companion object TestData {
 
         private val CoordinatesResult = CoordinatesResult(
-            time = Time(hour = 4),
-            location = LocationNotAvailable.left()
+            location = LocationNotAvailable.left(),
+            dateTime = DateTime.EPOCH
         )
     }
 }
