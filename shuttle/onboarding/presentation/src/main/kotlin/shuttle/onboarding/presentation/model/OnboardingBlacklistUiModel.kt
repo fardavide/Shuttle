@@ -1,10 +1,9 @@
 package shuttle.onboarding.presentation.model
 
 import android.graphics.drawable.Drawable
-import arrow.core.NonEmptyList
 
 data class OnboardingBlacklistUiModel(
-    val apps: NonEmptyList<OnboardingBlacklistAppUiModel>
+    val apps: List<OnboardingBlacklistAppUiModel>
 )
 
 data class OnboardingBlacklistAppUiModel(

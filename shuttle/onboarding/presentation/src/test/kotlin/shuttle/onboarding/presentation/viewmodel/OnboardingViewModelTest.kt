@@ -16,7 +16,11 @@ import shuttle.apps.domain.usecase.ObserveAllInstalledApps
 import shuttle.design.model.WidgetPreviewAppUiModel
 import shuttle.design.model.WidgetPreviewUiModel
 import shuttle.onboarding.domain.usecase.DidShowOnboarding
+import shuttle.onboarding.presentation.mapper.OnboardingBlacklistUiModelMapper
 import shuttle.onboarding.presentation.mapper.WidgetPreviewAppUiModelMapper
+import shuttle.onboarding.presentation.model.OnboardingBlacklistAppUiModel
+import shuttle.onboarding.presentation.model.OnboardingBlacklistState
+import shuttle.onboarding.presentation.model.OnboardingBlacklistUiModel
 import shuttle.onboarding.presentation.model.OnboardingState
 import shuttle.onboarding.presentation.model.OnboardingWidgetPreviewState
 import kotlin.test.AfterTest
@@ -28,6 +32,9 @@ class OnboardingViewModelTest {
 
     private val didShowOnboarding: DidShowOnboarding = mockk()
     private val observeAllInstalledApps: ObserveAllInstalledApps = mockk()
+    private val onboardingBlacklistUiModelMapper: OnboardingBlacklistUiModelMapper = mockk {
+        coEvery { toUiModel(apps = any(), take = any()) } returns BlacklistApps
+    }
     private val widgetPreviewAppUiModelMapper: WidgetPreviewAppUiModelMapper = mockk {
         coEvery { toUiModels(any()) } returns PreviewApps.map(::Right)
     }
@@ -35,6 +42,7 @@ class OnboardingViewModelTest {
         OnboardingViewModel(
             didShowOnboarding = didShowOnboarding,
             observeAllInstalledApps = observeAllInstalledApps,
+            onboardingBlacklistUiModelMapper = onboardingBlacklistUiModelMapper,
             setOnboardingShown = mockk(relaxUnitFun = true),
             widgetPreviewAppUiModelMapper = widgetPreviewAppUiModelMapper
         )
@@ -72,7 +80,7 @@ class OnboardingViewModelTest {
     }
 
     @Test
-    fun `emits right value when onboarding has not been shown and preview is loading`() = runTest {
+    fun `emits right value when onboarding has not been shown and apps are loading`() = runTest {
         // given
         coEvery { didShowOnboarding() } returns false
 
@@ -81,13 +89,19 @@ class OnboardingViewModelTest {
             awaitLoading()
 
             // then
-            assertEquals(OnboardingState.ShowOnboarding(OnboardingWidgetPreviewState.Loading), awaitItem())
+            assertEquals(OnboardingState.ShowOnboarding.Loading, awaitItem())
         }
     }
 
     @Test
-    fun `emits right value when onboarding has not been shown and has loaded preview`() = runTest {
+    fun `emits right value when onboarding has not been shown and has loaded apps`() = runTest {
         // given
+        val expected = run {
+            val previewUiModel = WidgetPreviewUiModel(PreviewApps, OnboardingViewModel.WidgetLayout)
+            val previewState = OnboardingWidgetPreviewState.Data(previewUiModel)
+            val blacklistState = OnboardingBlacklistState.Data(BlacklistApps)
+            OnboardingState.ShowOnboarding(previewState, blacklistState)
+        }
         coEvery { didShowOnboarding() } returns false
         every { observeAllInstalledApps() } returns flowOf(emptyList())
 
@@ -97,9 +111,7 @@ class OnboardingViewModelTest {
             awaitPreviewLoading()
 
             // then
-            val previewUiModel = WidgetPreviewUiModel(PreviewApps, OnboardingViewModel.WidgetLayout)
-            val previewState = OnboardingWidgetPreviewState.Data(previewUiModel)
-            assertEquals(OnboardingState.ShowOnboarding(previewState), awaitItem().sortApps())
+            assertEquals(expected, awaitItem().sortApps())
         }
     }
 
@@ -108,7 +120,7 @@ class OnboardingViewModelTest {
     }
 
     private suspend fun FlowTurbine<OnboardingState>.awaitPreviewLoading() {
-        assertEquals(OnboardingState.ShowOnboarding(OnboardingWidgetPreviewState.Loading), awaitItem())
+        assertEquals(OnboardingState.ShowOnboarding.Loading, awaitItem())
     }
 
     private fun OnboardingState.sortApps(): OnboardingState {
@@ -124,16 +136,24 @@ class OnboardingViewModelTest {
 
     companion object TestData {
 
-        private val PreviewApps = listOf(
+        val appsList = listOf(
             "Proton Drive",
             "Proton Mail",
             "Shuttle",
             "Telegram"
-        ).map(::buildPreviewApp)
+        )
+        private val PreviewApps = appsList.map(::buildPreviewApp)
+        private val BlacklistApps = OnboardingBlacklistUiModel(appsList.map(::buildBlacklistApp))
 
         private fun buildPreviewApp(name: String) = WidgetPreviewAppUiModel(
             name = name,
             icon = mockk()
+        )
+
+        private fun buildBlacklistApp(name: String) = OnboardingBlacklistAppUiModel(
+            name = name,
+            icon = mockk(),
+            isBlacklisted = true
         )
     }
 }
