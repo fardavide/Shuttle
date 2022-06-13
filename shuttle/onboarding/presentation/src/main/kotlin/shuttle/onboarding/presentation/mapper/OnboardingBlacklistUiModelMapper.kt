@@ -2,7 +2,6 @@ package shuttle.onboarding.presentation.mapper
 
 import arrow.core.Either
 import arrow.core.continuations.either
-import arrow.core.nonEmptyListOf
 import shuttle.apps.domain.model.AppModel
 import shuttle.icons.domain.error.GetSystemIconError
 import shuttle.icons.domain.usecase.GetSystemIconDrawableForApp
@@ -31,8 +30,6 @@ class OnboardingBlacklistUiModelMapper(
             .take(take)
             .sortedBy { it.name }
             .sortedBy { it.isBlacklisted.not() }
-        return OnboardingBlacklistUiModel(
-            apps = nonEmptyListOf(blacklistApps.first(), *blacklistApps.drop(1).toTypedArray())
-        )
+        return OnboardingBlacklistUiModel(apps = blacklistApps)
     }
 }
