@@ -16,30 +16,9 @@ insertStat:
     INSERT OR IGNORE INTO stat(appId, geoHash, date, time)
     VALUES (?, ?, ?, ?);
 
-insertLocationStat:
-    INSERT OR REPLACE INTO locationStat(appId, geoHash, count)
-    VALUES (?, ?, ?);
-
-insertTimeStat:
-    INSERT OR REPLACE INTO timeStat(appId, time, count)
-    VALUES (?, ?, ?);
-
-deleteLocationStatsForApp:
-    DELETE FROM locationStat
+deleteStatsForApp:
+    DELETE FROM stat
     WHERE appId = ?;
-
-deleteTimeStatsForApp:
-    DELETE FROM timeStat
-    WHERE appId = ?;
-
-
-findLocationStat:
-    SELECT * FROM locationStat
-    WHERE appId = ? AND geoHash = ?;
-
-findTimeStat:
-    SELECT * FROM timeStat
-    WHERE appId = ? AND time = ?;
 
 findAllStats:
     SELECT * FROM stat
@@ -73,24 +52,3 @@ clearAllStatsFromLocationTable:
 
 clearAllStatsFromTimeTable:
    DELETE FROM timeStat;
-
-findAllStatsOld:
-        SELECT
-            locationStat.appId AS appIdByLocation,
-            NULL AS appIdByTime,
-            SUM(locationStat.count) AS countByLocation,
-            0 AS countByTime
-        FROM locationStat
-        WHERE locationStat.geoHash = :geoHash
-        GROUP BY appId
-    UNION ALL
-        SELECT
-            NULL AS appIdByLocation,
-            timeStat.appId AS appIdByTime,
-            0 AS countByLocation,
-            SUM(timeStat.count) AS countByTime
-        FROM timeStat
-        WHERE
-            (timeStat.time >= :startTime AND timeStat.time <= :endTime)
-        GROUP BY appId
-    ORDER BY appIdByLocation, appIdByTime, countByLocation DESC, countByTime DESC;

@@ -2,9 +2,6 @@ import shuttle.database.model.DatabaseAppId;
 import shuttle.database.model.DatabaseTime;
 
 CREATE TABLE IF NOT EXISTS timeStat (
-    appId TEXT AS DatabaseAppId NOT NULL,
-    time INTEGER AS DatabaseTime NOT NULL,
-    count INTEGER NOT NULL,
-
-    PRIMARY KEY (appId, time)
+  appId TEXT AS DatabaseAppId NOT NULL,
+  time INTEGER AS DatabaseTime NOT NULL
 );

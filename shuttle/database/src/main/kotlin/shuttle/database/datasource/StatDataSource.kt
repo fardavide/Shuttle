@@ -54,8 +54,7 @@ internal class StatDataSourceImpl(
 
     override suspend fun deleteAllCountersFor(appId: DatabaseAppId) {
         statQueries.suspendTransaction(ioDispatcher) {
-            deleteLocationStatsForApp(appId)
-            deleteTimeStatsForApp(appId)
+            deleteStatsForApp(appId)
         }
     }
 

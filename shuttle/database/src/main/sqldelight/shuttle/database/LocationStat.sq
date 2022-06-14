@@ -2,9 +2,6 @@ import shuttle.database.model.DatabaseAppId;
 import shuttle.database.model.DatabaseGeoHash;
 
 CREATE TABLE IF NOT EXISTS locationStat (
-    appId TEXT AS DatabaseAppId NOT NULL,
-    geoHash TEXT AS DatabaseGeoHash NOT NULL,
-    count INTEGER NOT NULL,
-
-    PRIMARY KEY (appId, geoHash)
+  appId TEXT AS DatabaseAppId NOT NULL,
+  geoHash TEXT AS DatabaseGeoHash NOT NULL
 );
