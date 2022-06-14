@@ -18,9 +18,9 @@ internal class SortAppStats(
         val currentDayAsDatabaseData = databaseDateMapper.toDatabaseDate(observeCurrentDateTime().first())
         val groupedByAppId = stats.groupBy { it.appId }.toList()
 
-        groupedByAppId.sortedBy { (_, stats) ->
-            stats.sumOf { (currentDayAsDatabaseData - it.date).dayNumber } +
-                stats.count()
+        groupedByAppId.sortedByDescending { (_, stats) ->
+            val daysDiff = 100 - stats.sumOf { (currentDayAsDatabaseData - it.date).dayNumber }
+            daysDiff - stats.count()
         }.map { AppId(it.first.value) }
     }
 }
