@@ -76,7 +76,6 @@ class MigrateStatsToSingleTableTest {
         private val CurrentDate = DatabaseDate(dayNumber = 100)
         private val ZeroTime = DatabaseTime(minuteOfTheDay = 0)
 
-        private val Mail = DatabaseAppId("Mail")
         private val Shuttle = DatabaseAppId("Shuttle")
         private val Telegram = DatabaseAppId("Telegram")
 

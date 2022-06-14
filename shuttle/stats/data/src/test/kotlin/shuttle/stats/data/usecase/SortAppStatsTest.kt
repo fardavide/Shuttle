@@ -75,9 +75,9 @@ class SortAppStatsTest {
 
         private val CurrentDatabaseDate = DatabaseDate(100)
 
-        private val Mail = "Mail"
-        private val Shuttle = "Shuttle"
-        private val Telegram = "Telegram"
+        private const val Mail = "Mail"
+        private const val Shuttle = "Shuttle"
+        private const val Telegram = "Telegram"
 
         private fun buildStat(appId: String, dayNumber: Int = 100, minuteOfTheDay: Int = 0) = Stat(
             appId = DatabaseAppId(appId),

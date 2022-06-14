@@ -6,11 +6,9 @@ import com.squareup.sqldelight.runtime.coroutines.mapToList
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import shuttle.database.FindAllStatsFromLocationAndTimeTables
-import shuttle.database.FindAllStatsOld
 import shuttle.database.Stat
 import shuttle.database.StatQueries
 import shuttle.database.model.DatabaseAppId
-import shuttle.database.model.DatabaseAppStat
 import shuttle.database.model.DatabaseDate
 import shuttle.database.model.DatabaseGeoHash
 import shuttle.database.model.DatabaseTime
@@ -85,18 +83,6 @@ internal class StatDataSourceImpl(
 
     override fun findAllStatsFromLocationAndTimeTables(): Flow<List<FindAllStatsFromLocationAndTimeTables>> =
         statQueries.findAllStatsFromLocationAndTimeTables().asFlow().mapToList(ioDispatcher)
-
-    private fun toAppStats(items: List<FindAllStatsOld>) = items.map(::toAppStat)
-
-    private fun toAppStat(item: FindAllStatsOld): DatabaseAppStat = when {
-        item.appIdByLocation != null -> {
-            DatabaseAppStat.ByLocation(item.appIdByLocation, requireNotNull(item.countByLocation).toInt())
-        }
-        item.appIdByTime != null -> {
-            DatabaseAppStat.ByTime(item.appIdByTime, requireNotNull(item.countByTime).toInt())
-        }
-        else -> throw AssertionError("item cannot be parsed: $item")
-    }
 
     override suspend fun insertOpenStats(
         appId: DatabaseAppId,
