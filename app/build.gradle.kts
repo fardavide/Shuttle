@@ -22,6 +22,7 @@ moduleDependencies {
     permissions.presentation()
     predictions.presentation()
     settings.presentation()
+    stats.domain()
     test.compose()
 }
 

@@ -14,6 +14,8 @@ value class DatabaseAppId(val value: String)
 value class DatabaseDate(val dayNumber: Int) {
 
     operator fun minus(other: DatabaseDate) = DatabaseDate(dayNumber - other.dayNumber)
+
+    operator fun minus(other: Int) = DatabaseDate(dayNumber - other)
 }
 
 /**

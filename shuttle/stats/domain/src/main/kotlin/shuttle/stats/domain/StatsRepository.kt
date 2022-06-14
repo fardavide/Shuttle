@@ -10,13 +10,15 @@ import shuttle.coordinates.domain.model.GeoHash
 
 interface StatsRepository {
 
+    suspend fun deleteCountersFor(appId: AppId)
+
     fun observeSuggestedAppsWithDate(
         location: Option<GeoHash>,
         startTime: Time,
         endTime: Time
     ): Flow<List<SuggestedAppModel>>
 
-    suspend fun deleteCountersFor(appId: AppId)
+    fun startMigrationStatsToSingleTable()
 
     suspend fun storeOpenStats(appId: AppId, location: Option<GeoHash>, time: Time, date: Date)
 }

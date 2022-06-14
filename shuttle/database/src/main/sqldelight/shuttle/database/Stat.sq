@@ -50,6 +50,27 @@ findAllStatsByGeoHash:
     WHERE (stat.time >= :startTime AND stat.time <= :endTime)
     AND geoHash = :geoHash;
 
+findAllStatsFromLocationAndTimeTables:
+        SELECT
+            locationStat.appId AS appIdByLocation,
+            locationStat.geoHash AS location,
+            NULL AS appIdByTime,
+            NULL AS time
+        FROM locationStat
+    UNION ALL
+        SELECT
+            NULL AS appIdByLocation,
+            NULL AS location,
+            timeStat.appId AS appIdByTime,
+            timeStat.time AS time
+        FROM timeStat;
+
+clearAllStatsFromLocationTable:
+   DELETE FROM locationStat;
+
+clearAllStatsFromTimeTable:
+   DELETE FROM timeStat;
+
 findAllStatsOld:
         SELECT
             locationStat.appId AS appIdByLocation,

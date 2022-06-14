@@ -27,6 +27,7 @@ import shuttle.database.testdata.TestData.SecondAppId
 import shuttle.database.testdata.TestData.ThirdAppId
 import shuttle.stats.data.mapper.DatabaseDateMapper
 import shuttle.stats.data.usecase.SortAppStats
+import shuttle.stats.data.worker.MigrateStatsToSingleTableWorker
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -35,6 +36,8 @@ class StatsRepositoryImplTest {
     private val appsRepository: AppsRepository = mockk {
         coEvery { observeNotBlacklistedApps() } returns flowOf(AllAppsIds.map(::buildAppModel))
     }
+    private val migrateStatsToSingleTableScheduler: MigrateStatsToSingleTableWorker.Scheduler =
+        mockk(relaxUnitFun = true)
     private val statDataSource: StatDataSource = mockk()
     private val sortAppStats: SortAppStats = mockk {
         coEvery { this@mockk(any()) } answers {
@@ -45,6 +48,7 @@ class StatsRepositoryImplTest {
     private val repository = StatsRepositoryImpl(
         appsRepository = appsRepository,
         databaseDateMapper = DatabaseDateMapper(),
+        migrateStatsToSingleTableScheduler = migrateStatsToSingleTableScheduler,
         statDataSource = statDataSource,
         sortAppStats = sortAppStats
     )

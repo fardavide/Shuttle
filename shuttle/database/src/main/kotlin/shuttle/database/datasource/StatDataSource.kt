@@ -5,7 +5,7 @@ import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToList
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
+import shuttle.database.FindAllStatsFromLocationAndTimeTables
 import shuttle.database.FindAllStatsOld
 import shuttle.database.Stat
 import shuttle.database.StatQueries
@@ -18,33 +18,42 @@ import shuttle.database.util.suspendTransaction
 
 interface StatDataSource {
 
+    suspend fun clearAllStatsFromLocationAndTimeTables()
+
+    suspend fun deleteAllCountersFor(appId: DatabaseAppId)
+
     fun findAllStats(
         geoHash: Option<DatabaseGeoHash>,
         startTime: DatabaseTime,
         endTime: DatabaseTime
     ): Flow<List<Stat>>
 
-    @Deprecated("Use findAllStats", ReplaceWith("findAllStats(geoHash, startTime, endTime)"))
-    fun findAllStatsOld(
-        geoHash: DatabaseGeoHash,
-        startTime: DatabaseTime,
-        endTime: DatabaseTime
-    ): Flow<List<DatabaseAppStat>>
+    fun findAllStatsFromLocationAndTimeTables(): Flow<List<FindAllStatsFromLocationAndTimeTables>>
 
     suspend fun insertOpenStats(
         appId: DatabaseAppId,
-        geoHash: Option<DatabaseGeoHash>,
         date: DatabaseDate,
+        geoHash: Option<DatabaseGeoHash>,
         time: DatabaseTime
     )
-
-    suspend fun deleteAllCountersFor(appId: DatabaseAppId)
 }
 
 internal class StatDataSourceImpl(
     private val statQueries: StatQueries,
     private val ioDispatcher: CoroutineDispatcher
 ): StatDataSource {
+
+    override suspend fun clearAllStatsFromLocationAndTimeTables() {
+        statQueries.clearAllStatsFromLocationTable()
+        statQueries.clearAllStatsFromTimeTable()
+    }
+
+    override suspend fun deleteAllCountersFor(appId: DatabaseAppId) {
+        statQueries.suspendTransaction(ioDispatcher) {
+            deleteLocationStatsForApp(appId)
+            deleteTimeStatsForApp(appId)
+        }
+    }
 
     override fun findAllStats(
         geoHash: Option<DatabaseGeoHash>,
@@ -68,15 +77,8 @@ internal class StatDataSourceImpl(
         return query.asFlow().mapToList(ioDispatcher)
     }
 
-    override fun findAllStatsOld(
-        geoHash: DatabaseGeoHash,
-        startTime: DatabaseTime,
-        endTime: DatabaseTime
-    ): Flow<List<DatabaseAppStat>> = statQueries.findAllStatsOld(
-        geoHash = geoHash,
-        startTime = startTime,
-        endTime = endTime
-    ).asFlow().mapToList(ioDispatcher).map(::toAppStats)
+    override fun findAllStatsFromLocationAndTimeTables(): Flow<List<FindAllStatsFromLocationAndTimeTables>> =
+        statQueries.findAllStatsFromLocationAndTimeTables().asFlow().mapToList(ioDispatcher)
 
     private fun toAppStats(items: List<FindAllStatsOld>) = items.map(::toAppStat)
 
@@ -92,49 +94,15 @@ internal class StatDataSourceImpl(
 
     override suspend fun insertOpenStats(
         appId: DatabaseAppId,
-        geoHash: Option<DatabaseGeoHash>,
         date: DatabaseDate,
+        geoHash: Option<DatabaseGeoHash>,
         time: DatabaseTime
     ) {
         statQueries.insertStat(
             appId = appId,
-            geoHash = geoHash.orNull(),
             date = date,
+            geoHash = geoHash.orNull(),
             time = time
         )
-    }
-
-    private fun StatQueries.incrementLocationCounter(
-        appId: DatabaseAppId,
-        geoHash: DatabaseGeoHash
-    ) {
-        val previousCount = findLocationStat(appId, geoHash)
-            .executeAsOneOrNull()
-            ?.count
-            ?: 0
-        insertLocationStat(
-            appId = appId,
-            geoHash = geoHash,
-            count = previousCount + 1
-        )
-    }
-
-    private fun StatQueries.incrementTimeCounter(appId: DatabaseAppId, time: DatabaseTime) {
-        val previousCount = findTimeStat(appId, time)
-            .executeAsOneOrNull()
-            ?.count
-            ?: 0
-        insertTimeStat(
-            appId = appId,
-            time = time,
-            count = previousCount + 1
-        )
-    }
-
-    override suspend fun deleteAllCountersFor(appId: DatabaseAppId) {
-        statQueries.suspendTransaction(ioDispatcher) {
-            deleteLocationStatsForApp(appId)
-            deleteTimeStatsForApp(appId)
-        }
     }
 }
