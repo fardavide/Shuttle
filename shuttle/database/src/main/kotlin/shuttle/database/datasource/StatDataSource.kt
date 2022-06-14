@@ -20,6 +20,8 @@ interface StatDataSource {
 
     suspend fun clearAllStatsFromLocationAndTimeTables()
 
+    suspend fun clearAllStatsOlderThan(date: DatabaseDate)
+
     suspend fun deleteAllCountersFor(appId: DatabaseAppId)
 
     fun findAllStats(
@@ -46,6 +48,10 @@ internal class StatDataSourceImpl(
     override suspend fun clearAllStatsFromLocationAndTimeTables() {
         statQueries.clearAllStatsFromLocationTable()
         statQueries.clearAllStatsFromTimeTable()
+    }
+
+    override suspend fun clearAllStatsOlderThan(date: DatabaseDate) {
+        statQueries.clearAllStatsOlderThan(date)
     }
 
     override suspend fun deleteAllCountersFor(appId: DatabaseAppId) {

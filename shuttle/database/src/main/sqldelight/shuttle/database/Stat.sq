@@ -65,6 +65,9 @@ findAllStatsFromLocationAndTimeTables:
             timeStat.time AS time
         FROM timeStat;
 
+clearAllStatsOlderThan:
+    DELETE FROM stat WHERE date < ?;
+
 clearAllStatsFromLocationTable:
    DELETE FROM locationStat;
 

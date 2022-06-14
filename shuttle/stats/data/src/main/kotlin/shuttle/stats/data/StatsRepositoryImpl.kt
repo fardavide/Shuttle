@@ -17,12 +17,14 @@ import shuttle.database.model.DatabaseGeoHash
 import shuttle.database.model.DatabaseTime
 import shuttle.stats.data.mapper.DatabaseDateMapper
 import shuttle.stats.data.usecase.SortAppStats
+import shuttle.stats.data.worker.DeleteOldStatsWorker
 import shuttle.stats.data.worker.MigrateStatsToSingleTableWorker
 import shuttle.stats.domain.StatsRepository
 
 internal class StatsRepositoryImpl(
     private val appsRepository: AppsRepository,
     private val databaseDateMapper: DatabaseDateMapper,
+    private val deleteOldStatsScheduler: DeleteOldStatsWorker.Scheduler,
     private val migrateStatsToSingleTableScheduler: MigrateStatsToSingleTableWorker.Scheduler,
     private val statDataSource: StatDataSource,
     private val sortAppStats: SortAppStats,
@@ -56,6 +58,10 @@ internal class StatsRepositoryImpl(
             }
             appsFromStats + allInstalledApp.map(::toNotSuggestedAppModel).shuffled()
         }
+
+    override fun startDeleteOldStats() {
+        deleteOldStatsScheduler.schedule()
+    }
 
     override fun startMigrationStatsToSingleTable() {
         migrateStatsToSingleTableScheduler.schedule()

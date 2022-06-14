@@ -18,6 +18,8 @@ interface StatsRepository {
         endTime: Time
     ): Flow<List<SuggestedAppModel>>
 
+    fun startDeleteOldStats()
+
     fun startMigrationStatsToSingleTable()
 
     suspend fun storeOpenStats(appId: AppId, location: Option<GeoHash>, time: Time, date: Date)
