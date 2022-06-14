@@ -27,6 +27,7 @@ val databaseModule = module {
             appBlacklistSettingAdapter = get(),
             locationStatAdapter = get(),
             lastLocationAdapter = get(),
+            statAdapter = get(),
             timeStatAdapter = get()
         )
     }

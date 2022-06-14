@@ -1,33 +1,41 @@
 package shuttle.database.datasource
 
+import arrow.core.Option
 import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToList
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
-import shuttle.database.FindAllStats
+import shuttle.database.FindAllStatsFromLocationAndTimeTables
+import shuttle.database.Stat
 import shuttle.database.StatQueries
 import shuttle.database.model.DatabaseAppId
-import shuttle.database.model.DatabaseAppStat
+import shuttle.database.model.DatabaseDate
 import shuttle.database.model.DatabaseGeoHash
 import shuttle.database.model.DatabaseTime
 import shuttle.database.util.suspendTransaction
 
 interface StatDataSource {
 
-    fun findAllStats(
-        geoHash: DatabaseGeoHash,
-        startTime: DatabaseTime,
-        endTime: DatabaseTime
-    ): Flow<List<DatabaseAppStat>>
+    suspend fun clearAllStatsFromLocationAndTimeTables()
 
-    suspend fun incrementCounter(
-        appId: DatabaseAppId,
-        geoHash: DatabaseGeoHash?,
-        time: DatabaseTime
-    )
+    suspend fun clearAllStatsOlderThan(date: DatabaseDate)
 
     suspend fun deleteAllCountersFor(appId: DatabaseAppId)
+
+    fun findAllStats(
+        geoHash: Option<DatabaseGeoHash>,
+        startTime: DatabaseTime,
+        endTime: DatabaseTime
+    ): Flow<List<Stat>>
+
+    fun findAllStatsFromLocationAndTimeTables(): Flow<List<FindAllStatsFromLocationAndTimeTables>>
+
+    suspend fun insertOpenStats(
+        appId: DatabaseAppId,
+        date: DatabaseDate,
+        geoHash: Option<DatabaseGeoHash>,
+        time: DatabaseTime
+    )
 }
 
 internal class StatDataSourceImpl(
@@ -35,66 +43,13 @@ internal class StatDataSourceImpl(
     private val ioDispatcher: CoroutineDispatcher
 ): StatDataSource {
 
-    override fun findAllStats(
-        geoHash: DatabaseGeoHash,
-        startTime: DatabaseTime,
-        endTime: DatabaseTime
-    ): Flow<List<DatabaseAppStat>> = statQueries.findAllStats(
-        geoHash = geoHash,
-        startTime = startTime,
-        endTime = endTime
-    ).asFlow().mapToList(ioDispatcher).map(::toAppStats)
-
-    private fun toAppStats(items: List<FindAllStats>) = items.map(::toAppStat)
-
-    private fun toAppStat(item: FindAllStats): DatabaseAppStat = when {
-        item.appIdByLocation != null -> {
-            DatabaseAppStat.ByLocation(item.appIdByLocation, requireNotNull(item.countByLocation).toInt())
-        }
-        item.appIdByTime != null -> {
-            DatabaseAppStat.ByTime(item.appIdByTime, requireNotNull(item.countByTime).toInt())
-        }
-        else -> throw AssertionError("item cannot be parsed: $item")
+    override suspend fun clearAllStatsFromLocationAndTimeTables() {
+        statQueries.clearAllStatsFromLocationTable()
+        statQueries.clearAllStatsFromTimeTable()
     }
 
-    override suspend fun incrementCounter(
-        appId: DatabaseAppId,
-        geoHash: DatabaseGeoHash?,
-        time: DatabaseTime
-    ) {
-        statQueries.suspendTransaction(ioDispatcher) {
-            geoHash?.let {
-                incrementLocationCounter(appId, it)
-            }
-            incrementTimeCounter(appId, time)
-        }
-    }
-
-    private fun StatQueries.incrementLocationCounter(
-        appId: DatabaseAppId,
-        geoHash: DatabaseGeoHash
-    ) {
-        val previousCount = findLocationStat(appId, geoHash)
-            .executeAsOneOrNull()
-            ?.count
-            ?: 0
-        insertLocationStat(
-            appId = appId,
-            geoHash = geoHash,
-            count = previousCount + 1
-        )
-    }
-
-    private fun StatQueries.incrementTimeCounter(appId: DatabaseAppId, time: DatabaseTime) {
-        val previousCount = findTimeStat(appId, time)
-            .executeAsOneOrNull()
-            ?.count
-            ?: 0
-        insertTimeStat(
-            appId = appId,
-            time = time,
-            count = previousCount + 1
-        )
+    override suspend fun clearAllStatsOlderThan(date: DatabaseDate) {
+        statQueries.clearAllStatsOlderThan(date)
     }
 
     override suspend fun deleteAllCountersFor(appId: DatabaseAppId) {
@@ -102,5 +57,44 @@ internal class StatDataSourceImpl(
             deleteLocationStatsForApp(appId)
             deleteTimeStatsForApp(appId)
         }
+    }
+
+    override fun findAllStats(
+        geoHash: Option<DatabaseGeoHash>,
+        startTime: DatabaseTime,
+        endTime: DatabaseTime
+    ): Flow<List<Stat>> {
+        val geoHashValue = geoHash.orNull()
+        val query =
+            if (geoHashValue == null) {
+                statQueries.findAllStats(
+                    startTime = startTime,
+                    endTime = endTime
+                )
+            }else {
+                statQueries.findAllStatsByGeoHash(
+                    geoHash = geoHashValue,
+                    startTime = startTime,
+                    endTime = endTime
+                )
+            }
+        return query.asFlow().mapToList(ioDispatcher)
+    }
+
+    override fun findAllStatsFromLocationAndTimeTables(): Flow<List<FindAllStatsFromLocationAndTimeTables>> =
+        statQueries.findAllStatsFromLocationAndTimeTables().asFlow().mapToList(ioDispatcher)
+
+    override suspend fun insertOpenStats(
+        appId: DatabaseAppId,
+        date: DatabaseDate,
+        geoHash: Option<DatabaseGeoHash>,
+        time: DatabaseTime
+    ) {
+        statQueries.insertStat(
+            appId = appId,
+            date = date,
+            geoHash = geoHash.orNull(),
+            time = time
+        )
     }
 }

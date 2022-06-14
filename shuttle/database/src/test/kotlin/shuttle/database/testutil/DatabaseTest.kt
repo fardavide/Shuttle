@@ -17,6 +17,7 @@ abstract class DatabaseTest {
         appBlacklistSettingAdapter = AppBlacklistSettingAdapter,
         lastLocationAdapter = LastLocationAdapter,
         locationStatAdapter = LocationStatAdapter,
+        statAdapter = StatAdapter,
         timeStatAdapter = TimeStatAdapter
     )
 

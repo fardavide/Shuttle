@@ -3,15 +3,17 @@ package shuttle.coordinates.data
 import arrow.core.Either
 import arrow.core.left
 import arrow.core.right
+import com.soywiz.klock.DateTime
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.shareIn
+import shuttle.coordinates.data.datasource.DateTimeDataSource
 import shuttle.coordinates.data.datasource.DeviceLocationDataSource
-import shuttle.coordinates.data.datasource.TimeDataSource
 import shuttle.coordinates.data.mapper.GeoHashMapper
 import shuttle.coordinates.data.worker.RefreshLocationWorker
 import shuttle.coordinates.domain.CoordinatesRepository
@@ -28,23 +30,26 @@ internal class CoordinatesRepositoryImpl(
     private val geoHashMapper: GeoHashMapper,
     private val lastLocationDataSource: LastLocationDataSource,
     private val refreshLocationWorkerScheduler: RefreshLocationWorker.Scheduler,
-    timeDataSource: TimeDataSource
+    dateTimeDataSource: DateTimeDataSource
 ) : CoordinatesRepository {
 
     private val coordinatesSharedFlow: SharedFlow<CoordinatesResult> =
-        combine(lastLocationDataSource.find(), timeDataSource.timeFlow) { lastLocation, time ->
+        combine(lastLocationDataSource.find(), dateTimeDataSource.flow) { lastLocation, dateTime ->
             val location = if (lastLocation != null) {
                 GeoHash(lastLocation.geoHash.value).right()
             } else {
                 LocationNotAvailable.left()
             }
-            CoordinatesResult(location, time)
+            CoordinatesResult(location, dateTime)
         }
             .onStart { refreshLocationWorkerScheduler.schedule() }
             .shareIn(appScope, SharingStarted.Eagerly, replay = 1)
 
     override fun observeCurrentCoordinates(): Flow<CoordinatesResult> =
         coordinatesSharedFlow
+
+    override fun observeCurrentDateTime(): Flow<DateTime> =
+        coordinatesSharedFlow.map { it.dateTime }
 
     override suspend fun refreshLocation(): Either<LocationError, Unit> =
         deviceLocationDataSource.getLocation().tap { location ->

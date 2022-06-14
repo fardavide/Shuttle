@@ -4,8 +4,8 @@ import android.content.Context
 import com.google.android.gms.location.LocationServices
 import org.koin.androidx.workmanager.dsl.worker
 import org.koin.dsl.module
+import shuttle.coordinates.data.datasource.DateTimeDataSource
 import shuttle.coordinates.data.datasource.DeviceLocationDataSource
-import shuttle.coordinates.data.datasource.TimeDataSource
 import shuttle.coordinates.data.mapper.GeoHashMapper
 import shuttle.coordinates.data.worker.RefreshLocationWorker
 import shuttle.coordinates.domain.CoordinatesRepository
@@ -21,9 +21,10 @@ val coordinatesDataModule = module {
             geoHashMapper = get(),
             lastLocationDataSource = get(),
             refreshLocationWorkerScheduler = get(),
-            timeDataSource = get()
+            dateTimeDataSource = get()
         )
     }
+    factory { DateTimeDataSource(refreshInterval = TimeRefreshInterval) }
     factory { GeoHashMapper() }
     factory {
         DeviceLocationDataSource(fusedLocationClient = get(), locationExpiration = LocationMaxRefreshInterval)
@@ -44,7 +45,6 @@ val coordinatesDataModule = module {
             flex = LocationMaxRefreshInterval
         )
     }
-    factory { TimeDataSource(refreshInterval = TimeRefreshInterval) }
 }
 
 private val LocationDefaultRefreshInterval = 12.toDuration(DurationUnit.MINUTES)

@@ -8,7 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
-import shuttle.accessibility.usecase.IncrementOpenCounterIfNotBlacklisted
+import shuttle.accessibility.usecase.StoreOpenStatsIfNotBlacklisted
 import shuttle.accessibility.usecase.UpdateWidget
 import shuttle.apps.domain.model.AppId
 import shuttle.settings.domain.usecase.HasEnabledAccessibilityService
@@ -19,9 +19,9 @@ class LaunchCounterAccessibilityService: AccessibilityService() {
     private val scope = CoroutineScope(Job() + Dispatchers.Default)
 
     private val hasEnabledAccessibilityService: HasEnabledAccessibilityService by inject()
-    private val incrementOpenCounterIfNotBlacklisted: IncrementOpenCounterIfNotBlacklisted by inject()
     private val setHasEnabledAccessibilityService: SetHasEnabledAccessibilityService by inject()
     private val startApp: () -> Unit by inject(StartAppQualifier)
+    private val storeOpenStatsIfNotBlacklisted: StoreOpenStatsIfNotBlacklisted by inject()
     private val updateWidget: UpdateWidget by inject()
 
     private var previousPackageName: CharSequence? = null
@@ -36,7 +36,7 @@ class LaunchCounterAccessibilityService: AccessibilityService() {
                 previousPackageName = packageName
                 Log.d("LaunchCounterAccessibilityService", "Package changed: $packageName")
 
-                incrementOpenCounterIfNotBlacklisted(AppId(event.packageName.toString()))
+                storeOpenStatsIfNotBlacklisted(AppId(event.packageName.toString()))
                 updateWidget()
             }
         }

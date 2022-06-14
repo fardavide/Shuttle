@@ -1,5 +1,6 @@
 package shuttle.stats.data
 
+import arrow.core.Option
 import com.soywiz.klock.Time
 import io.mockk.coEvery
 import io.mockk.every
@@ -13,10 +14,10 @@ import shuttle.apps.domain.model.AppModel
 import shuttle.apps.domain.model.AppName
 import shuttle.apps.domain.model.SuggestedAppModel
 import shuttle.coordinates.domain.model.GeoHash
+import shuttle.database.Stat
 import shuttle.database.datasource.StatDataSource
 import shuttle.database.model.DatabaseAppId
-import shuttle.database.model.DatabaseAppStat
-import shuttle.database.model.DatabaseGeoHash
+import shuttle.database.model.DatabaseDate
 import shuttle.database.model.DatabaseTime
 import shuttle.database.testdata.TestData.AllAppsIds
 import shuttle.database.testdata.TestData.FifthAppId
@@ -24,7 +25,10 @@ import shuttle.database.testdata.TestData.FirstAppId
 import shuttle.database.testdata.TestData.FourthAppId
 import shuttle.database.testdata.TestData.SecondAppId
 import shuttle.database.testdata.TestData.ThirdAppId
-import shuttle.stats.data.usecase.SortAppStatsByCounts
+import shuttle.stats.data.mapper.DatabaseDateMapper
+import shuttle.stats.data.usecase.SortAppStats
+import shuttle.stats.data.worker.DeleteOldStatsWorker
+import shuttle.stats.data.worker.MigrateStatsToSingleTableWorker
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -33,23 +37,29 @@ class StatsRepositoryImplTest {
     private val appsRepository: AppsRepository = mockk {
         coEvery { observeNotBlacklistedApps() } returns flowOf(AllAppsIds.map(::buildAppModel))
     }
+    private val deleteOldStatsScheduler: DeleteOldStatsWorker.Scheduler = mockk(relaxUnitFun = true)
+    private val migrateStatsToSingleTableScheduler: MigrateStatsToSingleTableWorker.Scheduler =
+        mockk(relaxUnitFun = true)
     private val statDataSource: StatDataSource = mockk()
-    private val sortAppStatsByCounts: SortAppStatsByCounts = mockk {
+    private val sortAppStats: SortAppStats = mockk {
         coEvery { this@mockk(any()) } answers {
-            val stats = firstArg<List<DatabaseAppStat>>()
+            val stats = firstArg<List<Stat>>()
             stats.map { AppId(it.appId.value) }
         }
     }
     private val repository = StatsRepositoryImpl(
         appsRepository = appsRepository,
+        databaseDateMapper = DatabaseDateMapper(),
+        deleteOldStatsScheduler = deleteOldStatsScheduler,
+        migrateStatsToSingleTableScheduler = migrateStatsToSingleTableScheduler,
         statDataSource = statDataSource,
-        sortAppStatsByCounts = sortAppStatsByCounts
+        sortAppStats = sortAppStats
     )
 
     @Test
     fun `returns all the suggested apps plus all the installed apps`() = runTest {
         // given
-        everyStatDataSourceFindAllStats() returns flowOf(listOf(FourthAppId, FifthAppId).map(::buildLocationAppStats))
+        everyStatDataSourceFindAllStats() returns flowOf(listOf(FourthAppId, FifthAppId).map(::buildStat))
         val expected = listOf(
             FirstAppId.suggested(isSuggested = false),
             SecondAppId.suggested(isSuggested = false),
@@ -59,7 +69,11 @@ class StatsRepositoryImplTest {
         )
 
         // when
-        val result = repository.observeSuggestedApps(GeoHash, StartTime, EndTime)
+        val result = repository.observeSuggestedAppsWithDate(
+            location = Option(GeoHash),
+            startTime = StartTime,
+            endTime = EndTime
+        )
             .first()
             .sortedBy { it.id.value }
 
@@ -80,7 +94,11 @@ class StatsRepositoryImplTest {
         )
 
         // when
-        val result = repository.observeSuggestedApps(GeoHash, StartTime, EndTime)
+        val result = repository.observeSuggestedAppsWithDate(
+            location = Option(GeoHash),
+            startTime = StartTime,
+            endTime = EndTime
+        )
             .first()
             .sortedBy { it.id.value }
 
@@ -90,9 +108,9 @@ class StatsRepositoryImplTest {
 
     private fun everyStatDataSourceFindAllStats() = every {
         statDataSource.findAllStats(
-            DatabaseGeoHash(any()),
-            DatabaseTime(any()),
-            DatabaseTime(any())
+            geoHash = any(),
+            startTime = DatabaseTime(any()),
+            endTime = DatabaseTime(any())
         )
     }
 
@@ -116,9 +134,11 @@ class StatsRepositoryImplTest {
             isSuggested = isSuggested
         )
 
-        fun buildLocationAppStats(databaseAppId: DatabaseAppId) = DatabaseAppStat.ByLocation(
+        fun buildStat(databaseAppId: DatabaseAppId) = Stat(
             appId = databaseAppId,
-            count = 0
+            geoHash = null,
+            date = DatabaseDate(0),
+            time = DatabaseTime(0)
         )
     }
 }

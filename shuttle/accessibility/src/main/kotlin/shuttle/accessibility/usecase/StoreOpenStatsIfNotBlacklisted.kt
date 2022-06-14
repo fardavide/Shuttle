@@ -11,11 +11,11 @@ import shuttle.apps.domain.model.AppId
 import shuttle.coordinates.domain.model.CoordinatesResult
 import shuttle.coordinates.domain.usecase.ObserveCurrentCoordinates
 import shuttle.settings.domain.usecase.IsBlacklisted
-import shuttle.stats.domain.usecase.IncrementOpenCounterByCoordinates
+import shuttle.stats.domain.usecase.StoreOpenStatsByCoordinates
 
-class IncrementOpenCounterIfNotBlacklisted(
+class StoreOpenStatsIfNotBlacklisted(
     private val appScope: CoroutineScope,
-    private val incrementOpenCounterByCoordinates: IncrementOpenCounterByCoordinates,
+    private val storeOpenStatsByCoordinates: StoreOpenStatsByCoordinates,
     private val isBlacklisted: IsBlacklisted,
     observeCoordinates: ObserveCurrentCoordinates
 ) {
@@ -28,7 +28,7 @@ class IncrementOpenCounterIfNotBlacklisted(
         appScope.launch {
             if (isBlacklisted(appId).not()) {
                 val coordinates = coordinatesState.awaitCoordinates()
-                incrementOpenCounterByCoordinates(appId, coordinates)
+                storeOpenStatsByCoordinates(appId, coordinates)
             }
         }
     }
