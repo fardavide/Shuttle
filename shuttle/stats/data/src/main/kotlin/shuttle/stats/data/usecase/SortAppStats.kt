@@ -20,7 +20,7 @@ internal class SortAppStats(
 
         groupedByAppId.sortedBy { (_, stats) ->
             stats.sumOf { (currentDayAsDatabaseData - it.date).dayNumber } +
-                stats.count
+                stats.count()
         }.map { AppId(it.first.value) }
     }
 }
