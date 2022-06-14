@@ -27,7 +27,7 @@ findAllStats:
 findAllStatsByGeoHash:
     SELECT * FROM stat
     WHERE (stat.time >= :startTime AND stat.time <= :endTime)
-    AND geoHash = :geoHash;
+    OR geoHash = :geoHash;
 
 findAllStatsFromLocationAndTimeTables:
         SELECT

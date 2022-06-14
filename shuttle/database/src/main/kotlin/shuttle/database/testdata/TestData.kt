@@ -15,6 +15,7 @@ object TestData {
     val RangeMidFirstTime = DatabaseTime(92)
     val RangeMidSecondTime = DatabaseTime(94)
     val RangeEndTime = DatabaseTime(110)
+    val AnotherTime = DatabaseTime(200)
 
     val FirstAppId = DatabaseAppId("app 1")
     val SecondAppId = DatabaseAppId("app 2")
