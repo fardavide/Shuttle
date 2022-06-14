@@ -19,7 +19,7 @@ internal class SortAppStats(
         val groupedByAppId = stats.groupBy { it.appId }.toList()
 
         groupedByAppId.sortedByDescending { (_, stats) ->
-            val daysDiff = 100 - stats.sumOf { (currentDayAsDatabaseData - it.date).dayNumber }
+            val daysDiff = stats.sumOf { 100 - (currentDayAsDatabaseData - it.date).dayNumber }
             daysDiff - stats.count()
         }.map { AppId(it.first.value) }
     }
