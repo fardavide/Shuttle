@@ -24,12 +24,11 @@ internal class SortAppStats(
         val groupedByAppId = stats.groupBy { it.appId }.toList()
 
         groupedByAppId.sortedByDescending { (_, stats) ->
-            val weight = stats.sumOf { stat ->
+            stats.sumOf { stat ->
                 val byDays = 100 - (currentDayAsDatabaseData - stat.date).dayNumber
-                val byLocation = if (currentCoordinates.location equals stat.geoHash) 1 else 100
+                val byLocation = if (currentCoordinates.location equals stat.geoHash) 100 else 1
                 byDays * byLocation
             }
-            weight - stats.size
         }.map { AppId(it.first.value) }
     }
 }
