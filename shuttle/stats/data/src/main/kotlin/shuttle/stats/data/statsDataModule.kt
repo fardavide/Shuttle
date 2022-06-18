@@ -32,7 +32,7 @@ val statsDataModule = module {
         SortAppStats(
             databaseDateMapper = get(),
             computationDispatcher = Dispatchers.Default,
-            observeCurrentDateTime = get()
+            observeCurrentCoordinates = get()
         )
     }
     factory<StatsRepository> {
