@@ -26,7 +26,7 @@ internal class SortAppStats(
         groupedByAppId.sortedByDescending { (_, stats) ->
             val weight = stats.sumOf { stat ->
                 val byDays = 100 - (currentDayAsDatabaseData - stat.date).dayNumber
-                val byLocation = if (currentCoordinates.location equals stat.geoHash) 10 else 1
+                val byLocation = if (currentCoordinates.location equals stat.geoHash) 1 else 100
                 byDays * byLocation
             }
             weight - stats.size
