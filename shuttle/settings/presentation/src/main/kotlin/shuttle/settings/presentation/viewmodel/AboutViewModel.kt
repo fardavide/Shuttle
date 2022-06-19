@@ -3,7 +3,7 @@ package shuttle.settings.presentation.viewmodel
 import android.app.Activity
 import androidx.lifecycle.viewModelScope
 import arrow.core.Either
-import arrow.core.computations.either
+import arrow.core.continuations.either
 import arrow.core.getOrHandle
 import co.touchlab.kermit.Logger
 import kotlinx.coroutines.async
@@ -23,8 +23,6 @@ class AboutViewModel(
     private val launchPurchaseFlow: LaunchPurchaseFlow,
     logger: Logger
 ) : ShuttleViewModel<Action, State>(initialState = State.Loading) {
-
-    private val logger = logger.withTag("AboutViewModel")
 
     init {
         viewModelScope.launch {

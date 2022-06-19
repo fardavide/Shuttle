@@ -2,7 +2,7 @@ package shuttle.payments.presentation.util
 
 import android.app.Activity
 import arrow.core.Either
-import arrow.core.computations.either
+import arrow.core.continuations.either
 import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingFlowParams
 import shuttle.payments.domain.model.PaymentError

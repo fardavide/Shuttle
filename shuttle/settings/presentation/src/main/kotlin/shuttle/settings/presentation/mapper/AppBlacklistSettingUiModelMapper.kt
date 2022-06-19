@@ -1,7 +1,7 @@
 package shuttle.settings.presentation.mapper
 
 import arrow.core.Either
-import arrow.core.computations.either
+import arrow.core.continuations.either
 import shuttle.icons.domain.error.GetSystemIconError
 import shuttle.icons.domain.usecase.GetSystemIconDrawableForApp
 import shuttle.settings.domain.model.AppBlacklistSetting
@@ -11,7 +11,12 @@ class AppBlacklistSettingUiModelMapper(
     private val getSystemIconDrawableForApp: GetSystemIconDrawableForApp
 ) {
 
-    suspend fun toUiModel(
+    suspend fun toUiModels(
+        appBlacklistSettings: Collection<AppBlacklistSetting>
+    ): List<Either<GetSystemIconError, AppBlacklistSettingUiModel>> =
+        appBlacklistSettings.map { toUiModel(it) }
+
+    private suspend fun toUiModel(
         appBlacklistSetting: AppBlacklistSetting
     ): Either<GetSystemIconError, AppBlacklistSettingUiModel> = either {
         val appModel = appBlacklistSetting.app
@@ -22,9 +27,4 @@ class AppBlacklistSettingUiModelMapper(
             isBlacklisted = appBlacklistSetting.inBlacklist
         )
     }
-
-    suspend fun toUiModels(
-        appBlacklistSettings: Collection<AppBlacklistSetting>
-    ): List<Either<GetSystemIconError, AppBlacklistSettingUiModel>> =
-        appBlacklistSettings.map { toUiModel(it) }
 }

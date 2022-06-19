@@ -1,7 +1,7 @@
 package shuttle.apps.presentation.mapper
 
 import arrow.core.Either
-import arrow.core.computations.either
+import arrow.core.continuations.either
 import shuttle.apps.domain.model.AppModel
 import shuttle.apps.presentation.model.AppUiModel
 import shuttle.icons.domain.error.GetSystemIconError
@@ -11,7 +11,10 @@ class AppUiModelMapper(
     private val getSystemIconDrawableForApp: GetSystemIconDrawableForApp
 ) {
 
-    suspend fun toUiModel(appModel: AppModel): Either<GetSystemIconError, AppUiModel> =
+    suspend fun toUiModels(appModels: Collection<AppModel>): List<Either<GetSystemIconError, AppUiModel>> =
+        appModels.map { toUiModel(it) }
+
+    private suspend fun toUiModel(appModel: AppModel): Either<GetSystemIconError, AppUiModel> =
         either {
             AppUiModel(
                 id = appModel.id,
@@ -19,7 +22,4 @@ class AppUiModelMapper(
                 icon = getSystemIconDrawableForApp(appModel.id).bind()
             )
         }
-
-    suspend fun toUiModels(appModels: Collection<AppModel>): List<Either<GetSystemIconError, AppUiModel>> =
-        appModels.map { toUiModel(it) }
 }

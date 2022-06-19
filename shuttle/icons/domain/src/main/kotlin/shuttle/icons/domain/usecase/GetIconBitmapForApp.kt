@@ -3,7 +3,7 @@ package shuttle.icons.domain.usecase
 import android.graphics.Bitmap
 import arrow.core.Either
 import arrow.core.Option
-import arrow.core.computations.either
+import arrow.core.continuations.either
 import shuttle.apps.domain.model.AppId
 import shuttle.icons.domain.IconPacksRepository
 import shuttle.icons.domain.error.GetSystemIconError

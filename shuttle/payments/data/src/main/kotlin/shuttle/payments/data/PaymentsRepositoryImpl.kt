@@ -1,7 +1,7 @@
 package shuttle.payments.data
 
 import arrow.core.Either
-import arrow.core.computations.either
+import arrow.core.continuations.either
 import arrow.core.flatMap
 import arrow.core.left
 import arrow.core.right

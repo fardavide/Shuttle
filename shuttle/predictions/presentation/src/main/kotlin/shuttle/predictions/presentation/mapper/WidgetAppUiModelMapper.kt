@@ -9,7 +9,7 @@ import android.graphics.PorterDuffColorFilter
 import androidx.core.graphics.applyCanvas
 import arrow.core.Either
 import arrow.core.Option
-import arrow.core.computations.either
+import arrow.core.continuations.either
 import shuttle.apps.domain.model.AppId
 import shuttle.apps.domain.model.SuggestedAppModel
 import shuttle.icons.domain.error.GetSystemIconError
@@ -22,7 +22,7 @@ class WidgetAppUiModelMapper(
     private val getLaunchIntentForApp: GetLaunchIntentForApp
 ) {
 
-    suspend fun toUiModel(
+    private suspend fun toUiModel(
         appModel: SuggestedAppModel,
         iconPackId: Option<AppId>
     ): Either<GetSystemIconError, WidgetAppUiModel> = either {

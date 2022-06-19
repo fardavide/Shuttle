@@ -21,6 +21,7 @@ import java.io.IOException
 import java.util.Locale
 import java.util.Random
 
+@Suppress("DEPRECATION")
 class IconPacksRepositoryImpl(
     private val packageManager: PackageManager,
     private val dispatcher: CoroutineDispatcher
@@ -49,9 +50,9 @@ class IconPacksRepositoryImpl(
         var totalIcons = 0
 
         fun loadBitmap(drawableName: String): Bitmap? {
-            val id = iconPackResources!!.getIdentifier(drawableName, "drawable", packageName)
-            if (id > 0) {
-                val bitmap = iconPackResources!!.getDrawable(id)
+            val iconPackId = iconPackResources!!.getIdentifier(drawableName, "drawable", packageName)
+            if (iconPackId > 0) {
+                val bitmap = iconPackResources!!.getDrawable(iconPackId)
                 if (bitmap is BitmapDrawable) return bitmap.bitmap
             }
             return null
@@ -188,7 +189,7 @@ class IconPacksRepositoryImpl(
         val componentName = packageManager.getLaunchIntentForPackage(appPackageName)?.component?.toString()
         var drawable = drawables[componentName?.id()]?.value
         if (drawable != null) {
-            return@withContext loadBitmap(iconPack, drawable) ?: generateBitmap(iconPack, appId, defaultBitmap)
+            return@withContext loadBitmap(iconPack, drawable) ?: generateBitmap(iconPack, defaultBitmap)
         } else {
             // try to get a resource with the component filename
             if (componentName != null) {
@@ -204,7 +205,7 @@ class IconPacksRepositoryImpl(
                         return@withContext loadBitmap(iconPack, drawable) ?: defaultBitmap
                 }
             }
-            return@withContext generateBitmap(iconPack, appId, defaultBitmap)
+            return@withContext generateBitmap(iconPack, defaultBitmap)
         }
     }
 
@@ -228,8 +229,7 @@ class IconPacksRepositoryImpl(
         } else null
     }
 
-    private fun generateBitmap(iconPack: IconPack, appId: AppId, defaultBitmap: Bitmap): Bitmap {
-        val appPackageName = appId.value
+    private fun generateBitmap(iconPack: IconPack, defaultBitmap: Bitmap): Bitmap {
         val frontImage = iconPack.frontImage
         val backImages = iconPack.backImages
         val maskImage = iconPack.maskImage
