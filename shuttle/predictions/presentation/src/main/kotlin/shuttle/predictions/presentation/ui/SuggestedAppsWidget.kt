@@ -29,10 +29,10 @@ import androidx.glance.text.TextStyle
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import shuttle.design.theme.Dimens
+import shuttle.predictions.presentation.model.SuggestedAppsState
 import shuttle.predictions.presentation.model.WidgetAppUiModel
 import shuttle.predictions.presentation.model.WidgetSettingsUiModel
 import shuttle.predictions.presentation.viewmodel.SuggestedAppsWidgetViewModel
-import shuttle.predictions.presentation.viewmodel.SuggestedAppsWidgetViewModel.State
 import shuttle.utils.kotlin.takeOrFillWithNulls
 
 class SuggestedAppsWidget : GlanceAppWidget(), KoinComponent {
@@ -47,10 +47,10 @@ class SuggestedAppsWidget : GlanceAppWidget(), KoinComponent {
                 .cornerRadius(Dimens.Margin.Large)
         ) {
             when (val state = viewModel.state) {
-                is State.Data -> SuggestedAppsList(data = state) { intent ->
+                is SuggestedAppsState.Data -> SuggestedAppsList(data = state) { intent ->
                     actionStartActivity(intent)
                 }
-                is State.Error -> Box(
+                is SuggestedAppsState.Error -> Box(
                     modifier = GlanceModifier
                         .padding(Dimens.Margin.Small)
                         .background(MaterialTheme.colorScheme.background.copy(alpha = 0.78f))
@@ -63,7 +63,7 @@ class SuggestedAppsWidget : GlanceAppWidget(), KoinComponent {
 
     @Composable
     private fun SuggestedAppsList(
-        data: State.Data,
+        data: SuggestedAppsState.Data,
         onAppClick: (Intent) -> Action
     ) {
         val settings = data.widgetSettings

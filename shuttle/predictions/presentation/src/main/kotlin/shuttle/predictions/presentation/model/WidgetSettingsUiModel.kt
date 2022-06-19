@@ -4,11 +4,11 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 
 data class WidgetSettingsUiModel(
-    val rowsCount: Int,
     val columnsCount: Int,
-    val iconSize: Dp,
     val horizontalSpacing: Dp,
-    val verticalSpacing: Dp,
+    val iconSize: Dp,
+    val maxLines: Int,
+    val rowsCount: Int,
     val textSize: TextUnit,
-    val maxLines: Int
+    val verticalSpacing: Dp
 )
