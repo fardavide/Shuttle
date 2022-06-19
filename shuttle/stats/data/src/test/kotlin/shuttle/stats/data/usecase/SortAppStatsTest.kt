@@ -1,5 +1,6 @@
 package shuttle.stats.data.usecase
 
+import arrow.core.left
 import com.soywiz.klock.DateTime
 import io.mockk.every
 import io.mockk.mockk
@@ -8,7 +9,9 @@ import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestCoroutineScheduler
 import kotlinx.coroutines.test.runTest
 import shuttle.apps.domain.model.AppId
-import shuttle.coordinates.domain.usecase.ObserveCurrentDateTime
+import shuttle.coordinates.domain.error.LocationNotAvailable
+import shuttle.coordinates.domain.model.CoordinatesResult
+import shuttle.coordinates.domain.usecase.ObserveCurrentCoordinates
 import shuttle.database.Stat
 import shuttle.database.model.DatabaseAppId
 import shuttle.database.model.DatabaseDate
@@ -24,14 +27,19 @@ class SortAppStatsTest {
     private val databaseDateMapper: DatabaseDateMapper = mockk {
         every { toDatabaseDate(dateTime = DateTime.EPOCH) } returns CurrentDatabaseDate
     }
-    private val observeCurrentDateTime: ObserveCurrentDateTime = mockk {
-        every { this@mockk() } returns flowOf(DateTime.EPOCH)
+    private val observeCurrentCoordinates: ObserveCurrentCoordinates = mockk {
+        every { this@mockk() } returns flowOf(
+            CoordinatesResult(
+                location = LocationNotAvailable.left(),
+                dateTime = DateTime.EPOCH
+            )
+        )
     }
 
     private val sortAppStats = SortAppStats(
         computationDispatcher = dispatcher,
         databaseDateMapper = databaseDateMapper,
-        observeCurrentDateTime = observeCurrentDateTime
+        observeCurrentCoordinates = observeCurrentCoordinates
     )
 
     @Test
@@ -54,7 +62,7 @@ class SortAppStatsTest {
     }
 
     @Test
-    fun `sorts by stars count`() = runTest(dispatcher) {
+    fun `sorts by stats count`() = runTest(dispatcher) {
         // given
         val expected = listOf(
             Telegram,
