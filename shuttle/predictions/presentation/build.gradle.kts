@@ -7,6 +7,7 @@ shuttleAndroid.useCompose()
 moduleDependencies {
 
     apps.domain()
+    coordinates.domain()
     design()
     icons.domain()
     predictions.domain()

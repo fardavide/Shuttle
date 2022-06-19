@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="settings_widget_layout_show_refresh_location">Mostra botton per aggiornare la posizione</string>
+    <string name="widget_refresh_button_content_description">Aggiorna la posizione corrente</string>
     <string name="launch_counter_service_description">Questo servizio conterà quante volte un app è stata avviata sul dispositivo</string>
     <string name="launch_counter_service_label">Servizio per contari gli avvii delle app</string>
     <string name="navigable_item_go_to">Vai a %s</string>

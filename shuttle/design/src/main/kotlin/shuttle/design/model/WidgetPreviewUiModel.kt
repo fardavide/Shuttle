@@ -20,13 +20,14 @@ import arrow.optics.optics
 }
 
 @optics data class WidgetLayoutUiModel(
-    val rowsCount: Int,
+    val allowTwoLines: Boolean,
     val columnsCount: Int,
-    val iconSize: Dp,
     val horizontalSpacing: Dp,
-    val verticalSpacing: Dp,
+    val iconSize: Dp,
+    val rowsCount: Int,
+    val showRefreshLocation: Boolean,
     val textSize: TextUnit,
-    val allowTwoLines: Boolean
+    val verticalSpacing: Dp
 ) {
     companion object
 }

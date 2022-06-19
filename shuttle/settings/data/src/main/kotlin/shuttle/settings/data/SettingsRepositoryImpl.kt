@@ -72,13 +72,14 @@ internal class SettingsRepositoryImpl(
         with(WidgetSettingsPreferenceKeys) {
             dataStore.data.map {
                 WidgetSettings(
-                    rowsCount = it[RowsCount] ?: WidgetSettings.Default.rowsCount,
+                    allowTwoLines = it[AllowTwoLines] ?: WidgetSettings.Default.allowTwoLines,
                     columnsCount = it[ColumnsCount] ?: WidgetSettings.Default.columnsCount,
-                    iconsSize = it[IconSize]?.let(::Dp) ?: WidgetSettings.Default.iconsSize,
                     horizontalSpacing = it[HorizontalSpacing]?.let(::Dp) ?: WidgetSettings.Default.horizontalSpacing,
-                    verticalSpacing = it[VerticalSpacing]?.let(::Dp) ?: WidgetSettings.Default.verticalSpacing,
+                    iconsSize = it[IconSize]?.let(::Dp) ?: WidgetSettings.Default.iconsSize,
+                    rowsCount = it[RowsCount] ?: WidgetSettings.Default.rowsCount,
+                    showRefreshLocation = it[ShowRefreshLocation] ?: WidgetSettings.Default.showRefreshLocation,
                     textSize = it[TextSize]?.let(::Sp) ?: WidgetSettings.Default.textSize,
-                    allowTwoLines = it[AllowTwoLines] ?: WidgetSettings.Default.allowTwoLines
+                    verticalSpacing = it[VerticalSpacing]?.let(::Dp) ?: WidgetSettings.Default.verticalSpacing
                 )
             }.distinctUntilChanged()
         }
@@ -123,13 +124,14 @@ internal class SettingsRepositoryImpl(
     override suspend fun updateWidgetSettings(settings: WidgetSettings) {
         with(WidgetSettingsPreferenceKeys) {
             dataStore.edit {
-                it[RowsCount] = settings.rowsCount
-                it[ColumnsCount] = settings.columnsCount
-                it[IconSize] = settings.iconsSize.value
-                it[HorizontalSpacing] = settings.horizontalSpacing.value
-                it[VerticalSpacing] = settings.verticalSpacing.value
-                it[TextSize] = settings.textSize.value
                 it[AllowTwoLines] = settings.allowTwoLines
+                it[ColumnsCount] = settings.columnsCount
+                it[HorizontalSpacing] = settings.horizontalSpacing.value
+                it[IconSize] = settings.iconsSize.value
+                it[RowsCount] = settings.rowsCount
+                it[ShowRefreshLocation] = settings.showRefreshLocation
+                it[TextSize] = settings.textSize.value
+                it[VerticalSpacing] = settings.verticalSpacing.value
             }
         }
     }

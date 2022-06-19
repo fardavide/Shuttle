@@ -8,12 +8,13 @@ import shuttle.settings.domain.model.WidgetSettings
 class WidgetSettingsUiModelMapper {
 
     fun toUiModel(settings: WidgetSettings) = WidgetLayoutUiModel(
-        rowsCount = settings.rowsCount,
+        allowTwoLines = settings.allowTwoLines,
         columnsCount = settings.columnsCount,
-        iconSize = settings.iconsSize.value.dp,
         horizontalSpacing = settings.horizontalSpacing.value.dp,
-        verticalSpacing = settings.verticalSpacing.value.dp,
+        iconSize = settings.iconsSize.value.dp,
+        rowsCount = settings.rowsCount,
+        showRefreshLocation = settings.showRefreshLocation,
         textSize = settings.textSize.value.sp,
-        allowTwoLines = settings.allowTwoLines
+        verticalSpacing = settings.verticalSpacing.value.dp
     )
 }

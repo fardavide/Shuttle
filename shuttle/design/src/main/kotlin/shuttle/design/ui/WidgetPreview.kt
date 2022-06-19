@@ -2,6 +2,7 @@ package shuttle.design.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -16,7 +17,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -49,6 +50,14 @@ fun WidgetPreview(model: WidgetPreviewUiModel) {
             )
             .padding(horizontal = layout.horizontalSpacing, vertical = layout.verticalSpacing)
     ) {
+        if (model.layout.showRefreshLocation) {
+            Row(horizontalArrangement = Arrangement.End) {
+                Image(
+                    painter = painterResource(R.drawable.ic_refresh),
+                    contentDescription = stringResource(id = R.string.widget_refresh_button_content_description)
+                )
+            }
+        }
         repeat(rows) {
             Row {
                 repeat(columns) {
@@ -97,22 +106,29 @@ private fun AppIconItem(
 @Composable
 @Preview(
     showBackground = true,
+    backgroundColor = 1_234_567,
     widthDp = PreviewUtils.Dimens.Medium.Width,
     heightDp = PreviewUtils.Dimens.Medium.Height
 )
 private fun WidgetPreviewPreview() {
-    val icon = LocalContext.current.getDrawable(androidx.core.R.drawable.notification_bg_low)!!
+    val icon = PreviewUtils.ShuttleIconDrawable
     val apps = listOf(
-        WidgetPreviewAppUiModel("Shuttle", icon)
+        WidgetPreviewAppUiModel("Shuttle", icon),
+        WidgetPreviewAppUiModel("Proton Mail", icon),
+        WidgetPreviewAppUiModel("Proton Drive", icon),
+        WidgetPreviewAppUiModel("Telegram", icon),
+        WidgetPreviewAppUiModel("Facebook", icon),
+        WidgetPreviewAppUiModel("Instagram", icon)
     )
     val widgetSettings = WidgetLayoutUiModel(
-        rowsCount = 2,
-        columnsCount = 4,
-        iconSize = 48.dp,
+        allowTwoLines = true,
+        columnsCount = 3,
         horizontalSpacing = 10.dp,
-        verticalSpacing = 10.dp,
-        textSize = 12.sp,
-        allowTwoLines = true
+        iconSize = 48.dp,
+        rowsCount = 2,
+        showRefreshLocation = true,
+        textSize = 9.sp,
+        verticalSpacing = 10.dp
     )
     MaterialTheme {
         WidgetPreview(WidgetPreviewUiModel(apps = apps, layout = widgetSettings))

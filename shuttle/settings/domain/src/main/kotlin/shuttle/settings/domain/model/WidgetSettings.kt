@@ -1,32 +1,34 @@
 package shuttle.settings.domain.model
 
 data class WidgetSettings(
-    val rowsCount: Int,
+    val allowTwoLines: Boolean,
     val columnsCount: Int,
-    val iconsSize: Dp,
     val horizontalSpacing: Dp,
-    val verticalSpacing: Dp,
+    val iconsSize: Dp,
+    val rowsCount: Int,
+    val showRefreshLocation: Boolean,
     val textSize: Sp,
-    val allowTwoLines: Boolean
+    val verticalSpacing: Dp
 ) {
 
     companion object {
 
-        val RowsCountRange = 1..5
         val ColumnsCountRange = 3..16
-        val IconsSizeRange = 24..56
         val HorizontalSpacingRange = 2..16
-        val VerticalSpacingRange = 2..16
+        val IconsSizeRange = 24..56
+        val RowsCountRange = 1..5
         val TextSizeRange = 6..18
+        val VerticalSpacingRange = 2..16
 
         val Default = WidgetSettings(
-            rowsCount = 2,
+            allowTwoLines = false,
             columnsCount = 5,
-            iconsSize = Dp(48),
             horizontalSpacing = Dp(8),
-            verticalSpacing = Dp(8),
+            iconsSize = Dp(48),
+            rowsCount = 2,
+            showRefreshLocation = false,
             textSize = Sp(12),
-            allowTwoLines = false
+            verticalSpacing = Dp(8)
         )
     }
 }

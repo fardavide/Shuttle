@@ -21,43 +21,138 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
+import shuttle.design.model.TextRes
+import shuttle.design.model.stringResource
 import shuttle.design.theme.Dimens
 
-@Composable
-@OptIn(ExperimentalMaterial3Api::class)
-fun CheckableListItem(
-    title: String,
-    id: Any = title,
-    iconDrawable: Drawable,
-    contentDescription: String?,
-    isChecked: Boolean,
-    onCheckChange: (isChecked: Boolean) -> Unit
-) {
-    var checkedState by remember(id) { mutableStateOf(isChecked) }
-    val toggleAction = { isCheckboxChecked: Boolean ->
-        checkedState = isCheckboxChecked
-        onCheckChange(isCheckboxChecked)
+object CheckableListItem {
+
+    @Composable
+    operator fun invoke(
+        title: TextRes,
+        id: Any = title,
+        icon: Painter,
+        contentDescription: TextRes?,
+        isChecked: Boolean,
+        onCheckChange: (isChecked: Boolean) -> Unit
+    ) {
+        Internal(
+            title = title,
+            id = id,
+            icon = icon,
+            contentDescription = contentDescription,
+            isChecked = isChecked,
+            onCheckChange = onCheckChange,
+            iconSize = Dimens.Icon.Small,
+            iconPadding = Dimens.Margin.Medium
+        )
     }
 
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
-            .padding(vertical = Dimens.Margin.XXSmall, horizontal = Dimens.Margin.Small)
-            .clickable { toggleAction(checkedState.not()) }
+    @Composable
+    fun LargeIcon(
+        title: TextRes,
+        id: Any = title,
+        icon: Painter,
+        contentDescription: TextRes?,
+        isChecked: Boolean,
+        onCheckChange: (isChecked: Boolean) -> Unit
     ) {
-        Image(
-            painter = rememberImagePainter(data = iconDrawable),
+        Internal(
+            title = title,
+            id = id,
+            icon = icon,
             contentDescription = contentDescription,
-            modifier = Modifier.size(Dimens.Icon.Medium)
+            isChecked = isChecked,
+            onCheckChange = onCheckChange,
+            iconSize = Dimens.Icon.Medium,
+            iconPadding = 0.dp
         )
-        Spacer(modifier = Modifier.width(Dimens.Margin.Medium))
-        Text(
-            text = title,
-            style = MaterialTheme.typography.bodyMedium
+    }
+
+    @Composable
+    operator fun invoke(
+        title: TextRes,
+        id: Any = title,
+        iconDrawable: Drawable,
+        contentDescription: TextRes?,
+        isChecked: Boolean,
+        onCheckChange: (isChecked: Boolean) -> Unit
+    ) {
+        CheckableListItem(
+            title = title,
+            id = id,
+            icon = rememberImagePainter(data = iconDrawable),
+            contentDescription = contentDescription,
+            isChecked = isChecked,
+            onCheckChange = onCheckChange
         )
-        Column(horizontalAlignment = Alignment.End, modifier = Modifier.fillMaxWidth()) {
-            Checkbox(checked = checkedState, onCheckedChange = toggleAction)
+    }
+
+    @Composable
+    fun LargeIcon(
+        title: TextRes,
+        id: Any = title,
+        iconDrawable: Drawable,
+        contentDescription: TextRes?,
+        isChecked: Boolean,
+        onCheckChange: (isChecked: Boolean) -> Unit
+    ) {
+        LargeIcon(
+            title = title,
+            id = id,
+            icon = rememberImagePainter(data = iconDrawable),
+            contentDescription = contentDescription,
+            isChecked = isChecked,
+            onCheckChange = onCheckChange
+        )
+    }
+
+    @Composable
+    @OptIn(ExperimentalMaterial3Api::class)
+    private fun Internal(
+        title: TextRes,
+        id: Any = title,
+        icon: Painter,
+        contentDescription: TextRes?,
+        isChecked: Boolean,
+        onCheckChange: (isChecked: Boolean) -> Unit,
+        iconSize: Dp,
+        iconPadding: Dp
+    ) {
+        var checkedState by remember(id) { mutableStateOf(isChecked) }
+        val toggleAction = { isCheckboxChecked: Boolean ->
+            checkedState = isCheckboxChecked
+            onCheckChange(isCheckboxChecked)
+        }
+
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .padding(
+                    top = Dimens.Margin.XXSmall,
+                    bottom = Dimens.Margin.XXSmall,
+                    start = Dimens.Margin.Medium,
+                    end = Dimens.Margin.Small
+                )
+                .clickable { toggleAction(checkedState.not()) }
+        ) {
+            Image(
+                modifier = Modifier.padding(iconPadding).size(iconSize),
+                painter = icon,
+                contentDescription = contentDescription?.let { stringResource(textRes = it) }
+            )
+            Spacer(modifier = Modifier.width(Dimens.Margin.Medium))
+            Text(
+                text = stringResource(textRes = title),
+                style = MaterialTheme.typography.titleMedium
+            )
+            Column(horizontalAlignment = Alignment.End, modifier = Modifier.fillMaxWidth()) {
+                Checkbox(checked = checkedState, onCheckedChange = toggleAction)
+            }
         }
     }
 }

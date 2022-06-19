@@ -9,6 +9,7 @@ data class WidgetSettingsUiModel(
     val iconSize: Dp,
     val maxLines: Int,
     val rowsCount: Int,
+    val showRefreshLocationButton: Boolean,
     val textSize: TextUnit,
     val verticalSpacing: Dp
 )

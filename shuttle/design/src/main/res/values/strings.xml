@@ -119,6 +119,7 @@
     <string name="settings_widget_layout_grid">Widget grid</string>
     <string name="settings_widget_layout_icons_dimensions">Icons\' dimensions</string>
     <string name="settings_widget_layout_apps_labels">Apps\' labels</string>
+    <string name="settings_widget_layout_show_refresh_location">Show refresh location button</string>
 
     <string name="settings_widget_layout_rows_count">Rows count</string>
     <string name="settings_widget_layout_columns_count">Columns count</string>
@@ -129,6 +130,10 @@
     <string name="settings_widget_layout_two_lines">Apps\' labels on two lines</string>
 
     <string name="settings_footer_app_version">Version %s</string>
+    <!-- endregion -->
+
+    <!-- region Widget -->
+    <string name="widget_refresh_button_content_description">Refresh current location</string>
     <!-- endregion -->
 
 </resources>

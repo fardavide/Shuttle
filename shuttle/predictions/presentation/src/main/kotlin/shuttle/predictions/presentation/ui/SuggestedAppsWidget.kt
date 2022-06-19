@@ -10,6 +10,7 @@ import androidx.glance.action.Action
 import androidx.glance.action.clickable
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.GlanceAppWidgetReceiver
+import androidx.glance.appwidget.action.actionRunCallback
 import androidx.glance.appwidget.action.actionStartActivity
 import androidx.glance.appwidget.cornerRadius
 import androidx.glance.background
@@ -29,11 +30,13 @@ import androidx.glance.text.TextStyle
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import shuttle.design.theme.Dimens
+import shuttle.predictions.presentation.RefreshCurrentLocationActionCallback
 import shuttle.predictions.presentation.model.SuggestedAppsState
 import shuttle.predictions.presentation.model.WidgetAppUiModel
 import shuttle.predictions.presentation.model.WidgetSettingsUiModel
 import shuttle.predictions.presentation.viewmodel.SuggestedAppsWidgetViewModel
 import shuttle.utils.kotlin.takeOrFillWithNulls
+import studio.forface.shuttle.design.R.drawable
 
 class SuggestedAppsWidget : GlanceAppWidget(), KoinComponent {
 
@@ -41,30 +44,58 @@ class SuggestedAppsWidget : GlanceAppWidget(), KoinComponent {
 
     @Composable
     override fun Content() {
+        val actions = Actions(
+            onOpenApp = ::actionStartActivity,
+            onRefreshLocation = actionRunCallback<RefreshCurrentLocationActionCallback>()
+        )
+
         Box(
             modifier = GlanceModifier
                 .wrapContentSize()
                 .cornerRadius(Dimens.Margin.Large)
         ) {
             when (val state = viewModel.state) {
-                is SuggestedAppsState.Data -> SuggestedAppsList(data = state) { intent ->
-                    actionStartActivity(intent)
-                }
+                is SuggestedAppsState.Data -> WidgetContent(data = state, actions)
                 is SuggestedAppsState.Error -> Box(
                     modifier = GlanceModifier
                         .padding(Dimens.Margin.Small)
-                        .background(MaterialTheme.colorScheme.background.copy(alpha = 0.78f))
+                        .widgetBackground()
                 ) {
                     Text(text = state.toString())
                 }
             }
         }
     }
+    
+    @Composable
+    private fun WidgetContent(
+        data: SuggestedAppsState.Data,
+        actions: Actions
+    ) {
+        val settings = data.widgetSettings
+
+        Column(
+            modifier = GlanceModifier
+                .padding(horizontal = settings.horizontalSpacing, vertical = settings.verticalSpacing)
+                .widgetBackground()
+        ) {
+            if (settings.showRefreshLocationButton) {
+                Row(horizontalAlignment = Alignment.End) {
+                    Image(
+                        modifier = GlanceModifier.clickable(actions.onRefreshLocation),
+                        provider = ImageProvider(drawable.ic_refresh),
+                        contentDescription = null
+                    )
+                }
+            }
+            SuggestedAppsList(data = data, actions = actions)
+        }
+    }
 
     @Composable
     private fun SuggestedAppsList(
         data: SuggestedAppsState.Data,
-        onAppClick: (Intent) -> Action
+        actions: Actions
     ) {
         val settings = data.widgetSettings
         val rows = settings.rowsCount
@@ -72,19 +103,14 @@ class SuggestedAppsWidget : GlanceAppWidget(), KoinComponent {
         val apps = data.apps.takeOrFillWithNulls(rows * columns).reversed()
         var index = 0
 
-        Column(modifier = GlanceModifier
-            .padding(horizontal = settings.horizontalSpacing, vertical = settings.verticalSpacing)
-            .background(MaterialTheme.colorScheme.background.copy(alpha = 0.78f))
-        ) {
-            repeat(rows) {
-                Row {
-                    repeat(columns) {
-                        AppIconItem(
-                            app = apps[index++],
-                            widgetSettings = settings,
-                            onAppClick = onAppClick
-                        )
-                    }
+        repeat(rows) {
+            Row {
+                repeat(columns) {
+                    AppIconItem(
+                        app = apps[index++],
+                        widgetSettings = settings,
+                        actions = actions
+                    )
                 }
             }
         }
@@ -94,7 +120,7 @@ class SuggestedAppsWidget : GlanceAppWidget(), KoinComponent {
     private fun AppIconItem(
         app: WidgetAppUiModel?,
         widgetSettings: WidgetSettingsUiModel,
-        onAppClick: (Intent) -> Action
+        actions: Actions
     ) {
         app ?: return
 
@@ -102,7 +128,7 @@ class SuggestedAppsWidget : GlanceAppWidget(), KoinComponent {
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = GlanceModifier
                 .padding(vertical = widgetSettings.verticalSpacing, horizontal = widgetSettings.horizontalSpacing)
-                .clickable(onAppClick(app.launchIntent))
+                .clickable(actions.onOpenApp(app.launchIntent))
         ) {
 
             Image(
@@ -119,6 +145,15 @@ class SuggestedAppsWidget : GlanceAppWidget(), KoinComponent {
             )
         }
     }
+    
+    @Composable
+    private fun GlanceModifier.widgetBackground() =
+        background(MaterialTheme.colorScheme.background.copy(alpha = 0.78f))
+
+    data class Actions(
+        val onOpenApp: (Intent) -> Action,
+        val onRefreshLocation: Action
+    )
 }
 
 class SuggestedAppsWidgetReceiver : GlanceAppWidgetReceiver() {

@@ -41,7 +41,8 @@ fun WidgetLayoutPage(onBack: () -> Unit) {
                     state = s,
                     viewModel = viewModel,
                     navController = navController,
-                    titleState = titleState
+                    titleState = titleState,
+                    onShowRefreshLocationChange = { viewModel.submit(Action.UpdateShowRefreshLocation(it)) }
                 )
                 NavHost(navController = navController, startDestination = WidgetLayout.Home) {
                     composable(WidgetLayout.Home) { HomeWidgetLayoutRoute(args) }
@@ -56,11 +57,15 @@ fun WidgetLayoutPage(onBack: () -> Unit) {
 
 @Composable
 private fun HomeWidgetLayoutRoute(args: Args) = with(args) {
-    LaunchedEffect(key1 = 0, block = {titleState.value = WidgetLayout.Home.title})
+    LaunchedEffect(key1 = 0, block = { titleState.value = WidgetLayout.Home.title })
     HomeWidgetLayoutContent(
-        toGrid = { navController.navigate(WidgetLayout.Grid) },
-        toIconsDimensions = { navController.navigate(WidgetLayout.IconsDimensions) },
-        toAppsLabels = { navController.navigate(WidgetLayout.AppsLabels) }
+        showRefreshLocation = args.state.layout.showRefreshLocation,
+        HomeWidgetLayoutContent.Actions(
+            toGrid = { navController.navigate(WidgetLayout.Grid) },
+            toIconsDimensions = { navController.navigate(WidgetLayout.IconsDimensions) },
+            toAppsLabels = { navController.navigate(WidgetLayout.AppsLabels) },
+            onShowRefreshLocationChange = onShowRefreshLocationChange
+        )
     )
 }
 
@@ -104,5 +109,6 @@ private class Args(
     val state: State.Data,
     val viewModel: WidgetLayoutViewModel,
     val navController: NavController,
-    val titleState: MutableState<Int>
+    val titleState: MutableState<Int>,
+    val onShowRefreshLocationChange: (Boolean) -> Unit
 )

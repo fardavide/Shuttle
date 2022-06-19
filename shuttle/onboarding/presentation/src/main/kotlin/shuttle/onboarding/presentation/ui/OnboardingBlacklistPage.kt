@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import arrow.core.nonEmptyListOf
 import shuttle.design.PreviewUtils
+import shuttle.design.model.TextRes
 import shuttle.design.theme.Dimens
 import shuttle.design.theme.ShuttleTheme
 import shuttle.design.ui.CheckableListItem
@@ -45,8 +46,8 @@ internal fun OnboardingBlacklistPage(
 private fun OnboardingBlacklistImage(uiModel: OnboardingBlacklistUiModel) {
     LazyColumn {
         items(uiModel.apps) { app ->
-            CheckableListItem(
-                title = app.name,
+            CheckableListItem.LargeIcon(
+                title = TextRes(app.name),
                 iconDrawable = app.icon,
                 contentDescription = NoContentDescription,
                 isChecked = app.isBlacklisted,

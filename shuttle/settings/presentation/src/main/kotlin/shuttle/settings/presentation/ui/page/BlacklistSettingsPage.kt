@@ -31,6 +31,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import org.koin.androidx.compose.getViewModel
 import shuttle.apps.domain.model.AppId
 import shuttle.design.PreviewUtils
+import shuttle.design.model.TextRes
 import shuttle.design.theme.Dimens
 import shuttle.design.theme.ShuttleTheme
 import shuttle.design.ui.BackIconButton
@@ -131,11 +132,11 @@ private fun AppListItem(
         if (isChecked) onAddToBlacklist(app.id)
         else onRemoveFromBlacklist(app.id)
     }
-    CheckableListItem(
+    CheckableListItem.LargeIcon(
         id = app.id,
-        title = app.name,
+        title = TextRes(app.name),
         iconDrawable = app.icon,
-        contentDescription = stringResource(id = R.string.x_app_icon_description),
+        contentDescription = TextRes(R.string.x_app_icon_description),
         isChecked = app.isBlacklisted,
         onCheckChange = onCheckChange
     )

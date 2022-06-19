@@ -86,13 +86,14 @@ internal class OnboardingViewModel(
     companion object {
 
         val WidgetLayout = WidgetLayoutUiModel(
-            rowsCount = 2,
+            allowTwoLines = true,
             columnsCount = 4,
-            iconSize = 48.dp,
             horizontalSpacing = 8.dp,
-            verticalSpacing = 8.dp,
+            iconSize = 48.dp,
+            rowsCount = 2,
+            showRefreshLocation = true,
             textSize = 10.sp,
-            allowTwoLines = true
+            verticalSpacing = 8.dp
         )
     }
 }

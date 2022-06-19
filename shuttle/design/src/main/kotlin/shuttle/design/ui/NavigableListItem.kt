@@ -27,49 +27,52 @@ import shuttle.design.theme.ShuttleTheme
 import studio.forface.shuttle.design.R.drawable
 import studio.forface.shuttle.design.R.string
 
-@Composable
-fun NavigableListItem(
-    @StringRes title: Int,
-    @DrawableRes icon: Int,
-    onClick: () -> Unit
-) {
-    NavigableListItem(
-        title = stringResource(id = title),
-        iconPainter = painterResource(id = icon),
-        onClick = onClick
-    )
-}
+object NavigableListItem {
 
-@Composable
-fun NavigableListItem(
-    title: String,
-    iconPainter : Painter,
-    onClick: () -> Unit
-) {
-    val contentDescription = stringResource(id = string.navigable_item_go_to, title)
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable { onClick() }
-            .padding(horizontal = Dimens.Margin.Medium),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
+    @Composable
+    operator fun invoke(
+        @StringRes title: Int,
+        @DrawableRes icon: Int,
+        onClick: () -> Unit
     ) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
+        NavigableListItem(
+            title = stringResource(id = title),
+            iconPainter = painterResource(id = icon),
+            onClick = onClick
+        )
+    }
+
+    @Composable
+    operator fun invoke(
+        title: String,
+        iconPainter: Painter,
+        onClick: () -> Unit
+    ) {
+        val contentDescription = stringResource(id = string.navigable_item_go_to, title)
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable { onClick() }
+                .padding(horizontal = Dimens.Margin.Medium),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Icon(
+                    modifier = Modifier
+                        .padding(Dimens.Margin.Medium)
+                        .size(Dimens.Icon.Small),
+                    painter = iconPainter,
+                    contentDescription = contentDescription
+                )
+                Spacer(modifier = Modifier.width(Dimens.Margin.Medium))
+                Text(text = title, style = MaterialTheme.typography.titleMedium)
+            }
             Icon(
-                modifier = Modifier
-                    .padding(Dimens.Margin.Medium)
-                    .size(Dimens.Icon.Small),
-                painter = iconPainter,
+                imageVector = Icons.Rounded.KeyboardArrowRight,
                 contentDescription = contentDescription
             )
-            Spacer(modifier = Modifier.width(Dimens.Margin.Medium))
-            Text(text = title, style = MaterialTheme.typography.titleMedium)
         }
-        Icon(
-            imageVector = Icons.Rounded.KeyboardArrowRight,
-            contentDescription = contentDescription
-        )
     }
 }
 

@@ -7,7 +7,10 @@ shuttleAndroid.useCompose()
 moduleDependencies {
 
     test.compose()
-    utils.kotlin()
+    utils {
+        android()
+        kotlin()
+    }
 }
 
 dependencies {
