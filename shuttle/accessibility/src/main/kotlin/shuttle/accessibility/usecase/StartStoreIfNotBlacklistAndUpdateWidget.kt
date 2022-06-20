@@ -13,11 +13,12 @@ import shuttle.coordinates.domain.usecase.ObserveCurrentCoordinates
 import shuttle.settings.domain.usecase.IsBlacklisted
 import shuttle.stats.domain.usecase.StoreOpenStatsByCoordinates
 
-class StoreOpenStatsIfNotBlacklisted(
+class StartStoreIfNotBlacklistAndUpdateWidget(
     private val appScope: CoroutineScope,
-    private val storeOpenStatsByCoordinates: StoreOpenStatsByCoordinates,
     private val isBlacklisted: IsBlacklisted,
-    observeCoordinates: ObserveCurrentCoordinates
+    observeCoordinates: ObserveCurrentCoordinates,
+    private val storeOpenStatsByCoordinates: StoreOpenStatsByCoordinates,
+    private val updateWidget: UpdateWidget
 ) {
 
     private val coordinatesState = observeCoordinates()
@@ -29,6 +30,7 @@ class StoreOpenStatsIfNotBlacklisted(
             if (isBlacklisted(appId).not()) {
                 val coordinates = coordinatesState.awaitCoordinates()
                 storeOpenStatsByCoordinates(appId, coordinates)
+                updateWidget()
             }
         }
     }

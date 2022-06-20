@@ -4,7 +4,8 @@ import android.content.ComponentName
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import shuttle.accessibility.usecase.IsLaunchCounterServiceEnabled
-import shuttle.accessibility.usecase.StoreOpenStatsIfNotBlacklisted
+import shuttle.accessibility.usecase.StartRefreshLocationAndUpdateWidget
+import shuttle.accessibility.usecase.StartStoreIfNotBlacklistAndUpdateWidget
 import shuttle.accessibility.usecase.UpdateWidget
 
 val accessibilityModule = module {
@@ -15,12 +16,14 @@ val accessibilityModule = module {
             contentResolver = get()
         )
     }
+    factory { StartRefreshLocationAndUpdateWidget(appScope = get(), refreshLocation = get(), updateWidget = get()) }
     single {
-        StoreOpenStatsIfNotBlacklisted(
+        StartStoreIfNotBlacklistAndUpdateWidget(
             appScope = get(),
             isBlacklisted = get(),
             observeCoordinates = get(),
-            storeOpenStatsByCoordinates = get()
+            storeOpenStatsByCoordinates = get(),
+            updateWidget = get()
         )
     }
     single {

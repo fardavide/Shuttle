@@ -8,8 +8,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
-import shuttle.accessibility.usecase.StoreOpenStatsIfNotBlacklisted
-import shuttle.accessibility.usecase.UpdateWidget
+import shuttle.accessibility.usecase.StartRefreshLocationAndUpdateWidget
+import shuttle.accessibility.usecase.StartStoreIfNotBlacklistAndUpdateWidget
 import shuttle.apps.domain.model.AppId
 import shuttle.settings.domain.usecase.HasEnabledAccessibilityService
 import shuttle.settings.domain.usecase.SetHasEnabledAccessibilityService
@@ -20,15 +20,16 @@ class LaunchCounterAccessibilityService: AccessibilityService() {
 
     private val hasEnabledAccessibilityService: HasEnabledAccessibilityService by inject()
     private val setHasEnabledAccessibilityService: SetHasEnabledAccessibilityService by inject()
+    private val startRefreshLocationAndUpdateWidget: StartRefreshLocationAndUpdateWidget by inject()
     private val startApp: () -> Unit by inject(StartAppQualifier)
-    private val storeOpenStatsIfNotBlacklisted: StoreOpenStatsIfNotBlacklisted by inject()
-    private val updateWidget: UpdateWidget by inject()
+    private val startStoreIfNotBlacklistAndUpdateWidget: StartStoreIfNotBlacklistAndUpdateWidget by inject()
 
     private var previousPackageName: CharSequence? = null
 
     override fun onAccessibilityEvent(event: AccessibilityEvent) {
         fun isPackageValid(p: CharSequence?) = p.isNullOrBlank().not()
         fun isPackageChanged(p: CharSequence?) = p != previousPackageName
+        fun isSystemUi(p: CharSequence?) = p == "com.android.systemui"
 
         if (event.eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
             val packageName = event.packageName
@@ -36,8 +37,11 @@ class LaunchCounterAccessibilityService: AccessibilityService() {
                 previousPackageName = packageName
                 Log.d("LaunchCounterAccessibilityService", "Package changed: $packageName")
 
-                storeOpenStatsIfNotBlacklisted(AppId(event.packageName.toString()))
-                updateWidget()
+                if (isSystemUi(packageName)) {
+                    startRefreshLocationAndUpdateWidget()
+                } else {
+                    startStoreIfNotBlacklistAndUpdateWidget(AppId(event.packageName.toString()))
+                }
             }
         }
     }
