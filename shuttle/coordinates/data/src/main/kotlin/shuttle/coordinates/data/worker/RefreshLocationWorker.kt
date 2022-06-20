@@ -24,7 +24,9 @@ internal class RefreshLocationWorker(
                 logger.w(locationError.toString())
                 when (locationError) {
                     LocationError.MissingPermissions -> Result.failure()
-                    LocationError.ExpiredLocation, LocationError.NoCachedLocation -> Result.retry()
+                    LocationError.ExpiredLocation,
+                    LocationError.NoCachedLocation,
+                    LocationError.Timeout -> Result.retry()
                 }
             },
             ifRight = { Result.success() }

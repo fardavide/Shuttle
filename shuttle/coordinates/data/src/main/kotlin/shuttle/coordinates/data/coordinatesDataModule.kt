@@ -27,7 +27,11 @@ val coordinatesDataModule = module {
     factory { DateTimeDataSource(refreshInterval = TimeRefreshInterval) }
     factory { GeoHashMapper() }
     factory {
-        DeviceLocationDataSource(fusedLocationClient = get(), locationExpiration = LocationMaxRefreshInterval)
+        DeviceLocationDataSource(
+            freshLocationTimeout = LocationFreshTimeoutInterval,
+            fusedLocationClient = get(),
+            locationExpiration = LocationMaxRefreshInterval
+        )
     }
     factory { LocationServices.getFusedLocationProviderClient(get<Context>()) }
     worker {
@@ -48,5 +52,6 @@ val coordinatesDataModule = module {
 }
 
 private val LocationDefaultRefreshInterval = 12.toDuration(DurationUnit.MINUTES)
+private val LocationFreshTimeoutInterval = 30.toDuration(DurationUnit.SECONDS)
 private val LocationMaxRefreshInterval = 20.toDuration(DurationUnit.MINUTES)
 private val TimeRefreshInterval = 1.toDuration(DurationUnit.MINUTES)

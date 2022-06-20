@@ -12,7 +12,9 @@ import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.tasks.CancellationTokenSource
 import com.google.android.gms.tasks.Task
 import com.soywiz.klock.DateTime
+import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.withTimeout
 import shuttle.coordinates.domain.error.LocationError
 import shuttle.coordinates.domain.error.LocationError.ExpiredLocation
 import shuttle.coordinates.domain.error.LocationError.MissingPermissions
@@ -23,16 +25,16 @@ import kotlin.time.Duration
 @SuppressLint("MissingPermission")
 internal class DeviceLocationDataSource(
     private val fusedLocationClient: FusedLocationProviderClient,
+    private val freshLocationTimeout: Duration,
     private val locationExpiration: Duration
 ) {
 
     suspend fun getLocation(): Either<LocationError, Location> {
-        val lastLocation = fusedLocationClient.lastLocation.tryGet()
-        return notExpired(lastLocation).handleErrorWith {
-            fusedLocationClient.getCurrentLocation(
-                LocationRequest.PRIORITY_HIGH_ACCURACY,
-                CancellationTokenSource().token
-            ).get()
+        return fusedLocationClient.getCurrentLocation(
+            LocationRequest.PRIORITY_HIGH_ACCURACY,
+            CancellationTokenSource().token
+        ).tryGetWithTimeout().handleErrorWith {
+            notExpired(fusedLocationClient.lastLocation.tryGet())
         }
     }
 
@@ -52,10 +54,19 @@ internal class DeviceLocationDataSource(
             addOnCanceledListener(continuation::cancel)
         }
 
-    private suspend fun Task<Location>.get(): Either<LocationError, Location> =
-        suspendCancellableCoroutine { continuation ->
-            addOnSuccessListener { continuation.resume(it.right()) }
-            addOnFailureListener { continuation.resume(MissingPermissions.left()) }
-            addOnCanceledListener(continuation::cancel)
+    private suspend fun Task<Location?>.tryGetWithTimeout(): Either<LocationError, Location> =
+        try {
+            withTimeout(freshLocationTimeout) {
+                suspendCancellableCoroutine { continuation ->
+                    addOnSuccessListener { location ->
+                        val either = location?.right() ?: NoCachedLocation.left()
+                        continuation.resume(either)
+                    }
+                    addOnFailureListener { continuation.resume(MissingPermissions.left()) }
+                    addOnCanceledListener(continuation::cancel)
+                }
+            }
+        } catch (ignored: TimeoutCancellationException) {
+            LocationError.Timeout.left()
         }
 }
