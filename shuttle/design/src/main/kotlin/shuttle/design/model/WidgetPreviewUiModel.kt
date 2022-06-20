@@ -25,7 +25,6 @@ import arrow.optics.optics
     val horizontalSpacing: Dp,
     val iconSize: Dp,
     val rowsCount: Int,
-    val showRefreshLocation: Boolean,
     val textSize: TextUnit,
     val verticalSpacing: Dp
 ) {

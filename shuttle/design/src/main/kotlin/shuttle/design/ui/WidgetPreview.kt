@@ -2,7 +2,6 @@ package shuttle.design.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -17,7 +16,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -50,14 +48,6 @@ fun WidgetPreview(model: WidgetPreviewUiModel) {
             )
             .padding(horizontal = layout.horizontalSpacing, vertical = layout.verticalSpacing)
     ) {
-        if (model.layout.showRefreshLocation) {
-            Row(horizontalArrangement = Arrangement.End) {
-                Image(
-                    painter = painterResource(R.drawable.ic_refresh),
-                    contentDescription = stringResource(id = R.string.widget_refresh_button_content_description)
-                )
-            }
-        }
         repeat(rows) {
             Row {
                 repeat(columns) {
@@ -126,7 +116,6 @@ private fun WidgetPreviewPreview() {
         horizontalSpacing = 10.dp,
         iconSize = 48.dp,
         rowsCount = 2,
-        showRefreshLocation = true,
         textSize = 9.sp,
         verticalSpacing = 10.dp
     )

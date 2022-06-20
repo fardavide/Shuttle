@@ -59,7 +59,6 @@ internal class WidgetLayoutViewModel(
                 is Action.UpdateHorizontalSpacing -> updateHorizontalSpacing(currentState, action.value)
                 is Action.UpdateIconsSize -> updateIconsSize(currentState, action.value)
                 is Action.UpdateRows -> updateRows(currentState, action.value)
-                is Action.UpdateShowRefreshLocation -> updateShowRefreshLocation(currentState, action.value)
                 is Action.UpdateTextSize -> updateTextSize(currentState, action.value)
                 is Action.UpdateVerticalSpacing -> updateVerticalSpacing(currentState, action.value)
             }
@@ -112,15 +111,6 @@ internal class WidgetLayoutViewModel(
         )
     }
 
-    private suspend fun updateShowRefreshLocation(currentState: State.Data, value: Boolean): State {
-        val newSettings = currentState.widgetSettingsDomainModel.copy(showRefreshLocation = value)
-        updateWidgetSettings(newSettings)
-        return currentState.copy(
-            widgetSettingsDomainModel = newSettings,
-            layout = widgetSettingsUiModelMapper.toUiModel(newSettings)
-        )
-    }
-
     private suspend fun updateTextSize(currentState: State.Data, value: Int): State {
         val newSettings = currentState.widgetSettingsDomainModel.copy(textSize = Sp(value))
         updateWidgetSettings(newSettings)
@@ -161,7 +151,6 @@ internal class WidgetLayoutViewModel(
         data class UpdateHorizontalSpacing(val value: Int) : Action
         data class UpdateIconsSize(val value: Int) : Action
         data class UpdateRows(val value: Int) : Action
-        data class UpdateShowRefreshLocation(val value: Boolean) : Action
         data class UpdateTextSize(val value: Int) : Action
         data class UpdateVerticalSpacing(val value: Int) : Action
     }

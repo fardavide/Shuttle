@@ -36,7 +36,6 @@ import shuttle.predictions.presentation.model.WidgetAppUiModel
 import shuttle.predictions.presentation.model.WidgetSettingsUiModel
 import shuttle.predictions.presentation.viewmodel.SuggestedAppsWidgetViewModel
 import shuttle.utils.kotlin.takeOrFillWithNulls
-import studio.forface.shuttle.design.R.drawable
 
 class SuggestedAppsWidget : GlanceAppWidget(), KoinComponent {
 
@@ -79,15 +78,6 @@ class SuggestedAppsWidget : GlanceAppWidget(), KoinComponent {
                 .padding(horizontal = settings.horizontalSpacing, vertical = settings.verticalSpacing)
                 .widgetBackground()
         ) {
-            if (settings.showRefreshLocationButton) {
-                Row(horizontalAlignment = Alignment.End) {
-                    Image(
-                        modifier = GlanceModifier.clickable(actions.onRefreshLocation),
-                        provider = ImageProvider(drawable.ic_refresh),
-                        contentDescription = null
-                    )
-                }
-            }
             SuggestedAppsList(data = data, actions = actions)
         }
     }

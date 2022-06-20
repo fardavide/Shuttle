@@ -31,12 +31,10 @@ class SettingsRepositoryImplTest {
             horizontalSpacing = Dp(21),
             iconsSize = Dp(22),
             rowsCount = 23,
-            showRefreshLocation = true,
             textSize = Sp(24),
             verticalSpacing = Dp(25)
         )
         assertNotEquals(settings.allowTwoLines, WidgetSettings.Default.allowTwoLines)
-        assertNotEquals(settings.showRefreshLocation, WidgetSettings.Default.showRefreshLocation)
 
         // when
         repository.updateWidgetSettings(settings)

@@ -6,7 +6,6 @@ data class WidgetSettings(
     val horizontalSpacing: Dp,
     val iconsSize: Dp,
     val rowsCount: Int,
-    val showRefreshLocation: Boolean,
     val textSize: Sp,
     val verticalSpacing: Dp
 ) {
@@ -26,7 +25,6 @@ data class WidgetSettings(
             horizontalSpacing = Dp(8),
             iconsSize = Dp(48),
             rowsCount = 2,
-            showRefreshLocation = false,
             textSize = Sp(12),
             verticalSpacing = Dp(8)
         )

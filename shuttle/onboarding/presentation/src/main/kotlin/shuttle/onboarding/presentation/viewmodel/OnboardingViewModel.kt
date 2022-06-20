@@ -91,7 +91,6 @@ internal class OnboardingViewModel(
             horizontalSpacing = 8.dp,
             iconSize = 48.dp,
             rowsCount = 2,
-            showRefreshLocation = true,
             textSize = 10.sp,
             verticalSpacing = 8.dp
         )

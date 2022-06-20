@@ -13,7 +13,6 @@ class WidgetSettingsUiModelMapper {
         iconSize = settings.iconsSize.value.dp,
         maxLines = if (settings.allowTwoLines) 2 else 1,
         rowsCount = settings.rowsCount,
-        showRefreshLocationButton = settings.showRefreshLocation,
         textSize = settings.textSize.value.sp,
         verticalSpacing = settings.verticalSpacing.value.dp
     )

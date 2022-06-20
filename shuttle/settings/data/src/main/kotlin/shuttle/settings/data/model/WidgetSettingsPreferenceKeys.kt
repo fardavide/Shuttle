@@ -10,7 +10,6 @@ internal object WidgetSettingsPreferenceKeys {
     val HorizontalSpacing = intPreferencesKey("horizontal spacing")
     val IconSize = intPreferencesKey("icon size")
     val RowsCount = intPreferencesKey("rows")
-    val ShowRefreshLocation = booleanPreferencesKey("show refresh location")
     val TextSize = intPreferencesKey("text size")
     val VerticalSpacing = intPreferencesKey("vertical spacing")
 }

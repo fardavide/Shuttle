@@ -13,7 +13,6 @@ class WidgetSettingsUiModelMapper {
         horizontalSpacing = settings.horizontalSpacing.value.dp,
         iconSize = settings.iconsSize.value.dp,
         rowsCount = settings.rowsCount,
-        showRefreshLocation = settings.showRefreshLocation,
         textSize = settings.textSize.value.sp,
         verticalSpacing = settings.verticalSpacing.value.dp
     )

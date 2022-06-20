@@ -77,7 +77,6 @@ internal class SettingsRepositoryImpl(
                     horizontalSpacing = it[HorizontalSpacing]?.let(::Dp) ?: WidgetSettings.Default.horizontalSpacing,
                     iconsSize = it[IconSize]?.let(::Dp) ?: WidgetSettings.Default.iconsSize,
                     rowsCount = it[RowsCount] ?: WidgetSettings.Default.rowsCount,
-                    showRefreshLocation = it[ShowRefreshLocation] ?: WidgetSettings.Default.showRefreshLocation,
                     textSize = it[TextSize]?.let(::Sp) ?: WidgetSettings.Default.textSize,
                     verticalSpacing = it[VerticalSpacing]?.let(::Dp) ?: WidgetSettings.Default.verticalSpacing
                 )
@@ -129,7 +128,6 @@ internal class SettingsRepositoryImpl(
                 it[HorizontalSpacing] = settings.horizontalSpacing.value
                 it[IconSize] = settings.iconsSize.value
                 it[RowsCount] = settings.rowsCount
-                it[ShowRefreshLocation] = settings.showRefreshLocation
                 it[TextSize] = settings.textSize.value
                 it[VerticalSpacing] = settings.verticalSpacing.value
             }
