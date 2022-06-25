@@ -1,2 +1,0 @@
-DROP TABLE IF EXISTS locationStat;
-DROP TABLE IF EXISTS timeStat;

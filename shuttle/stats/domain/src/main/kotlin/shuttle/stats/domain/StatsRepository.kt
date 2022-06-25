@@ -20,5 +20,7 @@ interface StatsRepository {
 
     fun startDeleteOldStats()
 
+    fun startMigrationStatsToSingleTable()
+
     suspend fun storeOpenStats(appId: AppId, location: Option<GeoHash>, time: Time, date: Date)
 }
