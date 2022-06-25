@@ -6,6 +6,7 @@ import org.koin.androidx.workmanager.dsl.worker
 import org.koin.dsl.module
 import shuttle.coordinates.data.datasource.DateTimeDataSource
 import shuttle.coordinates.data.datasource.DeviceLocationDataSource
+import shuttle.coordinates.data.datasource.ShuttleLocationClient
 import shuttle.coordinates.data.mapper.GeoHashMapper
 import shuttle.coordinates.data.worker.RefreshLocationWorker
 import shuttle.coordinates.domain.CoordinatesRepository
@@ -30,9 +31,10 @@ val coordinatesDataModule = module {
     factory { GeoHashMapper() }
     factory {
         DeviceLocationDataSource(
-            freshLocationTimeout = Interval.Location.FetchTimeout,
-            fusedLocationClient = get(),
-            locationExpiration = Interval.Location.Expiration
+            freshLocationMinInterval = Interval.Location.MinRefresh,
+            locationClient = get(),
+            locationExpiration = Interval.Location.Expiration,
+            observeCurrentDateTime = get()
         )
     }
     factory { LocationServices.getFusedLocationProviderClient(get<Context>()) }
@@ -51,14 +53,21 @@ val coordinatesDataModule = module {
             flex = Interval.Location.Scheduler.Flex
         )
     }
+    factory {
+        ShuttleLocationClient(
+            freshLocationTimeout = Interval.Location.FetchTimeout,
+            fusedLocationClient = get()
+        )
+    }
 }
 
 private object Interval {
 
     object Location {
 
-        val FetchTimeout = 10.toDuration(SECONDS)
         val Expiration = 20.toDuration(MINUTES)
+        val FetchTimeout = 10.toDuration(SECONDS)
+        val MinRefresh = 2.toDuration(MINUTES)
 
         object Scheduler {
 
