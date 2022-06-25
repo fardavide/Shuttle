@@ -18,14 +18,12 @@ import shuttle.database.model.DatabaseTime
 import shuttle.stats.data.mapper.DatabaseDateMapper
 import shuttle.stats.data.usecase.SortAppStats
 import shuttle.stats.data.worker.DeleteOldStatsWorker
-import shuttle.stats.data.worker.MigrateStatsToSingleTableWorker
 import shuttle.stats.domain.StatsRepository
 
 internal class StatsRepositoryImpl(
     private val appsRepository: AppsRepository,
     private val databaseDateMapper: DatabaseDateMapper,
     private val deleteOldStatsScheduler: DeleteOldStatsWorker.Scheduler,
-    private val migrateStatsToSingleTableScheduler: MigrateStatsToSingleTableWorker.Scheduler,
     private val statDataSource: StatDataSource,
     private val sortAppStats: SortAppStats,
 ) : StatsRepository {
@@ -61,10 +59,6 @@ internal class StatsRepositoryImpl(
 
     override fun startDeleteOldStats() {
         deleteOldStatsScheduler.schedule()
-    }
-
-    override fun startMigrationStatsToSingleTable() {
-        migrateStatsToSingleTableScheduler.schedule()
     }
 
     override suspend fun storeOpenStats(appId: AppId, location: Option<GeoHash>, time: Time, date: Date) {

@@ -5,10 +5,8 @@ import org.koin.androidx.workmanager.dsl.worker
 import org.koin.dsl.module
 import shuttle.stats.data.mapper.DatabaseDateMapper
 import shuttle.stats.data.usecase.DeleteOldStats
-import shuttle.stats.data.usecase.MigrateStatsToSingleTable
 import shuttle.stats.data.usecase.SortAppStats
 import shuttle.stats.data.worker.DeleteOldStatsWorker
-import shuttle.stats.data.worker.MigrateStatsToSingleTableWorker
 import shuttle.stats.domain.StatsRepository
 import kotlin.time.DurationUnit.DAYS
 import kotlin.time.DurationUnit.HOURS
@@ -27,17 +25,6 @@ val statsDataModule = module {
         )
     }
     factory {
-        MigrateStatsToSingleTable(
-            databaseDateMapper = get(),
-            observeCurrentDateTime = get(),
-            statDataSource = get()
-        )
-    }
-    worker {
-        MigrateStatsToSingleTableWorker(appContext = get(), params = get(), migrateStatsToSingleTable = get())
-    }
-    factory { MigrateStatsToSingleTableWorker.Scheduler(workManager = get()) }
-    factory {
         SortAppStats(
             databaseDateMapper = get(),
             computationDispatcher = Dispatchers.Default,
@@ -49,9 +36,8 @@ val statsDataModule = module {
             appsRepository = get(),
             databaseDateMapper = get(),
             deleteOldStatsScheduler = get(),
-            migrateStatsToSingleTableScheduler = get(),
-            sortAppStats = get(),
-            statDataSource = get()
+            statDataSource = get(),
+            sortAppStats = get()
         )
     }
 }
