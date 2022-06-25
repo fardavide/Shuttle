@@ -1,7 +1,0 @@
-import shuttle.database.model.DatabaseAppId;
-import shuttle.database.model.DatabaseTime;
-
-CREATE TABLE IF NOT EXISTS timeStat (
-  appId TEXT AS DatabaseAppId NOT NULL,
-  time INTEGER AS DatabaseTime NOT NULL
-);

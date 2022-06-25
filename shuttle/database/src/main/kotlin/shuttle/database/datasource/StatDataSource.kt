@@ -5,7 +5,6 @@ import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToList
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
-import shuttle.database.FindAllStatsFromLocationAndTimeTables
 import shuttle.database.Stat
 import shuttle.database.StatQueries
 import shuttle.database.model.DatabaseAppId
@@ -16,8 +15,6 @@ import shuttle.database.util.suspendTransaction
 
 interface StatDataSource {
 
-    suspend fun clearAllStatsFromLocationAndTimeTables()
-
     suspend fun clearAllStatsOlderThan(date: DatabaseDate)
 
     suspend fun deleteAllCountersFor(appId: DatabaseAppId)
@@ -27,8 +24,6 @@ interface StatDataSource {
         startTime: DatabaseTime,
         endTime: DatabaseTime
     ): Flow<List<Stat>>
-
-    fun findAllStatsFromLocationAndTimeTables(): Flow<List<FindAllStatsFromLocationAndTimeTables>>
 
     suspend fun insertOpenStats(
         appId: DatabaseAppId,
@@ -42,11 +37,6 @@ internal class StatDataSourceImpl(
     private val statQueries: StatQueries,
     private val ioDispatcher: CoroutineDispatcher
 ): StatDataSource {
-
-    override suspend fun clearAllStatsFromLocationAndTimeTables() {
-        statQueries.clearAllStatsFromLocationTable()
-        statQueries.clearAllStatsFromTimeTable()
-    }
 
     override suspend fun clearAllStatsOlderThan(date: DatabaseDate) {
         statQueries.clearAllStatsOlderThan(date)
@@ -79,9 +69,6 @@ internal class StatDataSourceImpl(
             }
         return query.asFlow().mapToList(ioDispatcher)
     }
-
-    override fun findAllStatsFromLocationAndTimeTables(): Flow<List<FindAllStatsFromLocationAndTimeTables>> =
-        statQueries.findAllStatsFromLocationAndTimeTables().asFlow().mapToList(ioDispatcher)
 
     override suspend fun insertOpenStats(
         appId: DatabaseAppId,
