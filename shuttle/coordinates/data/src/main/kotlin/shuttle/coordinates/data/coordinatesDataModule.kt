@@ -31,10 +31,10 @@ val coordinatesDataModule = module {
     factory { GeoHashMapper() }
     factory {
         DeviceLocationDataSource(
+            dateTimeSource = get(),
             freshLocationMinInterval = Interval.Location.MinRefresh,
             locationClient = get(),
-            locationExpiration = Interval.Location.Expiration,
-            observeCurrentDateTime = get()
+            locationExpiration = Interval.Location.Expiration
         )
     }
     factory { LocationServices.getFusedLocationProviderClient(get<Context>()) }

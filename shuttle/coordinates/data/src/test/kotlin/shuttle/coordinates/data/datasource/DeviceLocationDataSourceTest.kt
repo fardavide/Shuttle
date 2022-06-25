@@ -12,7 +12,6 @@ import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import shuttle.coordinates.domain.error.LocationError
-import shuttle.coordinates.domain.usecase.ObserveCurrentDateTime
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.time.DurationUnit.MINUTES
@@ -21,15 +20,15 @@ import kotlin.time.toDuration
 internal class DeviceLocationDataSourceTest {
 
     private val locationClient: ShuttleLocationClient = mockk()
-    private val observeCurrentDateTime: ObserveCurrentDateTime = mockk {
-        every { this@mockk() } returns flowOf(NowDateTime)
+    private val dateTimeSource: DateTimeDataSource = mockk {
+        every { flow } returns flowOf(NowDateTime)
     }
 
     private val dataSource = DeviceLocationDataSource(
         freshLocationMinInterval = Interval.MinRefresh,
         locationClient = locationClient,
         locationExpiration = Interval.Expiration,
-        observeCurrentDateTime = observeCurrentDateTime
+        dateTimeSource = dateTimeSource
     )
 
     @Test

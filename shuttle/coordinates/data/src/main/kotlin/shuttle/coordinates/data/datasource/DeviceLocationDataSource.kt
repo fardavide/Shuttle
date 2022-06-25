@@ -9,20 +9,19 @@ import com.soywiz.klock.DateTime
 import kotlinx.coroutines.flow.first
 import shuttle.coordinates.domain.error.LocationError
 import shuttle.coordinates.domain.error.LocationError.ExpiredLocation
-import shuttle.coordinates.domain.usecase.ObserveCurrentDateTime
 import kotlin.time.Duration
 
 @SuppressLint("MissingPermission")
 internal class DeviceLocationDataSource(
+    private val dateTimeSource: DateTimeDataSource,
     private val locationClient: ShuttleLocationClient,
     private val freshLocationMinInterval: Duration,
-    private val locationExpiration: Duration,
-    private val observeCurrentDateTime: ObserveCurrentDateTime
+    private val locationExpiration: Duration
 ) {
 
     suspend fun getLocation(): Either<LocationError, Location> {
         val lastLocation = locationClient.getLastLocation()
-        val currentTime = observeCurrentDateTime().first()
+        val currentTime = dateTimeSource.flow.first()
 
         return inMinRefreshInterval(lastLocation, currentTime)
             .handleErrorWith { locationClient.getCurrentLocation() }
