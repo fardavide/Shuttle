@@ -6,10 +6,13 @@ import org.koin.androidx.workmanager.dsl.worker
 import org.koin.dsl.module
 import shuttle.coordinates.data.datasource.DateTimeDataSource
 import shuttle.coordinates.data.datasource.DeviceLocationDataSource
+import shuttle.coordinates.data.datasource.ShuttleLocationClient
 import shuttle.coordinates.data.mapper.GeoHashMapper
 import shuttle.coordinates.data.worker.RefreshLocationWorker
 import shuttle.coordinates.domain.CoordinatesRepository
-import kotlin.time.DurationUnit
+import kotlin.time.DurationUnit.HOURS
+import kotlin.time.DurationUnit.MINUTES
+import kotlin.time.DurationUnit.SECONDS
 import kotlin.time.toDuration
 
 val coordinatesDataModule = module {
@@ -24,13 +27,14 @@ val coordinatesDataModule = module {
             dateTimeDataSource = get()
         )
     }
-    factory { DateTimeDataSource(refreshInterval = TimeRefreshInterval) }
+    factory { DateTimeDataSource(refreshInterval = Interval.Time.Refresh) }
     factory { GeoHashMapper() }
     factory {
         DeviceLocationDataSource(
-            freshLocationTimeout = LocationFreshTimeoutInterval,
-            fusedLocationClient = get(),
-            locationExpiration = LocationMaxRefreshInterval
+            freshLocationMinInterval = Interval.Location.MinRefresh,
+            locationClient = get(),
+            locationExpiration = Interval.Location.Expiration,
+            observeCurrentDateTime = get()
         )
     }
     factory { LocationServices.getFusedLocationProviderClient(get<Context>()) }
@@ -45,13 +49,35 @@ val coordinatesDataModule = module {
     factory {
         RefreshLocationWorker.Scheduler(
             workManager = get(),
-            every = LocationDefaultRefreshInterval,
-            flex = LocationMaxRefreshInterval
+            every = Interval.Location.Scheduler.Default,
+            flex = Interval.Location.Scheduler.Flex
+        )
+    }
+    factory {
+        ShuttleLocationClient(
+            freshLocationTimeout = Interval.Location.FetchTimeout,
+            fusedLocationClient = get()
         )
     }
 }
 
-private val LocationDefaultRefreshInterval = 12.toDuration(DurationUnit.MINUTES)
-private val LocationFreshTimeoutInterval = 30.toDuration(DurationUnit.SECONDS)
-private val LocationMaxRefreshInterval = 20.toDuration(DurationUnit.MINUTES)
-private val TimeRefreshInterval = 1.toDuration(DurationUnit.MINUTES)
+private object Interval {
+
+    object Location {
+
+        val Expiration = 20.toDuration(MINUTES)
+        val FetchTimeout = 10.toDuration(SECONDS)
+        val MinRefresh = 2.toDuration(MINUTES)
+
+        object Scheduler {
+
+            val Default = 15.toDuration(MINUTES)
+            val Flex = 1.toDuration(HOURS)
+        }
+    }
+
+    object Time {
+
+        val Refresh = 1.toDuration(MINUTES)
+    }
+}
