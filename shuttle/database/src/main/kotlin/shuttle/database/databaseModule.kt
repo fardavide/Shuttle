@@ -25,10 +25,8 @@ val databaseModule = module {
             driver = driver,
             appAdapter = get(),
             appBlacklistSettingAdapter = get(),
-            locationStatAdapter = get(),
             lastLocationAdapter = get(),
-            statAdapter = get(),
-            timeStatAdapter = get()
+            statAdapter = get()
         )
     }
 
