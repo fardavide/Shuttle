@@ -5,7 +5,7 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.androidx.workmanager.koin.workManagerFactory
 import org.koin.core.context.GlobalContext.startKoin
-import shuttle.stats.domain.usecase.StartMigrationStatsToSingleTable
+import shuttle.stats.domain.usecase.StartDeleteOldStats
 
 class ShuttleApplication : Application() {
 
@@ -20,6 +20,6 @@ class ShuttleApplication : Application() {
             modules(appModule)
         }
 
-        koinApplication.koin.get<StartMigrationStatsToSingleTable>().invoke()
+        koinApplication.koin.get<StartDeleteOldStats>().invoke()
     }
 }

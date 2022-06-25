@@ -10,13 +10,22 @@ import shuttle.stats.data.usecase.SortAppStats
 import shuttle.stats.data.worker.DeleteOldStatsWorker
 import shuttle.stats.data.worker.MigrateStatsToSingleTableWorker
 import shuttle.stats.domain.StatsRepository
+import kotlin.time.DurationUnit.DAYS
+import kotlin.time.DurationUnit.HOURS
+import kotlin.time.toDuration
 
 val statsDataModule = module {
 
     factory { DatabaseDateMapper() }
     factory { DeleteOldStats(databaseDateMapper = get(), observeCurrentDateTime = get(), statDataSource = get()) }
-    worker { DeleteOldStatsWorker(appContext = get(), params = get(), migrateStatsToSingleTable = get()) }
-    factory { DeleteOldStatsWorker.Scheduler(workManager = get()) }
+    worker { DeleteOldStatsWorker(appContext = get(), params = get(), deleteOldStats = get()) }
+    factory {
+        DeleteOldStatsWorker.Scheduler(
+            workManager = get(),
+            repeatInterval = Interval.DeleteOldStats.Default,
+            flexInterval = Interval.DeleteOldStats.Flex
+        )
+    }
     factory {
         MigrateStatsToSingleTable(
             databaseDateMapper = get(),
@@ -44,5 +53,14 @@ val statsDataModule = module {
             sortAppStats = get(),
             statDataSource = get()
         )
+    }
+}
+
+private object Interval {
+
+    object DeleteOldStats {
+
+        val Default = 12.toDuration(HOURS)
+        val Flex = 1.toDuration(DAYS)
     }
 }
