@@ -9,6 +9,8 @@ import shuttle.coordinates.domain.error.LocationNotAvailable
 import shuttle.coordinates.domain.model.GeoHash
 import shuttle.coordinates.domain.usecase.ObserveCurrentCoordinates
 import shuttle.database.Stat
+import shuttle.database.model.DatabaseAppId
+import shuttle.database.model.DatabaseDate
 import shuttle.database.model.DatabaseGeoHash
 import shuttle.stats.data.mapper.DatabaseDateMapper
 
@@ -23,14 +25,17 @@ internal class SortAppStats(
         val currentDayAsDatabaseData = databaseDateMapper.toDatabaseDate(currentCoordinates.dateTime)
         val groupedByAppId = stats.groupBy { it.appId }.toList()
 
-        groupedByAppId.sortedByDescending { (_, stats) ->
-            stats.sumOf { stat ->
-                val byDays = 100 - (currentDayAsDatabaseData - stat.date).dayNumber
-                val byLocation = if (currentCoordinates.location equals stat.geoHash) 100 else 1
-                byDays * byLocation
-            }
-        }.map { AppId(it.first.value) }
+        val (inLocation, outLocation) = groupedByAppId.partition { (_, stats) ->
+            stats.any { stat -> currentCoordinates.location equals stat.geoHash }
+        }
+
+        inLocation.sortStats(currentDayAsDatabaseData) + outLocation.sortStats(currentDayAsDatabaseData)
     }
+
+    private fun List<Pair<DatabaseAppId, List<Stat>>>.sortStats(currentDayAsDatabaseDate: DatabaseDate): List<AppId> =
+        sortedByDescending { (_, stats) ->
+            stats.sumOf { stat -> 100 - (currentDayAsDatabaseDate - stat.date).dayNumber }
+        }.map { AppId(it.first.value) }
 }
 
 private infix fun Either<LocationNotAvailable, GeoHash>.equals(other: DatabaseGeoHash?) =
