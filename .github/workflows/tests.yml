@@ -32,36 +32,36 @@ jobs:
       - name: Run Unit Tests
         run: ./gradlew test
 
-  Instrumented-Tests:
-
-    name: Instrumented tests
-    runs-on: ubuntu-latest
-    steps:
-
-      - name: Check out repository code
-        uses: actions/checkout@v3
-
-      - name: Create google-services json
-        run: |
-          echo '${{ secrets.FIREBASE_SECRET }}' > ${GITHUB_WORKSPACE}/app/google-services.json
-
-      - name: Assemble debug APK
-        run: ./gradlew assembleDebug
-
-      - name: Assemble Android tests APK
-        run: bash ./gradlew assembleDebugAndroidTest
-
-      - id: auth
-        name: Login to Google Cloud
-        uses: google-github-actions/auth@v0
-        with:
-          credentials_json: ${{ secrets.GOOGLE_CLOUD_KEY }}
-
-      - name: Setup Google Cloud
-        uses: google-github-actions/setup-gcloud@v0
-
-      - name: Set current project
-        run: gcloud config set project ${{ secrets.FIREBASE_PROJECT_ID }}
-
-      - name: Run Instrumentation Tests in Firebase Test Lab
-        run: gcloud firebase test android run --type instrumentation --app app/build/outputs/apk/debug/app-debug.apk --test app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk --device model=oriole,version=31,locale=en,orientation=portrait
+#  Instrumented-Tests:
+#
+#    name: Instrumented tests
+#    runs-on: ubuntu-latest
+#    steps:
+#
+#      - name: Check out repository code
+#        uses: actions/checkout@v3
+#
+#      - name: Create google-services json
+#        run: |
+#          echo '${{ secrets.FIREBASE_SECRET }}' > ${GITHUB_WORKSPACE}/app/google-services.json
+#
+#      - name: Assemble debug APK
+#        run: ./gradlew assembleDebug
+#
+#      - name: Assemble Android tests APK
+#        run: bash ./gradlew assembleDebugAndroidTest
+#
+#      - id: auth
+#        name: Login to Google Cloud
+#        uses: google-github-actions/auth@v0
+#        with:
+#          credentials_json: ${{ secrets.GOOGLE_CLOUD_KEY }}
+#
+#      - name: Setup Google Cloud
+#        uses: google-github-actions/setup-gcloud@v0
+#
+#      - name: Set current project
+#        run: gcloud config set project ${{ secrets.FIREBASE_PROJECT_ID }}
+#
+#      - name: Run Instrumentation Tests in Firebase Test Lab
+#        run: gcloud firebase test android run --type instrumentation --app app/build/outputs/apk/debug/app-debug.apk --test app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk --device model=oriole,version=31,locale=en,orientation=portrait
