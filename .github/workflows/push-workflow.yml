@@ -1,0 +1,19 @@
+name: Run Tests
+
+on:
+  push:
+    branches:
+      - '*'
+      - '!main'
+
+jobs:
+
+  detekt:
+    name: Analyze with Detekt
+    uses: ./.github/workflows/analyze.yml
+    secrets: inherit
+
+  tests:
+    name: Tests
+    uses: ./.github/workflows/tests.yml
+    secrets: inherit
