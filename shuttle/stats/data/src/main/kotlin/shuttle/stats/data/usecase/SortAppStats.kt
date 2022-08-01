@@ -13,6 +13,7 @@ import shuttle.database.model.DatabaseAppId
 import shuttle.database.model.DatabaseDate
 import shuttle.database.model.DatabaseGeoHash
 import shuttle.stats.data.mapper.DatabaseDateMapper
+import kotlin.math.pow
 
 internal class SortAppStats(
     private val computationDispatcher: CoroutineDispatcher,
@@ -34,7 +35,7 @@ internal class SortAppStats(
 
     private fun List<Pair<DatabaseAppId, List<Stat>>>.sortStats(currentDayAsDatabaseDate: DatabaseDate): List<AppId> =
         sortedByDescending { (_, stats) ->
-            stats.sumOf { stat -> 100 - (currentDayAsDatabaseDate - stat.date).dayNumber }
+            stats.sumOf { stat -> 10_000.00 - (currentDayAsDatabaseDate - stat.date).dayNumber.toDouble().pow(2) }
         }.map { AppId(it.first.value) }
 }
 
