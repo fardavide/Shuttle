@@ -15,6 +15,6 @@ internal class DeleteOldStats(
         statDataSource
         val currentDate = databaseDateMapper.toDatabaseDate(observeCurrentDateTime().first())
 
-        statDataSource.clearAllStatsOlderThan(currentDate - 90)
+        statDataSource.clearAllStatsOlderThan(currentDate - 60)
     }
 }
