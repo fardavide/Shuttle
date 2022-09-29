@@ -12,8 +12,9 @@ interface StatsRepository {
 
     suspend fun deleteCountersFor(appId: AppId)
 
-    fun observeSuggestedAppsWithDate(
+    fun observeSuggestedApps(
         location: Option<GeoHash>,
+        date: Date,
         startTime: Time,
         endTime: Time
     ): Flow<List<SuggestedAppModel>>

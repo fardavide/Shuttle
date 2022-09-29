@@ -30,7 +30,7 @@ class StatQueriesTest : DatabaseTest() {
         queries.insertStat(ThirdAppId, AnotherGeoHash, Date, AnotherTime)
 
         // when
-        val result = queries.findAllStatsByGeoHash(RangeStartTime, RangeEndTime, GeoHash).executeAsList()
+        val result = queries.findAllStatsByGeoHashAndTime(RangeStartTime, RangeEndTime, GeoHash).executeAsList()
 
         // then
         assertContentEquals(expected, result)

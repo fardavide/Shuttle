@@ -21,10 +21,13 @@ deleteStatsForApp:
     WHERE appId = ?;
 
 findAllStats:
+    SELECT * FROM stat;
+
+findAllStatsByTime:
     SELECT * FROM stat
     WHERE (stat.time >= :startTime AND stat.time <= :endTime);
 
-findAllStatsByGeoHash:
+findAllStatsByGeoHashAndTime:
     SELECT * FROM stat
     WHERE (stat.time >= :startTime AND stat.time <= :endTime)
     OR geoHash = :geoHash;

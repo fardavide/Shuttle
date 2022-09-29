@@ -1,28 +1,32 @@
 package shuttle.stats.data
 
 import arrow.core.Option
+import arrow.core.left
 import com.soywiz.klock.Date
 import com.soywiz.klock.Time
+import com.soywiz.klock.plus
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.mapLatest
 import shuttle.apps.domain.AppsRepository
 import shuttle.apps.domain.model.AppId
 import shuttle.apps.domain.model.AppModel
 import shuttle.apps.domain.model.SuggestedAppModel
+import shuttle.coordinates.domain.error.LocationNotAvailable
 import shuttle.coordinates.domain.model.GeoHash
 import shuttle.database.datasource.StatDataSource
 import shuttle.database.model.DatabaseAppId
 import shuttle.database.model.DatabaseGeoHash
 import shuttle.database.model.DatabaseTime
-import shuttle.stats.data.mapper.DatabaseDateMapper
+import shuttle.stats.data.mapper.DatabaseDateAndTimeMapper
 import shuttle.stats.data.usecase.SortAppStats
 import shuttle.stats.data.worker.DeleteOldStatsWorker
 import shuttle.stats.domain.StatsRepository
 
 internal class StatsRepositoryImpl(
     private val appsRepository: AppsRepository,
-    private val databaseDateMapper: DatabaseDateMapper,
+    private val databaseDateAndTimeMapper: DatabaseDateAndTimeMapper,
     private val deleteOldStatsScheduler: DeleteOldStatsWorker.Scheduler,
     private val statDataSource: StatDataSource,
     private val sortAppStats: SortAppStats,
@@ -32,18 +36,27 @@ internal class StatsRepositoryImpl(
         statDataSource.deleteAllCountersFor(appId.toDatabaseAppId())
     }
 
-    override fun observeSuggestedAppsWithDate(
+    override fun observeSuggestedApps(
         location: Option<GeoHash>,
+        date: Date,
         startTime: Time,
         endTime: Time
     ): Flow<List<SuggestedAppModel>> =
         combine(
             appsRepository.observeNotBlacklistedApps(),
-            statDataSource.findAllStats(
-                geoHash = location.map { it.toDatabaseGeoHash() },
-                startTime = startTime.toDatabaseTime(),
-                endTime = endTime.toDatabaseTime()
-            ).map { sortAppStats(it) }
+            statDataSource.findAllStats().mapLatest { stats ->
+                val databaseGeoHash = location.toEither { LocationNotAvailable }.map { it.toDatabaseGeoHash() }
+                val databaseDate = databaseDateAndTimeMapper.toDatabaseDate(date)
+                val databaseStartTime = databaseDateAndTimeMapper.toDatabaseTime(startTime)
+                val databaseEndTime = databaseDateAndTimeMapper.toDatabaseTime(endTime)
+                sortAppStats(
+                    stats = stats,
+                    location = databaseGeoHash,
+                    date = databaseDate,
+                    startTime = databaseStartTime,
+                    endTime = databaseEndTime
+                )
+            }
         ) { installedAppEither, sortedAppsIds ->
             val allInstalledApp = installedAppEither
                 .toMutableList()
@@ -62,11 +75,12 @@ internal class StatsRepositoryImpl(
     }
 
     override suspend fun storeOpenStats(appId: AppId, location: Option<GeoHash>, time: Time, date: Date) {
+        val (databaseDate, databaseTime) = databaseDateAndTimeMapper.toDatabaseDateAndTime(dateTime = date + time)
         statDataSource.insertOpenStats(
             appId = appId.toDatabaseAppId(),
             geoHash = location.map { it.toDatabaseGeoHash() },
-            date = databaseDateMapper.toDatabaseDate(date),
-            time = time.toDatabaseTimeAdjusted()
+            date = databaseDate,
+            time = databaseTime
         )
     }
 }
@@ -85,5 +99,3 @@ private fun toNotSuggestedAppModel(app: AppModel) = SuggestedAppModel(
 
 private fun AppId.toDatabaseAppId() = DatabaseAppId(value)
 private fun GeoHash.toDatabaseGeoHash() = DatabaseGeoHash(value)
-private fun Time.toDatabaseTime() = DatabaseTime(hour * 60 + minute)
-private fun Time.toDatabaseTimeAdjusted() = DatabaseTime(hourAdjusted * 60 + minute)

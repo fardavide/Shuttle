@@ -25,8 +25,9 @@ internal class ObserveSuggestedAppsByCoordinatesImpl(
         val (startTime, endTime) = with(timeToTimeRange(coordinates.dateTime.time, DefaultValuesSpans.Time)) {
             start to endInclusive
         }
-        return statsRepository.observeSuggestedAppsWithDate(
+        return statsRepository.observeSuggestedApps(
             location = Option(coordinates.location),
+            date = coordinates.dateTime.date,
             startTime = startTime,
             endTime = endTime
         )

@@ -19,6 +19,8 @@ interface StatDataSource {
 
     suspend fun deleteAllCountersFor(appId: DatabaseAppId)
 
+    fun findAllStats(): Flow<List<Stat>>
+
     fun findAllStats(
         geoHash: Option<DatabaseGeoHash>,
         startTime: DatabaseTime,
@@ -48,6 +50,9 @@ internal class StatDataSourceImpl(
         }
     }
 
+    override fun findAllStats(): Flow<List<Stat>> =
+        statQueries.findAllStats().asFlow().mapToList(ioDispatcher)
+
     override fun findAllStats(
         geoHash: Option<DatabaseGeoHash>,
         startTime: DatabaseTime,
@@ -56,12 +61,12 @@ internal class StatDataSourceImpl(
         val geoHashValue = geoHash.orNull()
         val query =
             if (geoHashValue == null) {
-                statQueries.findAllStats(
+                statQueries.findAllStatsByTime(
                     startTime = startTime,
                     endTime = endTime
                 )
             }else {
-                statQueries.findAllStatsByGeoHash(
+                statQueries.findAllStatsByGeoHashAndTime(
                     geoHash = geoHashValue,
                     startTime = startTime,
                     endTime = endTime

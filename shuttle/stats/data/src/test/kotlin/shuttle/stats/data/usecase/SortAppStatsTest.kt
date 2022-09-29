@@ -1,6 +1,7 @@
 package shuttle.stats.data.usecase
 
 import arrow.core.left
+import arrow.core.right
 import com.soywiz.klock.DateTime
 import io.mockk.every
 import io.mockk.mockk
@@ -8,15 +9,21 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestCoroutineScheduler
 import kotlinx.coroutines.test.runTest
-import shuttle.apps.domain.model.AppId
+import shuttle.apps.domain.testdata.AppIdTestData
 import shuttle.coordinates.domain.error.LocationNotAvailable
 import shuttle.coordinates.domain.model.CoordinatesResult
 import shuttle.coordinates.domain.usecase.ObserveCurrentCoordinates
-import shuttle.database.Stat
+import shuttle.database.model.DatabaseStat
 import shuttle.database.model.DatabaseAppId
 import shuttle.database.model.DatabaseDate
+import shuttle.database.model.DatabaseGeoHash
 import shuttle.database.model.DatabaseTime
-import shuttle.stats.data.mapper.DatabaseDateMapper
+import shuttle.database.testdata.DatabaseAppIdTestData
+import shuttle.database.testdata.DatabaseDateTestData
+import shuttle.database.testdata.DatabaseGeoHashTestData
+import shuttle.database.testdata.DatabaseTimeTestData
+import shuttle.stats.data.mapper.DatabaseDateAndTimeMapper
+import shuttle.stats.data.model.DatabaseDateAndTime
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -24,8 +31,11 @@ class SortAppStatsTest {
 
     private val scheduler = TestCoroutineScheduler()
     private val dispatcher = StandardTestDispatcher(scheduler)
-    private val databaseDateMapper: DatabaseDateMapper = mockk {
-        every { toDatabaseDate(dateTime = DateTime.EPOCH) } returns CurrentDatabaseDate
+    private val databaseDateAndTimeMapper: DatabaseDateAndTimeMapper = mockk {
+        every { toDatabaseDateAndTime(dateTime = any()) } returns DatabaseDateAndTime(
+            date = DatabaseDateTestData.Today,
+            time = DatabaseTimeTestData.Midnight
+        )
     }
     private val observeCurrentCoordinates: ObserveCurrentCoordinates = mockk {
         every { this@mockk() } returns flowOf(
@@ -38,24 +48,102 @@ class SortAppStatsTest {
 
     private val sortAppStats = SortAppStats(
         computationDispatcher = dispatcher,
-        databaseDateMapper = databaseDateMapper,
+        databaseDateAndTimeMapper = databaseDateAndTimeMapper,
         observeCurrentCoordinates = observeCurrentCoordinates
     )
 
     @Test
-    fun `gives more priority to recent stats`() = runTest(dispatcher) {
+    fun `prioritizes stats from the same location`() = runTest(dispatcher) {
         // given
         val expected = listOf(
-            Telegram,
-            Mail,
-            Shuttle
-        ).map(::AppId)
-        val telegram = buildStat(Telegram, dayNumber = 99)
-        val mail = buildStat(Mail, dayNumber = 98)
-        val shuttle = buildStat(Shuttle, dayNumber = 97)
+            AppIdTestData.Stocard,
+            AppIdTestData.Telegram
+        )
+        val stats = listOf(
+            buildStat(
+                appId = DatabaseAppIdTestData.Stocard,
+                geoHash = DatabaseGeoHashTestData.Bennet
+            ),
+            buildStat(
+                appId = DatabaseAppIdTestData.Telegram,
+                geoHash = DatabaseGeoHashTestData.Home
+            ),
+            buildStat(
+                appId = DatabaseAppIdTestData.Telegram,
+                geoHash = DatabaseGeoHashTestData.Home
+            )
+        )
 
         // when
-        val result = sortAppStats(listOf(mail, telegram, shuttle))
+        val result = sortAppStats(
+            stats = stats,
+            location = DatabaseGeoHashTestData.Bennet.right(),
+            date = DatabaseDateTestData.Today,
+            startTime = DatabaseTimeTestData.Midnight,
+            endTime = DatabaseTimeTestData.Midnight
+        )
+
+        // then
+        assertEquals(expected, result)
+    }
+
+    @Test
+    fun `prioritizes stats from the same time`() = runTest(dispatcher) {
+        // given
+        val expected = listOf(
+            AppIdTestData.Deliveroo,
+            AppIdTestData.Telegram
+        )
+        val stats = listOf(
+            buildStat(
+                appId = DatabaseAppIdTestData.Deliveroo,
+                time = DatabaseTimeTestData.Noon
+            ),
+            buildStat(
+                appId = DatabaseAppIdTestData.Telegram,
+                time = DatabaseTimeTestData.Morning
+            ),
+            buildStat(
+                appId = DatabaseAppIdTestData.Telegram,
+                time = DatabaseTimeTestData.Evening
+            )
+        )
+
+        // when
+        val result = sortAppStats(
+            stats = stats,
+            location = LocationNotAvailable.left(),
+            date = DatabaseDateTestData.Today,
+            startTime = DatabaseTimeTestData.Noon,
+            endTime = DatabaseTimeTestData.Noon
+        )
+
+        // then
+        assertEquals(expected, result)
+    }
+
+    @Test
+    fun `prioritizes recent stats`() = runTest(dispatcher) {
+        // given
+        val expected = listOf(
+            AppIdTestData.CineScout,
+            AppIdTestData.Telegram,
+            AppIdTestData.Gmail
+        )
+        val stats = listOf(
+            buildStat(DatabaseAppIdTestData.CineScout, date = DatabaseDateTestData.Today),
+            buildStat(DatabaseAppIdTestData.Gmail, date = DatabaseDateTestData.ThreeDaysAgo),
+            buildStat(DatabaseAppIdTestData.Telegram, date = DatabaseDateTestData.Yesterday)
+        )
+
+        // when
+        val result = sortAppStats(
+            stats = stats,
+            location = LocationNotAvailable.left(),
+            date = DatabaseDateTestData.Today,
+            startTime = DatabaseTimeTestData.Midnight,
+            endTime = DatabaseTimeTestData.Midnight
+        )
 
         // then
         assertEquals(expected, result)
@@ -65,15 +153,27 @@ class SortAppStatsTest {
     fun `sorts by stats count`() = runTest(dispatcher) {
         // given
         val expected = listOf(
-            Telegram,
-            Mail
-        ).map(::AppId)
-        val firstTelegram = buildStat(Telegram, minuteOfTheDay = 1)
-        val secondTelegram = buildStat(Telegram, minuteOfTheDay = 2)
-        val mail = buildStat(Mail)
+            AppIdTestData.Telegram,
+            AppIdTestData.Chrome,
+            AppIdTestData.GitHub
+        )
+        val stats = listOf(
+            buildStat(DatabaseAppIdTestData.Chrome),
+            buildStat(DatabaseAppIdTestData.Chrome),
+            buildStat(DatabaseAppIdTestData.GitHub),
+            buildStat(DatabaseAppIdTestData.Telegram),
+            buildStat(DatabaseAppIdTestData.Telegram),
+            buildStat(DatabaseAppIdTestData.Telegram)
+        )
 
         // when
-        val result = sortAppStats(listOf(firstTelegram, secondTelegram, mail))
+        val result = sortAppStats(
+            stats = stats,
+            location = LocationNotAvailable.left(),
+            date = DatabaseDateTestData.Today,
+            startTime = DatabaseTimeTestData.Midnight,
+            endTime = DatabaseTimeTestData.Midnight
+        )
 
         // then
         assertEquals(expected, result)
@@ -81,17 +181,16 @@ class SortAppStatsTest {
 
     companion object TestData {
 
-        private val CurrentDatabaseDate = DatabaseDate(100)
-
-        private const val Mail = "Mail"
-        private const val Shuttle = "Shuttle"
-        private const val Telegram = "Telegram"
-
-        private fun buildStat(appId: String, dayNumber: Int = 100, minuteOfTheDay: Int = 0) = Stat(
-            appId = DatabaseAppId(appId),
-            date = DatabaseDate(dayNumber),
-            geoHash = null,
-            time = DatabaseTime(minuteOfTheDay)
+        private fun buildStat(
+            appId: DatabaseAppId,
+            date: DatabaseDate = DatabaseDateTestData.Yesterday,
+            geoHash: DatabaseGeoHash? = DatabaseGeoHashTestData.Unknown,
+            time: DatabaseTime = DatabaseTimeTestData.Midnight
+        ) = DatabaseStat(
+            appId = appId,
+            date = date,
+            geoHash = geoHash,
+            time = time
         )
     }
 }

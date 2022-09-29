@@ -1,8 +1,5 @@
 package shuttle.database.model
 
-@JvmInline
-value class DatabaseAppId(val value: String)
-
 /**
  * @param dayNumber the number of the day since the start of 2022
  *  Calculated by:
@@ -17,10 +14,3 @@ value class DatabaseDate(val dayNumber: Int) {
 
     operator fun minus(other: Int) = DatabaseDate(dayNumber - other)
 }
-
-/**
- * @param minuteOfTheDay the number of minute of the current day
- *  This can cause minor problems across the start of the new day ( midnight )
- */
-@JvmInline
-value class DatabaseTime(val minuteOfTheDay: Int)
