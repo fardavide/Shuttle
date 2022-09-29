@@ -4,7 +4,8 @@ import com.soywiz.klock.DateTime
 import shuttle.database.model.DatabaseDate
 import shuttle.database.model.DatabaseTime
 import shuttle.stats.data.model.DatabaseDateAndTime
-import kotlin.test.*
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 internal class DatabaseDateAndTimeMapperTest {
 

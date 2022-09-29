@@ -1,6 +1,5 @@
 package shuttle.apps.domain.testdata
 
-import shuttle.apps.domain.model.AppId
 import shuttle.apps.domain.model.AppName
 
 object AppNameTestData {

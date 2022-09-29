@@ -2,24 +2,17 @@ package shuttle.stats.data.usecase
 
 import arrow.core.Either
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
 import shuttle.apps.domain.model.AppId
 import shuttle.coordinates.domain.error.LocationNotAvailable
-import shuttle.coordinates.domain.model.GeoHash
-import shuttle.coordinates.domain.usecase.ObserveCurrentCoordinates
 import shuttle.database.Stat
 import shuttle.database.model.DatabaseAppId
 import shuttle.database.model.DatabaseDate
 import shuttle.database.model.DatabaseGeoHash
 import shuttle.database.model.DatabaseTime
-import shuttle.stats.data.mapper.DatabaseDateAndTimeMapper
-import kotlin.math.pow
 
 internal class SortAppStats(
-    private val computationDispatcher: CoroutineDispatcher,
-    private val databaseDateAndTimeMapper: DatabaseDateAndTimeMapper,
-    private val observeCurrentCoordinates: ObserveCurrentCoordinates
+    private val computationDispatcher: CoroutineDispatcher
 ) {
 
     suspend operator fun invoke(

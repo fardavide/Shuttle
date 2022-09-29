@@ -1,13 +1,11 @@
 package shuttle.stats.data
 
 import arrow.core.Option
-import arrow.core.left
 import com.soywiz.klock.Date
 import com.soywiz.klock.Time
 import com.soywiz.klock.plus
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapLatest
 import shuttle.apps.domain.AppsRepository
 import shuttle.apps.domain.model.AppId
@@ -18,7 +16,6 @@ import shuttle.coordinates.domain.model.GeoHash
 import shuttle.database.datasource.StatDataSource
 import shuttle.database.model.DatabaseAppId
 import shuttle.database.model.DatabaseGeoHash
-import shuttle.database.model.DatabaseTime
 import shuttle.stats.data.mapper.DatabaseDateAndTimeMapper
 import shuttle.stats.data.usecase.SortAppStats
 import shuttle.stats.data.worker.DeleteOldStatsWorker

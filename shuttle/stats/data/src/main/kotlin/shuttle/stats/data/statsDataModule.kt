@@ -15,7 +15,13 @@ import kotlin.time.toDuration
 val statsDataModule = module {
 
     factory { DatabaseDateAndTimeMapper() }
-    factory { DeleteOldStats(databaseDateAndTimeMapper = get(), observeCurrentDateTime = get(), statDataSource = get()) }
+    factory {
+        DeleteOldStats(
+            databaseDateAndTimeMapper = get(),
+            observeCurrentDateTime = get(),
+            statDataSource = get()
+        )
+    }
     worker { DeleteOldStatsWorker(appContext = get(), params = get(), deleteOldStats = get()) }
     factory {
         DeleteOldStatsWorker.Scheduler(
@@ -26,9 +32,7 @@ val statsDataModule = module {
     }
     factory {
         SortAppStats(
-            databaseDateAndTimeMapper = get(),
-            computationDispatcher = Dispatchers.Default,
-            observeCurrentCoordinates = get()
+            computationDispatcher = Dispatchers.Default
         )
     }
     factory<StatsRepository> {

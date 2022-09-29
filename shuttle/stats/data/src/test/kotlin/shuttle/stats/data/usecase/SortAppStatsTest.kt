@@ -2,28 +2,20 @@ package shuttle.stats.data.usecase
 
 import arrow.core.left
 import arrow.core.right
-import com.soywiz.klock.DateTime
-import io.mockk.every
-import io.mockk.mockk
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestCoroutineScheduler
 import kotlinx.coroutines.test.runTest
 import shuttle.apps.domain.testdata.AppIdTestData
 import shuttle.coordinates.domain.error.LocationNotAvailable
-import shuttle.coordinates.domain.model.CoordinatesResult
-import shuttle.coordinates.domain.usecase.ObserveCurrentCoordinates
-import shuttle.database.model.DatabaseStat
 import shuttle.database.model.DatabaseAppId
 import shuttle.database.model.DatabaseDate
 import shuttle.database.model.DatabaseGeoHash
+import shuttle.database.model.DatabaseStat
 import shuttle.database.model.DatabaseTime
 import shuttle.database.testdata.DatabaseAppIdTestData
 import shuttle.database.testdata.DatabaseDateTestData
 import shuttle.database.testdata.DatabaseGeoHashTestData
 import shuttle.database.testdata.DatabaseTimeTestData
-import shuttle.stats.data.mapper.DatabaseDateAndTimeMapper
-import shuttle.stats.data.model.DatabaseDateAndTime
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -31,25 +23,8 @@ class SortAppStatsTest {
 
     private val scheduler = TestCoroutineScheduler()
     private val dispatcher = StandardTestDispatcher(scheduler)
-    private val databaseDateAndTimeMapper: DatabaseDateAndTimeMapper = mockk {
-        every { toDatabaseDateAndTime(dateTime = any()) } returns DatabaseDateAndTime(
-            date = DatabaseDateTestData.Today,
-            time = DatabaseTimeTestData.Midnight
-        )
-    }
-    private val observeCurrentCoordinates: ObserveCurrentCoordinates = mockk {
-        every { this@mockk() } returns flowOf(
-            CoordinatesResult(
-                location = LocationNotAvailable.left(),
-                dateTime = DateTime.EPOCH
-            )
-        )
-    }
-
     private val sortAppStats = SortAppStats(
-        computationDispatcher = dispatcher,
-        databaseDateAndTimeMapper = databaseDateAndTimeMapper,
-        observeCurrentCoordinates = observeCurrentCoordinates
+        computationDispatcher = dispatcher
     )
 
     @Test
