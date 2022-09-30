@@ -27,7 +27,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import org.koin.androidx.compose.viewModel
+import org.koin.androidx.compose.koinViewModel
 import shuttle.design.theme.Dimens
 import shuttle.design.theme.ShuttleTheme
 import shuttle.design.ui.LoadingSpinner
@@ -40,7 +40,7 @@ import studio.forface.shuttle.design.R
 
 @Composable
 fun OnboardingPage(actions: OnboardingPage.Actions) {
-    val viewModel: OnboardingViewModel by viewModel()
+    val viewModel: OnboardingViewModel = koinViewModel()
     val stateWrapper = viewModel.state.collectAsStateLifecycleAware()
 
     @Suppress("NAME_SHADOWING")

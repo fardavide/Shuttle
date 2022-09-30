@@ -15,8 +15,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SmallTopAppBar
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -72,6 +72,7 @@ internal fun WidgetLayoutContainer(
 }
 
 @Composable
+@OptIn(ExperimentalMaterial3Api::class)
 private fun TopBar(@StringRes title: Int, onBack: () -> Unit, draggableState: DraggableState) {
     Column {
         Icon(
@@ -81,10 +82,10 @@ private fun TopBar(@StringRes title: Int, onBack: () -> Unit, draggableState: Dr
             painter = painterResource(id = drawable.ic_vertical_drag),
             contentDescription = stringResource(id = string.settings_widget_layout_toolbar_drag_description)
         )
-        SmallTopAppBar(
-            colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color.Transparent),
+        TopAppBar(
             title = { Text(stringResource(id = title)) },
-            navigationIcon = { BackIconButton(onBack) }
+            navigationIcon = { BackIconButton(onBack) },
+            colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color.Transparent)
         )
     }
 }

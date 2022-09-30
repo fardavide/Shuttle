@@ -1,9 +1,12 @@
 import com.android.build.gradle.TestedExtension
 import org.gradle.api.Project
+import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.create
+import org.gradle.kotlin.dsl.getByType
 import javax.inject.Inject
 
+@Suppress("unused")
 open class ShuttleAndroidExtension @Inject constructor(private val project: Project) {
 
     fun androidApp(
@@ -22,9 +25,12 @@ open class ShuttleAndroidExtension @Inject constructor(private val project: Proj
 
     @Suppress("UnstableApiUsage")
     fun useCompose() {
+        val libs = project.rootProject.extensions.getByType<VersionCatalogsExtension>().named("libs")
+        val composeCompilerVersion = libs.findVersion("composeCompiler").get().toString()
+
         project.extensions.configure<TestedExtension> {
             buildFeatures.compose = true
-            composeOptions.kotlinCompilerExtensionVersion = "1.1.0"
+            composeOptions.kotlinCompilerExtensionVersion = composeCompilerVersion
         }
     }
 

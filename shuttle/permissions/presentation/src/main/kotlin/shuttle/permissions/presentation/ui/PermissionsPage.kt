@@ -12,8 +12,8 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SmallTopAppBar
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -28,7 +28,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
-import org.koin.androidx.compose.viewModel
+import org.koin.androidx.compose.koinViewModel
 import shuttle.design.theme.Dimens
 import shuttle.design.theme.ShuttleTheme
 import shuttle.design.ui.LoadingSpinner
@@ -48,7 +48,7 @@ import studio.forface.shuttle.design.R
 @OptIn(ExperimentalPermissionsApi::class)
 fun PermissionsPage(toSettings: () -> Unit) {
     val context = LocalContext.current
-    val viewModel: PermissionsViewModel by viewModel()
+    val viewModel: PermissionsViewModel = koinViewModel()
 
     val foregroundLocationPermissionsState = rememberMultiplePermissionsState(foregroundPermissionsList)
     val backgroundLocationPermissionsState = rememberMultiplePermissionsState(backgroundPermissionsList)
@@ -67,7 +67,6 @@ fun PermissionsPage(toSettings: () -> Unit) {
         )
     }
 
-    @Suppress("UnnecessaryVariable")
     when (val state = s) {
         State.Loading -> LoadingSpinner()
         State.AllGranted -> LaunchedEffect(state) {
@@ -95,7 +94,7 @@ private fun PermissionsPageContent(
 
     Scaffold(
         modifier = modifier.testTag(PermissionsPage.TEST_TAG).statusBarsPadding().navigationBarsPadding(),
-        topBar = { SmallTopAppBar(title = { Text(text = stringResource(id = R.string.permissions_title)) }) }
+        topBar = { TopAppBar(title = { Text(text = stringResource(id = R.string.permissions_title)) }) }
     ) { paddingValues ->
         val scrollState = rememberScrollState()
         Column(modifier = Modifier.padding(paddingValues).verticalScroll(scrollState)) {

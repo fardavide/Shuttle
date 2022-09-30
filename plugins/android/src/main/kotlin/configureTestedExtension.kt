@@ -13,10 +13,10 @@ fun Project.configureTestedExtension() {
 
     extensions.configure<TestedExtension> {
 
-        compileSdkVersion(32)
+        compileSdkVersion(33)
         defaultConfig {
             minSdk = 26
-            targetSdk = 32
+            targetSdk = 33
 
             testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
             vectorDrawables.useSupportLibrary = true

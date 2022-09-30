@@ -11,10 +11,10 @@ import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SmallTopAppBar
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -23,7 +23,7 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import arrow.core.Either
-import org.koin.androidx.compose.viewModel
+import org.koin.androidx.compose.koinViewModel
 import shuttle.design.theme.Dimens
 import shuttle.design.theme.ShuttleTheme
 import shuttle.design.ui.BackIconButton
@@ -46,7 +46,7 @@ fun AboutPage(onBack: () -> Unit) {
 
     val activity = LocalContext.current as Activity
     val snackbarHostState = remember { SnackbarHostState() }
-    val viewModel: AboutViewModel by viewModel()
+    val viewModel: AboutViewModel = koinViewModel()
     val uriHandler = LocalUriHandler.current
 
     val actionsStrings = ActionsStrings()
@@ -64,8 +64,7 @@ fun AboutPage(onBack: () -> Unit) {
     Scaffold(
         modifier = Modifier.statusBarsPadding().navigationBarsPadding(),
         topBar = {
-            SmallTopAppBar(
-                title = { Text(stringResource(id = string.settings_about_title)) },
+            TopAppBar(title = { Text(stringResource(id = string.settings_about_title)) },
                 navigationIcon = { BackIconButton(onBack) }
             )
         },
