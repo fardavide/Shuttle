@@ -1,19 +1,20 @@
 package shuttle.predictions.presentation.ui
 
 import android.content.Intent
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.glance.GlanceModifier
 import androidx.glance.Image
 import androidx.glance.ImageProvider
+import androidx.glance.LocalContext
 import androidx.glance.action.Action
 import androidx.glance.action.clickable
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.GlanceAppWidgetReceiver
 import androidx.glance.appwidget.action.actionRunCallback
 import androidx.glance.appwidget.action.actionStartActivity
+import androidx.glance.appwidget.background
 import androidx.glance.appwidget.cornerRadius
-import androidx.glance.background
+import androidx.glance.color.dynamicThemeColorProviders
 import androidx.glance.layout.Alignment
 import androidx.glance.layout.Box
 import androidx.glance.layout.Column
@@ -137,8 +138,13 @@ class SuggestedAppsWidget : GlanceAppWidget(), KoinComponent {
     }
     
     @Composable
-    private fun GlanceModifier.widgetBackground() =
-        background(MaterialTheme.colorScheme.background.copy(alpha = 0.78f))
+    private fun GlanceModifier.widgetBackground(): GlanceModifier {
+        val context = LocalContext.current
+        return background(
+            day = dynamicThemeColorProviders().background.getColor(context).copy(alpha = 0.78f),
+            night = dynamicThemeColorProviders().background.getColor(context).copy(alpha = 0.64f)
+        )
+    }
 
     data class Actions(
         val onOpenApp: (Intent) -> Action,
