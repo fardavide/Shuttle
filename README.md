@@ -2,11 +2,26 @@
 
 Android App/Widget that suggest you apps, based on you usage, based on time, location and more
 
+**Available for Android on Google Play Store** [Download now](https://play.google.com/store/apps/details?id=studio.forface.shuttle).
 
-## Icon pack support
-Shuttle implements an experimental support to all the Icon Packs compatible with Nova Launcher
+## Features:
+- Icon pack support
+- Blacklist
+- Customizable Widget
 
+## Upcoming features:
+- Wear OS tile
 
-## Screens
-
-<img src="media/screenshots/phone_home.png" alt="home" style="zoom:30%;" /><img src="media/screenshots/phone_settings.png" alt="settings" style="zoom:30%;" />
+## Tech stack:
+- Android Adaptive UI level 3
+- Clean Architecture
+- Compose Glance Widget
+- Composite builds
+- Detekt
+- Jetpack Compose
+- Kotlin Multiplatform
+- Koin
+- Ktor
+- Material 3
+- SQLDelight
+- Test Driven Development
