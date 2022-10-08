@@ -21,7 +21,6 @@ Android App/Widget that suggest you apps, based on you usage, based on time, loc
 - Jetpack Compose
 - Kotlin Multiplatform
 - Koin
-- Ktor
 - Material 3
 - SQLDelight
 - Test Driven Development
