@@ -17,6 +17,7 @@ Android App/Widget that suggest you apps, based on you usage, based on time, loc
 - Clean Architecture
 - Compose Glance Widget
 - Composite builds
+- Continous Delivery
 - Detekt
 - Jetpack Compose
 - Kotlin Multiplatform
