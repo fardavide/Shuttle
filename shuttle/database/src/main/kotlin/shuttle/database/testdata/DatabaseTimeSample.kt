@@ -2,7 +2,7 @@ package shuttle.database.testdata
 
 import shuttle.database.model.DatabaseTime
 
-object DatabaseTimeTestData {
+object DatabaseTimeSample {
 
     val Afternoon = DatabaseTime(minuteOfTheDay = 960) // 16:00
     val Evening = DatabaseTime(minuteOfTheDay = 1260) // 21:00

@@ -2,7 +2,7 @@ package shuttle.database.testdata
 
 import shuttle.database.model.DatabaseGeoHash
 
-object DatabaseGeoHashTestData {
+object DatabaseGeoHashSample {
 
     val Bennet = DatabaseGeoHash("bennet")
     val Esselunga = DatabaseGeoHash("esselunga")

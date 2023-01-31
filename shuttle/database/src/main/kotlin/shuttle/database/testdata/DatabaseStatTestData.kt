@@ -10,9 +10,9 @@ object DatabaseStatTestData {
 
     fun buildDatabaseStat(
         appId: DatabaseAppId,
-        date: DatabaseDate = DatabaseDateTestData.Today,
-        geoHash: DatabaseGeoHash = DatabaseGeoHashTestData.Home,
-        time: DatabaseTime = DatabaseTimeTestData.Midnight
+        date: DatabaseDate = DatabaseDateSample.Today,
+        geoHash: DatabaseGeoHash = DatabaseGeoHashSample.Home,
+        time: DatabaseTime = DatabaseTimeSample.Midnight
     ) = DatabaseStat(
         appId = appId,
         date = date,

@@ -2,9 +2,9 @@ package shuttle.database.testutil
 
 import com.squareup.sqldelight.sqlite.driver.JdbcSqliteDriver
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
-import shuttle.database.testdata.TestData.AllAppsIds
+import shuttle.database.Database
+import shuttle.database.testdata.DatabaseAppIdSample
 import shuttle.database.util.suspendTransaction
-import studio.forface.shuttle.database.Database
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 
@@ -30,10 +30,10 @@ abstract class DatabaseTest {
         driver.close()
     }
 
-    suspend fun insertApps(count: Int = AllAppsIds.size) {
+    suspend fun insertApps(count: Int = DatabaseAppIdSample.all().size) {
         database.appQueries.suspendTransaction(UnconfinedTestDispatcher()) {
             repeat(count) { index ->
-                val id = AllAppsIds[index]
+                val id = DatabaseAppIdSample.all()[index]
                 val name = id.value
                 insertApp(id, name)
             }

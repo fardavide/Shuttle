@@ -17,7 +17,7 @@ import shuttle.coordinates.domain.testdata.GeoHashTestData
 import shuttle.coordinates.domain.testdata.TimeTestData
 import shuttle.database.datasource.StatDataSource
 import shuttle.database.model.DatabaseStat
-import shuttle.database.testdata.DatabaseAppIdTestData
+import shuttle.database.testdata.DatabaseAppIdSample
 import shuttle.database.testdata.DatabaseStatTestData
 import shuttle.stats.data.mapper.DatabaseDateAndTimeMapper
 import shuttle.stats.data.usecase.SortAppStats
@@ -58,9 +58,9 @@ class StatsRepositoryImplTest {
     fun `returns all the suggested apps plus all the installed apps`() = runTest {
         // given
         val suggestedApps = listOf(
-            DatabaseStatTestData.buildDatabaseStat(DatabaseAppIdTestData.Telegram),
-            DatabaseStatTestData.buildDatabaseStat(DatabaseAppIdTestData.Chrome),
-            DatabaseStatTestData.buildDatabaseStat(DatabaseAppIdTestData.CineScout)
+            DatabaseStatTestData.buildDatabaseStat(DatabaseAppIdSample.Telegram),
+            DatabaseStatTestData.buildDatabaseStat(DatabaseAppIdSample.Chrome),
+            DatabaseStatTestData.buildDatabaseStat(DatabaseAppIdSample.CineScout)
         )
         every { statDataSource.findAllStats() } returns flowOf(suggestedApps)
         val expected = listOf(

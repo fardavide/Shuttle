@@ -14,7 +14,6 @@ import shuttle.database.datasource.SettingDataSource
 import shuttle.database.datasource.SettingDataSourceImpl
 import shuttle.database.datasource.StatDataSource
 import shuttle.database.datasource.StatDataSourceImpl
-import studio.forface.shuttle.database.Database
 
 val databaseModule = module {
 

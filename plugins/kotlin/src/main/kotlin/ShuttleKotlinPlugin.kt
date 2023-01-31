@@ -25,9 +25,9 @@ private fun Project.setupKotlinPlugin() {
                 "-opt-in=kotlin.RequiresOptIn"
             )
         }
-        setSource("build/generated/ksp/main/kotlin")
-        setSource("build/generated/ksp/test/kotlin")
     }
+    enableJvmContextReceivers()
+    setupKsp()
 }
 
 private fun Project.hasKotlinAndroidPlugin() =

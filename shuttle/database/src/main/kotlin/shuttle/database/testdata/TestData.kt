@@ -29,17 +29,5 @@ object TestData {
     val SecondAppId = DatabaseAppId("app 2")
     @Deprecated("Use Database*TestData instead")
     val ThirdAppId = DatabaseAppId("app 3")
-    @Deprecated("Use Database*TestData instead")
-    val FourthAppId = DatabaseAppId("app 4")
-    @Deprecated("Use Database*TestData instead")
-    val FifthAppId = DatabaseAppId("app 5")
 
-    @Deprecated("Use Database*TestData instead")
-    val AllAppsIds = listOf(
-        FirstAppId,
-        SecondAppId,
-        ThirdAppId,
-        FourthAppId,
-        FifthAppId
-    )
 }

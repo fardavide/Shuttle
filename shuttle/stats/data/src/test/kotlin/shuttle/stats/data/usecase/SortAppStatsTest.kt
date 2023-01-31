@@ -12,10 +12,10 @@ import shuttle.database.model.DatabaseDate
 import shuttle.database.model.DatabaseGeoHash
 import shuttle.database.model.DatabaseStat
 import shuttle.database.model.DatabaseTime
-import shuttle.database.testdata.DatabaseAppIdTestData
-import shuttle.database.testdata.DatabaseDateTestData
-import shuttle.database.testdata.DatabaseGeoHashTestData
-import shuttle.database.testdata.DatabaseTimeTestData
+import shuttle.database.testdata.DatabaseAppIdSample
+import shuttle.database.testdata.DatabaseDateSample
+import shuttle.database.testdata.DatabaseGeoHashSample
+import shuttle.database.testdata.DatabaseTimeSample
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -36,26 +36,26 @@ class SortAppStatsTest {
         )
         val stats = listOf(
             buildStat(
-                appId = DatabaseAppIdTestData.Stocard,
-                geoHash = DatabaseGeoHashTestData.Bennet
+                appId = DatabaseAppIdSample.Stocard,
+                geoHash = DatabaseGeoHashSample.Bennet
             ),
             buildStat(
-                appId = DatabaseAppIdTestData.Telegram,
-                geoHash = DatabaseGeoHashTestData.Home
+                appId = DatabaseAppIdSample.Telegram,
+                geoHash = DatabaseGeoHashSample.Home
             ),
             buildStat(
-                appId = DatabaseAppIdTestData.Telegram,
-                geoHash = DatabaseGeoHashTestData.Home
+                appId = DatabaseAppIdSample.Telegram,
+                geoHash = DatabaseGeoHashSample.Home
             )
         )
 
         // when
         val result = sortAppStats(
             stats = stats,
-            location = DatabaseGeoHashTestData.Bennet.right(),
-            date = DatabaseDateTestData.Today,
-            startTime = DatabaseTimeTestData.Midnight,
-            endTime = DatabaseTimeTestData.Midnight
+            location = DatabaseGeoHashSample.Bennet.right(),
+            date = DatabaseDateSample.Today,
+            startTime = DatabaseTimeSample.Midnight,
+            endTime = DatabaseTimeSample.Midnight
         )
 
         // then
@@ -71,16 +71,16 @@ class SortAppStatsTest {
         )
         val stats = listOf(
             buildStat(
-                appId = DatabaseAppIdTestData.Deliveroo,
-                time = DatabaseTimeTestData.Noon
+                appId = DatabaseAppIdSample.Deliveroo,
+                time = DatabaseTimeSample.Noon
             ),
             buildStat(
-                appId = DatabaseAppIdTestData.Telegram,
-                time = DatabaseTimeTestData.Morning
+                appId = DatabaseAppIdSample.Telegram,
+                time = DatabaseTimeSample.Morning
             ),
             buildStat(
-                appId = DatabaseAppIdTestData.Telegram,
-                time = DatabaseTimeTestData.Evening
+                appId = DatabaseAppIdSample.Telegram,
+                time = DatabaseTimeSample.Evening
             )
         )
 
@@ -88,9 +88,9 @@ class SortAppStatsTest {
         val result = sortAppStats(
             stats = stats,
             location = LocationNotAvailable.left(),
-            date = DatabaseDateTestData.Today,
-            startTime = DatabaseTimeTestData.Noon,
-            endTime = DatabaseTimeTestData.Noon
+            date = DatabaseDateSample.Today,
+            startTime = DatabaseTimeSample.Noon,
+            endTime = DatabaseTimeSample.Noon
         )
 
         // then
@@ -106,18 +106,18 @@ class SortAppStatsTest {
             AppIdTestData.Gmail
         )
         val stats = listOf(
-            buildStat(DatabaseAppIdTestData.CineScout, date = DatabaseDateTestData.Today),
-            buildStat(DatabaseAppIdTestData.Gmail, date = DatabaseDateTestData.ThreeDaysAgo),
-            buildStat(DatabaseAppIdTestData.Telegram, date = DatabaseDateTestData.Yesterday)
+            buildStat(DatabaseAppIdSample.CineScout, date = DatabaseDateSample.Today),
+            buildStat(DatabaseAppIdSample.Gmail, date = DatabaseDateSample.ThreeDaysAgo),
+            buildStat(DatabaseAppIdSample.Telegram, date = DatabaseDateSample.Yesterday)
         )
 
         // when
         val result = sortAppStats(
             stats = stats,
             location = LocationNotAvailable.left(),
-            date = DatabaseDateTestData.Today,
-            startTime = DatabaseTimeTestData.Midnight,
-            endTime = DatabaseTimeTestData.Midnight
+            date = DatabaseDateSample.Today,
+            startTime = DatabaseTimeSample.Midnight,
+            endTime = DatabaseTimeSample.Midnight
         )
 
         // then
@@ -133,21 +133,21 @@ class SortAppStatsTest {
             AppIdTestData.GitHub
         )
         val stats = listOf(
-            buildStat(DatabaseAppIdTestData.Chrome),
-            buildStat(DatabaseAppIdTestData.Chrome),
-            buildStat(DatabaseAppIdTestData.GitHub),
-            buildStat(DatabaseAppIdTestData.Telegram),
-            buildStat(DatabaseAppIdTestData.Telegram),
-            buildStat(DatabaseAppIdTestData.Telegram)
+            buildStat(DatabaseAppIdSample.Chrome),
+            buildStat(DatabaseAppIdSample.Chrome),
+            buildStat(DatabaseAppIdSample.GitHub),
+            buildStat(DatabaseAppIdSample.Telegram),
+            buildStat(DatabaseAppIdSample.Telegram),
+            buildStat(DatabaseAppIdSample.Telegram)
         )
 
         // when
         val result = sortAppStats(
             stats = stats,
             location = LocationNotAvailable.left(),
-            date = DatabaseDateTestData.Today,
-            startTime = DatabaseTimeTestData.Midnight,
-            endTime = DatabaseTimeTestData.Midnight
+            date = DatabaseDateSample.Today,
+            startTime = DatabaseTimeSample.Midnight,
+            endTime = DatabaseTimeSample.Midnight
         )
 
         // then
@@ -158,9 +158,9 @@ class SortAppStatsTest {
 
         private fun buildStat(
             appId: DatabaseAppId,
-            date: DatabaseDate = DatabaseDateTestData.Yesterday,
-            geoHash: DatabaseGeoHash? = DatabaseGeoHashTestData.Unknown,
-            time: DatabaseTime = DatabaseTimeTestData.Midnight
+            date: DatabaseDate = DatabaseDateSample.Yesterday,
+            geoHash: DatabaseGeoHash? = DatabaseGeoHashSample.Unknown,
+            time: DatabaseTime = DatabaseTimeSample.Midnight
         ) = DatabaseStat(
             appId = appId,
             date = date,

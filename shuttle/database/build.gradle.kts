@@ -5,6 +5,7 @@ plugins {
 
 sqldelight {
     database("Database") {
+        packageName = "shuttle.database"
         schemaOutputDirectory = file("src/main/sqldelight/shuttle/database/schemas")
         verifyMigrations = true
     }
