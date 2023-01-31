@@ -8,6 +8,7 @@ import studio.forface.shuttle.database.Database
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 
+@Suppress("UnnecessaryAbstractClass")
 abstract class DatabaseTest {
 
     private val driver = JdbcSqliteDriver(JdbcSqliteDriver.IN_MEMORY)

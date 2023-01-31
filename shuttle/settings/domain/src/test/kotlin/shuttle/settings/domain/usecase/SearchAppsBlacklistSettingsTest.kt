@@ -5,7 +5,6 @@ import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert.assertEquals
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 import shuttle.apps.domain.model.AppId
@@ -13,6 +12,7 @@ import shuttle.apps.domain.model.AppModel
 import shuttle.apps.domain.model.AppName
 import shuttle.settings.domain.model.AppBlacklistSetting
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
 @RunWith(Parameterized::class)
 class SearchAppsBlacklistSettingsTest(

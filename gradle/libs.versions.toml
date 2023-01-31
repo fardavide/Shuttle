@@ -15,7 +15,8 @@ composeCompiler = "1.3.1"
 constraintLayout = "1.0.1"
 crashlytics = "2.9.2"
 dataStore = "1.0.0"
-detekt = "1.21.0"
+detekt = "1.22.0"
+detektTwitterCompose = "0.0.26"
 firebase = "30.5.0"
 geohash = "1.4.0"
 glance = "1.0.0-alpha05"
@@ -51,7 +52,9 @@ gradle-sqlDelight = { module = "com.squareup.sqldelight:gradle-plugin", version.
 ksp-arrow = { module = "io.arrow-kt:arrow-optics-ksp-plugin", version.ref = "arrow" }
 
 accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanist" }
+
 android-billing = { module = "com.android.billingclient:billing-ktx", version.ref = "androidBilling" }
+
 androidx-activity = { module = "androidx.activity:activity-compose", version.ref = "androidxActivity" }
 androidx-dataStore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "dataStore" }
 androidx-glance = { module = "androidx.glance:glance-appwidget", version.ref = "glance" }
@@ -63,39 +66,59 @@ androidx-test-espresso = { module = "androidx.test.espresso:espresso-core", vers
 androidx-test-junit = { module = "androidx.test.ext:junit-ktx", version.ref = "androidxTestJunit" }
 androidx-workManager = { module = "androidx.work:work-runtime-ktx", version.ref = "workManager" }
 androidx-workManager-test = { module = "androidx.work:work-testing", version.ref = "workManager" }
+
 arrow-core = { module = "io.arrow-kt:arrow-core", version.ref = "arrow" }
 arrow-optics = { module = "io.arrow-kt:arrow-optics", version.ref = "arrow" }
+
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
+
 compose-constraintLayout = { module = "androidx.constraintlayout:constraintlayout-compose", version.ref = "constraintLayout"}
 compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
 compose-uiTest = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "compose" }
 compose-uiTooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
 compose-uiToolingPreview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
+
+detekt-api = { module = "io.gitlab.arturbosch.detekt:detekt-api", version.ref = "detekt" }
+detekt-rules-twitter-compose = { module = "com.twitter.compose.rules:detekt", version.ref = "detektTwitterCompose" }
+detekt-test = { module = "io.gitlab.arturbosch.detekt:detekt-test", version.ref = "detekt" }
+
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebase" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics-ktx" }
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-ktx" }
+
 geohash = { module = "ch.hsr:geohash", version.ref = "geohash" }
+
 junit = { module = "junit:junit", version.ref = "junit" }
+
 kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
+
 klock = { module = "com.soywiz.korlibs.klock:klock", version.ref = "klock" }
+
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 koin-android-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
 koin-android-workManager = { module = "io.insert-koin:koin-androidx-workmanager", version.ref = "koin" }
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin" }
 koin-test-junit4 = { module = "io.insert-koin:koin-test-junit4", version.ref = "koin" }
+
 kotlin-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinCoroutines" }
 kotlin-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinCoroutines" }
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 kotlin-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinSerialization" }
+
 material3 = { module = "androidx.compose.material3:material3", version.ref = "material3" }
+
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 mockk-android = { module = "io.mockk:mockk-android", version.ref = "mockk" }
+
 navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigation" }
+
 playServices-location = { module = "com.google.android.gms:play-services-location", version.ref = "playServices" }
+
 sqlDelight-android = { module = "com.squareup.sqldelight:android-driver", version.ref = "sqlDelight" }
 sqlDelight-coroutines = { module = "com.squareup.sqldelight:coroutines-extensions", version.ref = "sqlDelight" }
 sqlDelight-sqlite = { module = "com.squareup.sqldelight:sqlite-driver", version.ref = "sqlDelight" }
+
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 
 [bundles]

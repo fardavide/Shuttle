@@ -118,11 +118,11 @@ complexity:
     ignoreAnnotated: [ 'Composable' ]
   LongParameterList:
     active: true
+    ignoreAnnotated: [ 'Composable', 'Module' ]
     functionThreshold: 7
     constructorThreshold: 99
     ignoreDefaultParameters: true
     ignoreDataClasses: true
-    ignoreAnnotated: [ 'Composable' ]
   # reports methods which are overloaded often
   MethodOverloading:
     active: true
@@ -145,6 +145,7 @@ complexity:
   TooManyFunctions:
     active: true
     excludes: ['**/test/**', '**/**Test/**', '**/DataSource.kt']
+    ignoreAnnotated: [ 'Module' ]
     thresholdInFiles: 31
     thresholdInClasses: 26
     thresholdInInterfaces: 21
@@ -307,6 +308,19 @@ formatting:
   FunctionTypeReferenceSpacing:
     active: true
     autoCorrect: true
+  FunctionReturnTypeSpacing:
+    active: true
+    autoCorrect: true
+  FunctionSignature:
+    active: true
+    autoCorrect: true
+    forceMultilineWhenParameterCountGreaterOrEqualThan: 3
+    functionBodyExpressionWrapping: 'default'
+    maxLineLength: 120
+    indentSize: 4
+  FunctionStartOfBodySpacing:
+    active: false
+    autoCorrect: false
   FunKeywordSpacing:
     active: true
     autoCorrect: true
@@ -373,7 +387,13 @@ formatting:
   # WildcardImports already enabled
   NoWildcardImports:
     active: false
+  NullableTypeSpacing:
+    active: true
+    autoCorrect: true
   PackageName:
+    active: true
+    autoCorrect: true
+  ParameterListSpacing:
     active: true
     autoCorrect: true
   ParameterListWrapping:
@@ -421,15 +441,24 @@ formatting:
   SpacingBetweenDeclarationsWithComments:
     active: false
     # autoCorrect: true
+  SpacingBetweenFunctionNameAndOpeningParenthesis:
+    active: true
+    autoCorrect: true
   StringTemplate:
     active: true
     autoCorrect: true
-  TrailingComma:
+  TrailingCommaOnCallSite:
     active: true
     autoCorrect: true
-    allowTrailingComma: false
-    allowTrailingCommaOnCallSite: false
+    useTrailingCommaOnCallSite: false
+  TrailingCommaOnDeclarationSite:
+    active: true
+    autoCorrect: true
+    useTrailingCommaOnDeclarationSite: false
   TypeArgumentListSpacing:
+    active: true
+    autoCorrect: true
+  TypeParameterListSpacing:
     active: true
     autoCorrect: true
   UnnecessaryParenthesesBeforeTrailingLambda:
@@ -535,6 +564,8 @@ performance:
     excludes: ['**/test/**', '**/**Test/**']
   SpreadOperator:
     active: false
+  UnnecessaryPartOfBinaryExpression:
+    active: false
   UnnecessaryTemporaryInstantiation:
     active: true
 
@@ -621,6 +652,8 @@ potential-bugs:
     active: true
   UnconditionalJumpStatementInLoop:
     active: false
+  UnnecessaryNotNullCheck:
+    active: true
   UnnecessaryNotNullOperator:
     active: true
   UnnecessarySafeCall:
@@ -640,6 +673,8 @@ potential-bugs:
 
 style:
   active: true
+  AlsoCouldBeApply:
+    active: true
   # This rule ensures class contents are ordered as follows as recommended by the Kotlin Coding Conventions
   #  ( see https://kotlinlang.org/docs/reference/coding-conventions.html#class-layout ):
   #  Mandatory order
@@ -738,6 +773,9 @@ style:
     active: true
   MultilineLambdaItParameter:
     active: false
+  MultilineRawStringIndentation:
+    active: true
+    indentSize: 4
   NestedClassesVisibility:
     active: true
   NewLineAtEndOfFile:
@@ -821,6 +859,8 @@ style:
     max: 3
   TrailingWhitespace:
     active: false
+  TrimMultilineRawString:
+    active: true
   UnderscoresInNumericLiterals:
     active: true
     acceptableDecimalLength: 5
@@ -841,7 +881,7 @@ style:
   UnnecessaryLet:
     active: true
   UnnecessaryParentheses:
-    active: false
+    active: true
   UntilInsteadOfRangeTo:
     active: true
   UnusedImports:
@@ -850,7 +890,7 @@ style:
     active: true
   UnusedPrivateMember:
     active: true
-    ignoreAnnotated: ['Preview']
+    ignoreAnnotated: ['Preview', '*Previews', '*Previews.*']
     allowedNames: "(_|ignored|expected|serialVersionUID)"
   UseArrayLiteralsInAnnotations:
     active: false
@@ -897,6 +937,8 @@ style:
   # flag require calls for not-null check that can be replaced with a requireNotNull call.
   UseRequireNotNull:
     active: true
+  UseSumOfInsteadOfFlatMapSize:
+    active: true
   UselessCallOnNotNull:
     active: true
   UtilityClassWithPublicConstructor:
@@ -906,3 +948,53 @@ style:
   WildcardImport:
     active: true
     excludeImports: []
+
+TwitterCompose:
+  CompositionLocalAllowlist:
+    active: true
+    # You can optionally define a list of CompositionLocals that are allowed here
+    # allowedCompositionLocals: LocalSomething,LocalSomethingElse
+  CompositionLocalNaming:
+    active: true
+  ContentEmitterReturningValues:
+    active: true
+    # You can optionally add your own composables here
+    # contentEmitters: MyComposable,MyOtherComposable
+  # https://twitter.github.io/compose-rules/rules/#avoid-modifier-extension-factory-functions
+  ModifierComposable:
+    active: true
+  ModifierMissing:
+    active: false
+  ModifierReused:
+    active: true
+  ModifierWithoutDefault:
+    active: true
+  MultipleEmitters:
+    active: true
+    # You can optionally add your own composables here
+    # contentEmitters: MyComposable,MyOtherComposable
+  MutableParams:
+    active: true
+  # https://twitter.github.io/compose-rules/rules/#naming-composable-functions-properly
+  ComposableNaming:
+    active: true
+    # You can optionally disable the checks in this rule for regex matches against the composable name (e.g. molecule presenters)
+    # allowedComposableFunctionNames: .*Presenter,.*MoleculePresenter
+  ComposableParamOrder:
+    active: true
+  PreviewNaming:
+    active: true
+  PreviewPublic:
+    active: true
+    # You can optionally disable that only previews with @PreviewParameter are flagged
+    # previewPublicOnlyIfParams: false
+  RememberMissing:
+    active: true
+  UnstableCollections:
+    active: true
+  # https://twitter.github.io/compose-rules/rules/#hoist-all-the-things
+  ViewModelForwarding:
+    active: true
+  # https://twitter.github.io/compose-rules/rules/#viewmodels
+  ViewModelInjection:
+    active: true

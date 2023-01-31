@@ -9,7 +9,10 @@ import androidx.compose.ui.test.runAndroidComposeUiTest
 
 fun runComposeTest(block: ComposeTest.() -> Unit) = runAndroidComposeUiTest(block)
 
-fun <T : ComponentActivity> AndroidComposeUiTest<T>.onBackPressed() = runOnUiThread { requireActivity().onBackPressed() }
+fun <T : ComponentActivity> AndroidComposeUiTest<T>.onBackPressed() {
+    runOnUiThread { requireActivity().onBackPressed() }
+}
+
 fun <T : ComponentActivity> AndroidComposeUiTest<T>.requireActivity() = requireNotNull(activity)
 
 typealias ComposeTest = AndroidComposeUiTest<ComposeTestActivity>

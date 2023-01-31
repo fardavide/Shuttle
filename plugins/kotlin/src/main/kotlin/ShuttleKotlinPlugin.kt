@@ -21,7 +21,7 @@ private fun Project.setupKotlinPlugin() {
     tasks.withType<KotlinCompile> {
         kotlinOptions {
             freeCompilerArgs = freeCompilerArgs + listOf(
-                "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
+                "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
                 "-opt-in=kotlin.RequiresOptIn"
             )
         }

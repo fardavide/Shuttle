@@ -3,9 +3,6 @@ import io.gitlab.arturbosch.detekt.DetektPlugin
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.apply
-import org.gradle.kotlin.dsl.getValue
-import org.gradle.kotlin.dsl.provideDelegate
-import org.gradle.kotlin.dsl.registering
 import org.gradle.kotlin.dsl.withType
 import java.io.File
 
@@ -17,32 +14,33 @@ abstract class ShuttleDetektPlugin : Plugin<Project> {
 }
 
 private fun Project.setupDetekt() {
+    val rulesPath = ":detekt:detekt-rules"
+    val assembleRules = "$rulesPath:assemble"
+
     allprojects {
         apply<DetektPlugin>()
     }
 
-    val reportMerge by tasks.registering(io.gitlab.arturbosch.detekt.report.ReportMergeTask::class) {
-        output.set(File("${rootDir.path}/detekt/reports/merge.sarif"))
-    }
-
     subprojects {
+
         tasks.withType<Detekt> {
+            dependsOn(assembleRules)
 
             allRules = false
             basePath = rootDir.path
             config.setFrom("${rootDir.path}/detekt/config.yml")
-            reports.sarif.required.set(true)
-            // TODO ignoredBuildTypes = ["release"]
-        }
-
-        plugins.withType<DetektPlugin> {
-            tasks.withType<Detekt> {
-                finalizedBy(reportMerge)
-
-                reportMerge.configure {
-                    input.from(sarifReportFile)
+            jvmTarget = "1.8"
+            reports {
+                md {
+                    required.set(true)
+                    outputLocation.set(File("${rootDir.path}/detekt/reports/$name.md"))
                 }
             }
         }
     }
+
+    dependencies.add(
+        "detektPlugins",
+        project.libsCatalog.findLibrary("detekt-rules-twitter-compose").get()
+    )
 }

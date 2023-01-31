@@ -54,10 +54,14 @@ internal class SortAppStats(
         byTime: Pair<DatabaseTime, DatabaseTime>? = null,
         byTimeNot: Pair<DatabaseTime, DatabaseTime>? = null
     ): Collection<Stat> {
-        check((byLocation != null && byLocationNot == null) || (byLocation == null && byLocationNot != null)) {
+        val byLocationCheck = byLocation != null && byLocationNot == null
+        val byLocationNotCheck = byLocation == null && byLocationNot != null
+        check(byLocationCheck || byLocationNotCheck) {
             "Either byLocation or byLocationNot must be not null"
         }
-        check((byTime != null && byTimeNot == null) || (byTime == null && byTimeNot != null)) {
+        val byTimeCheck = byTime != null && byTimeNot == null
+        val byTimeNotCheck = byTime == null && byTimeNot != null
+        check(byTimeCheck || byTimeNotCheck) {
             "Either byTime or byTimeNot must be not null"
         }
 
