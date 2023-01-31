@@ -26,5 +26,10 @@
       <option name="name" value="maven" />
       <option name="url" value="https://androidx.dev/snapshots/latest/artifacts/repository" />
     </remote-repository>
+    <remote-repository>
+      <option name="id" value="maven" />
+      <option name="name" value="maven" />
+      <option name="url" value="https://androidx.dev/snapshots/builds/9411578/artifacts/repository" />
+    </remote-repository>
   </component>
 </project>

@@ -14,7 +14,7 @@ import androidx.glance.appwidget.action.actionRunCallback
 import androidx.glance.appwidget.action.actionStartActivity
 import androidx.glance.appwidget.background
 import androidx.glance.appwidget.cornerRadius
-import androidx.glance.color.dynamicThemeColorProviders
+import androidx.glance.color.DynamicThemeColorProviders
 import androidx.glance.layout.Alignment
 import androidx.glance.layout.Box
 import androidx.glance.layout.Column
@@ -141,8 +141,8 @@ class SuggestedAppsWidget : GlanceAppWidget(), KoinComponent {
     private fun GlanceModifier.widgetBackground(): GlanceModifier {
         val context = LocalContext.current
         return background(
-            day = dynamicThemeColorProviders().background.getColor(context).copy(alpha = 0.78f),
-            night = dynamicThemeColorProviders().background.getColor(context).copy(alpha = 0.64f)
+            day = DynamicThemeColorProviders.background.getColor(context).copy(alpha = 0.78f),
+            night = DynamicThemeColorProviders.background.getColor(context).copy(alpha = 0.64f)
         )
     }
 
