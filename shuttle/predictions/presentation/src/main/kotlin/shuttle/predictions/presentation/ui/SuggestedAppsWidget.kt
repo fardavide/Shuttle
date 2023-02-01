@@ -129,10 +129,14 @@ class SuggestedAppsWidget : GlanceAppWidget(), KoinComponent {
             )
             Spacer(modifier = GlanceModifier.height(widgetSettings.verticalSpacing))
             Text(
+                modifier = GlanceModifier.width(widgetSettings.iconSize),
                 text = app.name,
                 maxLines = widgetSettings.maxLines,
-                style = TextStyle(fontSize = widgetSettings.textSize, textAlign = TextAlign.Center),
-                modifier = GlanceModifier.width(widgetSettings.iconSize)
+                style = TextStyle(
+                    color = DynamicThemeColorProviders.onBackground,
+                    fontSize = widgetSettings.textSize,
+                    textAlign = TextAlign.Center
+                )
             )
         }
     }
