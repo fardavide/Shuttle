@@ -14,6 +14,8 @@ class WidgetSettingsUiModelMapper {
         maxLines = if (settings.allowTwoLines) 2 else 1,
         rowsCount = settings.rowsCount,
         textSize = settings.textSize.value.sp,
+        transparency = settings.transparency.toFloat(),
+        useMaterialColors = settings.useMaterialColors,
         verticalSpacing = settings.verticalSpacing.value.dp
     )
 }

@@ -10,5 +10,7 @@ data class WidgetSettingsUiModel(
     val maxLines: Int,
     val rowsCount: Int,
     val textSize: TextUnit,
+    val transparency: Float,
+    val useMaterialColors: Boolean,
     val verticalSpacing: Dp
 )
