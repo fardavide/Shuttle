@@ -1,6 +1,6 @@
 [versions]
 accompanist = "0.28.0"
-androidGradle = "7.2.2"
+androidGradle = "7.4.0"
 androidxActivity = "1.6.0"
 androidBilling = "5.0.0"
 androidxCore = "1.9.0"
@@ -36,7 +36,7 @@ material3 = "1.1.0-alpha04"
 navigation = "2.5.2"
 playServices = "20.0.0"
 sqlDelight = "1.5.5"
-turbine = "0.8.0"
+turbine = "0.12.1"
 workManager = "2.7.1"
 
 [plugins]

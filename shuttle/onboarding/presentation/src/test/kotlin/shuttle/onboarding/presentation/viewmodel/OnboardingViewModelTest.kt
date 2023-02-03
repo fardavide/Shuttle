@@ -1,6 +1,6 @@
 package shuttle.onboarding.presentation.viewmodel
 
-import app.cash.turbine.FlowTurbine
+import app.cash.turbine.ReceiveTurbine
 import app.cash.turbine.test
 import arrow.core.Either.Right
 import io.mockk.coEvery
@@ -115,11 +115,11 @@ class OnboardingViewModelTest {
         }
     }
 
-    private suspend fun FlowTurbine<OnboardingState>.awaitLoading() {
+    private suspend fun ReceiveTurbine<OnboardingState>.awaitLoading() {
         assertEquals(OnboardingState.Loading, awaitItem())
     }
 
-    private suspend fun FlowTurbine<OnboardingState>.awaitPreviewLoading() {
+    private suspend fun ReceiveTurbine<OnboardingState>.awaitPreviewLoading() {
         assertEquals(OnboardingState.ShowOnboarding.Loading, awaitItem())
     }
 

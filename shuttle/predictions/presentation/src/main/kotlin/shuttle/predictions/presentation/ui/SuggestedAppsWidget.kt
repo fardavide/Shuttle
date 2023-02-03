@@ -121,7 +121,6 @@ class SuggestedAppsWidget : GlanceAppWidget(), KoinComponent {
                 .padding(vertical = widgetSettings.verticalSpacing, horizontal = widgetSettings.horizontalSpacing)
                 .clickable(actions.onOpenApp(app.launchIntent))
         ) {
-
             Image(
                 provider = ImageProvider(app.icon),
                 contentDescription = "",

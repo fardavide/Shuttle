@@ -22,11 +22,12 @@ val appModule = module {
     single { Logger(LoggerConfig.default) }
     factory<PackageManager> { get<Context>().packageManager }
     factory { get<Context>().resources }
-    factory<() -> Unit>(StartAppQualifier) { ::startMainActivity }
+    factory(StartAppQualifier) { { startMainActivity() } }
     factory { WorkManager.getInstance(get()) }
 
 } + shuttleModule
 
+context (Scope)
 private fun Scope.startMainActivity() {
     val context: Context = get()
     val intent = Intent(context, MainActivity::class.java)
