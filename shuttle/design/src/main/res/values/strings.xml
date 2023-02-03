@@ -111,6 +111,9 @@
     <string name="settings_restart_onboarding_title">Watch tutorial</string>
     <string name="settings_restart_onboarding_description">Watch again the introduction to the app, in case you missed something</string>
 
+    <string name="settings_widget_colors_transparency">Background transparency</string>
+    <string name="settings_widget_colors_use_material_colors">Use Material U colors</string>
+
     <string name="settings_widget_layout_go_to">Go to %s</string>
     <string name="settings_widget_layout_toolbar_drag_description">Drag vertically to resize</string>
     <string name="settings_widget_layout_title">Widget layout</string>
@@ -119,6 +122,7 @@
     <string name="settings_widget_layout_grid">Widget grid</string>
     <string name="settings_widget_layout_icons_dimensions">Icons\' dimensions</string>
     <string name="settings_widget_layout_apps_labels">Apps\' labels</string>
+    <string name="settings_widget_layout_colors">Colors</string>
     <string name="settings_widget_layout_show_refresh_location">Show refresh location button</string>
 
     <string name="settings_widget_layout_rows_count">Rows count</string>

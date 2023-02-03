@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="settings_widget_layout_colors">Colori</string>
     <string name="settings_widget_layout_show_refresh_location">Mostra botton per aggiornare la posizione</string>
     <string name="widget_refresh_button_content_description">Aggiorna la posizione corrente</string>
     <string name="launch_counter_service_description">Questo servizio conterà quante volte un app è stata avviata sul dispositivo</string>
@@ -92,5 +93,7 @@
     <string name="x_back_button_description">Indietro</string>
     <string name="x_coming_soon">Presto disponibile!</string>
     <string name="x_generic_error">Qualcosa è andato storto!</string>
+    <string name="settings_widget_colors_transparency">Trasparenza sfondo</string>
+    <string name="settings_widget_colors_use_material_colors">Usa color Material U</string>
 
 </resources>

@@ -92,6 +92,8 @@ internal class OnboardingViewModel(
             iconSize = 48.dp,
             rowsCount = 2,
             textSize = 10.sp,
+            transparency = 70,
+            useMaterialColors = false,
             verticalSpacing = 8.dp
         )
     }

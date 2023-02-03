@@ -17,6 +17,7 @@ import shuttle.design.util.collectAsStateLifecycleAware
 import shuttle.settings.presentation.WidgetLayout
 import shuttle.settings.presentation.ui.content.HomeWidgetLayoutContent
 import shuttle.settings.presentation.ui.content.WidgetAppsLabelsContent
+import shuttle.settings.presentation.ui.content.WidgetColorsContent
 import shuttle.settings.presentation.ui.content.WidgetGridContent
 import shuttle.settings.presentation.ui.content.WidgetIconsDimensionsContent
 import shuttle.settings.presentation.ui.content.WidgetLayoutContainer
@@ -48,6 +49,7 @@ fun WidgetLayoutPage(onBack: () -> Unit) {
                     composable(WidgetLayout.Grid) { WidgetGridRoute(args) }
                     composable(WidgetLayout.IconsDimensions) { WidgetIconsDimensionsRoute(args) }
                     composable(WidgetLayout.AppsLabels) { WidgetAppsLabelsRoute(args) }
+                    composable(WidgetLayout.Colors) { WidgetColorsRoute(args) }
                 }
             }
         }
@@ -61,14 +63,15 @@ private fun HomeWidgetLayoutRoute(args: Args) = with(args) {
         HomeWidgetLayoutContent.Actions(
             toGrid = { navController.navigate(WidgetLayout.Grid) },
             toIconsDimensions = { navController.navigate(WidgetLayout.IconsDimensions) },
-            toAppsLabels = { navController.navigate(WidgetLayout.AppsLabels) }
+            toAppsLabels = { navController.navigate(WidgetLayout.AppsLabels) },
+            toColors = { navController.navigate(WidgetLayout.Colors) }
         )
     )
 }
 
 @Composable
 private fun WidgetGridRoute(args: Args) = with(args) {
-    LaunchedEffect(key1 = 0, block = {titleState.value = WidgetLayout.Grid.title})
+    LaunchedEffect(key1 = 0, block = { titleState.value = WidgetLayout.Grid.title })
     WidgetGridContent(
         settings = state.layout,
         onRowsUpdated = { viewModel.submit(Action.UpdateRows(it)) },
@@ -78,7 +81,7 @@ private fun WidgetGridRoute(args: Args) = with(args) {
 
 @Composable
 private fun WidgetIconsDimensionsRoute(args: Args) = with(args) {
-    LaunchedEffect(key1 = 0, block = {titleState.value = WidgetLayout.IconsDimensions.title})
+    LaunchedEffect(key1 = 0, block = { titleState.value = WidgetLayout.IconsDimensions.title })
     WidgetIconsDimensionsContent(
         settings = state.layout,
         onIconSizeUpdated = { viewModel.submit(Action.UpdateIconsSize(it)) },
@@ -89,11 +92,21 @@ private fun WidgetIconsDimensionsRoute(args: Args) = with(args) {
 
 @Composable
 private fun WidgetAppsLabelsRoute(args: Args) = with(args) {
-    LaunchedEffect(key1 = 0, block = {titleState.value = WidgetLayout.AppsLabels.title})
+    LaunchedEffect(key1 = 0, block = { titleState.value = WidgetLayout.AppsLabels.title })
     WidgetAppsLabelsContent(
         settings = state.layout,
         onTextSizeUpdated = { viewModel.submit(Action.UpdateTextSize(it)) },
         onAllowTwoLinesUpdated = { viewModel.submit(Action.UpdateAllowTwoLines(it)) }
+    )
+}
+
+@Composable
+private fun WidgetColorsRoute(args: Args) = with(args) {
+    LaunchedEffect(key1 = 0, block = { titleState.value = WidgetLayout.Colors.title })
+    WidgetColorsContent(
+        settings = state.layout,
+        onTransparencyUpdated = { viewModel.submit(Action.UpdateTransparency(it)) },
+        onUseMaterialColorsUpdated = { viewModel.submit(Action.UpdateUseMaterialColors(it)) },
     )
 }
 

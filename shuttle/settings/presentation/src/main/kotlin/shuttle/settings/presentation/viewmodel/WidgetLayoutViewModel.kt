@@ -60,6 +60,8 @@ internal class WidgetLayoutViewModel(
                 is Action.UpdateIconsSize -> updateIconsSize(currentState, action.value)
                 is Action.UpdateRows -> updateRows(currentState, action.value)
                 is Action.UpdateTextSize -> updateTextSize(currentState, action.value)
+                is Action.UpdateTransparency -> updateTransparency(currentState, action.value)
+                is Action.UpdateUseMaterialColors -> updateUseMaterialColors(currentState, action.value)
                 is Action.UpdateVerticalSpacing -> updateVerticalSpacing(currentState, action.value)
             }
             emit(newState)
@@ -120,6 +122,24 @@ internal class WidgetLayoutViewModel(
         )
     }
 
+    private suspend fun updateTransparency(currentState: State.Data, value: Int): State {
+        val newSettings = currentState.widgetSettingsDomainModel.copy(transparency = value)
+        updateWidgetSettings(newSettings)
+        return currentState.copy(
+            widgetSettingsDomainModel = newSettings,
+            layout = widgetSettingsUiModelMapper.toUiModel(newSettings)
+        )
+    }
+
+    private suspend fun updateUseMaterialColors(currentState: State.Data, value: Boolean): State {
+        val newSettings = currentState.widgetSettingsDomainModel.copy(useMaterialColors = value)
+        updateWidgetSettings(newSettings)
+        return currentState.copy(
+            widgetSettingsDomainModel = newSettings,
+            layout = widgetSettingsUiModelMapper.toUiModel(newSettings)
+        )
+    }
+
     private suspend fun updateVerticalSpacing(currentState: State.Data, value: Int): State {
         val newSettings = currentState.widgetSettingsDomainModel.copy(verticalSpacing = Dp(value))
         updateWidgetSettings(newSettings)
@@ -152,6 +172,8 @@ internal class WidgetLayoutViewModel(
         data class UpdateIconsSize(val value: Int) : Action
         data class UpdateRows(val value: Int) : Action
         data class UpdateTextSize(val value: Int) : Action
+        data class UpdateTransparency(val value: Int) : Action
+        data class UpdateUseMaterialColors(val value: Boolean) : Action
         data class UpdateVerticalSpacing(val value: Int) : Action
     }
 }

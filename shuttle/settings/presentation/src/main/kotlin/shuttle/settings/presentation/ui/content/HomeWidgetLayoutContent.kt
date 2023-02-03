@@ -33,6 +33,13 @@ internal fun HomeWidgetLayoutContent(actions: HomeWidgetLayoutContent.Actions) {
                 onClick = actions.toAppsLabels
             )
         }
+        item {
+            NavigableListItem(
+                title = WidgetLayout.Colors.title,
+                icon = drawable.ic_color_palette,
+                onClick = actions.toColors
+            )
+        }
     }
 }
 
@@ -41,8 +48,19 @@ object HomeWidgetLayoutContent {
     data class Actions(
         val toGrid: () -> Unit,
         val toIconsDimensions: () -> Unit,
-        val toAppsLabels: () -> Unit
-    )
+        val toAppsLabels: () -> Unit,
+        val toColors: () -> Unit
+    ) {
+
+        companion object {
+            val Empty = Actions(
+                toGrid = {},
+                toIconsDimensions = {},
+                toAppsLabels = {},
+                toColors = {}
+            )
+        }
+    }
 }
 
 @Composable
@@ -53,12 +71,6 @@ object HomeWidgetLayoutContent {
 )
 private fun HomeWidgetLayoutContentPreview() {
     MaterialTheme {
-        HomeWidgetLayoutContent(
-            HomeWidgetLayoutContent.Actions(
-                toGrid = {},
-                toIconsDimensions = {},
-                toAppsLabels = {}
-            )
-        )
+        HomeWidgetLayoutContent(HomeWidgetLayoutContent.Actions.Empty)
     }
 }

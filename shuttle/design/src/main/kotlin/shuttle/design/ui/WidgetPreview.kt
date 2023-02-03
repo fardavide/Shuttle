@@ -14,6 +14,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -36,14 +37,22 @@ fun WidgetPreview(model: WidgetPreviewUiModel) {
 
     val rows = layout.rowsCount
     val columns = layout.columnsCount
-    val apps = model.apps.takeOrFillWithNulls(rows * columns).reversed()
+    val apps = remember { model.apps.takeOrFillWithNulls(rows * columns).reversed() }
     var index = 0
 
+    val color = run {
+        val baseColor = if (model.layout.useMaterialColors) {
+            MaterialTheme.colorScheme.primaryContainer
+        } else {
+            MaterialTheme.colorScheme.surface
+        }
+        baseColor.copy(alpha = model.layout.transparency * 0.01f)
+    }
     Column(
         modifier = Modifier
             .wrapContentSize()
             .background(
-                color = MaterialTheme.colorScheme.surface.copy(alpha = 0.78f),
+                color = color,
                 shape = RoundedCornerShape(Dimens.Margin.Large)
             )
             .padding(horizontal = layout.horizontalSpacing, vertical = layout.verticalSpacing)
@@ -82,13 +91,19 @@ private fun AppIconItem(
             modifier = Modifier.size(widgetSettings.iconSize)
         )
         Spacer(modifier = Modifier.height(widgetSettings.verticalSpacing))
+        val textColor = if (widgetSettings.useMaterialColors) {
+            MaterialTheme.colorScheme.onPrimaryContainer
+        } else {
+            MaterialTheme.colorScheme.onSurface
+        }
         Text(
+            modifier = Modifier.width(widgetSettings.iconSize),
             text = app.name,
+            color = textColor,
             maxLines = if (widgetSettings.allowTwoLines) 2 else 1,
             fontSize = widgetSettings.textSize,
             lineHeight = widgetSettings.textSize,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.width(widgetSettings.iconSize)
+            textAlign = TextAlign.Center
         )
     }
 }
@@ -117,6 +132,8 @@ private fun WidgetPreviewPreview() {
         iconSize = 48.dp,
         rowsCount = 2,
         textSize = 9.sp,
+        transparency = 70,
+        useMaterialColors = true,
         verticalSpacing = 10.dp
     )
     MaterialTheme {

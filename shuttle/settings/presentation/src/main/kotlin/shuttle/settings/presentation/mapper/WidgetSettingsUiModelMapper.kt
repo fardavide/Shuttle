@@ -14,6 +14,8 @@ class WidgetSettingsUiModelMapper {
         iconSize = settings.iconsSize.value.dp,
         rowsCount = settings.rowsCount,
         textSize = settings.textSize.value.sp,
+        transparency = settings.transparency,
+        useMaterialColors = settings.useMaterialColors,
         verticalSpacing = settings.verticalSpacing.value.dp
     )
 }

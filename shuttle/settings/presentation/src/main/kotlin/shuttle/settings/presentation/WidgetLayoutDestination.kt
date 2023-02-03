@@ -25,6 +25,11 @@ object WidgetLayout : Destination("widget layout") {
         id = "apps labels",
         title = R.string.settings_widget_layout_apps_labels
     )
+
+    internal object Colors : WidgetLayoutDestination(
+        id = "colors",
+        title = R.string.settings_widget_layout_colors
+    )
 }
 
 internal open class WidgetLayoutDestination(

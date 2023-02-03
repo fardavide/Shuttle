@@ -26,6 +26,8 @@ import arrow.optics.optics
     val iconSize: Dp,
     val rowsCount: Int,
     val textSize: TextUnit,
+    val transparency: Int,
+    val useMaterialColors: Boolean,
     val verticalSpacing: Dp
 ) {
     companion object

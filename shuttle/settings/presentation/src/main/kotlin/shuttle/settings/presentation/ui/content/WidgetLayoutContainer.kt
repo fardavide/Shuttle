@@ -8,6 +8,7 @@ import androidx.compose.foundation.gestures.draggable
 import androidx.compose.foundation.gestures.rememberDraggableState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -53,10 +54,15 @@ internal fun WidgetLayoutContainer(
         val dpDelta = with(density) { pixelsDelta.toDp() }
         previewHeight += dpDelta
     }
+    val backgroundColor = if (state is State.Data && state.layout.useMaterialColors.not()) {
+        MaterialTheme.colorScheme.primaryContainer
+    } else {
+        MaterialTheme.colorScheme.background
+    }
     Column(
         modifier = Modifier
             .fillMaxHeight()
-            .background(color = MaterialTheme.colorScheme.primaryContainer)
+            .background(color = backgroundColor)
     ) {
         WidgetPreviewContent(state = state, height = previewHeight)
         BottomSheetScaffold(
@@ -85,7 +91,8 @@ private fun TopBar(@StringRes title: Int, onBack: () -> Unit, draggableState: Dr
         TopAppBar(
             title = { Text(stringResource(id = title)) },
             navigationIcon = { BackIconButton(onBack) },
-            colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color.Transparent)
+            colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color.Transparent),
+            windowInsets = WindowInsets(0, 0, 0, 0)
         )
     }
 }
