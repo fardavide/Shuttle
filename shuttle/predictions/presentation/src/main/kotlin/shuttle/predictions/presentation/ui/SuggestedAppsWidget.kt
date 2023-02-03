@@ -66,7 +66,7 @@ class SuggestedAppsWidget : GlanceAppWidget(), KoinComponent {
             }
         }
     }
-    
+
     @Composable
     private fun WidgetContent(
         data: SuggestedAppsState.Data,
@@ -77,7 +77,10 @@ class SuggestedAppsWidget : GlanceAppWidget(), KoinComponent {
         Column(
             modifier = GlanceModifier
                 .padding(horizontal = settings.horizontalSpacing, vertical = settings.verticalSpacing)
-                .widgetBackground()
+                .widgetBackground(
+                    transparency = data.widgetSettings.transparency,
+                    useMaterialColors = data.widgetSettings.useMaterialColors
+                )
         ) {
             SuggestedAppsList(data = data, actions = actions)
         }
@@ -127,25 +130,41 @@ class SuggestedAppsWidget : GlanceAppWidget(), KoinComponent {
                 modifier = GlanceModifier.size(widgetSettings.iconSize)
             )
             Spacer(modifier = GlanceModifier.height(widgetSettings.verticalSpacing))
+            val textColor = if (widgetSettings.useMaterialColors) {
+                DynamicThemeColorProviders.onPrimaryContainer
+            } else {
+                DynamicThemeColorProviders.onBackground
+            }
             Text(
                 modifier = GlanceModifier.width(widgetSettings.iconSize),
                 text = app.name,
                 maxLines = widgetSettings.maxLines,
                 style = TextStyle(
-                    color = DynamicThemeColorProviders.onBackground,
+                    color = textColor,
                     fontSize = widgetSettings.textSize,
                     textAlign = TextAlign.Center
                 )
             )
         }
     }
-    
+
     @Composable
-    private fun GlanceModifier.widgetBackground(): GlanceModifier {
-        val context = LocalContext.current
+    private fun GlanceModifier.widgetBackground(
+        transparency: Float = .7f,
+        useMaterialColors: Boolean = true
+    ): GlanceModifier {
+        val color = run {
+            val context = LocalContext.current
+            val baseColor = if (useMaterialColors) {
+                DynamicThemeColorProviders.primaryContainer
+            } else {
+                DynamicThemeColorProviders.background
+            }
+            baseColor.getColor(context).copy(alpha = transparency)
+        }
         return background(
-            day = DynamicThemeColorProviders.background.getColor(context).copy(alpha = 0.78f),
-            night = DynamicThemeColorProviders.background.getColor(context).copy(alpha = 0.64f)
+            day = color,
+            night = color
         )
     }
 

@@ -14,8 +14,13 @@ class WidgetSettingsUiModelMapper {
         maxLines = if (settings.allowTwoLines) 2 else 1,
         rowsCount = settings.rowsCount,
         textSize = settings.textSize.value.sp,
-        transparency = settings.transparency.toFloat(),
+        transparency = settings.transparency / TransparencyIntToFloatRation,
         useMaterialColors = settings.useMaterialColors,
         verticalSpacing = settings.verticalSpacing.value.dp
     )
+
+    companion object {
+
+        const val TransparencyIntToFloatRation = 100f
+    }
 }
