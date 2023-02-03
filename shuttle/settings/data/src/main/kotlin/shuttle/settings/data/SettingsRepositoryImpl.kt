@@ -1,13 +1,12 @@
 package shuttle.settings.data
 
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import arrow.core.Option
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import org.koin.core.annotation.Factory
 import shuttle.apps.domain.model.AppId
 import shuttle.apps.domain.model.AppModel
 import shuttle.apps.domain.model.AppName
@@ -24,11 +23,14 @@ import shuttle.settings.domain.model.Dp
 import shuttle.settings.domain.model.Sp
 import shuttle.settings.domain.model.WidgetSettings
 
+@Factory
 internal class SettingsRepositoryImpl(
-    private val dataStore: DataStore<Preferences>,
+    dataStoreProvider: DataStoreProvider,
     migratePreferences: MigratePreferences,
     private val settingDataSource: SettingDataSource
 ) : SettingsRepository {
+
+    private val dataStore = dataStoreProvider.dataStore()
 
     init {
         migratePreferences()
@@ -78,6 +80,8 @@ internal class SettingsRepositoryImpl(
                     iconsSize = it[IconSize]?.let(::Dp) ?: WidgetSettings.Default.iconsSize,
                     rowsCount = it[RowsCount] ?: WidgetSettings.Default.rowsCount,
                     textSize = it[TextSize]?.let(::Sp) ?: WidgetSettings.Default.textSize,
+                    transparency = it[Transparency] ?: WidgetSettings.Default.transparency,
+                    useMaterialColors = it[UseMaterialColors] ?: WidgetSettings.Default.useMaterialColors,
                     verticalSpacing = it[VerticalSpacing]?.let(::Dp) ?: WidgetSettings.Default.verticalSpacing
                 )
             }.distinctUntilChanged()
@@ -129,10 +133,10 @@ internal class SettingsRepositoryImpl(
                 it[IconSize] = settings.iconsSize.value
                 it[RowsCount] = settings.rowsCount
                 it[TextSize] = settings.textSize.value
+                it[Transparency] = settings.transparency
+                it[UseMaterialColors] = settings.useMaterialColors
                 it[VerticalSpacing] = settings.verticalSpacing.value
             }
         }
     }
 }
-
-

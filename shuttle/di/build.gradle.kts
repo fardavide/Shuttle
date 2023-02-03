@@ -55,6 +55,6 @@ moduleDependencies {
 dependencies {
 
     implementation(libs.bundles.base)
-
+    ksp(libs.koin.ksp)
     testImplementation(libs.bundles.test.kotlin)
 }

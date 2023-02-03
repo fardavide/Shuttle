@@ -1,5 +1,6 @@
 package shuttle.di
 
+import org.koin.ksp.generated.*
 import shuttle.accessibility.accessibilityModule
 import shuttle.apps.data.appsDataModule
 import shuttle.apps.domain.appsDomainModule
@@ -19,7 +20,7 @@ import shuttle.permissions.domain.permissionsDomainModule
 import shuttle.permissions.presentation.permissionsPresentationModule
 import shuttle.predictions.domain.predictionsDomainModule
 import shuttle.predictions.presentation.predictionsPresentationModule
-import shuttle.settings.data.settingsDataModule
+import shuttle.settings.data.SettingsDataModule
 import shuttle.settings.domain.settingsDomainModule
 import shuttle.settings.presentation.settingsPresentationModule
 import shuttle.stats.data.statsDataModule
@@ -37,7 +38,7 @@ val shuttleModule =
         paymentsDataModule + paymentsDomainModule + paymentsPresentationModule +
         permissionsDomainModule + permissionsPresentationModule +
         predictionsDomainModule + predictionsPresentationModule +
-        settingsDataModule + settingsDomainModule + settingsPresentationModule +
+        SettingsDataModule().module + settingsDomainModule + settingsPresentationModule +
         statsDataModule + statsDomainModule +
         utilsAndroidModule + utilsKotlinModule
 

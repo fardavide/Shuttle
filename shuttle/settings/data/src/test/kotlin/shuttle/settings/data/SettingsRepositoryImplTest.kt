@@ -17,7 +17,7 @@ class SettingsRepositoryImplTest {
     private val migratePreferences: MigratePreferences = mockk(relaxUnitFun = true)
     private val settingDataSource: SettingDataSource = mockk()
     private val repository = SettingsRepositoryImpl(
-        dataStore = mockDataStore(),
+        dataStoreProvider = ::mockDataStore,
         migratePreferences = migratePreferences,
         settingDataSource = settingDataSource
     )
@@ -32,6 +32,8 @@ class SettingsRepositoryImplTest {
             iconsSize = Dp(22),
             rowsCount = 23,
             textSize = Sp(24),
+            transparency = 15,
+            useMaterialColors = false,
             verticalSpacing = Dp(25)
         )
         assertNotEquals(settings.allowTwoLines, WidgetSettings.Default.allowTwoLines)

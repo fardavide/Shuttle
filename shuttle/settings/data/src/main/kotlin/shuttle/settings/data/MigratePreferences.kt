@@ -1,13 +1,15 @@
 package shuttle.settings.data
 
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import kotlinx.coroutines.runBlocking
+import org.koin.core.annotation.Factory
 import shuttle.settings.data.model.PrioritizeLocationPreferenceKey
 import shuttle.settings.data.model.UseCurrentLocationOnlyPreferenceKey
 
-internal class MigratePreferences(private val dataStore: DataStore<Preferences>) {
+@Factory
+internal class MigratePreferences(dataStoreProvider: DataStoreProvider) {
+
+    private val dataStore = dataStoreProvider.dataStore()
 
     @Suppress("DEPRECATION") // Deprecated Keys
     operator fun invoke() {

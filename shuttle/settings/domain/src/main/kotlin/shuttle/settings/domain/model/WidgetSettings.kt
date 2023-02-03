@@ -7,6 +7,8 @@ data class WidgetSettings(
     val iconsSize: Dp,
     val rowsCount: Int,
     val textSize: Sp,
+    val transparency: Int,
+    val useMaterialColors: Boolean,
     val verticalSpacing: Dp
 ) {
 
@@ -17,6 +19,7 @@ data class WidgetSettings(
         val IconsSizeRange = 24..56
         val RowsCountRange = 1..5
         val TextSizeRange = 6..18
+        val TransparencyRange = 0..100
         val VerticalSpacingRange = 2..16
 
         val Default = WidgetSettings(
@@ -26,6 +29,8 @@ data class WidgetSettings(
             iconsSize = Dp(48),
             rowsCount = 2,
             textSize = Sp(12),
+            transparency = 70,
+            useMaterialColors = true,
             verticalSpacing = Dp(8)
         )
     }

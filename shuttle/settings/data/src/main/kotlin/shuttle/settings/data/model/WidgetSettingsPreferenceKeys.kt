@@ -11,5 +11,7 @@ internal object WidgetSettingsPreferenceKeys {
     val IconSize = intPreferencesKey("icon size")
     val RowsCount = intPreferencesKey("rows")
     val TextSize = intPreferencesKey("text size")
+    val Transparency = intPreferencesKey("transparency")
+    val UseMaterialColors = booleanPreferencesKey("use material colors")
     val VerticalSpacing = intPreferencesKey("vertical spacing")
 }
