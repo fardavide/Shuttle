@@ -1,6 +1,6 @@
 package shuttle.di
 
-import org.koin.ksp.generated.*
+import org.koin.ksp.generated.module
 import shuttle.accessibility.accessibilityModule
 import shuttle.apps.data.appsDataModule
 import shuttle.apps.domain.appsDomainModule
