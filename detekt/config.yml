@@ -1,5 +1,3 @@
-version: 2
-
 build:
   maxIssues: 0
   excludeCorrectable: false
@@ -10,13 +8,9 @@ build:
   # comments: 1
 
 config:
-  # let the build succeed if there are errors, this is needed since clients can have a rule-set for a newer
-  #  Detekt version
-  validation: false
-  # fail the build if any deprecated properties are used
-  warningsAsErrors: true
-  # when writing own rules with new properties, exclude the property path e.g.: 'my_rule_set,.*>.*>[my_property]'
   excludes: ''
+  validation: true
+  warningsAsErrors: true
 
 processors:
   active: true
@@ -95,7 +89,7 @@ complexity:
   # * __Operators__ `&&`, `||`, `?:` * - __Exceptions__ - `catch`, `use`
   # * __Scope Functions__ - `let`, `run`, `with`, `apply`, and `also` ->
   #   [Reference](https://kotlinlang.org/docs/reference/scope-functions.html)
-  ComplexMethod:
+  CyclomaticComplexMethod:
     active: true
     threshold: 12
     ignoreSingleWhenExpression: false
@@ -399,7 +393,6 @@ formatting:
   ParameterListWrapping:
     active: true
     autoCorrect: true
-    indentSize: 4
   SpacingAroundAngleBrackets:
     active: true
     autoCorrect: true
@@ -579,8 +572,6 @@ potential-bugs:
     active: true
   DoubleMutabilityForCollection:
     active: true
-  DuplicateCaseInWhenExpression:
-    active: true
   ElseCaseInsteadOfExhaustiveWhen:
     active: true
   EqualsAlwaysReturnsTrueOrFalse:
@@ -607,11 +598,11 @@ potential-bugs:
   #     val x = returnsValue()
   # </compliant>
   #
-  # @configuration restrictToAnnotatedMethods - if the rule should check only annotated methods. (default: `true`)
+  # @configuration restrictToConfig - if the rule should check only annotated methods. (default: `true`)
   # @configuration returnValueAnnotations - List of glob patterns to be used as inspection annotation (default: `['*.CheckReturnValue', '*.CheckResult']`)
   IgnoredReturnValue:
     active: true
-    restrictToAnnotatedMethods: true
+    restrictToConfig: true
     returnValueAnnotations: ['*.CheckReturnValue', '*.CheckResult']
   ImplicitDefaultLocale:
     active: true
@@ -641,15 +632,10 @@ potential-bugs:
     # ignoreOnClassesPattern: ''
   MapGetWithNotNullAssertionOperator:
     active: true
-  MissingWhenCase:
-    active: true
-    allowElseExpression: false
   NullableToStringCall:
     active: true
   NullCheckOnMutableProperty:
     active: false
-  RedundantElseInWhen:
-    active: true
   UnconditionalJumpStatementInLoop:
     active: false
   UnnecessaryNotNullCheck:
@@ -716,10 +702,6 @@ style:
   ForbiddenMethodCall:
     active: true
     methods: ['app.cash.sqldelight.Transacter.transaction', 'app.cash.sqldelight.Transacter.transactionWithResult']
-  ForbiddenPublicDataClass:
-    active: false
-    # excludes: ['**']
-    # ignorePackages: ['*.internal, *.internal.*']
   ForbiddenVoid:
     active: true
     ignoreOverridden: false
@@ -730,14 +712,8 @@ style:
   FunctionOnlyReturningConstant:
     active: true
     ignoreOverridableFunction: true
-    excludedFunctions: 'describeContents'
-    excludeAnnotatedFunction: "dagger.Provides"
-  LibraryCodeMustSpecifyReturnType:
-    active: false
-    # excludes: ['**']
-  LibraryEntitiesShouldNotBePublic:
-    active: false
-    # excludes: ['**']
+    excludedFunctions: ['describeContents']
+    ignoreAnnotated: ''
   LoopWithTooManyJumpStatements:
     active: true
     maxJumpCount: 2
@@ -844,7 +820,7 @@ style:
   ReturnCount:
     active: true
     max: 3
-    excludedFunctions: ''
+    excludedFunctions: []
     excludeLabeled: false
     excludeReturnFromLambda: true
     excludeGuardClauses: true
@@ -863,11 +839,11 @@ style:
     active: true
   UnderscoresInNumericLiterals:
     active: true
-    acceptableDecimalLength: 5
+    acceptableLength: 5
   UnnecessaryAbstractClass:
     active: true
     excludes: ['**/gradle/**']
-    excludeAnnotatedClasses: []
+    ignoreAnnotated: []
   UnnecessaryAnnotationUseSiteTarget:
     active: false
   UnnecessaryApply:
