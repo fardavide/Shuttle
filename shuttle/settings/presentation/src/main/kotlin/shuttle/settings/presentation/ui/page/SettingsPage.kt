@@ -37,6 +37,7 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import org.koin.androidx.compose.getViewModel
 import shuttle.design.theme.Dimens
+import shuttle.design.theme.ShuttleTheme
 import shuttle.design.ui.BackIconButton
 import shuttle.design.ui.LoadingSpinner
 import shuttle.design.util.ConsumableLaunchedEffect
@@ -289,7 +290,7 @@ object SettingsPage {
 }
 
 @Composable
-@Preview(showBackground = true)
+@Preview
 fun SettingsContentPreview() {
     val state = SettingsState(
         permissions = SettingsState.Permissions.Granted,
@@ -297,7 +298,7 @@ fun SettingsContentPreview() {
         appVersion = "123",
         openOnboardingEffect = Effect.empty()
     )
-    MaterialTheme {
+    ShuttleTheme {
         SettingsContent(
             state = state,
             actions = SettingsPage.Actions(
@@ -317,9 +318,9 @@ fun SettingsContentPreview() {
 }
 
 @Composable
-@Preview(showBackground = true)
+@Preview
 fun SettingsItemPreview() {
-    MaterialTheme {
+    ShuttleTheme {
         val uiModel = SettingsItemUiModel(
             title = stringResource(id = string.settings_blacklist_title),
             description = stringResource(id = string.settings_blacklist_description)
