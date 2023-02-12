@@ -29,7 +29,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import arrow.core.Option
-import coil.compose.rememberImagePainter
+import coil.compose.rememberAsyncImagePainter
 import kotlinx.collections.immutable.ImmutableList
 import org.koin.androidx.compose.getViewModel
 import shuttle.apps.domain.model.AppId
@@ -115,7 +115,7 @@ private fun FromAppIconPackItem(
     ) {
         if (icon != null) {
             Image(
-                painter = rememberImagePainter(data = icon),
+                painter = rememberAsyncImagePainter(model = icon),
                 contentDescription = stringResource(id = R.string.x_app_icon_description),
                 modifier = Modifier.size(Dimens.Icon.Medium)
             )

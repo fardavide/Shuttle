@@ -23,7 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import coil.compose.rememberImagePainter
+import coil.compose.rememberAsyncImagePainter
 import shuttle.design.model.TextRes
 import shuttle.design.model.stringResource
 import shuttle.design.theme.Dimens
@@ -85,7 +85,7 @@ object CheckableListItem {
         CheckableListItem(
             title = title,
             id = id,
-            icon = rememberImagePainter(data = iconDrawable),
+            icon = rememberAsyncImagePainter(model = iconDrawable),
             contentDescription = contentDescription,
             isChecked = isChecked,
             onCheckChange = onCheckChange
@@ -104,7 +104,7 @@ object CheckableListItem {
         LargeIcon(
             title = title,
             id = id,
-            icon = rememberImagePainter(data = iconDrawable),
+            icon = rememberAsyncImagePainter(model = iconDrawable),
             contentDescription = contentDescription,
             isChecked = isChecked,
             onCheckChange = onCheckChange

@@ -32,7 +32,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import coil.compose.rememberImagePainter
+import coil.compose.rememberAsyncImagePainter
 import kotlinx.collections.immutable.ImmutableList
 import org.koin.androidx.compose.getViewModel
 import shuttle.apps.domain.model.AppId
@@ -106,7 +106,7 @@ private fun AppIconItem(app: AppUiModel, onAppClicked: (AppId) -> Unit) {
             .clickable { onAppClicked(app.id) }
     ) {
         Image(
-            painter = rememberImagePainter(data = app.icon),
+            painter = rememberAsyncImagePainter(model = app.icon),
             contentDescription = stringResource(id = R.string.x_app_icon_description),
             modifier = Modifier.size(Dimens.Icon.Large)
         )

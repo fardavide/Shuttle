@@ -22,7 +22,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.rememberImagePainter
+import coil.compose.rememberAsyncImagePainter
 import shuttle.design.PreviewUtils
 import shuttle.design.model.WidgetLayoutUiModel
 import shuttle.design.model.WidgetPreviewAppUiModel
@@ -83,7 +83,7 @@ private fun AppIconItem(app: WidgetPreviewAppUiModel?, widgetSettings: WidgetLay
     ) {
 
         Image(
-            painter = rememberImagePainter(data = app.icon),
+            painter = rememberAsyncImagePainter(model = app.icon),
             contentDescription = stringResource(id = R.string.x_app_icon_description),
             modifier = Modifier.size(widgetSettings.iconSize)
         )
