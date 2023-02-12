@@ -9,11 +9,7 @@ import shuttle.settings.presentation.ui.component.SwitchItem
 import studio.forface.shuttle.design.R
 
 @Composable
-internal fun WidgetAppsLabelsContent(
-    settings: WidgetLayoutUiModel,
-    onTextSizeUpdated: (Int) -> Unit,
-    onAllowTwoLinesUpdated: (Boolean) -> Unit
-) {
+internal fun WidgetAppsLabelsContent(settings: WidgetLayoutUiModel, actions: WidgetAppsLabelsContent.Actions) {
     LazyColumn {
         item {
             SliderItem(
@@ -21,14 +17,31 @@ internal fun WidgetAppsLabelsContent(
                 valueRange = WidgetSettings.TextSizeRange,
                 stepsSize = 1,
                 value = settings.textSize.value.toInt(),
-                onValueChange = onTextSizeUpdated
+                onValueChange = actions.onTextSizeUpdated
             )
         }
         item {
             SwitchItem(
                 title = R.string.settings_widget_layout_two_lines,
                 value = settings.allowTwoLines,
-                onValueChange = onAllowTwoLinesUpdated
+                onValueChange = actions.onAllowTwoLinesUpdated
+            )
+        }
+    }
+}
+
+internal object WidgetAppsLabelsContent {
+
+    data class Actions(
+        val onTextSizeUpdated: (Int) -> Unit,
+        val onAllowTwoLinesUpdated: (Boolean) -> Unit
+    ) {
+
+        companion object {
+
+            val Empty = Actions(
+                onTextSizeUpdated = {},
+                onAllowTwoLinesUpdated = {}
             )
         }
     }

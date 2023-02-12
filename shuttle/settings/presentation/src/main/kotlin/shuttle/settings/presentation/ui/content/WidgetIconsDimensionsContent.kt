@@ -10,9 +10,7 @@ import studio.forface.shuttle.design.R
 @Composable
 internal fun WidgetIconsDimensionsContent(
     settings: WidgetLayoutUiModel,
-    onIconSizeUpdated: (Int) -> Unit,
-    onHorizontalSpacingUpdated: (Int) -> Unit,
-    onVerticalSpacingUpdated: (Int) -> Unit
+    actions: WidgetIconsDimensionsContent.Actions
 ) {
     LazyColumn {
         item {
@@ -21,7 +19,7 @@ internal fun WidgetIconsDimensionsContent(
                 valueRange = WidgetSettings.IconsSizeRange,
                 stepsSize = 1,
                 value = settings.iconSize.value.toInt(),
-                onValueChange = onIconSizeUpdated
+                onValueChange = actions.onIconSizeUpdated
             )
         }
         item {
@@ -30,7 +28,7 @@ internal fun WidgetIconsDimensionsContent(
                 valueRange = WidgetSettings.HorizontalSpacingRange,
                 stepsSize = 1,
                 value = settings.horizontalSpacing.value.toInt(),
-                onValueChange = onHorizontalSpacingUpdated
+                onValueChange = actions.onHorizontalSpacingUpdated
             )
         }
         item {
@@ -39,7 +37,26 @@ internal fun WidgetIconsDimensionsContent(
                 valueRange = WidgetSettings.VerticalSpacingRange,
                 stepsSize = 1,
                 value = settings.verticalSpacing.value.toInt(),
-                onValueChange = onVerticalSpacingUpdated
+                onValueChange = actions.onVerticalSpacingUpdated
+            )
+        }
+    }
+}
+
+internal object WidgetIconsDimensionsContent {
+
+    data class Actions(
+        val onIconSizeUpdated: (Int) -> Unit,
+        val onHorizontalSpacingUpdated: (Int) -> Unit,
+        val onVerticalSpacingUpdated: (Int) -> Unit
+    ) {
+
+        companion object {
+
+            val Empty = Actions(
+                onIconSizeUpdated = {},
+                onHorizontalSpacingUpdated = {},
+                onVerticalSpacingUpdated = {}
             )
         }
     }

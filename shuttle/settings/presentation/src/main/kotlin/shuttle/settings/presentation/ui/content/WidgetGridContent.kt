@@ -8,11 +8,7 @@ import shuttle.settings.presentation.ui.component.SliderItem
 import studio.forface.shuttle.design.R
 
 @Composable
-internal fun WidgetGridContent(
-    settings: WidgetLayoutUiModel,
-    onRowsUpdated: (Int) -> Unit,
-    onColumnsUpdated: (Int) -> Unit
-) {
+internal fun WidgetGridContent(settings: WidgetLayoutUiModel, actions: WidgetGridContent.Actions) {
     LazyColumn {
         item {
             SliderItem(
@@ -20,7 +16,7 @@ internal fun WidgetGridContent(
                 valueRange = WidgetSettings.RowsCountRange,
                 stepsSize = 1,
                 value = settings.rowsCount,
-                onValueChange = onRowsUpdated
+                onValueChange = actions.onRowsUpdated
             )
         }
         item {
@@ -29,7 +25,24 @@ internal fun WidgetGridContent(
                 valueRange = WidgetSettings.ColumnsCountRange,
                 stepsSize = 1,
                 value = settings.columnsCount,
-                onValueChange = onColumnsUpdated
+                onValueChange = actions.onColumnsUpdated
+            )
+        }
+    }
+}
+
+internal object WidgetGridContent {
+
+    data class Actions(
+        val onRowsUpdated: (Int) -> Unit,
+        val onColumnsUpdated: (Int) -> Unit
+    ) {
+
+        companion object {
+
+            val Empty = Actions(
+                onRowsUpdated = {},
+                onColumnsUpdated = {}
             )
         }
     }

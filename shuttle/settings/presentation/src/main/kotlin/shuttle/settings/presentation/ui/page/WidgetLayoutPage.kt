@@ -74,8 +74,10 @@ private fun WidgetGridRoute(args: Args) = with(args) {
     LaunchedEffect(key1 = 0, block = { titleState.value = WidgetLayout.Grid.title })
     WidgetGridContent(
         settings = state.layout,
-        onRowsUpdated = { viewModel.submit(Action.UpdateRows(it)) },
-        onColumnsUpdated = { viewModel.submit(Action.UpdateColumns(it)) }
+        actions = WidgetGridContent.Actions(
+            onRowsUpdated = { viewModel.submit(Action.UpdateRows(it)) },
+            onColumnsUpdated = { viewModel.submit(Action.UpdateColumns(it)) }
+        )
     )
 }
 
@@ -84,9 +86,11 @@ private fun WidgetIconsDimensionsRoute(args: Args) = with(args) {
     LaunchedEffect(key1 = 0, block = { titleState.value = WidgetLayout.IconsDimensions.title })
     WidgetIconsDimensionsContent(
         settings = state.layout,
-        onIconSizeUpdated = { viewModel.submit(Action.UpdateIconsSize(it)) },
-        onHorizontalSpacingUpdated = { viewModel.submit(Action.UpdateHorizontalSpacing(it)) },
-        onVerticalSpacingUpdated = { viewModel.submit(Action.UpdateVerticalSpacing(it)) }
+        actions = WidgetIconsDimensionsContent.Actions(
+            onIconSizeUpdated = { viewModel.submit(Action.UpdateIconsSize(it)) },
+            onHorizontalSpacingUpdated = { viewModel.submit(Action.UpdateHorizontalSpacing(it)) },
+            onVerticalSpacingUpdated = { viewModel.submit(Action.UpdateVerticalSpacing(it)) }
+        )
     )
 }
 
@@ -95,8 +99,10 @@ private fun WidgetAppsLabelsRoute(args: Args) = with(args) {
     LaunchedEffect(key1 = 0, block = { titleState.value = WidgetLayout.AppsLabels.title })
     WidgetAppsLabelsContent(
         settings = state.layout,
-        onTextSizeUpdated = { viewModel.submit(Action.UpdateTextSize(it)) },
-        onAllowTwoLinesUpdated = { viewModel.submit(Action.UpdateAllowTwoLines(it)) }
+        actions = WidgetAppsLabelsContent.Actions(
+            onTextSizeUpdated = { viewModel.submit(Action.UpdateTextSize(it)) },
+            onAllowTwoLinesUpdated = { viewModel.submit(Action.UpdateAllowTwoLines(it)) }
+        )
     )
 }
 
@@ -105,8 +111,10 @@ private fun WidgetColorsRoute(args: Args) = with(args) {
     LaunchedEffect(key1 = 0, block = { titleState.value = WidgetLayout.Colors.title })
     WidgetColorsContent(
         settings = state.layout,
-        onTransparencyUpdated = { viewModel.submit(Action.UpdateTransparency(it)) },
-        onUseMaterialColorsUpdated = { viewModel.submit(Action.UpdateUseMaterialColors(it)) }
+        actions = WidgetColorsContent.Actions(
+            onTransparencyUpdated = { viewModel.submit(Action.UpdateTransparency(it)) },
+            onUseMaterialColorsUpdated = { viewModel.submit(Action.UpdateUseMaterialColors(it)) }
+        )
     )
 }
 
