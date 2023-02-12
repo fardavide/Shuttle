@@ -11,7 +11,6 @@ internal class AndroidComposeLibraryPlugin : Plugin<Project> {
         with(target.pluginManager) {
             apply<AndroidLibraryPlugin>()
             apply<AndroidComposePlugin>()
-            apply("app.cash.paparazzi")
         }
     }
 }
