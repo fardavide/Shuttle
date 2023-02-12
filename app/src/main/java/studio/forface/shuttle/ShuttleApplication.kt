@@ -2,6 +2,7 @@ package studio.forface.shuttle
 
 import android.app.Application
 import studio.forface.shuttle.startup.KoinStartup
+import studio.forface.shuttle.startup.StrictModeStartup
 import studio.forface.shuttle.startup.SyncStartup
 import studio.forface.shuttle.startup.init
 
@@ -12,7 +13,7 @@ class ShuttleApplication : Application(), ShuttleApplicationContext {
 
     override fun onCreate() {
         super.onCreate()
-        init(KoinStartup, SyncStartup)
+        init(KoinStartup, StrictModeStartup, SyncStartup)
     }
 }
 
