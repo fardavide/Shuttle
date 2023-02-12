@@ -1,0 +1,9 @@
+apply plugin: 'shuttle.kotlin'
+
+dependencies {
+    compileOnly libs.detekt.api
+    compileOnly libs.kotlin.coroutines
+
+    testImplementation libs.bundles.test.kotlin
+    testImplementation libs.detekt.test
+}

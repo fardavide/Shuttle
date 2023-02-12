@@ -2,6 +2,8 @@ rootProject.name = "Shuttle"
 
 includeBuild 'plugins'
 
+include 'detekt:rules'
+
 include 'app',
         'shuttle:accessibility',
         'shuttle:apps:data',
