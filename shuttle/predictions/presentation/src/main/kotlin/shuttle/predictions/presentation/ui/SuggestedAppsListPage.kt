@@ -2,7 +2,6 @@
 
 package shuttle.predictions.presentation.ui
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -23,8 +22,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SmallTopAppBar
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -48,12 +47,10 @@ import studio.forface.shuttle.design.R
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-fun SuggestedAppsListPage(
-    onSettings: () -> Unit
-) {
+fun SuggestedAppsListPage(onSettings: () -> Unit) {
     Scaffold(
         topBar = {
-            SmallTopAppBar(
+            TopAppBar(
                 title = { Text(stringResource(id = R.string.app_name)) },
                 actions = {
                     IconButton(onClick = onSettings) {
@@ -86,11 +83,7 @@ fun SuggestedAppsListContent() {
 }
 
 @Composable
-@OptIn(ExperimentalFoundationApi::class)
-private fun SuggestedAppsList(
-    apps: List<AppUiModel>,
-    onAppClicked: (AppId) -> Unit
-) {
+private fun SuggestedAppsList(apps: List<AppUiModel>, onAppClicked: (AppId) -> Unit) {
     val minCellSize = Dimens.Icon.Large + Dimens.Margin.Large
     LazyVerticalGrid(
         columns = GridCells.Adaptive(minCellSize),
@@ -103,10 +96,7 @@ private fun SuggestedAppsList(
 }
 
 @Composable
-private fun AppIconItem(
-    app: AppUiModel,
-    onAppClicked: (AppId) -> Unit
-) {
+private fun AppIconItem(app: AppUiModel, onAppClicked: (AppId) -> Unit) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier

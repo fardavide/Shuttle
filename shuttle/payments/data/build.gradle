@@ -1,0 +1,17 @@
+apply plugin: 'shuttle.android.library'
+
+moduleDependencies {
+    add 'payments:domain'
+    add 'utils:android'
+    add 'utils:kotlin'
+}
+
+dependencies {
+    implementation libs.android.billing
+    implementation libs.bundles.base
+    implementation libs.klock
+    implementation libs.koin.android
+
+    testImplementation libs.bundles.test.kotlin
+    androidTestImplementation libs.bundles.test.android
+}

@@ -18,19 +18,18 @@ internal class RefreshLocationWorker(
     private val logger: Logger
 ) : CoroutineWorker(appContext, params) {
 
-    override suspend fun doWork(): Result =
-        coordinatesRepository.refreshLocation().fold(
-            ifLeft = { locationError ->
-                logger.w(locationError.toString())
-                when (locationError) {
-                    LocationError.MissingPermissions -> Result.failure()
-                    LocationError.ExpiredLocation,
-                    LocationError.NoCachedLocation,
-                    LocationError.Timeout -> Result.retry()
-                }
-            },
-            ifRight = { Result.success() }
-        )
+    override suspend fun doWork(): Result = coordinatesRepository.refreshLocation().fold(
+        ifLeft = { locationError ->
+            logger.w(locationError.toString())
+            when (locationError) {
+                LocationError.MissingPermissions -> Result.failure()
+                LocationError.ExpiredLocation,
+                LocationError.NoCachedLocation,
+                LocationError.Timeout -> Result.retry()
+            }
+        },
+        ifRight = { Result.success() }
+    )
 
     class Scheduler(
         private val workManager: WorkManager,
@@ -40,7 +39,7 @@ internal class RefreshLocationWorker(
 
         fun schedule() {
             val request = PeriodicWorkRequestBuilder<RefreshLocationWorker>(every.java(), flex.java()).build()
-            workManager.enqueueUniquePeriodicWork(Name, ExistingPeriodicWorkPolicy.REPLACE, request)
+            workManager.enqueueUniquePeriodicWork(Name, ExistingPeriodicWorkPolicy.UPDATE, request)
         }
 
         private fun Duration.java() = java.time.Duration.ofMinutes(inWholeMinutes)

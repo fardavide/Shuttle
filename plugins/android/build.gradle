@@ -1,0 +1,29 @@
+group = "shuttle.plugins.android"
+
+apply plugin: "java-gradle-plugin"
+apply plugin: "org.jetbrains.kotlin.jvm"
+
+gradlePlugin {
+    plugins {
+        composeApp {
+            id = 'shuttle.android.compose.app'
+            implementationClass = 'shuttle.plugins.android.AndroidComposeAppPlugin'
+        }
+        composeLibrary {
+            id = 'shuttle.android.compose.library'
+            implementationClass = 'shuttle.plugins.android.AndroidComposeLibraryPlugin'
+        }
+        library {
+            id = 'shuttle.android.library'
+            implementationClass = 'shuttle.plugins.android.AndroidLibraryPlugin'
+        }
+    }
+}
+
+dependencies {
+
+    implementation project(':common')
+    implementation project(':kotlin')
+    implementation libs.gradle.android
+    implementation libs.gradle.kotlin
+}

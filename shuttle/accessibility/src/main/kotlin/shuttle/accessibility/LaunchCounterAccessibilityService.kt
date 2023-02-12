@@ -14,7 +14,7 @@ import shuttle.apps.domain.model.AppId
 import shuttle.settings.domain.usecase.HasEnabledAccessibilityService
 import shuttle.settings.domain.usecase.SetHasEnabledAccessibilityService
 
-class LaunchCounterAccessibilityService: AccessibilityService() {
+class LaunchCounterAccessibilityService : AccessibilityService() {
 
     private val scope = CoroutineScope(Job() + Dispatchers.Default)
 

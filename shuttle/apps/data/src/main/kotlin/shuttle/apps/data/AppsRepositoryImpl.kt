@@ -86,6 +86,7 @@ class AppsRepositoryImpl(
     @SuppressLint("QueryPermissionsNeeded")
     private suspend fun getAllInstalledAppsFromDevice(): List<AppModel> =
         withContext(ioDispatcher) {
+            @Suppress("DEPRECATION")
             packageManager.queryIntentActivities(buildLauncherCategoryIntent(), PackageManager.GET_META_DATA)
                 .map(::toAppModel)
                 .sortedBy { it.name.value.uppercase() }
@@ -95,6 +96,7 @@ class AppsRepositoryImpl(
     @SuppressLint("QueryPermissionsNeeded")
     private suspend fun getIconPacksFromDevice(): List<AppModel> =
         withContext(ioDispatcher) {
+            @Suppress("DEPRECATION")
             packageManager.queryIntentActivities(Intent(IconPackThemesId), PackageManager.GET_META_DATA)
                 .map(::toAppModel)
                 .sortedBy { it.name.value.uppercase() }

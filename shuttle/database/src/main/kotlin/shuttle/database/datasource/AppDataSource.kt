@@ -19,10 +19,9 @@ interface AppDataSource {
 internal class AppDataSourceImpl(
     private val appQueries: AppQueries,
     private val ioDispatcher: CoroutineDispatcher
-): AppDataSource {
+) : AppDataSource {
 
-    override fun findAllApps(): Flow<List<App>> =
-        appQueries.findAllApps().asFlow().mapToList(ioDispatcher)
+    override fun findAllApps(): Flow<List<App>> = appQueries.findAllApps().asFlow().mapToList(ioDispatcher)
 
     override suspend fun insert(apps: List<App>) {
         appQueries.suspendTransaction(ioDispatcher) {

@@ -1,0 +1,19 @@
+group = "shuttle.plugins.detekt"
+
+apply plugin: "java-gradle-plugin"
+apply plugin: "org.jetbrains.kotlin.jvm"
+
+gradlePlugin {
+    plugins {
+        plugin {
+            id = "shuttle.detekt"
+            implementationClass = "shuttle.plugins.detekt.DetektPlugin"
+        }
+    }
+}
+
+dependencies {
+
+    implementation project(':common')
+    implementation libs.gradle.detekt
+}

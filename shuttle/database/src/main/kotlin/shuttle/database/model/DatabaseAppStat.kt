@@ -7,10 +7,10 @@ sealed interface DatabaseAppStat {
     data class ByLocation(
         override val appId: DatabaseAppId,
         override val count: Int
-    ): DatabaseAppStat
+    ) : DatabaseAppStat
 
     data class ByTime(
         override val appId: DatabaseAppId,
         override val count: Int
-    ): DatabaseAppStat
+    ) : DatabaseAppStat
 }

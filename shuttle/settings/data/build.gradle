@@ -1,0 +1,18 @@
+apply plugin: 'shuttle.android.library'
+
+moduleDependencies {
+    add 'apps:domain'
+    add 'database'
+    add 'settings:domain'
+}
+
+dependencies {
+    ksp libs.koin.ksp
+
+    implementation libs.bundles.base
+    implementation libs.koin.android
+    implementation libs.androidx.dataStore.preferences
+
+    testImplementation libs.bundles.test.kotlin
+    androidTestImplementation libs.bundles.test.android
+}

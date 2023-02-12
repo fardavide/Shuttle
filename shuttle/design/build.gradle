@@ -1,0 +1,21 @@
+apply plugin: 'shuttle.android.compose.library'
+
+moduleDependencies {
+    add 'utils:android'
+    add 'utils:kotlin'
+}
+
+dependencies {
+    ksp libs.ksp.arrow
+
+    implementation libs.androidx.lifecycle.runtime
+    implementation libs.bundles.base
+    implementation libs.bundles.compose
+    implementation libs.navigation.compose
+
+    debugImplementation libs.compose.uiTooling
+
+    testImplementation libs.bundles.test.kotlin
+    androidTestImplementation libs.bundles.test.android
+    androidTestImplementation libs.compose.uiTest
+}

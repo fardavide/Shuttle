@@ -21,7 +21,7 @@ interface SettingDataSource {
 internal class SettingDataSourceImpl(
     private val appBlacklistSettingQueries: AppBlacklistSettingQueries,
     private val ioDispatcher: CoroutineDispatcher
-): SettingDataSource {
+) : SettingDataSource {
 
     override fun findAllAppsWithBlacklistSetting(): Flow<List<DatabaseAppBlacklistSetting>> =
         appBlacklistSettingQueries.findAllAppsWithBlacklistSetting { appId, appName, isBlacklisted ->

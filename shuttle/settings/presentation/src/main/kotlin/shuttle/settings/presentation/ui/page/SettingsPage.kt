@@ -20,9 +20,9 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SmallTopAppBar
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -68,7 +68,7 @@ fun SettingsPage(actions: SettingsPage.Actions) {
             .statusBarsPadding()
             .navigationBarsPadding(),
         topBar = {
-            SmallTopAppBar(
+            TopAppBar(
                 title = { Text(stringResource(id = string.settings_title)) },
                 navigationIcon = { BackIconButton(actions.onBack) }
             )

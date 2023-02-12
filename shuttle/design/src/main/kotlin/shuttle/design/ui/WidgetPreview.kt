@@ -71,10 +71,7 @@ fun WidgetPreview(model: WidgetPreviewUiModel) {
 }
 
 @Composable
-private fun AppIconItem(
-    app: WidgetPreviewAppUiModel?,
-    widgetSettings: WidgetLayoutUiModel
-) {
+private fun AppIconItem(app: WidgetPreviewAppUiModel?, widgetSettings: WidgetLayoutUiModel) {
     app ?: return
 
     Column(

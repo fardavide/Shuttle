@@ -26,7 +26,7 @@ internal class StatsRepositoryImpl(
     private val databaseDateAndTimeMapper: DatabaseDateAndTimeMapper,
     private val deleteOldStatsScheduler: DeleteOldStatsWorker.Scheduler,
     private val statDataSource: StatDataSource,
-    private val sortAppStats: SortAppStats,
+    private val sortAppStats: SortAppStats
 ) : StatsRepository {
 
     override suspend fun deleteCountersFor(appId: AppId) {
@@ -38,8 +38,7 @@ internal class StatsRepositoryImpl(
         date: Date,
         startTime: Time,
         endTime: Time
-    ): Flow<List<SuggestedAppModel>> =
-        combine(
+    ): Flow<List<SuggestedAppModel>> = combine(
             appsRepository.observeNotBlacklistedApps(),
             statDataSource.findAllStats().mapLatest { stats ->
                 val databaseGeoHash = location.toEither { LocationNotAvailable }.map { it.toDatabaseGeoHash() }
@@ -71,7 +70,12 @@ internal class StatsRepositoryImpl(
         deleteOldStatsScheduler.schedule()
     }
 
-    override suspend fun storeOpenStats(appId: AppId, location: Option<GeoHash>, time: Time, date: Date) {
+    override suspend fun storeOpenStats(
+        appId: AppId,
+        location: Option<GeoHash>,
+        time: Time,
+        date: Date
+    ) {
         val (databaseDate, databaseTime) = databaseDateAndTimeMapper.toDatabaseDateAndTime(dateTime = date + time)
         statDataSource.insertOpenStats(
             appId = appId.toDatabaseAppId(),

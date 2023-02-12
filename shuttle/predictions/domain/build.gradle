@@ -1,0 +1,14 @@
+apply plugin: 'shuttle.kotlin'
+
+moduleDependencies {
+    add 'apps:domain'
+    add 'coordinates:domain'
+    add 'stats:domain'
+}
+
+dependencies {
+    implementation libs.bundles.base
+    implementation libs.klock
+
+    testImplementation libs.bundles.test.kotlin
+}

@@ -38,7 +38,7 @@ interface StatDataSource {
 internal class StatDataSourceImpl(
     private val statQueries: StatQueries,
     private val ioDispatcher: CoroutineDispatcher
-): StatDataSource {
+) : StatDataSource {
 
     override suspend fun clearAllStatsOlderThan(date: DatabaseDate) {
         statQueries.clearAllStatsOlderThan(date)
@@ -50,8 +50,7 @@ internal class StatDataSourceImpl(
         }
     }
 
-    override fun findAllStats(): Flow<List<Stat>> =
-        statQueries.findAllStats().asFlow().mapToList(ioDispatcher)
+    override fun findAllStats(): Flow<List<Stat>> = statQueries.findAllStats().asFlow().mapToList(ioDispatcher)
 
     override fun findAllStats(
         geoHash: Option<DatabaseGeoHash>,
@@ -65,7 +64,7 @@ internal class StatDataSourceImpl(
                     startTime = startTime,
                     endTime = endTime
                 )
-            }else {
+            } else {
                 statQueries.findAllStatsByGeoHashAndTime(
                     geoHash = geoHashValue,
                     startTime = startTime,

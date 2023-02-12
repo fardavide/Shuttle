@@ -1,0 +1,10 @@
+apply plugin: 'shuttle.android.library'
+
+moduleDependencies {
+    add 'apps:domain'
+}
+
+dependencies {
+    implementation libs.bundles.base
+    testImplementation libs.bundles.test.kotlin
+}

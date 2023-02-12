@@ -1,0 +1,22 @@
+apply plugin: 'shuttle.android.library'
+
+moduleDependencies {
+    add 'apps:domain'
+    add 'coordinates:domain'
+    add 'database'
+    add 'settings:domain'
+    add 'stats:domain'
+    add 'utils:kotlin'
+    add 'utils:kotlin'
+}
+
+dependencies {
+    implementation libs.androidx.workManager
+    implementation libs.bundles.base
+    implementation libs.koin.android
+    implementation libs.koin.android.workManager
+    implementation libs.klock
+
+    testImplementation libs.bundles.test.kotlin
+    androidTestImplementation libs.bundles.test.android
+}

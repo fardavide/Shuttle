@@ -21,6 +21,7 @@ internal class ShuttleLocationClient(
     private val fusedLocationClient: FusedLocationProviderClient
 ) {
 
+    @Suppress("DEPRECATION")
     @SuppressLint("MissingPermission")
     suspend fun getCurrentLocation(): Either<LocationError, Location> =
         fusedLocationClient.getCurrentLocation(

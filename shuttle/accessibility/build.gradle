@@ -1,0 +1,21 @@
+apply plugin: 'shuttle.android.library'
+
+moduleDependencies {
+
+    add 'apps:domain'
+    add 'coordinates:domain'
+    add 'predictions:presentation'
+    add 'settings:domain'
+    add 'stats:domain'
+}
+
+dependencies {
+
+    implementation libs.bundles.base
+
+    implementation libs.androidx.glance
+    implementation libs.koin.android
+
+    testImplementation libs.bundles.test.kotlin
+    androidTestImplementation libs.bundles.test.android
+}

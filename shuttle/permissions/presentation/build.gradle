@@ -1,0 +1,22 @@
+apply plugin: 'shuttle.android.compose.library'
+
+moduleDependencies {
+    add 'accessibility'
+    add 'design'
+    add 'permissions:domain'
+    add 'utils:android'
+}
+
+dependencies {
+    implementation libs.accompanist.permissions
+    implementation libs.androidx.lifecycle.viewModel
+    implementation libs.bundles.base
+    implementation libs.bundles.compose
+    implementation libs.koin.android
+
+    debugImplementation libs.compose.uiTooling
+
+    testImplementation libs.bundles.test.kotlin
+    androidTestImplementation libs.bundles.test.android
+    androidTestImplementation libs.compose.uiTest
+}

@@ -44,6 +44,6 @@ class StartStoreIfNotBlacklistAndUpdateWidget(
     private sealed interface CoordinatesState {
 
         object NotReady : CoordinatesState
-        data class Ready(val coordinatesResult: CoordinatesResult): CoordinatesState
+        data class Ready(val coordinatesResult: CoordinatesResult) : CoordinatesState
     }
 }

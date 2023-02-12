@@ -1,0 +1,21 @@
+apply plugin: 'shuttle.android.compose.library'
+
+moduleDependencies {
+    add 'apps:domain'
+    add 'design'
+    add 'icons:domain'
+    add 'utils:android'
+}
+
+dependencies {
+    implementation libs.androidx.lifecycle.viewModel
+    implementation libs.bundles.base
+    implementation libs.bundles.compose
+    implementation libs.koin.android
+
+    debugImplementation libs.compose.uiTooling
+
+    testImplementation libs.bundles.test.kotlin
+    androidTestImplementation libs.bundles.test.android
+    androidTestImplementation libs.compose.uiTest
+}

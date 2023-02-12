@@ -1,0 +1,18 @@
+group = "shuttle.plugins.modules-catalog"
+
+apply plugin: "java-gradle-plugin"
+apply plugin: "org.jetbrains.kotlin.jvm"
+
+gradlePlugin {
+    plugins {
+        plugin {
+            id = "shuttle.modules-catalog"
+            implementationClass = "shuttle.plugins.modulescatalog.ModulesCatalogPlugin"
+        }
+    }
+}
+
+dependencies {
+
+    implementation project(':common')
+}

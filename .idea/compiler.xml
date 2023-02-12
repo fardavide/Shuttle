@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <bytecodeTargetLevel target="17" />
+    <bytecodeTargetLevel target="11">
+      <module name="Shuttle_plugins.common" target="17" />
+      <module name="Shuttle_plugins.common.main" target="17" />
+      <module name="Shuttle_plugins.common.test" target="17" />
+      <module name="Shuttle_plugins.detekt" target="17" />
+      <module name="Shuttle_plugins.detekt.main" target="17" />
+      <module name="Shuttle_plugins.detekt.test" target="17" />
+      <module name="Shuttle_plugins.kotlin" target="17" />
+      <module name="Shuttle_plugins.kotlin.main" target="17" />
+      <module name="Shuttle_plugins.kotlin.test" target="17" />
+    </bytecodeTargetLevel>
   </component>
 </project>

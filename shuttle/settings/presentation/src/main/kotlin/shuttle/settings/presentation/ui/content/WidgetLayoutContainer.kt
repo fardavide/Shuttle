@@ -91,7 +91,7 @@ private fun TopBar(@StringRes title: Int, onBack: () -> Unit, draggableState: Dr
         TopAppBar(
             title = { Text(stringResource(id = title)) },
             navigationIcon = { BackIconButton(onBack) },
-            colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color.Transparent),
+            colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent),
             windowInsets = WindowInsets(0, 0, 0, 0)
         )
     }

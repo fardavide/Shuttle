@@ -22,15 +22,16 @@ val appModule = module {
     single { Logger(LoggerConfig.default) }
     factory<PackageManager> { get<Context>().packageManager }
     factory { get<Context>().resources }
-    factory(StartAppQualifier) { { startMainActivity() } }
+    factory(StartAppQualifier) { startMainActivity }
     factory { WorkManager.getInstance(get()) }
 
 } + shuttleModule
 
 context (Scope)
-private fun Scope.startMainActivity() {
-    val context: Context = get()
-    val intent = Intent(context, MainActivity::class.java)
-        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-    context.startActivity(intent)
-}
+private val Scope.startMainActivity: () -> Unit
+    get() = {
+        val context: Context = get()
+        val intent = Intent(context, MainActivity::class.java)
+            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        context.startActivity(intent)
+    }

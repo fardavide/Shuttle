@@ -1,0 +1,25 @@
+buildscript {
+    apply from: rootProject.file('gradle/repositories.gradle'), to: buildscript
+
+    dependencies {
+        classpath libs.gradle.android
+        classpath libs.gradle.crashlytics
+        classpath libs.gradle.gms
+        classpath libs.gradle.kotlin
+        classpath libs.gradle.ksp
+        classpath libs.gradle.shuttle.android
+        classpath libs.gradle.shuttle.detekt
+        classpath libs.gradle.shuttle.modulesCatalog
+        classpath libs.gradle.sqlDelight
+    }
+}
+
+allprojects {
+    apply from: rootProject.file('gradle/repositories.gradle')
+    apply plugin: 'shuttle.detekt'
+    apply plugin: 'shuttle.modules-catalog'
+}
+
+subprojects {
+    apply plugin: 'com.google.devtools.ksp'
+}
