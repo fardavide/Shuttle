@@ -49,7 +49,7 @@ internal fun WidgetLayoutContainer(
     content: @Composable () -> Unit
 ) {
     val density = LocalDensity.current
-    var previewHeight by remember { mutableStateOf(Dimens.Component.XXXLarge) }
+    var previewHeight by remember { mutableStateOf(Dimens.WidgetLayoutPreviewHeight) }
     val draggableState = rememberDraggableState { pixelsDelta ->
         val dpDelta = with(density) { pixelsDelta.toDp() }
         previewHeight += dpDelta

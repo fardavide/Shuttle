@@ -4,6 +4,8 @@ import androidx.compose.ui.unit.dp
 
 object Dimens {
 
+    val WidgetLayoutPreviewHeight get() = 350.dp
+
     object Icon {
 
         val Small = 24.dp
