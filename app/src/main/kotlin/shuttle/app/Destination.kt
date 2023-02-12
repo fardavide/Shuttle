@@ -1,4 +1,4 @@
-package studio.forface.shuttle
+package shuttle.app
 
 import shuttle.design.Destination
 

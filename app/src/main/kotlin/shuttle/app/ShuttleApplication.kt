@@ -1,10 +1,10 @@
-package studio.forface.shuttle
+package shuttle.app
 
 import android.app.Application
-import studio.forface.shuttle.startup.KoinStartup
-import studio.forface.shuttle.startup.StrictModeStartup
-import studio.forface.shuttle.startup.SyncStartup
-import studio.forface.shuttle.startup.init
+import shuttle.app.startup.KoinStartup
+import shuttle.app.startup.StrictModeStartup
+import shuttle.app.startup.SyncStartup
+import shuttle.app.startup.init
 
 class ShuttleApplication : Application(), ShuttleApplicationContext {
 

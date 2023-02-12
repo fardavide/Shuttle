@@ -20,7 +20,7 @@
     </queries>
 
     <application
-        android:name=".ShuttleApplication"
+        android:name="shuttle.app.ShuttleApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
@@ -67,7 +67,7 @@
 
         <!-- Main Activity -->
         <activity
-            android:name=".MainActivity"
+            android:name="shuttle.app.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.Shuttle">
             <intent-filter>

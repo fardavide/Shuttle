@@ -1,11 +1,11 @@
-package studio.forface.shuttle.startup
+package shuttle.app.startup
 
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.androidx.workmanager.koin.workManagerFactory
 import org.koin.core.context.GlobalContext.startKoin
-import studio.forface.shuttle.ShuttleApplicationContext
-import studio.forface.shuttle.appModule
+import shuttle.app.ShuttleApplicationContext
+import shuttle.app.appModule
 
 object KoinStartup : Startup {
 

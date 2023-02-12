@@ -1,4 +1,4 @@
-package studio.forface.shuttle.startup
+package shuttle.app.startup
 
 import android.os.StrictMode
 import studio.forface.shuttle.BuildConfig

@@ -1,6 +1,6 @@
-package studio.forface.shuttle.startup
+package shuttle.app.startup
 
-import studio.forface.shuttle.ShuttleApplicationContext
+import shuttle.app.ShuttleApplicationContext
 
 /**
  * Initialize a list of [Startup]s

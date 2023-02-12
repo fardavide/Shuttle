@@ -2,5 +2,5 @@
     android:description="@string/launch_counter_service_description"
     android:accessibilityEventTypes="typeWindowStateChanged"
     android:notificationTimeout="500"
-    android:settingsActivity="studio.forface.shuttle.MainActivity"
+    android:settingsActivity="shuttle.app.MainActivity"
     />

@@ -1,4 +1,4 @@
-package studio.forface.shuttle
+package shuttle.app
 
 import android.content.Context
 import android.content.Intent
@@ -14,6 +14,7 @@ import org.koin.dsl.module
 import shuttle.accessibility.StartAppQualifier
 import shuttle.di.AppVersionQualifier
 import shuttle.di.shuttleModule
+import studio.forface.shuttle.BuildConfig
 
 val appModule = module {
 
