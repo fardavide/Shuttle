@@ -7,6 +7,7 @@ import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.runAndroidComposeUiTest
 import studio.forface.shuttle.MainActivity
 
-fun runComposeAppTest(block: ComposeAppTest.() -> Unit) = runAndroidComposeUiTest(block)
+@OptIn(ExperimentalTestApi::class)
+fun runComposeAppTest(block: ComposeAppTest.() -> Unit) = runAndroidComposeUiTest(block = block)
 
 typealias ComposeAppTest = AndroidComposeUiTest<MainActivity>
