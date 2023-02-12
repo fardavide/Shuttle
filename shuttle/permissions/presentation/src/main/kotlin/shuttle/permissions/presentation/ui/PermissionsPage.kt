@@ -38,7 +38,6 @@ import shuttle.permissions.domain.model.foregroundPermissionsList
 import shuttle.permissions.presentation.model.PermissionItem
 import shuttle.permissions.presentation.model.PermissionItemsUiModel
 import shuttle.permissions.presentation.util.openAccessibilitySettings
-import shuttle.permissions.presentation.util.openLocationPermissionsOrAppSettings
 import shuttle.permissions.presentation.viewmodel.PermissionsViewModel
 import shuttle.permissions.presentation.viewmodel.PermissionsViewModel.Action
 import shuttle.permissions.presentation.viewmodel.PermissionsViewModel.State
@@ -59,11 +58,13 @@ fun PermissionsPage(toSettings: () -> Unit) {
     var shouldShowAccessibilityServiceDialog by remember { mutableStateOf(false) }
     if (shouldShowAccessibilityServiceDialog) {
         AccessibilityServiceDialog(
-            onConfirm = {
-                openAccessibilitySettings(context)
-                shouldShowAccessibilityServiceDialog = false
-            },
-            onDismiss = { shouldShowAccessibilityServiceDialog = false }
+            AccessibilityServiceDialog.Actions(
+                onConfirm = {
+                    openAccessibilitySettings(context)
+                    shouldShowAccessibilityServiceDialog = false
+                },
+                onDismiss = { shouldShowAccessibilityServiceDialog = false }
+            )
         )
     }
 
@@ -72,11 +73,15 @@ fun PermissionsPage(toSettings: () -> Unit) {
         State.AllGranted -> LaunchedEffect(state) {
             toSettings()
         }
+
         is State.Pending -> PermissionsPageContent(
             permissions = state.permissionItemsUiModel,
-            onRequestLocation = foregroundLocationPermissionsState::launchMultiplePermissionRequest,
-            onRequestAccessibilityService = { shouldShowAccessibilityServiceDialog = true },
-            toSettings = toSettings
+            actions = PermissionsPage.Actions(
+                onRequestLocation = foregroundLocationPermissionsState::launchMultiplePermissionRequest,
+                onRequestBackgroundLocation = backgroundLocationPermissionsState::launchMultiplePermissionRequest,
+                onRequestAccessibilityService = { shouldShowAccessibilityServiceDialog = true },
+                toSettings = toSettings
+            )
         )
     }
 }
@@ -85,25 +90,23 @@ fun PermissionsPage(toSettings: () -> Unit) {
 @OptIn(ExperimentalMaterial3Api::class)
 private fun PermissionsPageContent(
     permissions: PermissionItemsUiModel,
-    onRequestLocation: () -> Unit,
-    onRequestAccessibilityService: () -> Unit,
-    toSettings: () -> Unit,
+    actions: PermissionsPage.Actions,
     modifier: Modifier = Modifier
 ) {
-    val context = LocalContext.current
-
     Scaffold(
-        modifier = modifier.testTag(PermissionsPage.TEST_TAG).statusBarsPadding().navigationBarsPadding(),
+        modifier = modifier
+            .testTag(PermissionsPage.TEST_TAG)
+            .statusBarsPadding()
+            .navigationBarsPadding(),
         topBar = { TopAppBar(title = { Text(text = stringResource(id = R.string.permissions_title)) }) }
     ) { paddingValues ->
         val scrollState = rememberScrollState()
-        Column(modifier = Modifier.padding(paddingValues).verticalScroll(scrollState)) {
-            PermissionsList(
-                permissions = permissions,
-                onRequestLocation = onRequestLocation,
-                onRequestBackgroundLocation = { openLocationPermissionsOrAppSettings(context) },
-                onRequestAccessibilityService = onRequestAccessibilityService
-            )
+        Column(
+            modifier = Modifier
+                .padding(paddingValues)
+                .verticalScroll(scrollState)
+        ) {
+            PermissionsList(permissions, actions)
             Row(
                 verticalAlignment = Alignment.Bottom,
                 horizontalArrangement = Arrangement.End,
@@ -111,7 +114,7 @@ private fun PermissionsPageContent(
                     .fillMaxSize()
                     .padding(Dimens.Margin.Large)
             ) {
-                Button(onClick = toSettings) {
+                Button(onClick = actions.toSettings) {
                     Text(text = stringResource(id = R.string.permissions_skip_permissions_action))
                 }
             }
@@ -120,28 +123,23 @@ private fun PermissionsPageContent(
 }
 
 @Composable
-private fun PermissionsList(
-    permissions: PermissionItemsUiModel,
-    onRequestLocation: () -> Unit,
-    onRequestBackgroundLocation: () -> Unit,
-    onRequestAccessibilityService: () -> Unit
-) {
+private fun PermissionsList(permissions: PermissionItemsUiModel, actions: PermissionsPage.Actions) {
     Column {
         PermissionItem(
             permissionItem = permissions.coarseLocation,
-            onRequestPermission = onRequestLocation
+            onRequestPermission = actions.onRequestLocation
         )
         PermissionItem(
             permissionItem = permissions.fineLocation,
-            onRequestPermission = onRequestLocation
+            onRequestPermission = actions.onRequestLocation
         )
         PermissionItem(
             permissionItem = permissions.backgroundLocation,
-            onRequestPermission = onRequestBackgroundLocation
+            onRequestPermission = actions.onRequestBackgroundLocation
         )
         PermissionItem(
             permissionItem = permissions.accessibilityService,
-            onRequestPermission = onRequestAccessibilityService
+            onRequestPermission = actions.onRequestAccessibilityService
         )
     }
 }
@@ -149,6 +147,24 @@ private fun PermissionsList(
 object PermissionsPage {
 
     const val TEST_TAG = "PermissionsPage"
+
+    data class Actions(
+        val onRequestLocation: () -> Unit,
+        val onRequestBackgroundLocation: () -> Unit,
+        val onRequestAccessibilityService: () -> Unit,
+        val toSettings: () -> Unit
+    ) {
+
+        companion object {
+
+            val Empty = Actions(
+                onRequestLocation = {},
+                onRequestBackgroundLocation = {},
+                onRequestAccessibilityService = {},
+                toSettings = {}
+            )
+        }
+    }
 }
 
 @Composable
@@ -163,9 +179,7 @@ private fun PermissionsPageContentPreview() {
     ShuttleTheme {
         PermissionsPageContent(
             permissions = permissionItemsUiModel,
-            onRequestLocation = {},
-            onRequestAccessibilityService = {},
-            toSettings = {}
+            actions = PermissionsPage.Actions.Empty
         )
     }
 }

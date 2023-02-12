@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ElevatedCard
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -19,17 +18,16 @@ import shuttle.design.theme.ShuttleTheme
 import studio.forface.shuttle.design.R
 
 @Composable
-@OptIn(ExperimentalMaterial3Api::class)
-internal fun AccessibilityServiceDialog(onConfirm: () -> Unit, onDismiss: () -> Unit) {
-    Dialog(onDismissRequest = onDismiss) {
+internal fun AccessibilityServiceDialog(actions: AccessibilityServiceDialog.Actions) {
+    Dialog(onDismissRequest = actions.onDismiss) {
         ElevatedCard {
             Column(modifier = Modifier.padding(Dimens.Margin.Medium)) {
                 Text(text = stringResource(id = R.string.permissions_accessibility_dialog_disclosure))
                 Row(horizontalArrangement = Arrangement.End, modifier = Modifier.fillMaxWidth()) {
-                    TextButton(onClick = onDismiss) {
+                    TextButton(onClick = actions.onDismiss) {
                         Text(text = stringResource(id = R.string.permissions_accessibility_dialog_cancel_action))
                     }
-                    TextButton(onClick = onConfirm) {
+                    TextButton(onClick = actions.onConfirm) {
                         Text(text = stringResource(id = R.string.permissions_accessibility_dialog_confirm_action))
                     }
                 }
@@ -38,10 +36,22 @@ internal fun AccessibilityServiceDialog(onConfirm: () -> Unit, onDismiss: () -> 
     }
 }
 
+object AccessibilityServiceDialog {
+
+    data class Actions(
+        val onConfirm: () -> Unit,
+        val onDismiss: () -> Unit
+    ) {
+        companion object {
+            val Empty = Actions(onConfirm = {}, onDismiss = {})
+        }
+    }
+}
+
 @Composable
 @Preview(showBackground = true)
 private fun AccessibilityServiceDialogPreview() {
     ShuttleTheme {
-        AccessibilityServiceDialog(onConfirm = {}, onDismiss = {})
+        AccessibilityServiceDialog(AccessibilityServiceDialog.Actions.Empty)
     }
 }

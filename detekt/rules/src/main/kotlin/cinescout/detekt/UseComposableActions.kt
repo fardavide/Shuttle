@@ -59,10 +59,8 @@ class UseComposableActions : Rule() {
         }
     }
 
-    private fun isLambda(parameter: KtParameter) =
-        ") -> " in parameter.text
-    private fun isNotComposableLambda(parameter: KtParameter) =
-        isLambda(parameter) && "@Composable" !in parameter.text
+    private fun isLambda(parameter: KtParameter) = ") -> " in parameter.text
+    private fun isNotComposableLambda(parameter: KtParameter) = isLambda(parameter) && "@Composable" !in parameter.text
 
     private companion object {
 

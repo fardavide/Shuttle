@@ -76,9 +76,12 @@ private fun BlacklistSettingsContent() {
         is State.Data -> Column {
             SearchBar(onSearch = { viewModel.submit(Action.Search(it)) })
             BlacklistItemsList(
-                state.apps,
-                onAddToBlacklist = { viewModel.submit(Action.AddToBlacklist(it)) }
-            ) { viewModel.submit(Action.RemoveFromBlacklist(it)) }
+                apps = state.apps,
+                actions = AppListItem.Actions(
+                    onAddToBlacklist = { viewModel.submit(Action.AddToBlacklist(it)) },
+                    onRemoveFromBlacklist = { viewModel.submit(Action.RemoveFromBlacklist(it)) }
+                )
+            )
         }
         is State.Error -> TextError(text = state.message)
     }
@@ -108,31 +111,19 @@ private fun SearchBar(onSearch: (String) -> Unit) {
 }
 
 @Composable
-private fun BlacklistItemsList(
-    apps: ImmutableList<AppBlacklistSettingUiModel>,
-    onAddToBlacklist: (AppId) -> Unit,
-    onRemoveFromBlacklist: (AppId) -> Unit
-) {
+private fun BlacklistItemsList(apps: ImmutableList<AppBlacklistSettingUiModel>, actions: AppListItem.Actions) {
     LazyColumn(contentPadding = PaddingValues(Dimens.Margin.Small)) {
-        items(apps) {
-            AppListItem(
-                app = it,
-                onAddToBlacklist = onAddToBlacklist,
-                onRemoveFromBlacklist = onRemoveFromBlacklist
-            )
+        items(apps) { model ->
+            AppListItem(model, actions)
         }
     }
 }
 
 @Composable
-private fun AppListItem(
-    app: AppBlacklistSettingUiModel,
-    onAddToBlacklist: (AppId) -> Unit,
-    onRemoveFromBlacklist: (AppId) -> Unit
-) {
+private fun AppListItem(app: AppBlacklistSettingUiModel, actions: AppListItem.Actions) {
     val onCheckChange = { isChecked: Boolean ->
-        if (isChecked) onAddToBlacklist(app.id)
-        else onRemoveFromBlacklist(app.id)
+        if (isChecked) actions.onAddToBlacklist(app.id)
+        else actions.onRemoveFromBlacklist(app.id)
     }
     CheckableListItem.LargeIcon(
         id = app.id,
@@ -142,6 +133,19 @@ private fun AppListItem(
         isChecked = app.isBlacklisted,
         onCheckChange = onCheckChange
     )
+}
+
+private object AppListItem {
+    
+    data class Actions(
+        val onAddToBlacklist: (AppId) -> Unit,
+        val onRemoveFromBlacklist: (AppId) -> Unit
+    ) {
+
+        companion object {
+            val Empty = Actions(onAddToBlacklist = {}, onRemoveFromBlacklist = {})
+        }
+    }
 }
 
 @Composable
@@ -154,6 +158,6 @@ private fun AppListItemPreview() {
         isBlacklisted = true
     )
     ShuttleTheme {
-        AppListItem(app = app, onAddToBlacklist = {}, onRemoveFromBlacklist = {})
+        AppListItem(app, AppListItem.Actions.Empty)
     }
 }
