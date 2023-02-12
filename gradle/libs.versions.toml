@@ -16,7 +16,7 @@ constraintLayout = "1.0.1"
 crashlytics = "2.9.4"
 dataStore = "1.0.0"
 detekt = "1.22.0"
-detektTwitterCompose = "0.0.26"
+detektRulesCompose = "0.1.1"
 firebase = "31.2.1"
 geohash = "1.4.0"
 glance = "1.0.0-SNAPSHOT"
@@ -86,7 +86,7 @@ compose-uiToolingPreview = { module = "androidx.compose.ui:ui-tooling-preview", 
 
 detekt-api = { module = "io.gitlab.arturbosch.detekt:detekt-api", version.ref = "detekt" }
 detekt-rules-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
-detekt-rules-twitter-compose = { module = "com.twitter.compose.rules:detekt", version.ref = "detektTwitterCompose" }
+detekt-rules-compose = { module = "io.nlopez.compose.rules:detekt", version.ref = "detektRulesCompose" }
 detekt-test = { module = "io.gitlab.arturbosch.detekt:detekt-test", version.ref = "detekt" }
 
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebase" }

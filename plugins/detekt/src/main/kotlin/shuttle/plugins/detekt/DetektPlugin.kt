@@ -22,7 +22,7 @@ internal class DetektPlugin : Plugin<Project> {
 
         val catalog = target.libsCatalog
         target.dependencies.apply {
-            addDetektPlugin(catalog, plugin = "detekt-rules-twitter-compose")
+            addDetektPlugin(catalog, plugin = "detekt-rules-compose")
             addDetektPlugin(catalog, plugin = "detekt-rules-formatting")
             addDetektPlugin(target.rootProject.project(":detekt:rules"))
         }

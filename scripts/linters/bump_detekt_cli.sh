@@ -21,16 +21,16 @@ DETEKT_BIN_DIR="$ROOT_DIR/detekt/bin"
 main() {
   force_bump="$1"
 
-  local new_detekt_version new_detekt_twitter_compose_version
+  local new_detekt_version new_detekt_compose_version
   new_detekt_version=$(extract_version_from_catalog "detekt")
-  new_detekt_twitter_compose_version=$(extract_version_from_catalog "detektRulesCompose")
+  new_detekt_compose_version=$(extract_version_from_catalog "detektRulesCompose")
 
   local pids=()
   bump_detekt_cli "$new_detekt_version" &
   pids+=($!)
   bump_detekt_formatting "$new_detekt_version" &
   pids+=($!)
-  bump_detekt_twitter_compose "$new_detekt_twitter_compose_version" &
+  bump_detekt_compose "$new_detekt_compose_version" &
   pids+=($!)
   bump_local_jars &
   pids+=($!)
@@ -59,11 +59,11 @@ bump_detekt_formatting() {
     "https://github.com/detekt/detekt/releases/download/v$version/detekt-formatting-$version.jar"
 }
 
-bump_detekt_twitter_compose() {
+bump_detekt_compose() {
   local version=$1
-  bump_detekt_jar "detekt_twitter_compose" \
+  bump_detekt_jar "detekt_compose" \
     "$version" \
-    "https://github.com/twitter/compose-rules/releases/download/v$version/detekt-twitter-compose-$version-all.jar"
+    "https://github.com/mrmans0n/compose-rules/releases/download/v$version/detekt-compose-$version-all.jar"
 }
 
 bump_detekt_jar() {

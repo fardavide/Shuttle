@@ -925,12 +925,8 @@ style:
     active: true
     excludeImports: []
 
-TwitterCompose:
+Compose:
   CompositionLocalAllowlist:
-    active: true
-    # You can optionally define a list of CompositionLocals that are allowed here
-    # allowedCompositionLocals: LocalSomething,LocalSomethingElse
-  CompositionLocalNaming:
     active: true
   ContentEmitterReturningValues:
     active: true
