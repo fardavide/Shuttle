@@ -43,6 +43,7 @@ captures/
 .idea/deploymentTargetDropDown.xml
 .idea/dictionaries
 .idea/gradle.xml
+.idea/kotlinc.xml
 .idea/kotlinScripting.xml
 .idea/libraries
 .idea/misc.xml
