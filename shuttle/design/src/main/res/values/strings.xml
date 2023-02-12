@@ -4,7 +4,6 @@
     <!-- region Common -->
     <string name="x_app_icon_description">App icon</string>
     <string name="x_back_button_description">Back</string>
-    <string name="x_coming_soon">Coming soon!</string>
     <string name="x_generic_error">Something wrong happened!</string>
 
     <string name="navigable_item_go_to">Go to %s</string>
@@ -12,7 +11,6 @@
 
     <!-- region App -->
     <string name="app_name" translatable="false">Shuttle</string>
-    <string name="launch_counter_service_label">App counter service</string>
     <string name="launch_counter_service_description">This service will count how many time an app has been launched on the device</string>
     <!-- endregion -->
 
@@ -41,7 +39,6 @@
     <string name="permissions_accessibility_name">Accessibility service</string>
     <string name="permissions_accessibility_description">Shuttle needs access to the Accessibility Service, in order to improve the suggestions.\nBy enabling it you consent Shuttle to detect app launching and store it to the local database</string>
     <string name="permissions_accessibility_action">Enable accessibility service</string>
-    <string name="permissions_accessibility_granted_description">Accessibility service is enabled</string>
     <string name="permissions_accessibility_not_granted_description">Accessibility service is not enabled</string>
     <string name="permissions_accessibility_dialog_disclosure">Shuttle needs access to the Accessibility Service, in order to improve the suggestions.\nBy enabling it you consent Shuttle to detect app launching and store it to the local database\n\nIn the accessibility management screen (or in \"Installed services\" in some devices) find \'Shuttle\' and enable it. Shortcut is not necessary</string>
     <string name="permissions_accessibility_dialog_confirm_action">Confirm</string>
@@ -50,7 +47,6 @@
     <string name="permissions_location_action">Allow location permissions</string>
     <string name="permissions_location_coarse_name">Location permissions</string>
     <string name="permissions_location_coarse_description">Shuttle needs access to Location, in order to show suggested apps, based on your current location.\nBy allowing the permission you consent Shuttle to store a Geo Hash of your current position and store it to the local database</string>
-    <string name="permissions_location_coarse_granted_description">Approximate location permission is granted</string>
     <string name="permissions_location_coarse_not_granted_description">Approximate location permission is not granted</string>
     <string name="permissions_location_fine_name">Precise location permissions</string>
     <string name="permissions_location_fine_description">Shuttle needs access to Precise Location, in order to create a Geo Hash to store to the local database</string>
@@ -72,7 +68,6 @@
 
     <string name="settings_design_section_title">Design</string>
     <string name="settings_suggestions_section_title">Suggestions</string>
-    <string name="settings_permissions_section_title">Permissions</string>
     <string name="settings_info_section_title">Info</string>
 
     <string name="settings_about_title">About the app</string>
@@ -101,9 +96,6 @@
     <string name="settings_check_permissions_granted_description">All the required permissions are granted</string>
     <string name="settings_check_permissions_not_granted_description">Some of the required permissions are not granted</string>
 
-    <string name="settings_prioritize_location_title">Prioritize suggestions by current location</string>
-    <string name="settings_prioritize_location_description">Enable it to receive suggestions prioritizing the current location.\nThis is experimental</string>
-
     <string name="settings_icon_pack_title">Icon packs</string>
     <string name="settings_icon_pack_description">Choose an Icon Pack for your icons</string>
     <string name="settings_icon_pack_system_default">System icons</string>
@@ -114,7 +106,6 @@
     <string name="settings_widget_colors_transparency">Background transparency</string>
     <string name="settings_widget_colors_use_material_colors">Use Material U colors</string>
 
-    <string name="settings_widget_layout_go_to">Go to %s</string>
     <string name="settings_widget_layout_toolbar_drag_description">Drag vertically to resize</string>
     <string name="settings_widget_layout_title">Widget layout</string>
     <string name="settings_widget_layout_description">Customise the layout of the Widget</string>
@@ -123,7 +114,6 @@
     <string name="settings_widget_layout_icons_dimensions">Icons\' dimensions</string>
     <string name="settings_widget_layout_apps_labels">Apps\' labels</string>
     <string name="settings_widget_layout_colors">Colors</string>
-    <string name="settings_widget_layout_show_refresh_location">Show refresh location button</string>
 
     <string name="settings_widget_layout_rows_count">Rows count</string>
     <string name="settings_widget_layout_columns_count">Columns count</string>
@@ -137,7 +127,6 @@
     <!-- endregion -->
 
     <!-- region Widget -->
-    <string name="widget_refresh_button_content_description">Refresh current location</string>
     <!-- endregion -->
 
 </resources>

@@ -2,10 +2,7 @@
 <resources>
 
     <string name="settings_widget_layout_colors">Colori</string>
-    <string name="settings_widget_layout_show_refresh_location">Mostra botton per aggiornare la posizione</string>
-    <string name="widget_refresh_button_content_description">Aggiorna la posizione corrente</string>
     <string name="launch_counter_service_description">Questo servizio conterà quante volte un app è stata avviata sul dispositivo</string>
-    <string name="launch_counter_service_label">Servizio per contari gli avvii delle app</string>
     <string name="navigable_item_go_to">Vai a %s</string>
     <string name="onboarding_action_complete">Completo</string>
     <string name="onboarding_action_next">Prossimo</string>
@@ -23,7 +20,6 @@
     <string name="permissions_accessibility_dialog_cancel_action">Annulla</string>
     <string name="permissions_accessibility_dialog_confirm_action">Conferma</string>
     <string name="permissions_accessibility_dialog_disclosure">Shuttle necessita the Servizio di Accessibilità, per migliorare i suggerimenti.\nAbilitando il servizio accetti che Shuttle rilevi gli avvii delle app e li salvi sul database locale\n\nNella schermata di gestione dei servizi di accessibilità ( oppure \"Servizi installati\" per alcuni dispositivi ) cerca \'Shuttle\' ed abilitalo. La scorciatoia non è necessaria</string>
-    <string name="permissions_accessibility_granted_description">Abilita il servizio di accessbilità</string>
     <string name="permissions_accessibility_name">Servizio di accessbilità abilitato</string>
     <string name="permissions_accessibility_not_granted_description">Servizio di accessibilità non abilitato</string>
     <string name="permissions_location_action">Abilita i permessi di locazione</string>
@@ -32,7 +28,6 @@
     <string name="permissions_location_background_name">Permessi di locazione in background</string>
     <string name="permissions_location_background_not_granted_description">Permessi di locazione in background non abilitati</string>
     <string name="permissions_location_coarse_description">Shuttle necessita di accedere alla posizione, in modo da mostrare le applicazioni suggerite, in base alla tua posizione corrente\\nAbilitando i permessi acconsenti che Shuttle salvi un Geo Hash della tua posizione nel database locale</string>
-    <string name="permissions_location_coarse_granted_description">Permessi di locazione approssivativa abilitati</string>
     <string name="permissions_location_coarse_name">Permessi di locazione</string>
     <string name="permissions_location_coarse_not_granted_description">Permessi di locazione approssivativa non abilitati</string>
     <string name="permissions_location_fine_description">Shuttle necessita l\'accesso alla posizione precita, in modo da create un Geo Hash da salvere nel database locale</string>
@@ -68,9 +63,6 @@
     <string name="settings_icon_pack_system_default">Icone di sistema</string>
     <string name="settings_icon_pack_title">Pacchetti Icone</string>
     <string name="settings_info_section_title">Info</string>
-    <string name="settings_permissions_section_title">Permessi</string>
-    <string name="settings_prioritize_location_description">Abilita questo settaggio, per ricevere suggestimenti dando priorità alla posizione corrente.\nQuesto settaggio è sperimentale</string>
-    <string name="settings_prioritize_location_title">Dai priorità ai suggestimenti basati sulla posizione corrente</string>
     <string name="settings_restart_onboarding_description">Guarda do nuovo l\'introduzione all\'app, in caso ti fossi perso qualcosa</string>
     <string name="settings_restart_onboarding_title">Guarda tutorial</string>
     <string name="settings_suggestions_section_title">Suggerimenti apps</string>
@@ -78,7 +70,6 @@
     <string name="settings_widget_layout_apps_labels">Etichette app</string>
     <string name="settings_widget_layout_columns_count">Numero colonne</string>
     <string name="settings_widget_layout_description">Customizza la disposizione del Widget</string>
-    <string name="settings_widget_layout_go_to">Vai a %s</string>
     <string name="settings_widget_layout_grid">Griglia Widget</string>
     <string name="settings_widget_layout_horizontal_spacing">Spazio orizzontale tra le icone</string>
     <string name="settings_widget_layout_icons_dimensions">Dimensioni icone</string>
@@ -91,7 +82,6 @@
     <string name="settings_widget_layout_vertical_spacing">Spazio verticale tra le icone</string>
     <string name="x_app_icon_description">Icona app</string>
     <string name="x_back_button_description">Indietro</string>
-    <string name="x_coming_soon">Presto disponibile!</string>
     <string name="x_generic_error">Qualcosa è andato storto!</string>
     <string name="settings_widget_colors_transparency">Trasparenza sfondo</string>
     <string name="settings_widget_colors_use_material_colors">Usa color Material U</string>
