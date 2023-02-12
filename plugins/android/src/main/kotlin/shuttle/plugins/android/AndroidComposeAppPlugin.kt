@@ -57,6 +57,6 @@ internal class AndroidComposeAppPlugin : Plugin<Project> {
     companion object {
 
         val VersionName = System.getenv()["APP_VERSION"] ?: "1"
-        val VersionCode = VersionName.toInt() + 160
+        val VersionCode = VersionName.toInt() + 150
     }
 }
