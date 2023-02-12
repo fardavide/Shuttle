@@ -27,6 +27,7 @@ klock = "3.4.0"
 koin = "3.3.3"
 koinCompose = "3.4.2"
 koinKsp = "1.1.1"
+kotest = "5.5.5"
 kotlin = "1.8.10"
 kotlinCoroutines = "1.6.4"
 kotlinImmutableCollections = "0.3.5"
@@ -112,6 +113,9 @@ koin-ksp = { module = "io.insert-koin:koin-ksp-compiler", version.ref = "koinKsp
 koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin" }
 koin-test-junit4 = { module = "io.insert-koin:koin-test-junit4", version.ref = "koin" }
 
+kotest-assertions = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
+kotest-runner = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
+
 kotlin-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinCoroutines" }
 kotlin-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinCoroutines" }
 kotlin-immutable-collections = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinImmutableCollections" }
@@ -164,6 +168,8 @@ test-android = [
     "mockk-android"
 ]
 test-kotlin = [
+    "kotest-assertions",
+    "kotest-runner",
     "kotlin-coroutines-test",
     "kotlin-test-junit",
     "mockk",
