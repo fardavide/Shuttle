@@ -19,7 +19,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import coil.compose.rememberImagePainter
+import coil.compose.rememberAsyncImagePainter
 import kotlinx.collections.immutable.ImmutableList
 import org.koin.androidx.compose.getViewModel
 import shuttle.apps.presentation.model.AppUiModel
@@ -53,7 +53,7 @@ internal fun AllAppsList(apps: ImmutableList<AppUiModel>) {
 internal fun AppListItem(app: AppUiModel) {
     Row(modifier = Modifier.padding(vertical = Dimens.Margin.Medium)) {
         Image(
-            painter = rememberImagePainter(data = app.icon),
+            painter = rememberAsyncImagePainter(model = app.icon),
             contentDescription = stringResource(id = R.string.x_app_icon_description),
             modifier = Modifier.size(Dimens.Icon.Large)
         )
