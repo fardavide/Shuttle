@@ -66,7 +66,7 @@
     <string name="settings_title">Settings</string>
     <string name="settings_icon_description">Settings</string>
 
-    <string name="settings_design_section_title">Design</string>
+    <string name="settings_customize_widget_section_title">Customize widget</string>
     <string name="settings_suggestions_section_title">Suggestions</string>
     <string name="settings_info_section_title">Info</string>
 

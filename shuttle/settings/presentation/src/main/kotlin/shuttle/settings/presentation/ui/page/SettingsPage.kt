@@ -88,11 +88,9 @@ private fun SettingsContent(
     modifier: Modifier = Modifier
 ) {
     LazyColumn(modifier = modifier.fillMaxHeight()) {
-        item { DesignSection() }
+        item { CustomizeWidgetSection() }
         item { WidgetLayoutItem(actions.toWidgetLayout) }
         item { IconPackItem(actions.toIconPacks) }
-
-        item { SuggestionsSection() }
         item { BlacklistItem(actions.toBlacklist) }
 
         item { InfoSection() }
@@ -105,9 +103,9 @@ private fun SettingsContent(
 }
 
 @Composable
-fun DesignSection() {
+fun CustomizeWidgetSection() {
     val uiModel = SettingsSectionUiModel(
-        title = stringResource(id = string.settings_design_section_title)
+        title = stringResource(id = string.settings_customize_widget_section_title)
     )
     SettingsSection(item = uiModel)
 }
@@ -128,14 +126,6 @@ private fun IconPackItem(toIconPacks: () -> Unit) {
         description = stringResource(id = string.settings_icon_pack_description)
     )
     SettingsItem(item = uiModel, onClick = toIconPacks)
-}
-
-@Composable
-private fun SuggestionsSection() {
-    val uiModel = SettingsSectionUiModel(
-        title = stringResource(id = string.settings_suggestions_section_title)
-    )
-    SettingsSection(item = uiModel)
 }
 
 @Composable
