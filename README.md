@@ -20,7 +20,7 @@ Android App/Widget that suggest you apps, based on you usage, based on time, loc
 - Continuous Delivery
 - Detekt
 - Jetpack Compose
-- Kotlin Multiplatform
+- Kotlin Jvm
 - Koin
 - Material 3
 - SQLDelight
