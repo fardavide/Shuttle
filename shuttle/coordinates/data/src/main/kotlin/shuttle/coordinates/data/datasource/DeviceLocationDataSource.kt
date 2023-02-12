@@ -3,8 +3,10 @@ package shuttle.coordinates.data.datasource
 import android.annotation.SuppressLint
 import android.location.Location
 import arrow.core.Either
-import arrow.core.ensure
+import arrow.core.flatMap
 import arrow.core.handleErrorWith
+import arrow.core.left
+import arrow.core.right
 import com.soywiz.klock.DateTime
 import kotlinx.coroutines.flow.first
 import shuttle.coordinates.domain.error.LocationError
@@ -31,8 +33,10 @@ internal class DeviceLocationDataSource(
     private fun inMinRefreshInterval(
         location: Either<LocationError, Location>,
         currentTime: DateTime
-    ): Either<LocationError, Location> =
-        location.ensure({ ExpiredLocation }, { isInMinRefreshInterval(it.time, currentTime) })
+    ): Either<LocationError, Location> = location.flatMap { locationValue ->
+        if (isInMinRefreshInterval(locationValue.time, currentTime)) locationValue.right()
+        else ExpiredLocation.left()
+    }
 
     private fun isInMinRefreshInterval(locationTime: Long, currentTime: DateTime): Boolean =
         currentTime.unixMillisLong - locationTime < freshLocationMinInterval.inWholeMilliseconds
@@ -40,7 +44,9 @@ internal class DeviceLocationDataSource(
     private fun notExpired(
         location: Either<LocationError, Location>,
         currentTime: DateTime
-    ): Either<LocationError, Location> = location.ensure({ ExpiredLocation }, { isExpired(it.time, currentTime).not() })
+    ): Either<LocationError, Location> = location.flatMap { locationValue ->
+        if (isExpired(locationValue.time, currentTime)) ExpiredLocation.left() else locationValue.right()
+    }
 
     private fun isExpired(locationTime: Long, currentTime: DateTime): Boolean =
         currentTime.unixMillisLong - locationTime > locationExpiration.inWholeMilliseconds

@@ -23,6 +23,7 @@ import shuttle.coordinates.domain.model.CoordinatesResult
 import shuttle.coordinates.domain.model.GeoHash
 import shuttle.database.datasource.LastLocationDataSource
 import shuttle.database.model.DatabaseGeoHash
+import shuttle.utils.kotlin.mapToUnit
 
 internal class CoordinatesRepositoryImpl(
     appScope: CoroutineScope,
@@ -50,8 +51,8 @@ internal class CoordinatesRepositoryImpl(
     override fun observeCurrentDateTime(): Flow<DateTime> = coordinatesSharedFlow.map { it.dateTime }
 
     override suspend fun refreshLocation(): Either<LocationError, Unit> =
-        deviceLocationDataSource.getLocation().tap { location ->
+        deviceLocationDataSource.getLocation().onRight { location ->
             val geoHash = geoHashMapper.toGeoHash(location)
             lastLocationDataSource.insert(DatabaseGeoHash(geoHash.value))
-        }.void()
+        }.mapToUnit()
 }

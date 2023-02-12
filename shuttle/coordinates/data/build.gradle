@@ -3,6 +3,7 @@ apply plugin: 'shuttle.android.library'
 moduleDependencies {
     add 'coordinates:domain'
     add 'database'
+    add 'utils:kotlin'
 }
 
 dependencies {

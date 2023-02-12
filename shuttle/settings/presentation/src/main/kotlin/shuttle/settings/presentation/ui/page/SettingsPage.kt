@@ -20,14 +20,10 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
@@ -79,8 +75,7 @@ fun SettingsPage(actions: SettingsPage.Actions) {
             state = state,
             actions = actions,
             resetOnboardingShown = { viewModel.submit(Action.ResetOnboardingShown) },
-            modifier = Modifier.padding(paddingValues),
-            updatePrioritizeLocation = { viewModel.submit(Action.UpdatePrioritizeLocation(it)) }
+            modifier = Modifier.padding(paddingValues)
         )
     }
 }
@@ -90,8 +85,7 @@ private fun SettingsContent(
     state: SettingsState,
     actions: SettingsPage.Actions,
     resetOnboardingShown: () -> Unit,
-    modifier: Modifier = Modifier,
-    updatePrioritizeLocation: (Boolean) -> Unit
+    modifier: Modifier = Modifier
 ) {
     LazyColumn(modifier = modifier.fillMaxHeight()) {
         item { DesignSection() }
@@ -100,7 +94,6 @@ private fun SettingsContent(
 
         item { SuggestionsSection() }
         item { BlacklistItem(actions.toBlacklist) }
-        item { PrioritizeLocationItem(state = state.prioritizeLocation, updatePrioritizeLocation) }
 
         item { InfoSection() }
         item { RestartOnboardingItem(resetOnboardingShown) }
@@ -152,30 +145,6 @@ private fun BlacklistItem(toBlacklist: () -> Unit) {
         description = stringResource(id = string.settings_blacklist_description)
     )
     SettingsItem(item = uiModel, onClick = toBlacklist)
-}
-
-@Composable
-private fun PrioritizeLocationItem(
-    state: SettingsState.PrioritizeLocation,
-    updatePrioritizeLocation: (Boolean) -> Unit
-) {
-    var isPrioritizingLocation by remember { mutableStateOf(state == SettingsState.PrioritizeLocation.True) }
-
-    val uiModel = SettingsItemUiModel(
-        title = stringResource(id = string.settings_prioritize_location_title),
-        description = stringResource(id = string.settings_prioritize_location_description)
-    )
-    SettingsItem(item = uiModel, onClick = { isPrioritizingLocation = !isPrioritizingLocation }) {
-        when (state) {
-            SettingsState.PrioritizeLocation.Loading -> LoadingSpinner()
-            SettingsState.PrioritizeLocation.False, SettingsState.PrioritizeLocation.True -> {
-                Switch(checked = isPrioritizingLocation, onCheckedChange = { isChecked ->
-                    isPrioritizingLocation = isChecked
-                    updatePrioritizeLocation(isChecked)
-                })
-            }
-        }
-    }
 }
 
 @Composable
@@ -311,8 +280,7 @@ fun SettingsContentPreview() {
                 toAbout = {}
             ),
             resetOnboardingShown = {},
-            modifier = Modifier,
-            updatePrioritizeLocation = {}
+            modifier = Modifier
         )
     }
 }
