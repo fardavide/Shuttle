@@ -12,7 +12,7 @@ internal class StartRefreshLocationAndUpdateWidget(
 
     operator fun invoke() {
         appScope.launch {
-            refreshLocation().tap { updateWidget() }
+            refreshLocation().onRight { updateWidget() }
         }
     }
 }

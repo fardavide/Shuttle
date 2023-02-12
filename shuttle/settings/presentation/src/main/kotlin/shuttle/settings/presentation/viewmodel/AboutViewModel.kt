@@ -4,7 +4,7 @@ import android.app.Activity
 import androidx.lifecycle.viewModelScope
 import arrow.core.Either
 import arrow.core.continuations.either
-import arrow.core.getOrHandle
+import arrow.core.getOrElse
 import co.touchlab.kermit.Logger
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -35,7 +35,7 @@ class AboutViewModel(
                     largeProductFormattedPrice = largeProductPriceDeferred.await().bind().formatted,
                     purchaseResult = Effect.empty()
                 )
-            }.getOrHandle {
+            }.getOrElse {
                 logger.e(it.toString())
                 State.Error
             }

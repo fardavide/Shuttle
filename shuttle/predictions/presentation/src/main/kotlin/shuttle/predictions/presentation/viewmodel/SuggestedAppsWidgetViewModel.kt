@@ -42,5 +42,5 @@ internal class SuggestedAppsWidgetViewModel(
     }
 
     private fun List<Either<GetSystemIconError, WidgetAppUiModel>>.filterRight(): List<WidgetAppUiModel> =
-        mapNotNull { it.orNull() }
+        mapNotNull { it.getOrNull() }
 }

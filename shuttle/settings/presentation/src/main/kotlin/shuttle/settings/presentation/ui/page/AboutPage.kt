@@ -86,7 +86,7 @@ fun AboutPage(onBack: () -> Unit) {
 
 private suspend fun Either<PaymentError, PurchaseSuccess>.handle(snackbarHostState: SnackbarHostState) {
     with(snackbarHostState) {
-        tapLeft { showSnackbarIfNone("$it") }
+        onLeft { showSnackbarIfNone("$it") }
     }
 }
 

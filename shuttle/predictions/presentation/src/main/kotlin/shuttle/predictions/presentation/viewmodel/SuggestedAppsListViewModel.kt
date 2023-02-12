@@ -63,7 +63,7 @@ internal class SuggestedAppsListViewModel(
     }
 
     private fun List<Either<GetSystemIconError, AppUiModel>>.filterRight(): ImmutableList<AppUiModel> =
-        mapNotNull { it.orNull() }.toImmutableList()
+        mapNotNull { it.getOrNull() }.toImmutableList()
 
     private fun ObserveSuggestedAppsError.toMessage() = when (this) {
         ObserveSuggestedAppsError.LocationNotAvailable -> R.string.predictions_location_not_available

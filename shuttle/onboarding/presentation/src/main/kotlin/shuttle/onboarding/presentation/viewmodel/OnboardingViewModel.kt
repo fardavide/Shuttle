@@ -76,7 +76,7 @@ internal class OnboardingViewModel(
     )
 
     private fun List<Either<GetSystemIconError, WidgetPreviewAppUiModel>>.filterRight(): List<WidgetPreviewAppUiModel> =
-        mapNotNull { it.orNull() }
+        mapNotNull { it.getOrNull() }
 
     sealed interface Action {
 

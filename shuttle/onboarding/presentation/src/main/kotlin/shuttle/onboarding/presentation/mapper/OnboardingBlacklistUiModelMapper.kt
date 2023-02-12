@@ -24,7 +24,7 @@ class OnboardingBlacklistUiModelMapper(
     suspend fun toUiModel(apps: Collection<AppModel>, take: Int): OnboardingBlacklistUiModel {
         val blacklistApps = apps
             .map { toUiModel(it) }
-            .mapNotNull { it.orNull() }
+            .mapNotNull { it.getOrNull() }
             .shuffled()
             .take(take)
             .sortedBy { it.name }

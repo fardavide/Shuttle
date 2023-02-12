@@ -65,7 +65,7 @@ internal class IconPacksSettingsViewModel(
     }
 
     @Suppress("MaxLineLength")
-    private fun List<Either<GetSystemIconError, IconPackSettingsItemUiModel>>.filterRight(): ImmutableList<IconPackSettingsItemUiModel> = mapNotNull { it.orNull() }.toImmutableList()
+    private fun List<Either<GetSystemIconError, IconPackSettingsItemUiModel>>.filterRight(): ImmutableList<IconPackSettingsItemUiModel> = mapNotNull { it.getOrNull() }.toImmutableList()
 
     sealed interface State {
 

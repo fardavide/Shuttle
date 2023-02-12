@@ -25,7 +25,7 @@ internal class AllAppsListViewModel(
         }.stateIn(viewModelScope, SharingStarted.Eagerly, State.Loading)
 
     private fun List<Either<GetSystemIconError, AppUiModel>>.filterRight(): ImmutableList<AppUiModel> =
-        mapNotNull { it.orNull() }.toImmutableList()
+        mapNotNull { it.getOrNull() }.toImmutableList()
 
     sealed interface State {
 

@@ -20,7 +20,7 @@ class GetSystemIconDrawableForApp(
     suspend operator fun invoke(id: AppId): Either<GetSystemIconError, Drawable> = withContext(ioDispatcher) {
         cache[id]?.right()
             ?: getSystemIconFromSystem(id)
-                .tap { cache[id] = it }
+                .onRight { cache[id] = it }
     }
 
     private fun getSystemIconFromSystem(id: AppId): Either<GetSystemIconError, Drawable> = try {

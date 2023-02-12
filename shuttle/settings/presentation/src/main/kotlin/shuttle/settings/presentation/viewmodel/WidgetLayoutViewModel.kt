@@ -150,7 +150,7 @@ internal class WidgetLayoutViewModel(
     }
 
     private fun List<Either<GetSystemIconError, WidgetPreviewAppUiModel>>.filterRight(): List<WidgetPreviewAppUiModel> =
-        mapNotNull { it.orNull() }
+        mapNotNull { it.getOrNull() }
 
     sealed interface State {
 
