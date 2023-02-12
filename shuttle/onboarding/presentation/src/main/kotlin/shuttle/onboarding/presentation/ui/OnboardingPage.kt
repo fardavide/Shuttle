@@ -91,8 +91,8 @@ internal fun OnboardingPageContent(
             .testTag(OnboardingPage.TEST_TAG)
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.primaryContainer)
-            .padding(Dimens.Margin.XXLarge)
-            .padding(vertical = Dimens.Margin.XXLarge),
+            .padding(Dimens.Margin.XLarge)
+            .padding(vertical = Dimens.Margin.XLarge),
         verticalArrangement = Arrangement.SpaceEvenly,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -194,7 +194,17 @@ object OnboardingPage {
         val onPrevious: () -> Unit,
         val onNext: () -> Unit,
         val onComplete: () -> Unit
-    )
+    ) {
+
+        companion object {
+
+            val Empty = NavigationActions(
+                onPrevious = {},
+                onNext = {},
+                onComplete = {}
+            )
+        }
+    }
 }
 
 private operator fun MutableState<Index>.plusAssign(intValue: Int) {

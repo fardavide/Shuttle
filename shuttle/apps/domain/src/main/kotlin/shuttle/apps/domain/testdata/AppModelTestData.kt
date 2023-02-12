@@ -1,18 +1,19 @@
 package shuttle.apps.domain.testdata
 
 import shuttle.apps.domain.model.AppModel
+import shuttle.apps.domain.sample.AppNameSample
 
 object AppModelTestData {
 
-    val Chrome = AppModel(id = AppIdTestData.Chrome, name = AppNameTestData.Chrome)
-    val CineScout = AppModel(id = AppIdTestData.CineScout, name = AppNameTestData.CineScout)
-    val GitHub = AppModel(id = AppIdTestData.GitHub, name = AppNameTestData.GitHub)
-    val Gmail = AppModel(id = AppIdTestData.Gmail, name = AppNameTestData.Gmail)
-    val MovieBase = AppModel(id = AppIdTestData.MovieBase, name = AppNameTestData.MovieBase)
-    val Shuttle = AppModel(id = AppIdTestData.Shuttle, name = AppNameTestData.Shuttle)
-    val Slack = AppModel(id = AppIdTestData.Slack, name = AppNameTestData.Slack)
-    val Telegram = AppModel(id = AppIdTestData.Telegram, name = AppNameTestData.Telegram)
-    val YouTube = AppModel(id = AppIdTestData.YouTube, name = AppNameTestData.YouTube)
+    val Chrome = AppModel(id = AppIdTestData.Chrome, name = AppNameSample.Chrome)
+    val CineScout = AppModel(id = AppIdTestData.CineScout, name = AppNameSample.CineScout)
+    val GitHub = AppModel(id = AppIdTestData.GitHub, name = AppNameSample.GitHub)
+    val Gmail = AppModel(id = AppIdTestData.Gmail, name = AppNameSample.Gmail)
+    val MovieBase = AppModel(id = AppIdTestData.MovieBase, name = AppNameSample.MovieBase)
+    val Shuttle = AppModel(id = AppIdTestData.Shuttle, name = AppNameSample.Shuttle)
+    val Slack = AppModel(id = AppIdTestData.Slack, name = AppNameSample.Slack)
+    val Telegram = AppModel(id = AppIdTestData.Telegram, name = AppNameSample.Telegram)
+    val YouTube = AppModel(id = AppIdTestData.YouTube, name = AppNameSample.YouTube)
 
     fun all() = listOf(
         Chrome,

@@ -1,8 +1,8 @@
-package shuttle.apps.domain.testdata
+package shuttle.apps.domain.sample
 
 import shuttle.apps.domain.model.AppName
 
-object AppNameTestData {
+object AppNameSample {
 
     val Chrome = AppName("Chrome")
     val CineScout = AppName("CineScout")

@@ -37,6 +37,13 @@ internal fun OnboardingWidgetLayoutPage(actions: OnboardingPage.NavigationAction
                         onClick = {}
                     )
                 }
+                item {
+                    NavigableListItem(
+                        title = string.settings_widget_layout_colors,
+                        icon = drawable.ic_color_palette,
+                        onClick = {}
+                    )
+                }
             }
         },
         description = string.onboarding_widget_layout_description,
@@ -47,8 +54,7 @@ internal fun OnboardingWidgetLayoutPage(actions: OnboardingPage.NavigationAction
 @Composable
 @Preview(showSystemUi = true)
 private fun OnboardingWidgetLayoutPagePreview() {
-    val actions = OnboardingPage.NavigationActions(onPrevious = {}, onNext = {}, onComplete = {})
     ShuttleTheme {
-        OnboardingWidgetLayoutPage(actions = actions)
+        OnboardingWidgetLayoutPage(OnboardingPage.NavigationActions.Empty)
     }
 }
