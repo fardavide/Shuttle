@@ -34,7 +34,6 @@ import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import org.koin.androidx.compose.getViewModel
 import shuttle.design.theme.Dimens
 import shuttle.design.theme.ShuttleTheme
-import shuttle.design.ui.BackIconButton
 import shuttle.design.ui.LoadingSpinner
 import shuttle.design.util.ConsumableLaunchedEffect
 import shuttle.design.util.Effect
@@ -65,10 +64,7 @@ fun SettingsPage(actions: SettingsPage.Actions) {
             .statusBarsPadding()
             .navigationBarsPadding(),
         topBar = {
-            TopAppBar(
-                title = { Text(stringResource(id = string.settings_title)) },
-                navigationIcon = { BackIconButton(actions.onBack) }
-            )
+            TopAppBar(title = { Text(stringResource(id = string.settings_title)) })
         }
     ) { paddingValues ->
         SettingsContent(
@@ -238,7 +234,6 @@ private fun AppVersionFooter(version: String) {
 object SettingsPage {
 
     data class Actions(
-        val onBack: () -> Unit,
         val toBlacklist: () -> Unit,
         val toWidgetLayout: () -> Unit,
         val toIconPacks: () -> Unit,
@@ -260,7 +255,6 @@ fun SettingsContentPreview() {
         SettingsContent(
             state = state,
             actions = SettingsPage.Actions(
-                onBack = {},
                 toBlacklist = {},
                 toWidgetLayout = {},
                 toIconPacks = {},

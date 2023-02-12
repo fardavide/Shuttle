@@ -54,7 +54,7 @@ internal fun App(onFinish: () -> Unit) {
         composable(IconPackSettings) { IconPackSettingsRoute(onBack = onBack) }
         composable(Onboarding) { OnboardingRoute(navController) }
         composable(Permissions) { PermissionsRoute(navController) }
-        composable(Settings) { SettingsRoute(navController, onBack = onBack) }
+        composable(Settings) { SettingsRoute(navController) }
         composable(Suggestions) { SuggestionsRoute(navController) }
         composable(WidgetLayout) { WidgetLayoutRoute(onBack = onBack) }
     }
@@ -81,9 +81,8 @@ private fun PermissionsRoute(navController: NavController) =
     PermissionsPage(toSettings = { navController.navigate(Settings, pop(Permissions)) })
 
 @Composable
-private fun SettingsRoute(navController: NavController, onBack: () -> Unit) = SettingsPage(
+private fun SettingsRoute(navController: NavController) = SettingsPage(
     actions = SettingsPage.Actions(
-        onBack = onBack,
         toBlacklist = { navController.navigate(BlacklistSettings) },
         toWidgetLayout = { navController.navigate(WidgetLayout) },
         toIconPacks = { navController.navigate(IconPackSettings) },
