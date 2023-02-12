@@ -24,7 +24,7 @@ internal class AndroidPlugin : Plugin<Project> {
             // Can't use JVM toolchains yet on Android.
             task.kotlinOptions {
                 jvmTarget = JvmDefaults.JAVA_VERSION.toString()
-                freeCompilerArgs = freeCompilerArgs + KotlinDefaults.FreeCompilerArgs + AndroidDefaults.FreeCompilerArgs
+                freeCompilerArgs = freeCompilerArgs + KotlinDefaults.FreeCompilerArgs
             }
         }
 

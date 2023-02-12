@@ -7,8 +7,4 @@ object AndroidDefaults {
     const val COMPILE_SDK = 33
     const val MIN_SDK = 26
     const val TARGET_SDK = 33
-
-    val FreeCompilerArgs = listOf(
-        "-opt-in=androidx.compose.ui.test.ExperimentalTestApi"
-    )
 }
