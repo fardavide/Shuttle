@@ -23,15 +23,13 @@ internal class ShuttleLocationClient(
 
     @Suppress("DEPRECATION")
     @SuppressLint("MissingPermission")
-    suspend fun getCurrentLocation(): Either<LocationError, Location> =
-        fusedLocationClient.getCurrentLocation(
-            LocationRequest.PRIORITY_HIGH_ACCURACY,
-            CancellationTokenSource().token
-        ).tryGetWithTimeout()
+    suspend fun getCurrentLocation(): Either<LocationError, Location> = fusedLocationClient.getCurrentLocation(
+        LocationRequest.PRIORITY_HIGH_ACCURACY,
+        CancellationTokenSource().token
+    ).tryGetWithTimeout()
 
     @SuppressLint("MissingPermission")
-    suspend fun getLastLocation(): Either<LocationError, Location> =
-        fusedLocationClient.lastLocation.tryGet()
+    suspend fun getLastLocation(): Either<LocationError, Location> = fusedLocationClient.lastLocation.tryGet()
 
     private suspend fun Task<Location?>.tryGet(): Either<LocationError, Location> =
         suspendCancellableCoroutine { continuation ->
@@ -43,19 +41,18 @@ internal class ShuttleLocationClient(
             addOnCanceledListener(continuation::cancel)
         }
 
-    private suspend fun Task<Location?>.tryGetWithTimeout(): Either<LocationError, Location> =
-        try {
-            withTimeout(freshLocationTimeout) {
-                suspendCancellableCoroutine { continuation ->
-                    addOnSuccessListener { location ->
-                        val either = location?.right() ?: LocationError.NoCachedLocation.left()
-                        continuation.resume(either)
-                    }
-                    addOnFailureListener { continuation.resume(LocationError.MissingPermissions.left()) }
-                    addOnCanceledListener(continuation::cancel)
+    private suspend fun Task<Location?>.tryGetWithTimeout(): Either<LocationError, Location> = try {
+        withTimeout(freshLocationTimeout) {
+            suspendCancellableCoroutine { continuation ->
+                addOnSuccessListener { location ->
+                    val either = location?.right() ?: LocationError.NoCachedLocation.left()
+                    continuation.resume(either)
                 }
+                addOnFailureListener { continuation.resume(LocationError.MissingPermissions.left()) }
+                addOnCanceledListener(continuation::cancel)
             }
-        } catch (ignored: TimeoutCancellationException) {
-            LocationError.Timeout.left()
         }
+    } catch (ignored: TimeoutCancellationException) {
+        LocationError.Timeout.left()
+    }
 }

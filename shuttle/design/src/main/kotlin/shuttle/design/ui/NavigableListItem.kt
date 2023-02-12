@@ -27,6 +27,7 @@ import shuttle.design.theme.ShuttleTheme
 import studio.forface.shuttle.design.R.drawable
 import studio.forface.shuttle.design.R.string
 
+@Suppress("ComposableNaming")
 object NavigableListItem {
 
     @Composable

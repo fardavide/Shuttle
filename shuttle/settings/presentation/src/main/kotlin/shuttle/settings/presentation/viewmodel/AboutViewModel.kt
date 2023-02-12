@@ -60,7 +60,7 @@ class AboutViewModel(
 
     sealed interface Action {
 
-        data class LaunchPurchase(val activity: Activity, val product: Product): Action
+        data class LaunchPurchase(val activity: Activity, val product: Product) : Action
     }
 
     sealed interface State {
@@ -69,7 +69,7 @@ class AboutViewModel(
             val smallProductFormattedPrice: String,
             val largeProductFormattedPrice: String,
             val purchaseResult: Effect<Either<PaymentError, PurchaseSuccess>>
-        ): State
+        ) : State
 
         object Loading : State
 

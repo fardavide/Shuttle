@@ -13,14 +13,13 @@ internal class DeleteOldStatsWorker(
     appContext: Context,
     params: WorkerParameters,
     private val deleteOldStats: DeleteOldStats
-): CoroutineWorker(appContext, params) {
+) : CoroutineWorker(appContext, params) {
 
-    override suspend fun doWork(): Result =
-        runCatching { deleteOldStats() }
-            .fold(
-                onSuccess = { Result.success() },
-                onFailure = { Result.failure() }
-            )
+    override suspend fun doWork(): Result = runCatching { deleteOldStats() }
+        .fold(
+            onSuccess = { Result.success() },
+            onFailure = { Result.failure() }
+        )
 
     class Scheduler(
         private val workManager: WorkManager,
@@ -31,7 +30,7 @@ internal class DeleteOldStatsWorker(
         fun schedule() {
             val request = PeriodicWorkRequestBuilder<DeleteOldStatsWorker>(
                 repeatInterval = repeatInterval.java(),
-                flexTimeInterval = flexInterval.java(),
+                flexTimeInterval = flexInterval.java()
             ).build()
             workManager.enqueueUniquePeriodicWork(Name, ExistingPeriodicWorkPolicy.KEEP, request)
         }

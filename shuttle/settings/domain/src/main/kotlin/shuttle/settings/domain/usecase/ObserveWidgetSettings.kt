@@ -8,6 +8,5 @@ class ObserveWidgetSettings(
     private val settingsRepository: SettingsRepository
 ) {
 
-    operator fun invoke(): Flow<WidgetSettings> =
-        settingsRepository.observeWidgetSettings()
+    operator fun invoke(): Flow<WidgetSettings> = settingsRepository.observeWidgetSettings()
 }

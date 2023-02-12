@@ -90,7 +90,7 @@ internal class PermissionItemsUiModelMapperTest(
                     PermissionItem.Location.Coarse.Granted,
                     PermissionItem.Location.Fine.Granted,
                     PermissionItem.Location.Background.Granted,
-                    PermissionItem.Accessibility.Granted,
+                    PermissionItem.Accessibility.Granted
                 )
             ),
 
@@ -106,7 +106,7 @@ internal class PermissionItemsUiModelMapperTest(
                     PermissionItem.Location.Coarse.NotGranted,
                     PermissionItem.Location.Fine.NotGranted,
                     PermissionItem.Location.Background.NotGranted,
-                    PermissionItem.Accessibility.NotGranted,
+                    PermissionItem.Accessibility.NotGranted
                 )
             ),
 
@@ -122,7 +122,7 @@ internal class PermissionItemsUiModelMapperTest(
                     PermissionItem.Location.Coarse.Granted,
                     PermissionItem.Location.Fine.Granted,
                     PermissionItem.Location.Background.Granted,
-                    PermissionItem.Accessibility.NotGranted,
+                    PermissionItem.Accessibility.NotGranted
                 )
             ),
 
@@ -138,7 +138,7 @@ internal class PermissionItemsUiModelMapperTest(
                     PermissionItem.Location.Coarse.NotGranted,
                     PermissionItem.Location.Fine.NotGranted,
                     PermissionItem.Location.Background.NotGranted,
-                    PermissionItem.Accessibility.Granted,
+                    PermissionItem.Accessibility.Granted
                 )
             ),
 
@@ -154,7 +154,7 @@ internal class PermissionItemsUiModelMapperTest(
                     PermissionItem.Location.Coarse.Granted,
                     PermissionItem.Location.Fine.Granted,
                     PermissionItem.Location.Background.NotGranted,
-                    PermissionItem.Accessibility.NotGranted,
+                    PermissionItem.Accessibility.NotGranted
                 )
             )
 
@@ -168,15 +168,14 @@ internal class PermissionItemsUiModelMapperTest(
             every { permissions } returns listOf(
                 buildPermissionState(CoarseLocation, hasCoarseLocation),
                 buildPermissionState(FineLocation, hasFineLocation),
-                buildPermissionState(BackgroundLocation, hasBackgroundLocation),
+                buildPermissionState(BackgroundLocation, hasBackgroundLocation)
             )
         }
 
-        private fun buildPermissionState(permission: String, isGranted: Boolean): PermissionState =
-            mockk {
-                every { this@mockk.permission } returns permission
-                every { this@mockk.status } returns
-                    if (isGranted) PermissionStatus.Granted else PermissionStatus.Denied(shouldShowRationale = true)
-            }
+        private fun buildPermissionState(permission: String, isGranted: Boolean): PermissionState = mockk {
+            every { this@mockk.permission } returns permission
+            every { this@mockk.status } returns
+                if (isGranted) PermissionStatus.Granted else PermissionStatus.Denied(shouldShowRationale = true)
+        }
     }
 }

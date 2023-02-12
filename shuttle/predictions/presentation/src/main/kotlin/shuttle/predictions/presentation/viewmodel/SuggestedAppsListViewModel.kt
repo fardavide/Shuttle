@@ -6,6 +6,8 @@ import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import arrow.core.Either
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -60,17 +62,17 @@ internal class SuggestedAppsListViewModel(
         return State.RequestOpenApp(intent)
     }
 
-    private fun List<Either<GetSystemIconError, AppUiModel>>.filterRight(): List<AppUiModel> =
-        mapNotNull { it.orNull() }
+    private fun List<Either<GetSystemIconError, AppUiModel>>.filterRight(): ImmutableList<AppUiModel> =
+        mapNotNull { it.orNull() }.toImmutableList()
 
-    private fun ObserveSuggestedAppsError.toMessage() = when(this) {
+    private fun ObserveSuggestedAppsError.toMessage() = when (this) {
         ObserveSuggestedAppsError.LocationNotAvailable -> R.string.predictions_location_not_available
     }
 
     sealed interface State {
 
         object Loading : State
-        data class Data(val apps: List<AppUiModel>) : State
+        data class Data(val apps: ImmutableList<AppUiModel>) : State
         data class Error(@StringRes val message: Int) : State
         data class RequestOpenApp(val intent: Intent) : State
     }

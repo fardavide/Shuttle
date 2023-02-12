@@ -21,5 +21,10 @@ interface StatsRepository {
 
     fun startDeleteOldStats()
 
-    suspend fun storeOpenStats(appId: AppId, location: Option<GeoHash>, time: Time, date: Date)
+    suspend fun storeOpenStats(
+        appId: AppId,
+        location: Option<GeoHash>,
+        time: Time,
+        date: Date
+    )
 }

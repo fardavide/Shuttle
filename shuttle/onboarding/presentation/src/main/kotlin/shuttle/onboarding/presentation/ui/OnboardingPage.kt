@@ -59,10 +59,7 @@ fun OnboardingPage(actions: OnboardingPage.Actions) {
 }
 
 @Composable
-private fun OnboardingContent(
-    state: OnboardingState.ShowOnboarding,
-    actions: OnboardingPage.Actions
-) {
+private fun OnboardingContent(state: OnboardingState.ShowOnboarding, actions: OnboardingPage.Actions) {
     val index = remember { mutableStateOf(Index.MAIN) }
     val navigationActions = OnboardingPage.NavigationActions(
         onPrevious = { index -= 1 },
@@ -103,7 +100,7 @@ internal fun OnboardingPageContent(
         Section(weight = 1) {
             Text(
                 text = stringResource(id = title),
-                style = MaterialTheme.typography.displaySmall,
+                style = MaterialTheme.typography.displaySmall
             )
         }
 

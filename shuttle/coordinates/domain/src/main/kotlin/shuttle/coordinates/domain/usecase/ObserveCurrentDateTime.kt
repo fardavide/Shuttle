@@ -8,6 +8,5 @@ class ObserveCurrentDateTime(
     private val repository: CoordinatesRepository
 ) {
 
-    operator fun invoke(): Flow<DateTime> =
-        repository.observeCurrentDateTime()
+    operator fun invoke(): Flow<DateTime> = repository.observeCurrentDateTime()
 }

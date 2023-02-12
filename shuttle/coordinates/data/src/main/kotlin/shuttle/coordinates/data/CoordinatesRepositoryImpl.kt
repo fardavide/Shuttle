@@ -45,11 +45,9 @@ internal class CoordinatesRepositoryImpl(
             .onStart { refreshLocationWorkerScheduler.schedule() }
             .shareIn(appScope, SharingStarted.Eagerly, replay = 1)
 
-    override fun observeCurrentCoordinates(): Flow<CoordinatesResult> =
-        coordinatesSharedFlow
+    override fun observeCurrentCoordinates(): Flow<CoordinatesResult> = coordinatesSharedFlow
 
-    override fun observeCurrentDateTime(): Flow<DateTime> =
-        coordinatesSharedFlow.map { it.dateTime }
+    override fun observeCurrentDateTime(): Flow<DateTime> = coordinatesSharedFlow.map { it.dateTime }
 
     override suspend fun refreshLocation(): Either<LocationError, Unit> =
         deviceLocationDataSource.getLocation().tap { location ->

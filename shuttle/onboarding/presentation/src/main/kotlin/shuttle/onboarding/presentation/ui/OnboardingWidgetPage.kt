@@ -15,10 +15,7 @@ import shuttle.onboarding.presentation.viewmodel.OnboardingViewModel
 import studio.forface.shuttle.design.R.string
 
 @Composable
-internal fun OnboardingWidgetPage(
-    state: OnboardingWidgetPreviewState,
-    actions: OnboardingPage.NavigationActions
-) {
+internal fun OnboardingWidgetPage(state: OnboardingWidgetPreviewState, actions: OnboardingPage.NavigationActions) {
     OnboardingPageContent(
         index = OnboardingPage.Index.WIDGET,
         title = string.onboarding_widget_title,
@@ -49,7 +46,7 @@ private fun OnboardingWidgetPagePreview() {
                 WidgetPreviewAppUiModel("Shuttle", emptyDrawable),
                 WidgetPreviewAppUiModel("Proton Mail", emptyDrawable),
                 WidgetPreviewAppUiModel("Proton Drive", emptyDrawable),
-                WidgetPreviewAppUiModel("Telegram", emptyDrawable),
+                WidgetPreviewAppUiModel("Telegram", emptyDrawable)
             )
         )
     )

@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Checkbox
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,16 +28,17 @@ import shuttle.design.model.TextRes
 import shuttle.design.model.stringResource
 import shuttle.design.theme.Dimens
 
+@Suppress("ComposableNaming")
 object CheckableListItem {
 
     @Composable
     operator fun invoke(
         title: TextRes,
-        id: Any = title,
         icon: Painter,
         contentDescription: TextRes?,
         isChecked: Boolean,
-        onCheckChange: (isChecked: Boolean) -> Unit
+        onCheckChange: (isChecked: Boolean) -> Unit,
+        id: Any = title
     ) {
         Internal(
             title = title,
@@ -55,11 +55,11 @@ object CheckableListItem {
     @Composable
     fun LargeIcon(
         title: TextRes,
-        id: Any = title,
         icon: Painter,
         contentDescription: TextRes?,
         isChecked: Boolean,
-        onCheckChange: (isChecked: Boolean) -> Unit
+        onCheckChange: (isChecked: Boolean) -> Unit,
+        id: Any = title
     ) {
         Internal(
             title = title,
@@ -76,11 +76,11 @@ object CheckableListItem {
     @Composable
     operator fun invoke(
         title: TextRes,
-        id: Any = title,
         iconDrawable: Drawable,
         contentDescription: TextRes?,
         isChecked: Boolean,
-        onCheckChange: (isChecked: Boolean) -> Unit
+        onCheckChange: (isChecked: Boolean) -> Unit,
+        id: Any = title
     ) {
         CheckableListItem(
             title = title,
@@ -95,11 +95,11 @@ object CheckableListItem {
     @Composable
     fun LargeIcon(
         title: TextRes,
-        id: Any = title,
         iconDrawable: Drawable,
         contentDescription: TextRes?,
         isChecked: Boolean,
-        onCheckChange: (isChecked: Boolean) -> Unit
+        onCheckChange: (isChecked: Boolean) -> Unit,
+        id: Any = title
     ) {
         LargeIcon(
             title = title,
@@ -112,16 +112,15 @@ object CheckableListItem {
     }
 
     @Composable
-    @OptIn(ExperimentalMaterial3Api::class)
     private fun Internal(
         title: TextRes,
-        id: Any = title,
         icon: Painter,
         contentDescription: TextRes?,
         isChecked: Boolean,
         onCheckChange: (isChecked: Boolean) -> Unit,
         iconSize: Dp,
-        iconPadding: Dp
+        iconPadding: Dp,
+        id: Any = title
     ) {
         var checkedState by remember(id) { mutableStateOf(isChecked) }
         val toggleAction = { isCheckboxChecked: Boolean ->

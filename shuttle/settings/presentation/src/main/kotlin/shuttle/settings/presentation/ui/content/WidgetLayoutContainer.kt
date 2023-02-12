@@ -79,7 +79,11 @@ internal fun WidgetLayoutContainer(
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-private fun TopBar(@StringRes title: Int, onBack: () -> Unit, draggableState: DraggableState) {
+private fun TopBar(
+    @StringRes title: Int,
+    onBack: () -> Unit,
+    draggableState: DraggableState
+) {
     Column {
         Icon(
             modifier = Modifier

@@ -13,14 +13,13 @@ class OnboardingBlacklistUiModelMapper(
     private val getIconDrawableForApp: GetSystemIconDrawableForApp
 ) {
 
-    suspend fun toUiModel(app: AppModel): Either<GetSystemIconError, OnboardingBlacklistAppUiModel> =
-        either {
-            OnboardingBlacklistAppUiModel(
-                name = app.name.value,
-                icon = getIconDrawableForApp(id = app.id).bind(),
-                isBlacklisted = Random.nextBoolean()
-            )
-        }
+    suspend fun toUiModel(app: AppModel): Either<GetSystemIconError, OnboardingBlacklistAppUiModel> = either {
+        OnboardingBlacklistAppUiModel(
+            name = app.name.value,
+            icon = getIconDrawableForApp(id = app.id).bind(),
+            isBlacklisted = Random.nextBoolean()
+        )
+    }
 
     suspend fun toUiModel(apps: Collection<AppModel>, take: Int): OnboardingBlacklistUiModel {
         val blacklistApps = apps

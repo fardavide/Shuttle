@@ -15,12 +15,11 @@ class GetSystemIconBitmapForApp(
     private val ioDispatcher: CoroutineDispatcher
 ) {
 
-    suspend operator fun invoke(id: AppId): Either<GetSystemIconError, Bitmap> =
-        withContext(ioDispatcher) {
-            getSystemIconDrawableForApp(id).map { drawable ->
-                Bitmap.createBitmap(toBitmap(drawable))
-            }
+    suspend operator fun invoke(id: AppId): Either<GetSystemIconError, Bitmap> = withContext(ioDispatcher) {
+        getSystemIconDrawableForApp(id).map { drawable ->
+            Bitmap.createBitmap(toBitmap(drawable))
         }
+    }
 
     private fun toBitmap(drawable: Drawable): Bitmap {
         if (drawable is BitmapDrawable) {

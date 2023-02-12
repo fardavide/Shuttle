@@ -68,10 +68,7 @@ class SuggestedAppsWidget : GlanceAppWidget(), KoinComponent {
     }
 
     @Composable
-    private fun WidgetContent(
-        data: SuggestedAppsState.Data,
-        actions: Actions
-    ) {
+    private fun WidgetContent(data: SuggestedAppsState.Data, actions: Actions) {
         val settings = data.widgetSettings
 
         Column(
@@ -87,10 +84,7 @@ class SuggestedAppsWidget : GlanceAppWidget(), KoinComponent {
     }
 
     @Composable
-    private fun SuggestedAppsList(
-        data: SuggestedAppsState.Data,
-        actions: Actions
-    ) {
+    private fun SuggestedAppsList(data: SuggestedAppsState.Data, actions: Actions) {
         val settings = data.widgetSettings
         val rows = settings.rowsCount
         val columns = settings.columnsCount
@@ -148,6 +142,7 @@ class SuggestedAppsWidget : GlanceAppWidget(), KoinComponent {
         }
     }
 
+    @Suppress("ModifierComposable")
     @Composable
     private fun GlanceModifier.widgetBackground(
         transparency: Float = .7f,

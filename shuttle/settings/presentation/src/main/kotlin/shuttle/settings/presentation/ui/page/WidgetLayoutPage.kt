@@ -106,7 +106,7 @@ private fun WidgetColorsRoute(args: Args) = with(args) {
     WidgetColorsContent(
         settings = state.layout,
         onTransparencyUpdated = { viewModel.submit(Action.UpdateTransparency(it)) },
-        onUseMaterialColorsUpdated = { viewModel.submit(Action.UpdateUseMaterialColors(it)) },
+        onUseMaterialColorsUpdated = { viewModel.submit(Action.UpdateUseMaterialColors(it)) }
     )
 }
 

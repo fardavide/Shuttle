@@ -17,8 +17,7 @@ internal class QueryProductDetailsParamsMapper {
         )
         .build()
 
-    private fun Product.getBillingType(): String =
-        when (type) {
-            Product.Type.InApp -> BillingClient.ProductType.INAPP
-        }
+    private fun Product.getBillingType(): String = when (type) {
+        Product.Type.InApp -> BillingClient.ProductType.INAPP
+    }
 }

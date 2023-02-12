@@ -13,18 +13,17 @@ class GetIconDrawableForApp(
     private val iconsPacksRepository: IconPacksRepository
 ) {
 
-    suspend operator fun invoke(id: AppId, iconPackId: Option<AppId>): Either<GetSystemIconError, Drawable> =
-        either {
-            val systemIcon = getSystemIconForApp(id).bind()
-            iconPackId.fold(
-                ifEmpty = { systemIcon },
-                ifSome = {
-                    iconsPacksRepository.getDrawableIcon(
-                        iconPackId = it,
-                        appId = id,
-                        defaultDrawable = systemIcon
-                    )
-                }
-            )
-        }
+    suspend operator fun invoke(id: AppId, iconPackId: Option<AppId>): Either<GetSystemIconError, Drawable> = either {
+        val systemIcon = getSystemIconForApp(id).bind()
+        iconPackId.fold(
+            ifEmpty = { systemIcon },
+            ifSome = {
+                iconsPacksRepository.getDrawableIcon(
+                    iconPackId = it,
+                    appId = id,
+                    defaultDrawable = systemIcon
+                )
+            }
+        )
+    }
 }

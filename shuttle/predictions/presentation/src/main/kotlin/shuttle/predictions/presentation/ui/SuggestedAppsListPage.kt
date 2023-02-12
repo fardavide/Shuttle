@@ -33,6 +33,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import coil.compose.rememberImagePainter
+import kotlinx.collections.immutable.ImmutableList
 import org.koin.androidx.compose.getViewModel
 import shuttle.apps.domain.model.AppId
 import shuttle.design.theme.Dimens
@@ -83,7 +84,7 @@ fun SuggestedAppsListContent() {
 }
 
 @Composable
-private fun SuggestedAppsList(apps: List<AppUiModel>, onAppClicked: (AppId) -> Unit) {
+private fun SuggestedAppsList(apps: ImmutableList<AppUiModel>, onAppClicked: (AppId) -> Unit) {
     val minCellSize = Dimens.Icon.Large + Dimens.Margin.Large
     LazyVerticalGrid(
         columns = GridCells.Adaptive(minCellSize),

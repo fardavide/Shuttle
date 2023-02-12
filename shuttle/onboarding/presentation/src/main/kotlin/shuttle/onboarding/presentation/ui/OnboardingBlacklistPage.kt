@@ -22,10 +22,7 @@ import shuttle.utils.kotlin.exhaustive
 import studio.forface.shuttle.design.R.string
 
 @Composable
-internal fun OnboardingBlacklistPage(
-    state: OnboardingBlacklistState,
-    actions: OnboardingPage.NavigationActions
-) {
+internal fun OnboardingBlacklistPage(state: OnboardingBlacklistState, actions: OnboardingPage.NavigationActions) {
     OnboardingPageContent(
         index = OnboardingPage.Index.BLACKLIST,
         title = string.onboarding_blacklist_title,
@@ -63,7 +60,7 @@ private fun OnboardingBlacklistPagePreview() {
     val apps = listOf(
         OnboardingBlacklistAppUiModel("Shuttle", PreviewUtils.ShuttleIconDrawable, isBlacklisted = true),
         OnboardingBlacklistAppUiModel("Proton Mail", PreviewUtils.ShuttleIconDrawable, isBlacklisted = false),
-        OnboardingBlacklistAppUiModel("Proton Drive", PreviewUtils.ShuttleIconDrawable, isBlacklisted = false),
+        OnboardingBlacklistAppUiModel("Proton Drive", PreviewUtils.ShuttleIconDrawable, isBlacklisted = false)
     )
     val state = OnboardingBlacklistState.Data(
         blacklist = OnboardingBlacklistUiModel(

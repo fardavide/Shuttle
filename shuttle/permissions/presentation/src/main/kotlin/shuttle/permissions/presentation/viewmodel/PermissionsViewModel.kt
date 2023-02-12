@@ -14,7 +14,7 @@ import shuttle.util.android.viewmodel.ShuttleViewModel
 @OptIn(ExperimentalPermissionsApi::class)
 internal class PermissionsViewModel(
     private val isLaunchCounterServiceEnabled: IsLaunchCounterServiceEnabled,
-    private val permissionItemsUiModelMapper: PermissionItemsUiModelMapper,
+    private val permissionItemsUiModelMapper: PermissionItemsUiModelMapper
 ) : ShuttleViewModel<Action, State>(initialState = State.Loading) {
 
     override fun submit(action: Action) {
@@ -37,7 +37,7 @@ internal class PermissionsViewModel(
 
     sealed interface Action {
 
-        data class UpdatePermissionsState(val permissionsState: MultiplePermissionsState): Action
+        data class UpdatePermissionsState(val permissionsState: MultiplePermissionsState) : Action
     }
 
     sealed interface State {

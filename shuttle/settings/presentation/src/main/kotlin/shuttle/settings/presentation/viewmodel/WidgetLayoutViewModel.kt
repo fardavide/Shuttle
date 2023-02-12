@@ -28,14 +28,14 @@ internal class WidgetLayoutViewModel(
     observeWidgetSettings: ObserveWidgetSettings,
     private val updateWidgetSettings: UpdateWidgetSettings,
     private val widgetPreviewAppUiModelMapper: WidgetPreviewAppUiModelMapper,
-    private val widgetSettingsUiModelMapper: WidgetSettingsUiModelMapper,
+    private val widgetSettingsUiModelMapper: WidgetSettingsUiModelMapper
 ) : ShuttleViewModel<Action, State>(initialState = State.Loading) {
 
     init {
         combine(
             observeAllInstalledApps(),
             observeCurrentIconPack(),
-            observeWidgetSettings(),
+            observeWidgetSettings()
         ) { installedApps, currentIconPack, widgetSettings ->
             State.Data(
                 previewApps = widgetPreviewAppUiModelMapper

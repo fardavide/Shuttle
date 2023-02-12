@@ -8,6 +8,5 @@ class GetLaunchIntentForApp(
     private val packageManager: PackageManager
 ) {
 
-    operator fun invoke(appId: AppId): Intent =
-        packageManager.getLaunchIntentForPackage(appId.value)!!
+    operator fun invoke(appId: AppId): Intent = packageManager.getLaunchIntentForPackage(appId.value)!!
 }

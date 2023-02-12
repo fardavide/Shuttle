@@ -9,17 +9,14 @@ import shuttle.stats.data.model.DatabaseDateAndTime
 
 internal class DatabaseDateAndTimeMapper {
 
-    fun toDatabaseDateAndTime(dateTime: DateTime) =
-        DatabaseDateAndTime(
-            date = toDatabaseDate(dateTime.date),
-            time = toDatabaseTime(dateTime.time)
-        )
+    fun toDatabaseDateAndTime(dateTime: DateTime) = DatabaseDateAndTime(
+        date = toDatabaseDate(dateTime.date),
+        time = toDatabaseTime(dateTime.time)
+    )
 
-    fun toDatabaseDate(date: Date) =
-        DatabaseDate(dayNumber = date.dayOfYear + (date.year - YearOffset) * DaysInOneYear)
+    fun toDatabaseDate(date: Date) = DatabaseDate(dayNumber = date.dayOfYear + (date.year - YearOffset) * DaysInOneYear)
 
-    fun toDatabaseTime(time: Time) =
-        DatabaseTime(minuteOfTheDay = time.hourAdjusted * OneHourInMinutes + time.minute)
+    fun toDatabaseTime(time: Time) = DatabaseTime(minuteOfTheDay = time.hourAdjusted * OneHourInMinutes + time.minute)
 
     companion object {
 

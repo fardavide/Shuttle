@@ -89,7 +89,7 @@ private fun SettingsContent(
     state: SettingsState,
     actions: SettingsPage.Actions,
     resetOnboardingShown: () -> Unit,
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     updatePrioritizeLocation: (Boolean) -> Unit
 ) {
     LazyColumn(modifier = modifier.fillMaxHeight()) {

@@ -2,6 +2,8 @@ package shuttle.settings.presentation.viewmodel
 
 import androidx.lifecycle.viewModelScope
 import arrow.core.Either
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -52,7 +54,7 @@ internal class BlacklistSettingsViewModel(
                 if (app.id == appId) true
                 else app.isBlacklisted
             app.copy(isBlacklisted = shouldBeBlacklisted)
-        }
+        }.toImmutableList()
         viewModelScope.launch {
             addToBlacklist(appId)
         }
@@ -65,7 +67,7 @@ internal class BlacklistSettingsViewModel(
                 if (app.id == appId) false
                 else app.isBlacklisted
             app.copy(isBlacklisted = shouldBeBlacklisted)
-        }
+        }.toImmutableList()
         viewModelScope.launch {
             removeFromBlacklist(appId)
         }
@@ -87,20 +89,20 @@ internal class BlacklistSettingsViewModel(
         }
     }
 
-    private fun List<Either<GetSystemIconError, AppBlacklistSettingUiModel>>.filterRight():
-        List<AppBlacklistSettingUiModel> = mapNotNull { it.orNull() }
+    @Suppress("MaxLineLength")
+    private fun List<Either<GetSystemIconError, AppBlacklistSettingUiModel>>.filterRight(): ImmutableList<AppBlacklistSettingUiModel> = mapNotNull { it.orNull() }.toImmutableList()
 
     sealed interface State {
 
         object Loading : State
-        data class Data(val apps: List<AppBlacklistSettingUiModel>) : State
+        data class Data(val apps: ImmutableList<AppBlacklistSettingUiModel>) : State
         data class Error(val message: String) : State
     }
 
     sealed interface Action {
 
-        data class AddToBlacklist(val appId: AppId): Action
-        data class RemoveFromBlacklist(val appId: AppId): Action
-        data class Search(val query: String): Action
+        data class AddToBlacklist(val appId: AppId) : Action
+        data class RemoveFromBlacklist(val appId: AppId) : Action
+        data class Search(val query: String) : Action
     }
 }

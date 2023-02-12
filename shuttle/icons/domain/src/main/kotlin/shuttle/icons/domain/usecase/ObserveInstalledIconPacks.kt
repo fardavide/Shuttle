@@ -8,6 +8,5 @@ class ObserveInstalledIconPacks(
     private val appsRepository: AppsRepository
 ) {
 
-    operator fun invoke(): Flow<List<AppModel>> =
-        appsRepository.observeInstalledIconPacks()
+    operator fun invoke(): Flow<List<AppModel>> = appsRepository.observeInstalledIconPacks()
 }

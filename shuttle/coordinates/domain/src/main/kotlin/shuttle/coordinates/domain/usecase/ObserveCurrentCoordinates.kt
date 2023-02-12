@@ -8,6 +8,5 @@ class ObserveCurrentCoordinates(
     private val repository: CoordinatesRepository
 ) {
 
-    operator fun invoke(): Flow<CoordinatesResult> =
-        repository.observeCurrentCoordinates()
+    operator fun invoke(): Flow<CoordinatesResult> = repository.observeCurrentCoordinates()
 }

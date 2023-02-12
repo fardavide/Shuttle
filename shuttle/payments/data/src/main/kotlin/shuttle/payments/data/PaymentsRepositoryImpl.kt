@@ -21,7 +21,7 @@ import shuttle.payments.presentation.mapper.QueryProductDetailsParamsMapper
 internal class PaymentsRepositoryImpl(
     private val billingClient: BillingClient,
     private val paramsMapper: QueryProductDetailsParamsMapper
-): PaymentsRepository {
+) : PaymentsRepository {
 
     override suspend fun getPrice(product: Product): Either<PaymentError.GetProduct, ProductPrice> =
         getProductDetails(product).flatMap { productDetails ->
@@ -35,24 +35,22 @@ internal class PaymentsRepositoryImpl(
             }
         }
 
-    override suspend fun getProductDetails(product: Product): Either<PaymentError.GetProduct, ProductDetails> =
-        either {
-            billingClient.connect()
+    override suspend fun getProductDetails(product: Product): Either<PaymentError.GetProduct, ProductDetails> = either {
+        billingClient.connect()
 
-            val queryParams = paramsMapper.toQueryProductDetailsParams(product)
+        val queryParams = paramsMapper.toQueryProductDetailsParams(product)
 
-            billingClient.queryProductDetails(queryParams)
-                .mapWith({ it.billingResult }) { it.productDetailsList }
-                .mapLeft { PaymentError.GetProduct(it) }
-                .bind()
-                .first()
-        }
+        billingClient.queryProductDetails(queryParams)
+            .mapWith({ it.billingResult }) { it.productDetailsList }
+            .mapLeft { PaymentError.GetProduct(it) }
+            .bind()
+            .first()
+    }
 
     private fun <A, B : Any> A.mapWith(
         getBillingResult: (A) -> BillingResult,
         f: (A) -> B?
-    ): Either<PaymentErrorReason, B> =
-        getBillingResult(this)
-            .toSuccessOrErrorReason()
-            .map { checkNotNull(f(this)) }
+    ): Either<PaymentErrorReason, B> = getBillingResult(this)
+        .toSuccessOrErrorReason()
+        .map { checkNotNull(f(this)) }
 }

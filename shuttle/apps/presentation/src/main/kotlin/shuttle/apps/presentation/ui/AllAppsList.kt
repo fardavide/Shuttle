@@ -20,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import coil.compose.rememberImagePainter
+import kotlinx.collections.immutable.ImmutableList
 import org.koin.androidx.compose.getViewModel
 import shuttle.apps.presentation.model.AppUiModel
 import shuttle.apps.presentation.viewmodel.AllAppsListViewModel
@@ -40,9 +41,7 @@ fun AllAppsListPage() {
 }
 
 @Composable
-internal fun AllAppsList(
-    apps: List<AppUiModel>
-) {
+internal fun AllAppsList(apps: ImmutableList<AppUiModel>) {
     LazyColumn(contentPadding = PaddingValues(Dimens.Margin.Large)) {
         items(apps) {
             AppListItem(it)
@@ -51,9 +50,7 @@ internal fun AllAppsList(
 }
 
 @Composable
-internal fun AppListItem(
-    app: AppUiModel
-) {
+internal fun AppListItem(app: AppUiModel) {
     Row(modifier = Modifier.padding(vertical = Dimens.Margin.Medium)) {
         Image(
             painter = rememberImagePainter(data = app.icon),

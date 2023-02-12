@@ -1,5 +1,6 @@
 package shuttle.icons.data
 
+import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.graphics.Bitmap
@@ -22,6 +23,7 @@ import java.util.Locale
 import java.util.Random
 
 @Suppress("DEPRECATION")
+@SuppressLint("DiscouragedApi", "UseCompatLoadingForDrawables")
 class IconPacksRepositoryImpl(
     private val packageManager: PackageManager,
     private val dispatcher: CoroutineDispatcher
@@ -29,11 +31,17 @@ class IconPacksRepositoryImpl(
 
     private var cache = mutableMapOf<AppId, IconPack>()
 
-    override suspend fun getDrawableIcon(iconPackId: AppId, appId: AppId, defaultDrawable: Drawable): Drawable =
-        getDrawableIcon(loadIconPack(iconPackId), appId, defaultDrawable)
+    override suspend fun getDrawableIcon(
+        iconPackId: AppId,
+        appId: AppId,
+        defaultDrawable: Drawable
+    ): Drawable = getDrawableIcon(loadIconPack(iconPackId), appId, defaultDrawable)
 
-    override suspend fun getBitmapIcon(iconPackId: AppId, appId: AppId, defaultBitmap: Bitmap): Bitmap =
-        getBitmapIcon(loadIconPack(iconPackId), appId, defaultBitmap)
+    override suspend fun getBitmapIcon(
+        iconPackId: AppId,
+        appId: AppId,
+        defaultBitmap: Bitmap
+    ): Bitmap = getBitmapIcon(loadIconPack(iconPackId), appId, defaultBitmap)
 
     @Suppress("LongMethod", "ComplexMethod", "SwallowedException") // Copied from SO, to be refactored
     private suspend fun loadIconPack(id: AppId): IconPack = withContext(dispatcher) {
@@ -74,7 +82,7 @@ class IconPacksRepositoryImpl(
                     xpp = factory.newPullParser()
                     xpp.setInput(appFilterStream, "utf-8")
                 } catch (e1: IOException) {
-                    //Ln.d("No appfilter.xml file");
+                    // Ln.d("No appfilter.xml file");
                 }
             }
             if (xpp != null) {
@@ -124,9 +132,9 @@ class IconPacksRepositoryImpl(
                 }
             }
         } catch (e: PackageManager.NameNotFoundException) {
-            //Ln.d("Cannot load icon pack");
+            // Ln.d("Cannot load icon pack");
         } catch (e: XmlPullParserException) {
-            //Ln.d("Cannot parse icon pack appfilter.xml");
+            // Ln.d("Cannot parse icon pack appfilter.xml");
         } catch (e: IOException) {
             e.printStackTrace()
         }
@@ -273,24 +281,24 @@ class IconPacksRepositoryImpl(
             )
             mCanvas.drawBitmap(mutableMask, 0f, 0f, paint)
             paint.xfermode = null
-        } else  // draw the scaled bitmap with the back image as mask
-        {
-            val mutableMask = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
-            val maskCanvas = Canvas(mutableMask)
-            maskCanvas.drawBitmap(backImage, 0f, 0f, Paint())
+        } else // draw the scaled bitmap with the back image as mask
+            {
+                val mutableMask = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
+                val maskCanvas = Canvas(mutableMask)
+                maskCanvas.drawBitmap(backImage, 0f, 0f, Paint())
 
-            // paint the bitmap with mask into the result
-            val paint = Paint(Paint.ANTI_ALIAS_FLAG)
-            paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.DST_IN)
-            mCanvas.drawBitmap(
-                scaledBitmap,
-                ((w - scaledBitmap.width) / 2).toFloat(),
-                ((h - scaledBitmap.height) / 2).toFloat(),
-                null
-            )
-            mCanvas.drawBitmap(mutableMask, 0f, 0f, paint)
-            paint.xfermode = null
-        }
+                // paint the bitmap with mask into the result
+                val paint = Paint(Paint.ANTI_ALIAS_FLAG)
+                paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.DST_IN)
+                mCanvas.drawBitmap(
+                    scaledBitmap,
+                    ((w - scaledBitmap.width) / 2).toFloat(),
+                    ((h - scaledBitmap.height) / 2).toFloat(),
+                    null
+                )
+                mCanvas.drawBitmap(mutableMask, 0f, 0f, paint)
+                paint.xfermode = null
+            }
 
         // paint the front
         if (frontImage != null) {

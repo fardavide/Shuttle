@@ -6,6 +6,5 @@ class HasEnabledAccessibilityService(
     private val settingsRepository: SettingsRepository
 ) {
 
-    suspend operator fun invoke(): Boolean =
-        settingsRepository.hasEnabledAccessibilityService()
+    suspend operator fun invoke(): Boolean = settingsRepository.hasEnabledAccessibilityService()
 }

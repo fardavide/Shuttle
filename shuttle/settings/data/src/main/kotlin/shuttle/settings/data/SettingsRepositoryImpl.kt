@@ -36,18 +36,15 @@ internal class SettingsRepositoryImpl(
         migratePreferences()
     }
 
-    override suspend fun didShowOnboarding(): Boolean =
-        dataStore.data.map {
-            it[DidShowOnboardingPreferenceKey] ?: false
-        }.first()
+    override suspend fun didShowOnboarding(): Boolean = dataStore.data.map {
+        it[DidShowOnboardingPreferenceKey] ?: false
+    }.first()
 
-    override suspend fun hasEnabledAccessibilityService(): Boolean =
-        dataStore.data.map {
-            it[HasAccessibilityServicePreferenceKey] ?: false
-        }.first()
+    override suspend fun hasEnabledAccessibilityService(): Boolean = dataStore.data.map {
+        it[HasAccessibilityServicePreferenceKey] ?: false
+    }.first()
 
-    override suspend fun isBlacklisted(appId: AppId) =
-        settingDataSource.isBlacklisted(DatabaseAppId(appId.value))
+    override suspend fun isBlacklisted(appId: AppId) = settingDataSource.isBlacklisted(DatabaseAppId(appId.value))
 
     override fun observeAppsBlacklistSettings(): Flow<List<AppBlacklistSetting>> =
         settingDataSource.findAllAppsWithBlacklistSetting().map { list ->
@@ -60,32 +57,29 @@ internal class SettingsRepositoryImpl(
             }
         }
 
-    override fun observeCurrentIconPack(): Flow<Option<AppId>> =
+    override fun observeCurrentIconPack(): Flow<Option<AppId>> = dataStore.data.map {
+        Option.fromNullable(it[CurrentIconPackPreferenceKey]?.let(::AppId))
+    }.distinctUntilChanged()
+
+    override fun observePrioritizeLocation(): Flow<Boolean> = dataStore.data.map {
+        it[PrioritizeLocationPreferenceKey] ?: false
+    }
+
+    override fun observeWidgetSettings(): Flow<WidgetSettings> = with(WidgetSettingsPreferenceKeys) {
         dataStore.data.map {
-            Option.fromNullable(it[CurrentIconPackPreferenceKey]?.let(::AppId))
+            WidgetSettings(
+                allowTwoLines = it[AllowTwoLines] ?: WidgetSettings.Default.allowTwoLines,
+                columnsCount = it[ColumnsCount] ?: WidgetSettings.Default.columnsCount,
+                horizontalSpacing = it[HorizontalSpacing]?.let(::Dp) ?: WidgetSettings.Default.horizontalSpacing,
+                iconsSize = it[IconSize]?.let(::Dp) ?: WidgetSettings.Default.iconsSize,
+                rowsCount = it[RowsCount] ?: WidgetSettings.Default.rowsCount,
+                textSize = it[TextSize]?.let(::Sp) ?: WidgetSettings.Default.textSize,
+                transparency = it[Transparency] ?: WidgetSettings.Default.transparency,
+                useMaterialColors = it[UseMaterialColors] ?: WidgetSettings.Default.useMaterialColors,
+                verticalSpacing = it[VerticalSpacing]?.let(::Dp) ?: WidgetSettings.Default.verticalSpacing
+            )
         }.distinctUntilChanged()
-
-    override fun observePrioritizeLocation(): Flow<Boolean> =
-        dataStore.data.map {
-            it[PrioritizeLocationPreferenceKey] ?: false
-        }
-
-    override fun observeWidgetSettings(): Flow<WidgetSettings> =
-        with(WidgetSettingsPreferenceKeys) {
-            dataStore.data.map {
-                WidgetSettings(
-                    allowTwoLines = it[AllowTwoLines] ?: WidgetSettings.Default.allowTwoLines,
-                    columnsCount = it[ColumnsCount] ?: WidgetSettings.Default.columnsCount,
-                    horizontalSpacing = it[HorizontalSpacing]?.let(::Dp) ?: WidgetSettings.Default.horizontalSpacing,
-                    iconsSize = it[IconSize]?.let(::Dp) ?: WidgetSettings.Default.iconsSize,
-                    rowsCount = it[RowsCount] ?: WidgetSettings.Default.rowsCount,
-                    textSize = it[TextSize]?.let(::Sp) ?: WidgetSettings.Default.textSize,
-                    transparency = it[Transparency] ?: WidgetSettings.Default.transparency,
-                    useMaterialColors = it[UseMaterialColors] ?: WidgetSettings.Default.useMaterialColors,
-                    verticalSpacing = it[VerticalSpacing]?.let(::Dp) ?: WidgetSettings.Default.verticalSpacing
-                )
-            }.distinctUntilChanged()
-        }
+    }
 
     override suspend fun resetOnboardingShown() {
         dataStore.edit {

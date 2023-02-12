@@ -9,6 +9,5 @@ class ObserveCurrentIconPack(
     private val settingsRepository: SettingsRepository
 ) {
 
-    operator fun invoke(): Flow<Option<AppId>> =
-        settingsRepository.observeCurrentIconPack()
+    operator fun invoke(): Flow<Option<AppId>> = settingsRepository.observeCurrentIconPack()
 }

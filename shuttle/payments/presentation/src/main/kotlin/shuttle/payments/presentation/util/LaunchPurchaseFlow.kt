@@ -16,10 +16,7 @@ class LaunchPurchaseFlow(
     private val getProductDetails: GetProductDetails
 ) {
 
-    suspend operator fun invoke(
-        activity: Activity,
-        product: Product
-    ): Either<PaymentError, PurchaseSuccess> = either {
+    suspend operator fun invoke(activity: Activity, product: Product): Either<PaymentError, PurchaseSuccess> = either {
         val productDetails = getProductDetails(product).bind()
 
         val flowParams = BillingFlowParams.newBuilder()

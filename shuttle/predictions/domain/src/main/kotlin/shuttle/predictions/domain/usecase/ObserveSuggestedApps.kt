@@ -21,7 +21,7 @@ class ObserveSuggestedApps(
         observeCurrentCoordinates().flatMapLatest { coordinatesResult ->
             coordinatesResult.fold(
                 ifLeft = { flowOf(ObserveSuggestedAppsError.LocationNotAvailable.left()) },
-                ifRight = { coordinates -> observeSuggestedApps(coordinates).map { it.right() }  }
+                ifRight = { coordinates -> observeSuggestedApps(coordinates).map { it.right() } }
             )
         }
 }

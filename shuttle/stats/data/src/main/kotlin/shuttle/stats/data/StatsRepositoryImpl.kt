@@ -39,32 +39,32 @@ internal class StatsRepositoryImpl(
         startTime: Time,
         endTime: Time
     ): Flow<List<SuggestedAppModel>> = combine(
-            appsRepository.observeNotBlacklistedApps(),
-            statDataSource.findAllStats().mapLatest { stats ->
-                val databaseGeoHash = location.toEither { LocationNotAvailable }.map { it.toDatabaseGeoHash() }
-                val databaseDate = databaseDateAndTimeMapper.toDatabaseDate(date)
-                val databaseStartTime = databaseDateAndTimeMapper.toDatabaseTime(startTime)
-                val databaseEndTime = databaseDateAndTimeMapper.toDatabaseTime(endTime)
-                sortAppStats(
-                    stats = stats,
-                    location = databaseGeoHash,
-                    date = databaseDate,
-                    startTime = databaseStartTime,
-                    endTime = databaseEndTime
-                )
-            }
-        ) { installedAppEither, sortedAppsIds ->
-            val allInstalledApp = installedAppEither
-                .toMutableList()
-
-            // It's ok to have an app in stats, but from the installed list, as an app can be uninstalled
-            val appsFromStats = sortedAppsIds.mapNotNull { appId ->
-                allInstalledApp.pop { it.id == appId }?.let { installedApp ->
-                    SuggestedAppModel(installedApp.id, installedApp.name, isSuggested = true)
-                }
-            }
-            appsFromStats + allInstalledApp.map(::toNotSuggestedAppModel).shuffled()
+        appsRepository.observeNotBlacklistedApps(),
+        statDataSource.findAllStats().mapLatest { stats ->
+            val databaseGeoHash = location.toEither { LocationNotAvailable }.map { it.toDatabaseGeoHash() }
+            val databaseDate = databaseDateAndTimeMapper.toDatabaseDate(date)
+            val databaseStartTime = databaseDateAndTimeMapper.toDatabaseTime(startTime)
+            val databaseEndTime = databaseDateAndTimeMapper.toDatabaseTime(endTime)
+            sortAppStats(
+                stats = stats,
+                location = databaseGeoHash,
+                date = databaseDate,
+                startTime = databaseStartTime,
+                endTime = databaseEndTime
+            )
         }
+    ) { installedAppEither, sortedAppsIds ->
+        val allInstalledApp = installedAppEither
+            .toMutableList()
+
+        // It's ok to have an app in stats, but from the installed list, as an app can be uninstalled
+        val appsFromStats = sortedAppsIds.mapNotNull { appId ->
+            allInstalledApp.pop { it.id == appId }?.let { installedApp ->
+                SuggestedAppModel(installedApp.id, installedApp.name, isSuggested = true)
+            }
+        }
+        appsFromStats + allInstalledApp.map(::toNotSuggestedAppModel).shuffled()
+    }
 
     override fun startDeleteOldStats() {
         deleteOldStatsScheduler.schedule()

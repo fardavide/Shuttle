@@ -9,17 +9,17 @@ sealed interface PaymentErrorReason {
 
     val debugMessage: String
 
-    data class BillingUnavailable(override val debugMessage: String): PaymentErrorReason
-    data class DeveloperError(override val debugMessage: String): PaymentErrorReason
-    data class GenericError(override val debugMessage: String): PaymentErrorReason
-    data class ItemAlreadyOwned(override val debugMessage: String): PaymentErrorReason
-    data class ItemNotOwned(override val debugMessage: String): PaymentErrorReason
-    data class ItemUnavailable(override val debugMessage: String): PaymentErrorReason
-    data class FeatureNotSupported(override val debugMessage: String): PaymentErrorReason
-    data class ServiceDisconnected(override val debugMessage: String): PaymentErrorReason
-    data class ServiceTimeout(override val debugMessage: String): PaymentErrorReason
-    data class ServiceUnavailable(override val debugMessage: String): PaymentErrorReason
-    data class UserCanceled(override val debugMessage: String): PaymentErrorReason
+    data class BillingUnavailable(override val debugMessage: String) : PaymentErrorReason
+    data class DeveloperError(override val debugMessage: String) : PaymentErrorReason
+    data class GenericError(override val debugMessage: String) : PaymentErrorReason
+    data class ItemAlreadyOwned(override val debugMessage: String) : PaymentErrorReason
+    data class ItemNotOwned(override val debugMessage: String) : PaymentErrorReason
+    data class ItemUnavailable(override val debugMessage: String) : PaymentErrorReason
+    data class FeatureNotSupported(override val debugMessage: String) : PaymentErrorReason
+    data class ServiceDisconnected(override val debugMessage: String) : PaymentErrorReason
+    data class ServiceTimeout(override val debugMessage: String) : PaymentErrorReason
+    data class ServiceUnavailable(override val debugMessage: String) : PaymentErrorReason
+    data class UserCanceled(override val debugMessage: String) : PaymentErrorReason
 
     data class ErrorCodeNotFoundError(val errorCode: Int, override val debugMessage: String) : PaymentErrorReason
 }

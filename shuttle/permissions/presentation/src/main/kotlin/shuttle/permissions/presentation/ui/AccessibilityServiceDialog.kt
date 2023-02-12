@@ -39,7 +39,7 @@ internal fun AccessibilityServiceDialog(onConfirm: () -> Unit, onDismiss: () -> 
 }
 
 @Composable
-@Preview(showBackground = true) 
+@Preview(showBackground = true)
 private fun AccessibilityServiceDialogPreview() {
     ShuttleTheme {
         AccessibilityServiceDialog(onConfirm = {}, onDismiss = {})

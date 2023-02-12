@@ -14,12 +14,11 @@ class AppUiModelMapper(
     suspend fun toUiModels(appModels: Collection<AppModel>): List<Either<GetSystemIconError, AppUiModel>> =
         appModels.map { toUiModel(it) }
 
-    private suspend fun toUiModel(appModel: AppModel): Either<GetSystemIconError, AppUiModel> =
-        either {
-            AppUiModel(
-                id = appModel.id,
-                name = appModel.name.value,
-                icon = getSystemIconDrawableForApp(appModel.id).bind()
-            )
-        }
+    private suspend fun toUiModel(appModel: AppModel): Either<GetSystemIconError, AppUiModel> = either {
+        AppUiModel(
+            id = appModel.id,
+            name = appModel.name.value,
+            icon = getSystemIconDrawableForApp(appModel.id).bind()
+        )
+    }
 }

@@ -7,6 +7,5 @@ class ObservePrioritizeLocation(
     private val settingsRepository: SettingsRepository
 ) {
 
-    operator fun invoke(): Flow<Boolean> =
-        settingsRepository.observePrioritizeLocation()
+    operator fun invoke(): Flow<Boolean> = settingsRepository.observePrioritizeLocation()
 }

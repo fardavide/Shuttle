@@ -7,6 +7,5 @@ class IsBlacklisted(
     private val settingsRepository: SettingsRepository
 ) {
 
-    suspend operator fun invoke(appId: AppId): Boolean =
-        settingsRepository.isBlacklisted(appId)
+    suspend operator fun invoke(appId: AppId): Boolean = settingsRepository.isBlacklisted(appId)
 }

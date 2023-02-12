@@ -12,7 +12,11 @@ class RefreshCurrentLocationActionCallback : ActionCallback, KoinComponent {
 
     private val refreshLocation: RefreshLocation by inject()
 
-    override suspend fun onAction(context: Context, glanceId: GlanceId, parameters: ActionParameters) {
+    override suspend fun onAction(
+        context: Context,
+        glanceId: GlanceId,
+        parameters: ActionParameters
+    ) {
         refreshLocation()
     }
 }

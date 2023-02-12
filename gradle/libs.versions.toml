@@ -29,6 +29,7 @@ koinCompose = "3.4.1"
 koinKsp = "1.1.0"
 kotlin = "1.8.0"
 kotlinCoroutines = "1.6.4"
+kotlinImmutableCollections = "0.3.3"
 kotlinSerialization = "1.4.1"
 ksp = "1.8.0-1.0.8"
 mockk = "1.13.4"
@@ -111,6 +112,7 @@ koin-test-junit4 = { module = "io.insert-koin:koin-test-junit4", version.ref = "
 
 kotlin-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinCoroutines" }
 kotlin-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinCoroutines" }
+kotlin-immutable-collections = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinImmutableCollections" }
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 kotlin-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinSerialization" }
 
@@ -144,6 +146,7 @@ compose = [
     "compose-ui",
     "compose-uiToolingPreview",
     "koin-android-compose",
+    "kotlin-immutable-collections",
     "material3"
 ]
 compose-debug = [

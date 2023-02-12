@@ -6,7 +6,15 @@ import shuttle.apps.domain.model.AppId
 
 interface IconPacksRepository {
 
-    suspend fun getDrawableIcon(iconPackId: AppId, appId: AppId, defaultDrawable: Drawable): Drawable
+    suspend fun getDrawableIcon(
+        iconPackId: AppId,
+        appId: AppId,
+        defaultDrawable: Drawable
+    ): Drawable
 
-    suspend fun getBitmapIcon(iconPackId: AppId, appId: AppId, defaultBitmap: Bitmap): Bitmap
+    suspend fun getBitmapIcon(
+        iconPackId: AppId,
+        appId: AppId,
+        defaultBitmap: Bitmap
+    ): Bitmap
 }

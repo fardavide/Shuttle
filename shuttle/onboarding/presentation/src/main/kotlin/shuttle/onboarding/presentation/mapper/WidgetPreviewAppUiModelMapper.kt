@@ -14,11 +14,10 @@ class WidgetPreviewAppUiModelMapper(
     suspend fun toUiModels(apps: Collection<AppModel>): List<Either<GetSystemIconError, WidgetPreviewAppUiModel>> =
         apps.map { toUiModel(app = it) }
 
-    private suspend fun toUiModel(app: AppModel): Either<GetSystemIconError, WidgetPreviewAppUiModel> =
-        either {
-            WidgetPreviewAppUiModel(
-                name = app.name.value,
-                icon = getIconDrawableForApp(id = app.id).bind()
-            )
-        }
+    private suspend fun toUiModel(app: AppModel): Either<GetSystemIconError, WidgetPreviewAppUiModel> = either {
+        WidgetPreviewAppUiModel(
+            name = app.name.value,
+            icon = getIconDrawableForApp(id = app.id).bind()
+        )
+    }
 }

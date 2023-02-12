@@ -11,8 +11,7 @@ class HasBackgroundLocation(
     private val isAndroidQ: IsAndroidQ
 ) {
 
-    operator fun invoke(state: MultiplePermissionsState) =
-        isAndroidQ().not() ||
-            state.permissions.any { it.permission == BackgroundLocation && it.status == PermissionStatus.Granted }
+    operator fun invoke(state: MultiplePermissionsState) = isAndroidQ().not() ||
+        state.permissions.any { it.permission == BackgroundLocation && it.status == PermissionStatus.Granted }
 }
 

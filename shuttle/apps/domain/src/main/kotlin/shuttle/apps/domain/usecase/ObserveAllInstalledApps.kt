@@ -8,6 +8,5 @@ class ObserveAllInstalledApps(
     private val repository: AppsRepository
 ) {
 
-    operator fun invoke(): Flow<List<AppModel>> =
-        repository.observeAllInstalledApps()
+    operator fun invoke(): Flow<List<AppModel>> = repository.observeAllInstalledApps()
 }

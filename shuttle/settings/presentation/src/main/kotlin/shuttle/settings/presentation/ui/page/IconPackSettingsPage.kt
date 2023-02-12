@@ -30,6 +30,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import arrow.core.Option
 import coil.compose.rememberImagePainter
+import kotlinx.collections.immutable.ImmutableList
 import org.koin.androidx.compose.getViewModel
 import shuttle.apps.domain.model.AppId
 import shuttle.design.theme.Dimens
@@ -52,7 +53,8 @@ fun IconPackSettingsPage(onBack: () -> Unit) {
         topBar = {
             TopAppBar(
                 title = { Text(stringResource(id = R.string.settings_icon_pack_title)) },
-                navigationIcon = { BackIconButton(onBack) })
+                navigationIcon = { BackIconButton(onBack) }
+            )
         }
     ) { paddingValues ->
         Box(modifier = Modifier.padding(paddingValues)) {
@@ -77,7 +79,7 @@ private fun IconPacksSettingsContent() {
 
 @Composable
 private fun BlacklistItemsList(
-    iconPackItems: List<IconPackSettingsItemUiModel>,
+    iconPackItems: ImmutableList<IconPackSettingsItemUiModel>,
     onSetCurrentIconPack: (Option<AppId>) -> Unit
 ) {
     LazyColumn(contentPadding = PaddingValues(Dimens.Margin.Small)) {

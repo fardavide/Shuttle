@@ -64,14 +64,15 @@ fun AboutPage(onBack: () -> Unit) {
     Scaffold(
         modifier = Modifier.statusBarsPadding().navigationBarsPadding(),
         topBar = {
-            TopAppBar(title = { Text(stringResource(id = string.settings_about_title)) },
+            TopAppBar(
+                title = { Text(stringResource(id = string.settings_about_title)) },
                 navigationIcon = { BackIconButton(onBack) }
             )
         },
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
     ) { paddingValues ->
         when (val s = state.value) {
-            is State.Data ->  AboutContent(
+            is State.Data -> AboutContent(
                 modifier = Modifier.padding(paddingValues),
                 state = s,
                 actions = actions,
@@ -95,10 +96,10 @@ private suspend fun SnackbarHostState.showSnackbarIfNone(message: String) {
 
 @Composable
 private fun AboutContent(
-    modifier: Modifier,
     state: State.Data,
     actions: Actions,
-    snackbarHostState: SnackbarHostState
+    snackbarHostState: SnackbarHostState,
+    modifier: Modifier = Modifier
 ) {
     ConsumableLaunchedEffect(effect = state.purchaseResult) { result ->
         result.handle(snackbarHostState)
@@ -172,7 +173,7 @@ private fun AboutContentPreview() {
         toGitHubDev = {},
         toTwitterDev = {},
         buyCoffee = {},
-        buyMakeup = {},
+        buyMakeup = {}
     )
     ShuttleTheme {
         AboutContent(

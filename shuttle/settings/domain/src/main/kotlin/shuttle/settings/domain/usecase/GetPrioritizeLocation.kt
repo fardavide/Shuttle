@@ -6,6 +6,5 @@ class GetPrioritizeLocation(
     private val observePrioritizeLocation: ObservePrioritizeLocation
 ) {
 
-    suspend operator fun invoke(): Boolean =
-        observePrioritizeLocation().first()
+    suspend operator fun invoke(): Boolean = observePrioritizeLocation().first()
 }

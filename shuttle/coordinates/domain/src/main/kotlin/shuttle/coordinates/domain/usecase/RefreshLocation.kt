@@ -8,6 +8,5 @@ class RefreshLocation(
     private val coordinatesRepository: CoordinatesRepository
 ) {
 
-    suspend operator fun invoke(): Either<LocationError, Unit> =
-        coordinatesRepository.refreshLocation()
+    suspend operator fun invoke(): Either<LocationError, Unit> = coordinatesRepository.refreshLocation()
 }

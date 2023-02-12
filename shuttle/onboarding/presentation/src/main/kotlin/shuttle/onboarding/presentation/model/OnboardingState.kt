@@ -27,7 +27,7 @@ sealed interface OnboardingWidgetPreviewState {
 
     object Loading : OnboardingWidgetPreviewState
 
-    data class Data(val widgetPreview: WidgetPreviewUiModel): OnboardingWidgetPreviewState
+    data class Data(val widgetPreview: WidgetPreviewUiModel) : OnboardingWidgetPreviewState
 }
 
 sealed interface OnboardingBlacklistState {

@@ -17,17 +17,15 @@ class GetSystemIconDrawableForApp(
 
     private val cache = mutableMapOf<AppId, Drawable>()
 
-    suspend operator fun invoke(id: AppId): Either<GetSystemIconError, Drawable> =
-        withContext(ioDispatcher) {
-            cache[id]?.right()
-                ?: getSystemIconFromSystem(id)
-                    .tap { cache[id] = it }
-        }
+    suspend operator fun invoke(id: AppId): Either<GetSystemIconError, Drawable> = withContext(ioDispatcher) {
+        cache[id]?.right()
+            ?: getSystemIconFromSystem(id)
+                .tap { cache[id] = it }
+    }
 
-    private fun getSystemIconFromSystem(id: AppId): Either<GetSystemIconError, Drawable> =
-        try {
-            packageManager.getApplicationIcon(id.value).right()
-        } catch (ignored: PackageManager.NameNotFoundException) {
-            GetSystemIconError.AppNotInstalled.left()
-        }
+    private fun getSystemIconFromSystem(id: AppId): Either<GetSystemIconError, Drawable> = try {
+        packageManager.getApplicationIcon(id.value).right()
+    } catch (ignored: PackageManager.NameNotFoundException) {
+        GetSystemIconError.AppNotInstalled.left()
+    }
 }

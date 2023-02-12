@@ -4,6 +4,8 @@ import androidx.lifecycle.viewModelScope
 import arrow.core.Either
 import arrow.core.None
 import arrow.core.Option
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -55,24 +57,24 @@ internal class IconPacksSettingsViewModel(
                 is IconPackSettingsItemUiModel.SystemDefault -> uiModel.copy(isSelected = iconPackId.isEmpty())
                 is IconPackSettingsItemUiModel.FromApp -> uiModel.copy(isSelected = uiModel.id == iconPackId.orNull())
             }
-        }
+        }.toImmutableList()
         viewModelScope.launch {
             setCurrentIconPack(iconPackId)
         }
         return State.Data(newData)
     }
 
-    private fun List<Either<GetSystemIconError, IconPackSettingsItemUiModel>>.filterRight():
-        List<IconPackSettingsItemUiModel> = mapNotNull { it.orNull() }
+    @Suppress("MaxLineLength")
+    private fun List<Either<GetSystemIconError, IconPackSettingsItemUiModel>>.filterRight(): ImmutableList<IconPackSettingsItemUiModel> = mapNotNull { it.orNull() }.toImmutableList()
 
     sealed interface State {
 
         object Loading : State
-        data class Data(val iconPackSettingItems: List<IconPackSettingsItemUiModel>) : State
+        data class Data(val iconPackSettingItems: ImmutableList<IconPackSettingsItemUiModel>) : State
     }
 
     sealed interface Action {
 
-        data class SetCurrentIconPack(val iconPackId: Option<AppId>): Action
+        data class SetCurrentIconPack(val iconPackId: Option<AppId>) : Action
     }
 }

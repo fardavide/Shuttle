@@ -28,6 +28,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
+import kotlinx.collections.immutable.ImmutableList
 import org.koin.androidx.compose.getViewModel
 import shuttle.apps.domain.model.AppId
 import shuttle.design.PreviewUtils
@@ -53,7 +54,8 @@ fun BlacklistSettingsPage(onBack: () -> Unit) {
             .statusBarsPadding()
             .navigationBarsPadding(),
         topBar = {
-            TopAppBar(title = { Text(stringResource(id = R.string.settings_blacklist_title)) },
+            TopAppBar(
+                title = { Text(stringResource(id = R.string.settings_blacklist_title)) },
                 navigationIcon = { BackIconButton(onBack) }
             )
         }
@@ -107,7 +109,7 @@ private fun SearchBar(onSearch: (String) -> Unit) {
 
 @Composable
 private fun BlacklistItemsList(
-    apps: List<AppBlacklistSettingUiModel>,
+    apps: ImmutableList<AppBlacklistSettingUiModel>,
     onAddToBlacklist: (AppId) -> Unit,
     onRemoveFromBlacklist: (AppId) -> Unit
 ) {

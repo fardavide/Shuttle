@@ -79,7 +79,7 @@ class SettingsViewModel(
     sealed interface Action {
 
         object ResetOnboardingShown : Action
-        data class UpdatePermissionsState(val permissionsState: MultiplePermissionsState): Action
-        data class UpdatePrioritizeLocation(val value: Boolean): Action
+        data class UpdatePermissionsState(val permissionsState: MultiplePermissionsState) : Action
+        data class UpdatePrioritizeLocation(val value: Boolean) : Action
     }
 }

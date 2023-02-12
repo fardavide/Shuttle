@@ -6,6 +6,5 @@ class DidShowOnboarding(
     private val settingsRepository: SettingsRepository
 ) {
 
-    suspend operator fun invoke(): Boolean =
-        settingsRepository.didShowOnboarding()
+    suspend operator fun invoke(): Boolean = settingsRepository.didShowOnboarding()
 }

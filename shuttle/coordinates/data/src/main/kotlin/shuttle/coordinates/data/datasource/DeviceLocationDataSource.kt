@@ -40,8 +40,7 @@ internal class DeviceLocationDataSource(
     private fun notExpired(
         location: Either<LocationError, Location>,
         currentTime: DateTime
-    ): Either<LocationError, Location> =
-        location.ensure({ ExpiredLocation }, { isExpired(it.time, currentTime).not() })
+    ): Either<LocationError, Location> = location.ensure({ ExpiredLocation }, { isExpired(it.time, currentTime).not() })
 
     private fun isExpired(locationTime: Long, currentTime: DateTime): Boolean =
         currentTime.unixMillisLong - locationTime > locationExpiration.inWholeMilliseconds

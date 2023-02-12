@@ -32,78 +32,71 @@ class AppsRepositoryImpl(
     private val dataSource: AppDataSource,
     private val ioDispatcher: CoroutineDispatcher,
     private val isBlacklisted: IsBlacklisted,
-    private val packageManager: PackageManager,
+    private val packageManager: PackageManager
 ) : AppsRepository {
 
     override fun observeAllInstalledApps(): Flow<List<AppModel>> =
         merge(observeAllInstalledAppsFromCache(), observeAndRefreshAppsFromDevice())
 
-    override fun observeInstalledIconPacks(): Flow<List<AppModel>> =
-        flow {
-            while (coroutineContext.isActive) {
-                emit(getIconPacksFromDevice())
+    override fun observeInstalledIconPacks(): Flow<List<AppModel>> = flow {
+        while (coroutineContext.isActive) {
+            emit(getIconPacksFromDevice())
+            delay(RefreshDelay)
+        }
+    }
+
+    override fun observeNotBlacklistedApps(): Flow<List<AppModel>> = observeAllInstalledApps().map { list ->
+        list.filterNot { isBlacklisted(it.id) }
+    }
+
+    private fun observeAllInstalledAppsFromCache(): Flow<List<AppModel>> = dataSource.findAllApps()
+        .filterNot { it.isEmpty() }
+        .map { list ->
+            list.map { AppModel(AppId(it.id.value), AppName(it.name)) }
+        }
+
+    private fun observeAndRefreshAppsFromDevice(): Flow<List<AppModel>> = flow {
+        while (coroutineContext.isActive) {
+            coroutineScope {
+                val installedAppsFromDeviceDeferred = async { getAllInstalledAppsFromDevice() }
+                val installedAppsFromCacheDeferred = async { dataSource.findAllApps().first() }
+
+                val installedAppsFromDevice = installedAppsFromDeviceDeferred.await()
+                val installedAppsFromCache = installedAppsFromCacheDeferred.await()
+
+                emit(installedAppsFromDevice)
+                val databaseApps =
+                    installedAppsFromDevice.map { app -> App(DatabaseAppId(app.id.value), app.name.value) }
+                dataSource.insert(databaseApps)
+
+                val appsToRemove = installedAppsFromCache.filterNot { app ->
+                    app.id.value in installedAppsFromDevice.map { it.id.value }
+                }
+                dataSource.delete(appsToRemove)
+
                 delay(RefreshDelay)
             }
         }
-
-    override fun observeNotBlacklistedApps(): Flow<List<AppModel>> =
-        observeAllInstalledApps().map { list ->
-            list.filterNot { isBlacklisted(it.id) }
-        }
-
-    private fun observeAllInstalledAppsFromCache(): Flow<List<AppModel>> =
-        dataSource.findAllApps()
-            .filterNot { it.isEmpty() }
-            .map { list ->
-                list.map { AppModel(AppId(it.id.value), AppName(it.name)) }
-            }
-
-    private fun observeAndRefreshAppsFromDevice(): Flow<List<AppModel>> =
-        flow {
-            while (coroutineContext.isActive) {
-                coroutineScope {
-                    val installedAppsFromDeviceDeferred = async { getAllInstalledAppsFromDevice() }
-                    val installedAppsFromCacheDeferred = async { dataSource.findAllApps().first() }
-
-                    val installedAppsFromDevice = installedAppsFromDeviceDeferred.await()
-                    val installedAppsFromCache = installedAppsFromCacheDeferred.await()
-
-                    emit(installedAppsFromDevice)
-                    val databaseApps =
-                        installedAppsFromDevice.map { app -> App(DatabaseAppId(app.id.value), app.name.value) }
-                    dataSource.insert(databaseApps)
-
-                    val appsToRemove = installedAppsFromCache.filterNot { app ->
-                        app.id.value in installedAppsFromDevice.map { it.id.value }
-                    }
-                    dataSource.delete(appsToRemove)
-
-                    delay(RefreshDelay)
-                }
-            }
-        }
+    }
 
     @SuppressLint("QueryPermissionsNeeded")
-    private suspend fun getAllInstalledAppsFromDevice(): List<AppModel> =
-        withContext(ioDispatcher) {
-            @Suppress("DEPRECATION")
-            packageManager.queryIntentActivities(buildLauncherCategoryIntent(), PackageManager.GET_META_DATA)
-                .map(::toAppModel)
-                .sortedBy { it.name.value.uppercase() }
-        }
+    private suspend fun getAllInstalledAppsFromDevice(): List<AppModel> = withContext(ioDispatcher) {
+        @Suppress("DEPRECATION")
+        packageManager.queryIntentActivities(buildLauncherCategoryIntent(), PackageManager.GET_META_DATA)
+            .map(::toAppModel)
+            .sortedBy { it.name.value.uppercase() }
+    }
 
 
     @SuppressLint("QueryPermissionsNeeded")
-    private suspend fun getIconPacksFromDevice(): List<AppModel> =
-        withContext(ioDispatcher) {
-            @Suppress("DEPRECATION")
-            packageManager.queryIntentActivities(Intent(IconPackThemesId), PackageManager.GET_META_DATA)
-                .map(::toAppModel)
-                .sortedBy { it.name.value.uppercase() }
-        }
+    private suspend fun getIconPacksFromDevice(): List<AppModel> = withContext(ioDispatcher) {
+        @Suppress("DEPRECATION")
+        packageManager.queryIntentActivities(Intent(IconPackThemesId), PackageManager.GET_META_DATA)
+            .map(::toAppModel)
+            .sortedBy { it.name.value.uppercase() }
+    }
 
-    private fun buildLauncherCategoryIntent() =
-        Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_LAUNCHER)
+    private fun buildLauncherCategoryIntent() = Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_LAUNCHER)
 
     private fun toAppModel(resolveInfo: ResolveInfo) = AppModel(
         AppId(resolveInfo.activityInfo.packageName),

@@ -33,10 +33,7 @@ import studio.forface.shuttle.design.R
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-internal fun PermissionItem(
-    permissionItem: PermissionItemUiModel,
-    onRequestPermission: () -> Unit
-) {
+internal fun PermissionItem(permissionItem: PermissionItemUiModel, onRequestPermission: () -> Unit) {
     val containerColor =
         if (permissionItem.isGranted()) MaterialTheme.colorScheme.secondaryContainer
         else MaterialTheme.colorScheme.errorContainer

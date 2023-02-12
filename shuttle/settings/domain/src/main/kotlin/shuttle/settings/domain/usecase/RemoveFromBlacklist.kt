@@ -7,6 +7,5 @@ class RemoveFromBlacklist(
     private val settingsRepository: SettingsRepository
 ) {
 
-    suspend operator fun invoke(appId: AppId) =
-        settingsRepository.setBlacklisted(appId, blacklisted = false)
+    suspend operator fun invoke(appId: AppId) = settingsRepository.setBlacklisted(appId, blacklisted = false)
 }

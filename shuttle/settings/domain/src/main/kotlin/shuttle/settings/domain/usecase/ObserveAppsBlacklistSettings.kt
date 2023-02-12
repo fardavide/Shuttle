@@ -11,9 +11,8 @@ class ObserveAppsBlacklistSettings(
     private val settingsRepository: SettingsRepository
 ) {
 
-    operator fun invoke(): Flow<List<AppBlacklistSetting>> =
-        combine(
-            appsRepository.observeAllInstalledApps(),
-            settingsRepository.observeAppsBlacklistSettings()
-        ) { _, list -> list }
+    operator fun invoke(): Flow<List<AppBlacklistSetting>> = combine(
+        appsRepository.observeAllInstalledApps(),
+        settingsRepository.observeAppsBlacklistSettings()
+    ) { _, list -> list }
 }

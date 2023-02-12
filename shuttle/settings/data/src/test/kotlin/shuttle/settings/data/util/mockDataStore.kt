@@ -23,7 +23,7 @@ fun mockDataStore(): DataStore<Preferences> = mockk {
     }
     val preferencesFlow = MutableStateFlow(preferences)
     every { data } returns preferencesFlow
-    coEvery { updateData(transform = any()) } coAnswers  {
+    coEvery { updateData(transform = any()) } coAnswers {
         val transform = firstArg<suspend (Preferences) -> Preferences>()
         transform(preferences)
         preferencesFlow.emit(preferences)
