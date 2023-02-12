@@ -48,7 +48,6 @@ internal class AndroidComposeAppPlugin : Plugin<Project> {
 
         ext.sourceSets {
             configureEach { sourceSet ->
-                @Suppress("UnstableApiUsage")
                 sourceSet.kotlin.srcDir("build/generated/ksp/${sourceSet.name}/kotlin")
             }
         }
