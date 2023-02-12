@@ -263,7 +263,6 @@ object SettingsPage {
 fun SettingsContentPreview() {
     val state = SettingsState(
         permissions = SettingsState.Permissions.Granted,
-        prioritizeLocation = SettingsState.PrioritizeLocation.True,
         appVersion = "123",
         openOnboardingEffect = Effect.empty()
     )

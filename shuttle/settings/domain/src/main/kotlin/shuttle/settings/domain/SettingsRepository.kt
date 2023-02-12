@@ -18,8 +18,6 @@ interface SettingsRepository {
 
     fun observeCurrentIconPack(): Flow<Option<AppId>>
 
-    fun observePrioritizeLocation(): Flow<Boolean>
-
     fun observeWidgetSettings(): Flow<WidgetSettings>
 
     suspend fun resetOnboardingShown()
@@ -31,8 +29,6 @@ interface SettingsRepository {
     suspend fun setHasEnabledAccessibilityService()
 
     suspend fun setOnboardingShow()
-
-    suspend fun updatePrioritizeLocation(prioritizeLocation: Boolean)
 
     suspend fun updateWidgetSettings(settings: WidgetSettings)
 }

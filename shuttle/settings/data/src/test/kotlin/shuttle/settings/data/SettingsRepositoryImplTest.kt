@@ -14,11 +14,9 @@ import kotlin.test.assertNotEquals
 
 class SettingsRepositoryImplTest {
 
-    private val migratePreferences: MigratePreferences = mockk(relaxUnitFun = true)
     private val settingDataSource: SettingDataSource = mockk()
     private val repository = SettingsRepositoryImpl(
         dataStoreProvider = ::mockDataStore,
-        migratePreferences = migratePreferences,
         settingDataSource = settingDataSource
     )
 

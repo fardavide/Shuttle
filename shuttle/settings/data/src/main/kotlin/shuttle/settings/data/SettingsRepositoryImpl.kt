@@ -15,7 +15,6 @@ import shuttle.database.model.DatabaseAppId
 import shuttle.settings.data.model.CurrentIconPackPreferenceKey
 import shuttle.settings.data.model.DidShowOnboardingPreferenceKey
 import shuttle.settings.data.model.HasAccessibilityServicePreferenceKey
-import shuttle.settings.data.model.PrioritizeLocationPreferenceKey
 import shuttle.settings.data.model.WidgetSettingsPreferenceKeys
 import shuttle.settings.domain.SettingsRepository
 import shuttle.settings.domain.model.AppBlacklistSetting
@@ -26,15 +25,10 @@ import shuttle.settings.domain.model.WidgetSettings
 @Factory
 internal class SettingsRepositoryImpl(
     dataStoreProvider: DataStoreProvider,
-    migratePreferences: MigratePreferences,
     private val settingDataSource: SettingDataSource
 ) : SettingsRepository {
 
     private val dataStore = dataStoreProvider.dataStore()
-
-    init {
-        migratePreferences()
-    }
 
     override suspend fun didShowOnboarding(): Boolean = dataStore.data.map {
         it[DidShowOnboardingPreferenceKey] ?: false
@@ -60,10 +54,6 @@ internal class SettingsRepositoryImpl(
     override fun observeCurrentIconPack(): Flow<Option<AppId>> = dataStore.data.map {
         Option.fromNullable(it[CurrentIconPackPreferenceKey]?.let(::AppId))
     }.distinctUntilChanged()
-
-    override fun observePrioritizeLocation(): Flow<Boolean> = dataStore.data.map {
-        it[PrioritizeLocationPreferenceKey] ?: false
-    }
 
     override fun observeWidgetSettings(): Flow<WidgetSettings> = with(WidgetSettingsPreferenceKeys) {
         dataStore.data.map {
@@ -109,12 +99,6 @@ internal class SettingsRepositoryImpl(
     override suspend fun setOnboardingShow() {
         dataStore.edit {
             it[DidShowOnboardingPreferenceKey] = true
-        }
-    }
-
-    override suspend fun updatePrioritizeLocation(prioritizeLocation: Boolean) {
-        dataStore.edit {
-            it[PrioritizeLocationPreferenceKey] = prioritizeLocation
         }
     }
 
