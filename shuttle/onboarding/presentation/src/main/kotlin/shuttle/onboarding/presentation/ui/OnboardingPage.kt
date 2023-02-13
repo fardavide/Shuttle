@@ -28,6 +28,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import org.koin.androidx.compose.koinViewModel
+import shuttle.design.TestTag
 import shuttle.design.theme.Dimens
 import shuttle.design.theme.ShuttleTheme
 import shuttle.design.ui.LoadingSpinner
@@ -88,7 +89,7 @@ internal fun OnboardingPageContent(
 ) {
     Column(
         modifier = Modifier
-            .testTag(OnboardingPage.TEST_TAG)
+            .testTag(TestTag.Onboarding)
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.primaryContainer)
             .padding(Dimens.Margin.XLarge)
@@ -175,8 +176,6 @@ internal fun Modifier.imageContainerBackground() = composed {
 }
 
 object OnboardingPage {
-
-    const val TEST_TAG = "OnboardingPage"
 
     enum class Index {
         MAIN, WIDGET, WIDGET_LAYOUT, BLACKLIST;

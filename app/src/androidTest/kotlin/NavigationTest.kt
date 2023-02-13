@@ -2,7 +2,7 @@ import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
-import shuttle.onboarding.presentation.ui.OnboardingPage
+import shuttle.design.TestTag
 import shuttle.permissions.presentation.ui.PermissionsPage
 import shuttle.test.compose.hasText
 import shuttle.test.compose.onBackPressed
@@ -21,7 +21,7 @@ class NavigationTest {
     @Ignore("Onboarding won't be shown more than one, we need to mock this behaviour")
     fun whenStart_thenOnboardingIsShown() = runComposeAppTest {
 
-        onNodeWithTag(OnboardingPage.TEST_TAG)
+        onNodeWithTag(TestTag.Onboarding)
             .assertIsDisplayed()
     }
 
