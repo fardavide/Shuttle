@@ -4,6 +4,9 @@ import org.gradle.api.Project
 import org.gradle.api.plugins.ExtensionContainer
 import org.gradle.api.tasks.SourceSetContainer
 
+/**
+ * @return the [SourceSetContainer] of this [Project]
+ */
 val Project.sourceSets: SourceSetContainer get() = extensions.getByType()
 
 /**
