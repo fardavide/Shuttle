@@ -44,6 +44,8 @@ internal class AndroidPlugin : Plugin<Project> {
             targetCompatibility = javaVersion
         }
 
+        ext.defaultConfig.testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
         ext.lint.warningsAsErrors = true
 
         ext.packagingOptions.resources.excludes.addAll(
