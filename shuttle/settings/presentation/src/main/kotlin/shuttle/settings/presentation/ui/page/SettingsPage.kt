@@ -27,11 +27,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import org.koin.androidx.compose.getViewModel
+import shuttle.design.TestTag
 import shuttle.design.theme.Dimens
 import shuttle.design.theme.ShuttleTheme
 import shuttle.design.ui.LoadingSpinner
@@ -83,7 +85,7 @@ private fun SettingsContent(
     resetOnboardingShown: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    LazyColumn(modifier = modifier.fillMaxHeight()) {
+    LazyColumn(modifier = modifier.fillMaxHeight().testTag(TestTag.Settings)) {
         item { CustomizeWidgetSection() }
         item { WidgetLayoutItem(actions.toWidgetLayout) }
         item { IconPackItem(actions.toIconPacks) }

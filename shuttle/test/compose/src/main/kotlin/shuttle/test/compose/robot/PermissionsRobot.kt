@@ -8,6 +8,7 @@ import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performScrollTo
 import shuttle.design.TestTag
 import shuttle.test.compose.onNodeWithText
 import studio.forface.shuttle.design.R.string
@@ -16,12 +17,15 @@ context(ComposeUiTest)
 class PermissionsRobot internal constructor() {
 
     fun skipPermissions(): SettingsRobot {
-        onNodeWithText(string.permissions_skip_permissions_action).performClick()
+        onNodeWithText(string.permissions_skip_permissions_action)
+            .performScrollTo()
+            .performClick()
         return SettingsRobot()
     }
 
-    fun verify(block: Verify.() -> Unit) {
+    fun verify(block: Verify.() -> Unit): PermissionsRobot {
         block(Verify())
+        return this
     }
 
     context(ComposeUiTest)
