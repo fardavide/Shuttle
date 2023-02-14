@@ -17,4 +17,3 @@ dependencies {
     implementation project(':common')
     implementation libs.gradle.kotlin
 }
-
