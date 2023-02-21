@@ -24,3 +24,6 @@ allprojects {
 subprojects {
     apply plugin: 'com.google.devtools.ksp'
 }
+
+wrapper.distributionType = Wrapper.DistributionType.ALL
+
