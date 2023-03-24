@@ -1,7 +1,7 @@
 [versions]
 accompanist = "0.30.0"
 androidGradle = "7.4.2"
-androidxActivity = "1.6.1"
+androidxActivity = "1.7.0"
 androidBilling = "5.1.0"
 androidxCore = "1.9.0"
 androidxEspresso = "3.5.1"
