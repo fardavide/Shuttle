@@ -80,6 +80,7 @@ arrow-optics = { module = "io.arrow-kt:arrow-optics", version.ref = "arrow" }
 
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 
+compose-compiler = { module = "androidx.compose.compiler:compiler", version.ref = "composeCompiler" } 
 compose-constraintLayout = { module = "androidx.constraintlayout:constraintlayout-compose", version.ref = "constraintLayout"}
 compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
 compose-uiTest = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "compose" }
