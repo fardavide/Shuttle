@@ -1,5 +1,7 @@
 apply plugin: 'shuttle.android.compose.library'
 
+android.namespace 'shuttle.design'
+
 moduleDependencies {
     add 'utils:android'
     add 'utils:kotlin'

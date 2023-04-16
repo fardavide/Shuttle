@@ -1,5 +1,7 @@
 apply plugin: 'shuttle.android.library'
 
+android.namespace 'shuttle.utils.android'
+
 moduleDependencies {
     add 'apps:domain'
 }

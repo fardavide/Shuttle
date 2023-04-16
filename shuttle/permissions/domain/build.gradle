@@ -1,5 +1,7 @@
 apply plugin: 'shuttle.android.library'
 
+android.namespace 'shuttle.permissions.domain'
+
 moduleDependencies {
     add 'utils:android'
 }

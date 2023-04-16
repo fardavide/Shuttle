@@ -1,5 +1,7 @@
 apply plugin: 'shuttle.android.compose.library'
 
+android.namespace 'shuttle.payments.presentation'
+
 moduleDependencies {
     add 'design'
     add 'payments:domain'

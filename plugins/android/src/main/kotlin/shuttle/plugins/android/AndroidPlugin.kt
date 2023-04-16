@@ -25,7 +25,10 @@ internal class AndroidPlugin : Plugin<Project> {
         }
 
         target.tasks.withType<KotlinCompile> { task ->
-            task.compilerOptions.allWarningsAsErrors.set(JvmDefaults.WARNINGS_AS_ERRORS)
+            task.compilerOptions {
+                allWarningsAsErrors.set(JvmDefaults.WARNINGS_AS_ERRORS)
+                jvmTarget.set(JvmDefaults.Target)
+            }
             task.kotlinOptions {
                 freeCompilerArgs = freeCompilerArgs + KotlinDefaults.FreeCompilerArgs
             }
@@ -42,7 +45,6 @@ internal class AndroidPlugin : Plugin<Project> {
 
         val javaVersion = JavaVersion.toVersion(JvmDefaults.JAVA_VERSION)
         ext.compileOptions.apply {
-            // Can't use JVM toolchains yet on Android.
             sourceCompatibility = javaVersion
             targetCompatibility = javaVersion
         }
@@ -51,7 +53,7 @@ internal class AndroidPlugin : Plugin<Project> {
 
         ext.lint.warningsAsErrors = true
 
-        ext.packagingOptions.resources.excludes.addAll(
+        ext.packaging.resources.excludes.addAll(
             listOf(
                 "META-INF/{AL2.0,LGPL2.1}",
                 "META-INF/LICENSE.md",

@@ -1,5 +1,7 @@
 apply plugin: 'shuttle.android.compose.library'
 
+android.namespace 'shuttle.settings.presentation'
+
 moduleDependencies {
     add 'accessibility'
     add 'apps:domain'

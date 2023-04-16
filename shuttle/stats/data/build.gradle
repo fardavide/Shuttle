@@ -1,5 +1,7 @@
 apply plugin: 'shuttle.android.library'
 
+android.namespace 'shuttle.stats.data'
+
 moduleDependencies {
     add 'apps:domain'
     add 'coordinates:domain'

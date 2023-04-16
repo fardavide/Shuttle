@@ -1,5 +1,7 @@
 apply plugin: 'shuttle.android.compose.library'
 
+android.namespace 'shuttle.predictions.presentation'
+
 moduleDependencies {
     add 'apps:domain'
     add 'coordinates:domain'

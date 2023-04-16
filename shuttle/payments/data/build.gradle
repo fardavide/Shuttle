@@ -1,5 +1,7 @@
 apply plugin: 'shuttle.android.library'
 
+android.namespace 'shuttle.payments.data'
+
 moduleDependencies {
     add 'payments:domain'
     add 'utils:android'

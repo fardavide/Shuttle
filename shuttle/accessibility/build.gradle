@@ -1,5 +1,7 @@
 apply plugin: 'shuttle.android.library'
 
+android.namespace 'shuttle.accessibility'
+
 moduleDependencies {
 
     add 'apps:domain'

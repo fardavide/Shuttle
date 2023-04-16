@@ -1,5 +1,7 @@
 apply plugin: 'shuttle.android.compose.library'
 
+android.namespace 'shuttle.test.compose'
+
 moduleDependencies {
     add 'design'
 }

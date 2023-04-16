@@ -14,6 +14,11 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v3
 
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '19'
+
       - name: Create google-services json
         run: |
           echo '${{ secrets.FIREBASE_SECRET }}' > ${GITHUB_WORKSPACE}/app/google-services.json
