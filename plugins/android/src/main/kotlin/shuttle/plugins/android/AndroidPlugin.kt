@@ -4,6 +4,7 @@ import com.android.build.api.dsl.CommonExtension
 import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.jetbrains.kotlin.gradle.dsl.KotlinTopLevelExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinAndroidPluginWrapper
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import shuttle.plugins.common.JvmDefaults
@@ -19,11 +20,13 @@ internal class AndroidPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         target.pluginManager.apply<KotlinAndroidPluginWrapper>()
 
+        target.extensions.configure<KotlinTopLevelExtension> { ext ->
+            ext.jvmToolchain(JvmDefaults.JAVA_VERSION)
+        }
+
         target.tasks.withType<KotlinCompile> { task ->
             task.compilerOptions.allWarningsAsErrors.set(JvmDefaults.WARNINGS_AS_ERRORS)
-            // Can't use JVM toolchains yet on Android.
             task.kotlinOptions {
-                jvmTarget = JvmDefaults.JAVA_VERSION.toString()
                 freeCompilerArgs = freeCompilerArgs + KotlinDefaults.FreeCompilerArgs
             }
         }
