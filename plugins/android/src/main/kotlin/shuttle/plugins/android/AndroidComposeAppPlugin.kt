@@ -30,6 +30,9 @@ internal class AndroidComposeAppPlugin : Plugin<Project> {
             versionName = VersionName
             targetSdk = AndroidDefaults.TARGET_SDK
         }
+
+        ext.buildFeatures.buildConfig = true
+
         ext.signingConfigs {
             create("release") { config ->
                 config.storeFile = File("${rootDir.path}/keystore/keystore.jks")
