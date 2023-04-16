@@ -6,10 +6,10 @@ import arrow.core.continuations.either
 import arrow.core.right
 import shuttle.apps.domain.model.AppId
 import shuttle.apps.domain.model.AppModel
+import shuttle.design.R
 import shuttle.icons.domain.error.GetSystemIconError
 import shuttle.icons.domain.usecase.GetSystemIconDrawableForApp
 import shuttle.settings.presentation.model.IconPackSettingsItemUiModel
-import studio.forface.shuttle.design.R
 
 internal class IconPackSettingsUiModelMapper(
     private val getSystemIconDrawableForApp: GetSystemIconDrawableForApp

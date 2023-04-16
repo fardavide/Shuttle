@@ -4,10 +4,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import shuttle.design.R.drawable
+import shuttle.design.R.string
 import shuttle.design.theme.ShuttleTheme
 import shuttle.design.ui.NavigableListItem
-import studio.forface.shuttle.design.R.drawable
-import studio.forface.shuttle.design.R.string
 
 @Composable
 internal fun OnboardingWidgetLayoutPage(actions: OnboardingPage.NavigationActions) {

@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import arrow.core.nonEmptyListOf
 import shuttle.design.PreviewUtils
+import shuttle.design.R.string
 import shuttle.design.model.TextRes
 import shuttle.design.theme.Dimens
 import shuttle.design.theme.ShuttleTheme
@@ -19,7 +20,6 @@ import shuttle.onboarding.presentation.model.OnboardingBlacklistAppUiModel
 import shuttle.onboarding.presentation.model.OnboardingBlacklistState
 import shuttle.onboarding.presentation.model.OnboardingBlacklistUiModel
 import shuttle.utils.kotlin.exhaustive
-import studio.forface.shuttle.design.R.string
 
 @Composable
 internal fun OnboardingBlacklistPage(state: OnboardingBlacklistState, actions: OnboardingPage.NavigationActions) {

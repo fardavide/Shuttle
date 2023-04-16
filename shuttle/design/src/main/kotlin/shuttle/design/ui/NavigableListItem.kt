@@ -22,10 +22,10 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import shuttle.design.R.drawable
+import shuttle.design.R.string
 import shuttle.design.theme.Dimens
 import shuttle.design.theme.ShuttleTheme
-import studio.forface.shuttle.design.R.drawable
-import studio.forface.shuttle.design.R.string
 
 @Suppress("ComposableNaming")
 object NavigableListItem {

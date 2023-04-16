@@ -24,9 +24,9 @@ import kotlinx.collections.immutable.ImmutableList
 import org.koin.androidx.compose.getViewModel
 import shuttle.apps.presentation.model.AppUiModel
 import shuttle.apps.presentation.viewmodel.AllAppsListViewModel
+import shuttle.design.R
 import shuttle.design.theme.Dimens
 import shuttle.design.ui.TextError
-import studio.forface.shuttle.design.R
 
 @Composable
 fun AllAppsListPage() {

@@ -33,6 +33,7 @@ import coil.compose.rememberAsyncImagePainter
 import kotlinx.collections.immutable.ImmutableList
 import org.koin.androidx.compose.getViewModel
 import shuttle.apps.domain.model.AppId
+import shuttle.design.R
 import shuttle.design.theme.Dimens
 import shuttle.design.ui.BackIconButton
 import shuttle.design.ui.LoadingSpinner
@@ -43,7 +44,6 @@ import shuttle.settings.presentation.model.IconPackSettingsItemUiModel.SystemDef
 import shuttle.settings.presentation.viewmodel.IconPacksSettingsViewModel
 import shuttle.settings.presentation.viewmodel.IconPacksSettingsViewModel.Action
 import shuttle.settings.presentation.viewmodel.IconPacksSettingsViewModel.State
-import studio.forface.shuttle.design.R
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)

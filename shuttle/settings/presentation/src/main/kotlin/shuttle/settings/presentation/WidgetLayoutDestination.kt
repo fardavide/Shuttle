@@ -2,7 +2,7 @@ package shuttle.settings.presentation
 
 import androidx.annotation.StringRes
 import shuttle.design.Destination
-import studio.forface.shuttle.design.R
+import shuttle.design.R
 
 object WidgetLayout : Destination("widget layout") {
 

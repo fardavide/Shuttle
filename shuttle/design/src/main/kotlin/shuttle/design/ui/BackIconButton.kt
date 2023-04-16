@@ -6,14 +6,14 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
-import studio.forface.shuttle.design.R
+import shuttle.design.R.string
 
 @Composable
 fun BackIconButton(onBack: () -> Unit) {
     IconButton(onClick = onBack) {
         Icon(
             imageVector = Icons.Rounded.ArrowBack,
-            contentDescription = stringResource(id = R.string.x_back_button_description)
+            contentDescription = stringResource(id = string.x_back_button_description)
         )
     }
 }

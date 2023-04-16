@@ -5,9 +5,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import shuttle.design.PreviewUtils
+import shuttle.design.R.drawable
 import shuttle.design.ui.NavigableListItem
 import shuttle.settings.presentation.WidgetLayout
-import studio.forface.shuttle.design.R.drawable
 
 @Composable
 internal fun HomeWidgetLayoutContent(actions: HomeWidgetLayoutContent.Actions) {

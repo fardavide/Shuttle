@@ -2,7 +2,6 @@ package shuttle.design
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
-import studio.forface.shuttle.design.R
 
 object PreviewUtils {
 

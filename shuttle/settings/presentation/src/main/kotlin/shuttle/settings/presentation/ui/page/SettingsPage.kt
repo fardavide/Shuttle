@@ -33,6 +33,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import org.koin.androidx.compose.getViewModel
+import shuttle.design.R.string
 import shuttle.design.TestTag
 import shuttle.design.theme.Dimens
 import shuttle.design.theme.ShuttleTheme
@@ -46,7 +47,6 @@ import shuttle.settings.presentation.model.SettingsSectionUiModel
 import shuttle.settings.presentation.model.SettingsState
 import shuttle.settings.presentation.viewmodel.SettingsViewModel
 import shuttle.settings.presentation.viewmodel.SettingsViewModel.Action
-import studio.forface.shuttle.design.R.string
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class)

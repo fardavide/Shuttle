@@ -24,6 +24,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import arrow.core.Either
 import org.koin.androidx.compose.koinViewModel
+import shuttle.design.R.string
 import shuttle.design.theme.Dimens
 import shuttle.design.theme.ShuttleTheme
 import shuttle.design.ui.BackIconButton
@@ -38,7 +39,6 @@ import shuttle.payments.domain.model.PurchaseSuccess
 import shuttle.settings.presentation.viewmodel.AboutViewModel
 import shuttle.settings.presentation.viewmodel.AboutViewModel.Action
 import shuttle.settings.presentation.viewmodel.AboutViewModel.State
-import studio.forface.shuttle.design.R.string
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)

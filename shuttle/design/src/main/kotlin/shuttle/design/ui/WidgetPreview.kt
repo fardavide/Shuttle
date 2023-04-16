@@ -24,12 +24,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import shuttle.design.PreviewUtils
+import shuttle.design.R
 import shuttle.design.model.WidgetLayoutUiModel
 import shuttle.design.model.WidgetPreviewAppUiModel
 import shuttle.design.model.WidgetPreviewUiModel
 import shuttle.design.theme.Dimens
 import shuttle.utils.kotlin.takeOrFillWithNulls
-import studio.forface.shuttle.design.R
 
 @Composable
 fun WidgetPreview(model: WidgetPreviewUiModel) {

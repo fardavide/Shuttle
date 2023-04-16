@@ -71,7 +71,7 @@ run_kotlin_linter() {
   java -jar "$detekt_cli_jar" \
     --plugins "$detekt_plugins_input" \
     --config "$detekt_dir/config.yml" \
-    --jvm-target "11" \
+    --jvm-target "18" \
     --input "$kotlin_files_input" || {
     print_error "$P_TAG" "kotlin lint checks failed, please check the errors and commit again"
     exit 1

@@ -17,12 +17,12 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import shuttle.apps.domain.model.AppId
+import shuttle.design.R
 import shuttle.icons.domain.error.GetSystemIconError
 import shuttle.predictions.domain.error.ObserveSuggestedAppsError
 import shuttle.predictions.domain.usecase.ObserveSuggestedApps
 import shuttle.predictions.presentation.mapper.AppUiModelMapper
 import shuttle.predictions.presentation.model.AppUiModel
-import studio.forface.shuttle.design.R
 
 internal class SuggestedAppsListViewModel(
     private val appUiModelMapper: AppUiModelMapper,

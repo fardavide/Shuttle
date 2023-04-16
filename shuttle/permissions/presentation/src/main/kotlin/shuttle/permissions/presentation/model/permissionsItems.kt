@@ -1,6 +1,6 @@
 package shuttle.permissions.presentation.model
 
-import studio.forface.shuttle.design.R
+import shuttle.design.R
 
 internal object PermissionItem {
 

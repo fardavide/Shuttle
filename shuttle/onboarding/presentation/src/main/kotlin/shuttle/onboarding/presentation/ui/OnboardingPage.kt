@@ -28,6 +28,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import org.koin.androidx.compose.koinViewModel
+import shuttle.design.R
 import shuttle.design.TestTag
 import shuttle.design.theme.Dimens
 import shuttle.design.theme.ShuttleTheme
@@ -37,7 +38,6 @@ import shuttle.onboarding.presentation.model.OnboardingState
 import shuttle.onboarding.presentation.ui.OnboardingPage.Index
 import shuttle.onboarding.presentation.viewmodel.OnboardingViewModel
 import shuttle.utils.kotlin.exhaustive
-import studio.forface.shuttle.design.R
 
 @Composable
 fun OnboardingPage(actions: OnboardingPage.Actions) {

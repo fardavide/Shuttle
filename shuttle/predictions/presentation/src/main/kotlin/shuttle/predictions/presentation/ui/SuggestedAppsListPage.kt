@@ -36,6 +36,7 @@ import coil.compose.rememberAsyncImagePainter
 import kotlinx.collections.immutable.ImmutableList
 import org.koin.androidx.compose.getViewModel
 import shuttle.apps.domain.model.AppId
+import shuttle.design.R
 import shuttle.design.theme.Dimens
 import shuttle.design.ui.LoadingSpinner
 import shuttle.design.ui.TextError
@@ -44,7 +45,6 @@ import shuttle.predictions.presentation.model.AppUiModel
 import shuttle.predictions.presentation.viewmodel.SuggestedAppsListViewModel
 import shuttle.predictions.presentation.viewmodel.SuggestedAppsListViewModel.Action
 import shuttle.predictions.presentation.viewmodel.SuggestedAppsListViewModel.State
-import studio.forface.shuttle.design.R
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)

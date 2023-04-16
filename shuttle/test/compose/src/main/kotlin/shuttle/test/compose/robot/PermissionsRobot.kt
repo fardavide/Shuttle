@@ -9,9 +9,9 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollTo
+import shuttle.design.R.string
 import shuttle.design.TestTag
 import shuttle.test.compose.onNodeWithText
-import studio.forface.shuttle.design.R.string
 
 context(ComposeUiTest)
 class PermissionsRobot internal constructor() {

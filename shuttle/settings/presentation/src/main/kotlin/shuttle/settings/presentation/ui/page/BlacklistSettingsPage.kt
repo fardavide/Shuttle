@@ -32,6 +32,7 @@ import kotlinx.collections.immutable.ImmutableList
 import org.koin.androidx.compose.getViewModel
 import shuttle.apps.domain.model.AppId
 import shuttle.design.PreviewUtils
+import shuttle.design.R
 import shuttle.design.model.TextRes
 import shuttle.design.theme.Dimens
 import shuttle.design.theme.ShuttleTheme
@@ -44,7 +45,6 @@ import shuttle.settings.presentation.model.AppBlacklistSettingUiModel
 import shuttle.settings.presentation.viewmodel.BlacklistSettingsViewModel
 import shuttle.settings.presentation.viewmodel.BlacklistSettingsViewModel.Action
 import shuttle.settings.presentation.viewmodel.BlacklistSettingsViewModel.State
-import studio.forface.shuttle.design.R
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
