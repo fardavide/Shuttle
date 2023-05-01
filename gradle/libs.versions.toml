@@ -1,6 +1,6 @@
 [versions]
 accompanist = "0.30.1"
-androidGradle = "8.0.0"
+androidGradle = "8.0.1"
 androidxActivity = "1.7.1"
 androidBilling = "5.2.0"
 androidxCore = "1.10.0"
