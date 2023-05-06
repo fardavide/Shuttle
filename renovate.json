@@ -5,7 +5,16 @@
   ],
   "packageRules": [
     {
+      "groupName": "All dependencies",
       "matchUpdateTypes": ["minor", "patch"],
+      "automerge": true
+    },
+    {
+      "groupName": "Kotlin and Compose",
+      "matchPackagePrefixes": [
+        "org.jetbrains.compose.compiler",
+        "org.jetbrains.kotlin"
+      ],
       "automerge": true
     }
   ]
