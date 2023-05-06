@@ -11,8 +11,8 @@
     {
       "groupName": "Kotlin and Compose",
       "matchPackagePrefixes": [
+        "androidx.compose.compiler",
         "com.google.devtools.ksp",
-        "org.jetbrains.compose.compiler",
         "org.jetbrains.kotlin:kotlin"
       ],
       "automerge": true
