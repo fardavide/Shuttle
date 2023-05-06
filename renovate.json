@@ -13,8 +13,9 @@
       "groupName": "Kotlin and Compose",
       "matchPackagePrefixes": [
         "org.jetbrains.compose.compiler",
-        "org.jetbrains.kotlin"
+        "org.jetbrains.kotlin:kotlin"
       ],
+      "matchUpdateTypes": ["minor", "patch"],
       "automerge": true
     }
   ]
