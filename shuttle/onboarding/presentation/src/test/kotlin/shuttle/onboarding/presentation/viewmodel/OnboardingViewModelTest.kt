@@ -7,6 +7,7 @@ import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.resetMain
@@ -30,8 +31,12 @@ import kotlin.test.assertEquals
 
 class OnboardingViewModelTest {
 
-    private val didShowOnboarding: DidShowOnboarding = mockk()
-    private val observeAllInstalledApps: ObserveAllInstalledApps = mockk()
+    private val didShowOnboarding: DidShowOnboarding = mockk {
+        coEvery { this@mockk() } returns true
+    }
+    private val observeAllInstalledApps: ObserveAllInstalledApps = mockk {
+        every { this@mockk() } returns emptyFlow()
+    }
     private val onboardingBlacklistUiModelMapper: OnboardingBlacklistUiModelMapper = mockk {
         coEvery { toUiModel(apps = any(), take = any()) } returns BlacklistApps
     }
