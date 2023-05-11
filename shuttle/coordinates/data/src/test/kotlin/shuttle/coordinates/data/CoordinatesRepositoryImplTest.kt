@@ -2,9 +2,9 @@ package shuttle.coordinates.data
 
 import app.cash.turbine.test
 import arrow.core.left
-import com.soywiz.klock.DateTime
 import io.mockk.every
 import io.mockk.mockk
+import korlibs.time.DateTime
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestScope

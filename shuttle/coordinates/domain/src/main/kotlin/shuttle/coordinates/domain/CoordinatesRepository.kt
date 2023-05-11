@@ -1,7 +1,7 @@
 package shuttle.coordinates.domain
 
 import arrow.core.Either
-import com.soywiz.klock.DateTime
+import korlibs.time.DateTime
 import kotlinx.coroutines.flow.Flow
 import shuttle.coordinates.domain.error.LocationError
 import shuttle.coordinates.domain.model.CoordinatesResult

@@ -1,6 +1,6 @@
 package shuttle.coordinates.domain.testdata
 
-import com.soywiz.klock.Time
+import korlibs.time.Time
 
 object TimeTestData {
 

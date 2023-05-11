@@ -7,7 +7,7 @@ import arrow.core.flatMap
 import arrow.core.handleErrorWith
 import arrow.core.left
 import arrow.core.right
-import com.soywiz.klock.DateTime
+import korlibs.time.DateTime
 import kotlinx.coroutines.flow.first
 import shuttle.coordinates.domain.error.LocationError
 import shuttle.coordinates.domain.error.LocationError.ExpiredLocation

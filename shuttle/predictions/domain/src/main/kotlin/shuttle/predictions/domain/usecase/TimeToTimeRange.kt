@@ -1,8 +1,8 @@
 package shuttle.predictions.domain.usecase
 
-import com.soywiz.klock.Time
-import com.soywiz.klock.TimeSpan
-import com.soywiz.klock.plus
+import korlibs.time.Time
+import korlibs.time.TimeSpan
+import korlibs.time.plus
 
 internal class TimeToTimeRange {
 

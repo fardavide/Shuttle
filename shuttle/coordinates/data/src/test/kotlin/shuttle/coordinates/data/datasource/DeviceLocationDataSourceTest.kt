@@ -3,12 +3,12 @@ package shuttle.coordinates.data.datasource
 import android.location.Location
 import arrow.core.left
 import arrow.core.right
-import com.soywiz.klock.DateTime
 import io.mockk.Called
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
+import korlibs.time.DateTime
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import shuttle.coordinates.domain.error.LocationError

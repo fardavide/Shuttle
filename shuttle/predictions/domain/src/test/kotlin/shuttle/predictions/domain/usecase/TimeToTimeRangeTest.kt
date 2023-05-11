@@ -1,7 +1,7 @@
 package shuttle.predictions.domain.usecase
 
-import com.soywiz.klock.Time
-import com.soywiz.klock.hours
+import korlibs.time.Time
+import korlibs.time.hours
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
