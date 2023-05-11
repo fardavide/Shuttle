@@ -1,6 +1,6 @@
 package shuttle.coordinates.data.datasource
 
-import com.soywiz.klock.DateTime
+import korlibs.time.DateTime
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow

@@ -1,6 +1,6 @@
 package shuttle.coordinates.domain.model
 
-import com.soywiz.klock.DateTime
+import korlibs.time.DateTime
 
 data class Coordinates(
     val location: GeoHash,

@@ -1,9 +1,9 @@
 package shuttle.stats.data
 
 import arrow.core.Option
-import com.soywiz.klock.Date
-import com.soywiz.klock.Time
-import com.soywiz.klock.plus
+import korlibs.time.Date
+import korlibs.time.Time
+import korlibs.time.plus
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.mapLatest

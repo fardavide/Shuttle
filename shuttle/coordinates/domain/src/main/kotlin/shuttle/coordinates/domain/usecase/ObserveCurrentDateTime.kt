@@ -1,6 +1,6 @@
 package shuttle.coordinates.domain.usecase
 
-import com.soywiz.klock.DateTime
+import korlibs.time.DateTime
 import kotlinx.coroutines.flow.Flow
 import shuttle.coordinates.domain.CoordinatesRepository
 

@@ -1,8 +1,8 @@
 package shuttle.stats.domain
 
 import arrow.core.Option
-import com.soywiz.klock.Date
-import com.soywiz.klock.Time
+import korlibs.time.Date
+import korlibs.time.Time
 import kotlinx.coroutines.flow.Flow
 import shuttle.apps.domain.model.AppId
 import shuttle.apps.domain.model.SuggestedAppModel

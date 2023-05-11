@@ -1,7 +1,7 @@
 package shuttle.coordinates.domain.model
 
 import arrow.core.Either
-import com.soywiz.klock.DateTime
+import korlibs.time.DateTime
 import shuttle.coordinates.domain.error.LocationNotAvailable
 
 data class CoordinatesResult(

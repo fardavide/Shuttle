@@ -1,8 +1,8 @@
 package shuttle.stats.data.mapper
 
-import com.soywiz.klock.Date
-import com.soywiz.klock.DateTime
-import com.soywiz.klock.Time
+import korlibs.time.Date
+import korlibs.time.DateTime
+import korlibs.time.Time
 import shuttle.database.model.DatabaseDate
 import shuttle.database.model.DatabaseTime
 import shuttle.stats.data.model.DatabaseDateAndTime

@@ -3,7 +3,7 @@ package shuttle.coordinates.data
 import arrow.core.Either
 import arrow.core.left
 import arrow.core.right
-import com.soywiz.klock.DateTime
+import korlibs.time.DateTime
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharedFlow

@@ -1,7 +1,7 @@
 package shuttle.predictions.domain.model
 
-import com.soywiz.klock.TimeSpan
-import com.soywiz.klock.hours
+import korlibs.time.TimeSpan
+import korlibs.time.hours
 
 /**
  * We need some ranges in order to query App Stats with some flexibility.
