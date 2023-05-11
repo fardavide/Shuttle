@@ -19,7 +19,7 @@
     <string name="onboarding_main_description">Please follow a quick introduction to the app</string>
 
     <string name="onboarding_widget_title">Setup the widget</string>
-    <string name="onboarding_widget_description">Add \'Shuttle\' widget to you home screen, to have a list of your suggested apps always ready to be launched</string>
+    <string name="onboarding_widget_description">Add ‘Shuttle’ widget to you home screen, to have a list of your suggested apps always ready to be launched</string>
 
     <string name="onboarding_widget_layout_title">Customise your widget</string>
     <string name="onboarding_widget_layout_description">You can customise the widget, changing its layout or using a custom Icon Pack</string>
@@ -40,7 +40,7 @@
     <string name="permissions_accessibility_description">Shuttle needs access to the Accessibility Service, in order to improve the suggestions.\nBy enabling it you consent Shuttle to detect app launching and store it to the local database</string>
     <string name="permissions_accessibility_action">Enable accessibility service</string>
     <string name="permissions_accessibility_not_granted_description">Accessibility service is not enabled</string>
-    <string name="permissions_accessibility_dialog_disclosure">Shuttle needs access to the Accessibility Service, in order to improve the suggestions.\nBy enabling it you consent Shuttle to detect app launching and store it to the local database\n\nIn the accessibility management screen (or in \"Installed services\" in some devices) find \'Shuttle\' and enable it. Shortcut is not necessary</string>
+    <string name="permissions_accessibility_dialog_disclosure">Shuttle needs access to the Accessibility Service, in order to improve the suggestions.\nBy enabling it you consent Shuttle to detect app launching and store it to the local database\n\nIn the accessibility management screen (or in “Installed services” in some devices) find ‘Shuttle’ and enable it. Shortcut is not necessary</string>
     <string name="permissions_accessibility_dialog_confirm_action">Confirm</string>
     <string name="permissions_accessibility_dialog_cancel_action">Cancel</string>
 

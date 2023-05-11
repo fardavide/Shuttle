@@ -14,7 +14,7 @@ internal fun OnboardingWidgetLayoutPage(actions: OnboardingPage.NavigationAction
     OnboardingPageContent(
         index = OnboardingPage.Index.WIDGET_LAYOUT,
         title = string.onboarding_widget_layout_title,
-        image = {
+        content = {
             LazyColumn(modifier = Modifier.imageContainerBackground()) {
                 item {
                     NavigableListItem(

@@ -68,7 +68,7 @@ private fun OnboardingContent(state: OnboardingState.ShowOnboarding, actions: On
         onComplete = actions.onOnboardingComplete
     )
 
-    Crossfade(targetState = index.value) { indexState ->
+    Crossfade(targetState = index.value, label = "Onboarding") { indexState ->
 
         when (indexState) {
             Index.MAIN -> OnboardingMainPage(navigationActions)
@@ -83,9 +83,9 @@ private fun OnboardingContent(state: OnboardingState.ShowOnboarding, actions: On
 internal fun OnboardingPageContent(
     index: Index,
     @StringRes title: Int,
-    image: @Composable () -> Unit,
     @StringRes description: Int,
-    navigationActions: OnboardingPage.NavigationActions
+    navigationActions: OnboardingPage.NavigationActions,
+    content: @Composable () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -106,7 +106,7 @@ internal fun OnboardingPageContent(
         }
 
         Section(weight = 2) {
-            image()
+            content()
         }
 
         Section(weight = 1) {

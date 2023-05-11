@@ -11,7 +11,7 @@
     <string name="onboarding_blacklist_title">Crea la tua blacklist</string>
     <string name="onboarding_main_description">Prego segui una breve introduzione all\'app</string>
     <string name="onboarding_main_title">Benvenuto in Shuttle!</string>
-    <string name="onboarding_widget_description">Aggiungi il widget \'Shuttle\' alla tua home screen, per avere una lista delle applicazioni suggerite per te, sempre pronte per essere lanciate</string>
+    <string name="onboarding_widget_description">Aggiungi il widget ‘Shuttle’ alla tua home screen, per avere una lista delle applicazioni suggerite per te, sempre pronte per essere lanciate</string>
     <string name="onboarding_widget_layout_description">Puoi personalizzare il tuo widget, cambiandone la disposizione o usando un Pacchetto Icone</string>
     <string name="onboarding_widget_layout_title">Personalizza il tuo widget</string>
     <string name="onboarding_widget_title">Imposta il widget</string>
@@ -19,7 +19,7 @@
     <string name="permissions_accessibility_description">Shuttle necessita the Servizio di Accessibilità, per migliorare i suggerimenti.\\nAbilitando il servizio accetti che Shuttle rilevi gli avvii delle app e li salvi sul database locale</string>
     <string name="permissions_accessibility_dialog_cancel_action">Annulla</string>
     <string name="permissions_accessibility_dialog_confirm_action">Conferma</string>
-    <string name="permissions_accessibility_dialog_disclosure">Shuttle necessita the Servizio di Accessibilità, per migliorare i suggerimenti.\nAbilitando il servizio accetti che Shuttle rilevi gli avvii delle app e li salvi sul database locale\n\nNella schermata di gestione dei servizi di accessibilità ( oppure \"Servizi installati\" per alcuni dispositivi ) cerca \'Shuttle\' ed abilitalo. La scorciatoia non è necessaria</string>
+    <string name="permissions_accessibility_dialog_disclosure">Shuttle necessita the Servizio di Accessibilità, per migliorare i suggerimenti.\nAbilitando il servizio accetti che Shuttle rilevi gli avvii delle app e li salvi sul database locale\n\nNella schermata di gestione dei servizi di accessibilità ( oppure “Servizi installati” per alcuni dispositivi ) cerca ‘Shuttle’ ed abilitalo. La scorciatoia non è necessaria</string>
     <string name="permissions_accessibility_name">Servizio di accessbilità abilitato</string>
     <string name="permissions_accessibility_not_granted_description">Servizio di accessibilità non abilitato</string>
     <string name="permissions_location_action">Abilita i permessi di locazione</string>

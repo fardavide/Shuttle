@@ -18,7 +18,7 @@ internal fun OnboardingWidgetPage(state: OnboardingWidgetPreviewState, actions: 
     OnboardingPageContent(
         index = OnboardingPage.Index.WIDGET,
         title = string.onboarding_widget_title,
-        image = {
+        content = {
             when (state) {
                 OnboardingWidgetPreviewState.Loading -> LoadingSpinner()
                 is OnboardingWidgetPreviewState.Data -> WidgetPreview(

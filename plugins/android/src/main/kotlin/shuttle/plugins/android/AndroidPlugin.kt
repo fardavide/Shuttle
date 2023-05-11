@@ -51,7 +51,11 @@ internal class AndroidPlugin : Plugin<Project> {
 
         ext.defaultConfig.testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        ext.lint.warningsAsErrors = true
+        ext.lint {
+            checkAllWarnings = true
+            warningsAsErrors = true
+            disable += listOf("DuplicateStrings", "SyntheticAccessor", "VectorPath")
+        }
 
         ext.packaging.resources.excludes.addAll(
             listOf(

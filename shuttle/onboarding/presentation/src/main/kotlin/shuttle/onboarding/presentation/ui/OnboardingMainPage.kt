@@ -17,7 +17,7 @@ internal fun OnboardingMainPage(actions: OnboardingPage.NavigationActions) {
     OnboardingPageContent(
         index = OnboardingPage.Index.MAIN,
         title = string.onboarding_main_title,
-        image = {
+        content = {
             Image(
                 modifier = Modifier.size(Dimens.Component.XXXLarge),
                 painter = painterResource(id = R.drawable.ic_shuttle_foreground),
