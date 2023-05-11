@@ -48,12 +48,6 @@ internal class AndroidComposeAppPlugin : Plugin<Project> {
                 config.signingConfig = ext.signingConfigs.getByName("release")
             }
         }
-
-        ext.sourceSets {
-            configureEach { sourceSet ->
-                sourceSet.kotlin.srcDir("build/generated/ksp/${sourceSet.name}/kotlin")
-            }
-        }
     }
 
     companion object {

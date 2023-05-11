@@ -8,7 +8,6 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import shuttle.plugins.common.JvmDefaults
 import shuttle.plugins.util.apply
 import shuttle.plugins.util.configure
-import shuttle.plugins.util.sourceSets
 import shuttle.plugins.util.withType
 
 @Suppress("unused")
@@ -26,12 +25,6 @@ internal class KotlinPlugin : Plugin<Project> {
 
         target.extensions.configure<KotlinTopLevelExtension> { ext ->
             ext.jvmToolchain(JvmDefaults.JAVA_VERSION)
-        }
-
-        target.sourceSets.configureEach {
-            it.allSource.srcDirs(
-                "build/generated/ksp/${it.name}/kotlin"
-            )
         }
     }
 }
