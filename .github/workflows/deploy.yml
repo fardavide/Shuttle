@@ -23,7 +23,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: archive
-          path: app/android/build/outputs
+          path: app/build/outputs
 
       - name: Upload Android Release to Play Store - Internal track
         uses: r0adkll/upload-google-play@v1.1.1
