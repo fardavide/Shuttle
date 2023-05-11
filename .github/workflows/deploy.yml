@@ -19,36 +19,16 @@ jobs:
           distribution: 'temurin'
           java-version: '19'
 
-      - name: Create google-services json
-        run: |
-          echo '${{ secrets.FIREBASE_SECRET }}' > ${GITHUB_WORKSPACE}/app/google-services.json
-
-      - name: Assemble Debug Apk
-        run: ./gradlew assembleDebug
-        env:
-          APP_VERSION: ${{ github.run_number }}
-
-      - name: Assemble Bundle Release
-        run: ./gradlew bundleRelease
-        env:
-          APP_VERSION: ${{ github.run_number }}
-          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
-          KEYSTORE_KEY_PASSWORD: ${{ secrets.KEYSTORE_KEY_PASSWORD }}
-          KEYSTORE_KEY_ALIAS: ${{ secrets.KEYSTORE_KEY_ALIAS }}
-
-      - name: Upload Release archive
-        uses: actions/upload-artifact@v3
+      - name: Download Release archive
+        uses: actions/download-artifact@v3
         with:
           name: archive
-          path: |
-            app/build/outputs/apk/debug/*
-            app/build/outputs/bundle/release/*.aab
-            app/build/outputs/mapping/release/mapping.txt
+          path: app/android/build/outputs
 
       - name: Upload Android Release to Play Store - Internal track
         uses: r0adkll/upload-google-play@v1.1.1
         with:
-          track: internal
+          track: beta
           serviceAccountJsonPlainText: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
           packageName: studio.forface.shuttle
           releaseFiles: app/build/outputs/bundle/release/*.aab

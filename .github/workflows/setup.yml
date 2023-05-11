@@ -1,0 +1,31 @@
+name: Setup
+
+on: workflow_call
+
+jobs:
+
+  setup:
+
+    name: Setup project
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Check out repository code
+        uses: actions/checkout@v3
+
+      - name: Cache Android build
+        id: cache-build
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+            ${{ github.workspace }}/app/google-services.json
+          key: cache-${{ github.ref }}
+          restore-keys: |
+            cache-${{ github.ref }}
+            cache-${{ github.base_ref }}
+
+      - name: Create google-services json
+        run: |
+          echo '${{ secrets.FIREBASE_SECRET }}' > ${GITHUB_WORKSPACE}/app/google-services.json

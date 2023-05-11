@@ -20,3 +20,33 @@ jobs:
 
       - name: Detekt analysis
         run: ./gradlew detekt
+
+  android-lint:
+
+    name: Run Android Lint
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Check out repository code
+        uses: actions/checkout@v3
+
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '19'
+
+      - name: Cache Android build
+        id: cache-build
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+            ${{ github.workspace }}/app/google-services.json
+          key: cache-${{ github.ref }}-lint
+          restore-keys: |
+            cache-${{ github.ref }}
+            cache-${{ github.base_ref }}
+
+      - name: Lint
+        run: ./gradlew lintRelease

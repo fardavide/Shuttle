@@ -5,20 +5,38 @@ on:
     branches:
       - 'main'
 
+concurrency:
+  group: ${{ github.workflow }}
+
 jobs:
 
-  detekt:
-    name: Analyze with Detekt
+  setup:
+    name: Setup project
+    uses: ./.github/workflows/setup.yml
+    secrets: inherit
+
+  analyze:
+    name: Analyze
+    needs: setup
     uses: ./.github/workflows/analyze.yml
     secrets: inherit
 
   all-tests:
     name: Tests
+    needs: setup
     uses: ./.github/workflows/tests.yml
+    secrets: inherit
+
+  build:
+    name: Build
+    needs: setup
+    uses: ./.github/workflows/build.yml
     secrets: inherit
 
   deploy:
     name: Deploy
-    needs: all-tests
+    needs:
+      - all-tests
+      - build
     uses: ./.github/workflows/deploy.yml
     secrets: inherit

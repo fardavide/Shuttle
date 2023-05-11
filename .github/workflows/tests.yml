@@ -18,6 +18,19 @@ jobs:
           distribution: 'temurin'
           java-version: '19'
 
+      - name: Cache Android build
+        id: cache-build
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+            ${{ github.workspace }}/app/google-services.json
+          key: cache-${{ github.ref }}-test-database
+          restore-keys: |
+            cache-${{ github.ref }}
+            cache-${{ github.base_ref }}
+
       - name: Verify Database Migrations
         run: ./gradlew verifyDebugDatabaseMigration
 
@@ -35,9 +48,18 @@ jobs:
           distribution: 'temurin'
           java-version: '19'
 
-      - name: Create google-services json
-        run: |
-          echo '${{ secrets.FIREBASE_SECRET }}' > ${GITHUB_WORKSPACE}/app/google-services.json
+      - name: Cache Android build
+        id: cache-build
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+            ${{ github.workspace }}/app/google-services.json
+          key: cache-${{ github.ref }}-test-unit
+          restore-keys: |
+            cache-${{ github.ref }}
+            cache-${{ github.base_ref }}
 
       - name: Run Unit Tests
         run: ./gradlew test
