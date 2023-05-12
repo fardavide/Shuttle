@@ -15,9 +15,9 @@ sealed interface PaymentErrorReason {
     data class ItemAlreadyOwned(override val debugMessage: String) : PaymentErrorReason
     data class ItemNotOwned(override val debugMessage: String) : PaymentErrorReason
     data class ItemUnavailable(override val debugMessage: String) : PaymentErrorReason
+    data class NetworkError(override val debugMessage: String) : PaymentErrorReason
     data class FeatureNotSupported(override val debugMessage: String) : PaymentErrorReason
     data class ServiceDisconnected(override val debugMessage: String) : PaymentErrorReason
-    data class ServiceTimeout(override val debugMessage: String) : PaymentErrorReason
     data class ServiceUnavailable(override val debugMessage: String) : PaymentErrorReason
     data class UserCanceled(override val debugMessage: String) : PaymentErrorReason
 
@@ -33,8 +33,8 @@ fun BillingResult.toSuccessOrErrorReason() = when (responseCode) {
     BillingResponseCode.ITEM_ALREADY_OWNED -> PaymentErrorReason.ItemAlreadyOwned(debugMessage).left()
     BillingResponseCode.ITEM_NOT_OWNED -> PaymentErrorReason.ItemNotOwned(debugMessage).left()
     BillingResponseCode.ITEM_UNAVAILABLE -> PaymentErrorReason.ItemUnavailable(debugMessage).left()
+    BillingResponseCode.NETWORK_ERROR -> PaymentErrorReason.NetworkError(debugMessage).left()
     BillingResponseCode.SERVICE_DISCONNECTED -> PaymentErrorReason.ServiceDisconnected(debugMessage).left()
-    BillingResponseCode.SERVICE_TIMEOUT -> PaymentErrorReason.ServiceTimeout(debugMessage).left()
     BillingResponseCode.SERVICE_UNAVAILABLE -> PaymentErrorReason.ServiceUnavailable(debugMessage).left()
     BillingResponseCode.USER_CANCELED -> PaymentErrorReason.UserCanceled(debugMessage).left()
     else -> PaymentErrorReason.ErrorCodeNotFoundError(responseCode, debugMessage).left()
