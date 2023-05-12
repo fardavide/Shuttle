@@ -23,4 +23,6 @@ sealed interface SuggestedAppsState {
             }
         }
     }
+
+    object Loading : SuggestedAppsState
 }

@@ -19,7 +19,7 @@ detekt = "1.22.0"
 detektRulesCompose = "0.1.5"
 firebase = "32.0.0"
 geohash = "1.4.0"
-glance = "1.0.0-SNAPSHOT"
+glance = "1.0.0-beta01"
 gms = "4.3.15"
 junit = "4.13.2"
 kermit = "1.2.2"
@@ -66,6 +66,7 @@ android-billing = { module = "com.android.billingclient:billing-ktx", version.re
 androidx-activity = { module = "androidx.activity:activity-compose", version.ref = "androidxActivity" }
 androidx-dataStore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "dataStore" }
 androidx-glance = { module = "androidx.glance:glance-appwidget", version.ref = "glance" }
+androidx-glance-material3 = { module = "androidx.glance:glance-material3", version.ref = "glance" }
 androidx-ktx = { module = "androidx.core:core-ktx", version.ref = "androidxCore" }
 androidx-lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "androidxLifecycle" }
 androidx-lifecycle-viewModel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidxLifecycle" }

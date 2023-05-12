@@ -1,8 +1,13 @@
 package shuttle.predictions.presentation.ui
 
+import android.content.Context
 import android.content.Intent
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
+import androidx.glance.GlanceTheme
 import androidx.glance.Image
 import androidx.glance.ImageProvider
 import androidx.glance.LocalContext
@@ -14,6 +19,7 @@ import androidx.glance.appwidget.action.actionRunCallback
 import androidx.glance.appwidget.action.actionStartActivity
 import androidx.glance.appwidget.background
 import androidx.glance.appwidget.cornerRadius
+import androidx.glance.appwidget.provideContent
 import androidx.glance.color.DynamicThemeColorProviders
 import androidx.glance.layout.Alignment
 import androidx.glance.layout.Box
@@ -42,8 +48,17 @@ class SuggestedAppsWidget : GlanceAppWidget(), KoinComponent {
 
     private val viewModel: SuggestedAppsWidgetViewModel by inject()
 
+    override suspend fun provideGlance(context: Context, id: GlanceId) {
+        provideContent {
+            val state by viewModel.state.collectAsState()
+            GlanceTheme {
+                Content(state)
+            }
+        }
+    }
+
     @Composable
-    override fun Content() {
+    private fun Content(state: SuggestedAppsState) {
         val actions = Actions(
             onOpenApp = ::actionStartActivity,
             onRefreshLocation = actionRunCallback<RefreshCurrentLocationActionCallback>()
@@ -54,7 +69,7 @@ class SuggestedAppsWidget : GlanceAppWidget(), KoinComponent {
                 .wrapContentSize()
                 .cornerRadius(Dimens.Margin.Large)
         ) {
-            when (val state = viewModel.state) {
+            when (state) {
                 is SuggestedAppsState.Data -> WidgetContent(data = state, actions)
                 is SuggestedAppsState.Error -> Box(
                     modifier = GlanceModifier
@@ -62,6 +77,13 @@ class SuggestedAppsWidget : GlanceAppWidget(), KoinComponent {
                         .widgetBackground()
                 ) {
                     Text(text = state.toString())
+                }
+                is SuggestedAppsState.Loading -> Box(
+                    modifier = GlanceModifier
+                        .padding(Dimens.Margin.Small)
+                        .widgetBackground()
+                ) {
+                    Text(text = "Loading...")
                 }
             }
         }
