@@ -16,14 +16,15 @@ import kotlin.coroutines.resume
 
 private var connectingJob: Deferred<Either<PaymentError.Connect, PurchaseSuccess>>? = null
 
-internal suspend inline fun BillingClient.connect(): Either<PaymentError.Connect, PurchaseSuccess> = coroutineScope {
-    if (connectingJob != null) {
-        connectingJob!!.await()
-    } else {
-        connectingJob = async { suspendConnect() }
-        connectingJob!!.await()
+internal suspend inline fun BillingClient.connect(): Either<PaymentError.Connect, PurchaseSuccess> =
+    coroutineScope {
+        if (connectingJob != null) {
+            connectingJob!!.await()
+        } else {
+            connectingJob = async { suspendConnect() }
+            connectingJob!!.await()
+        }
     }
-}
 
 private suspend inline fun BillingClient.suspendConnect(): Either<PaymentError.Connect, PurchaseSuccess> =
     suspendCancellableCoroutine { continuation ->

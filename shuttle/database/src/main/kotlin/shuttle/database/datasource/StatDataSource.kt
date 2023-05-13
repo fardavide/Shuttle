@@ -54,7 +54,8 @@ internal class StatDataSourceImpl(
         }
     }
 
-    override fun findAllStats(): Flow<List<Stat>> = statQueries.findAllStats().asFlow().mapToList(ioDispatcher)
+    override fun findAllStats(): Flow<List<Stat>> =
+        statQueries.findAllStats().asFlow().mapToList(ioDispatcher)
 
     override fun findAllStats(
         geoHash: Option<DatabaseGeoHash>,

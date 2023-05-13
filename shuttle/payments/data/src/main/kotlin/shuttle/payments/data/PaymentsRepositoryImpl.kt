@@ -37,7 +37,9 @@ internal class PaymentsRepositoryImpl(
             }
         }
 
-    override suspend fun getProductDetails(product: Product): Either<PaymentError.GetProduct, ProductDetails> = either {
+    override suspend fun getProductDetails(
+        product: Product
+    ): Either<PaymentError.GetProduct, ProductDetails> = either {
         billingClient.connect()
 
         val queryParams = paramsMapper.toQueryProductDetailsParams(product)

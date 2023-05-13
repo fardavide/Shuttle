@@ -9,7 +9,10 @@ import shuttle.settings.presentation.ui.component.SliderItem
 import shuttle.settings.presentation.ui.component.SwitchItem
 
 @Composable
-internal fun WidgetAppsLabelsContent(settings: WidgetLayoutUiModel, actions: WidgetAppsLabelsContent.Actions) {
+internal fun WidgetAppsLabelsContent(
+    settings: WidgetLayoutUiModel,
+    actions: WidgetAppsLabelsContent.Actions
+) {
     LazyColumn {
         item {
             SliderItem(

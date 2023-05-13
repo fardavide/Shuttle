@@ -15,7 +15,8 @@ class AppBlacklistSettingUiModelMapper(
 
     suspend fun toUiModels(
         appBlacklistSettings: Collection<AppBlacklistSetting>
-    ): List<Either<GetSystemIconError, AppBlacklistSettingUiModel>> = appBlacklistSettings.map { toUiModel(it) }
+    ): List<Either<GetSystemIconError, AppBlacklistSettingUiModel>> =
+        appBlacklistSettings.map { toUiModel(it) }
 
     private suspend fun toUiModel(
         appBlacklistSetting: AppBlacklistSetting

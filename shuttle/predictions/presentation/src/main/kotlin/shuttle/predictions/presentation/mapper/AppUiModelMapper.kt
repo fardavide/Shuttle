@@ -21,6 +21,7 @@ class AppUiModelMapper(
         )
     }
 
-    suspend fun toUiModels(appModels: Collection<SuggestedAppModel>): List<Either<GetSystemIconError, AppUiModel>> =
-        appModels.map { toUiModel(it) }
+    suspend fun toUiModels(
+        appModels: Collection<SuggestedAppModel>
+    ): List<Either<GetSystemIconError, AppUiModel>> = appModels.map { toUiModel(it) }
 }

@@ -2,6 +2,10 @@ apply plugin: 'shuttle.android.compose.library'
 
 android.namespace 'shuttle.test.compose'
 
+optIns {
+    experimentalTestApi()
+}
+
 moduleDependencies {
     implementation 'design'
 }

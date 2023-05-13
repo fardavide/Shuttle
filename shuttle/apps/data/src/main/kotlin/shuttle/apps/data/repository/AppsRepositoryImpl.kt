@@ -100,7 +100,8 @@ class AppsRepositoryImpl(
             .sortedBy { it.name.value.uppercase() }
     }
 
-    private fun buildLauncherCategoryIntent() = Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_LAUNCHER)
+    private fun buildLauncherCategoryIntent() =
+        Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_LAUNCHER)
 
     private fun toAppModel(resolveInfo: ResolveInfo) = AppModel(
         AppId(resolveInfo.activityInfo.packageName),

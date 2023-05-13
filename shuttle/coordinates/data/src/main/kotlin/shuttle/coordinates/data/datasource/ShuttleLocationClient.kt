@@ -28,10 +28,11 @@ internal class ShuttleLocationClient(
 
     @Suppress("DEPRECATION")
     @SuppressLint("MissingPermission")
-    suspend fun getCurrentLocation(): Either<LocationError, Location> = fusedLocationClient.getCurrentLocation(
-        LocationRequest.PRIORITY_HIGH_ACCURACY,
-        CancellationTokenSource().token
-    ).tryGetWithTimeout()
+    suspend fun getCurrentLocation(): Either<LocationError, Location> =
+        fusedLocationClient.getCurrentLocation(
+            LocationRequest.PRIORITY_HIGH_ACCURACY,
+            CancellationTokenSource().token
+        ).tryGetWithTimeout()
 
     @SuppressLint("MissingPermission")
     suspend fun getLastLocation(): Either<LocationError, Location> = fusedLocationClient.lastLocation.tryGet()

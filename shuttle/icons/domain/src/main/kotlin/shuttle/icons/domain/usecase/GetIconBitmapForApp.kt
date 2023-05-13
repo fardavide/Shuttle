@@ -15,18 +15,19 @@ class GetIconBitmapForApp(
     private val iconsPacksRepository: IconPacksRepository
 ) {
 
-    suspend operator fun invoke(id: AppId, iconPackId: Option<AppId>): Either<GetSystemIconError, Bitmap> = either {
-        val systemIcon = getSystemIconBitmapForApp(id).bind()
-        val bitmap = iconPackId.fold(
-            ifEmpty = { systemIcon },
-            ifSome = {
-                iconsPacksRepository.getBitmapIcon(
-                    iconPackId = it,
-                    appId = id,
-                    defaultBitmap = systemIcon
-                )
-            }
-        )
-        Bitmap.createBitmap(bitmap)
-    }
+    suspend operator fun invoke(id: AppId, iconPackId: Option<AppId>): Either<GetSystemIconError, Bitmap> =
+        either {
+            val systemIcon = getSystemIconBitmapForApp(id).bind()
+            val bitmap = iconPackId.fold(
+                ifEmpty = { systemIcon },
+                ifSome = {
+                    iconsPacksRepository.getBitmapIcon(
+                        iconPackId = it,
+                        appId = id,
+                        defaultBitmap = systemIcon
+                    )
+                }
+            )
+            Bitmap.createBitmap(bitmap)
+        }
 }

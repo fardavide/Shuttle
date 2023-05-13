@@ -1,10 +1,7 @@
-@file:OptIn(ExperimentalTestApi::class)
-
 package shuttle.test.compose
 
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.AndroidComposeUiTest
-import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.runAndroidComposeUiTest
 
 fun runComposeTest(block: ComposeTest.() -> Unit) = runAndroidComposeUiTest(block = block)

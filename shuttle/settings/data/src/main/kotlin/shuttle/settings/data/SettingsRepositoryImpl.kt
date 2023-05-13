@@ -38,7 +38,8 @@ internal class SettingsRepositoryImpl(
         it[HasAccessibilityServicePreferenceKey] ?: false
     }.first()
 
-    override suspend fun isBlacklisted(appId: AppId) = settingDataSource.isBlacklisted(DatabaseAppId(appId.value))
+    override suspend fun isBlacklisted(appId: AppId) =
+        settingDataSource.isBlacklisted(DatabaseAppId(appId.value))
 
     override fun observeAppsBlacklistSettings(): Flow<List<AppBlacklistSetting>> =
         settingDataSource.findAllAppsWithBlacklistSetting().map { list ->

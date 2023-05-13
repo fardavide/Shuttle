@@ -31,13 +31,6 @@ console-reports:
     #  - 'FindingsReport'
     - 'FileBasedFindingsReport'
 
-# output-reports:
-#   active: true
-#   exclude:
-#   # - 'TxtOutputReport'
-#   # - 'XmlOutputReport'
-#   # - 'HtmlOutputReport'
-
 comments:
   active: true
   AbsentOrWrongFileLicense:
@@ -113,6 +106,7 @@ complexity:
   LongParameterList:
     active: true
     ignoreAnnotated: [ 'Composable', 'Module' ]
+    excludes: ['**/*Mapper.kt']
     functionThreshold: 7
     constructorThreshold: 99
     ignoreDefaultParameters: true
@@ -138,7 +132,7 @@ complexity:
     ignoreStringsRegex: '$^'
   TooManyFunctions:
     active: true
-    excludes: ['**/test/**', '**/**Test/**', '**/DataSource.kt']
+    excludes: ['**/test/**', '**/**Test/**', '**/*DataSource.kt']
     ignoreAnnotated: [ 'Module' ]
     thresholdInFiles: 31
     thresholdInClasses: 26
@@ -159,6 +153,8 @@ coroutines:
   RedundantSuspendModifier:
     active: true
   SleepInsteadOfDelay:
+    active: true
+  SuspendFunSwallowedCancellation:
     active: true
   SuspendFunWithCoroutineScopeReceiver:
     active: true
@@ -210,9 +206,8 @@ exceptions:
   # reports catch blocks which check for the type of an exception via is checks or casts
   InstanceOfCheckForException:
     active: false
-  # reports all exceptions of the type NotImplementedError and `TO\\DO(..)`
   NotImplementedDeclaration:
-    active: true
+    active: false
   ObjectExtendsThrowable:
     active: true
   PrintStackTrace:
@@ -310,7 +305,7 @@ formatting:
     autoCorrect: true
     forceMultilineWhenParameterCountGreaterOrEqualThan: 3
     functionBodyExpressionWrapping: 'default'
-    maxLineLength: 120
+    maxLineLength: 110
     indentSize: 4
   FunctionStartOfBodySpacing:
     active: false
@@ -476,7 +471,6 @@ naming:
     parameterPattern: '[a-z][A-Za-z0-9]*'
     privateParameterPattern: '[a-z][A-Za-z0-9]*'
     excludeClassPattern: '$^'
-    ignoreOverridden: true
   EnumNaming:
     active: true
     enumEntryPattern: '[A-Z][_a-zA-Z0-9]*'
@@ -495,13 +489,11 @@ naming:
     excludes: [ '**/test/**', '**/**Test/**' ]
     functionPattern: '([a-zA-Z][a-zA-Z0-9]*)|(`.*`)'
     excludeClassPattern: '$^'
-    ignoreOverridden: true
     ignoreAnnotated: ['Composable']
   FunctionParameterNaming:
     active: true
     parameterPattern: '[a-z][A-Za-z0-9]*'
     excludeClassPattern: '$^'
-    ignoreOverridden: true
   InvalidPackageDeclaration:
     active: false
     rootPackage: ''
@@ -543,7 +535,6 @@ naming:
     variablePattern: '[a-zA-Z][A-Za-z0-9]*'
     privateVariablePattern: '(_)?[a-z][A-Za-z0-9]*'
     excludeClassPattern: '$^'
-    ignoreOverridden: true
 
 performance:
   active: true
@@ -565,6 +556,8 @@ performance:
 potential-bugs:
   active: true
   AvoidReferentialEquality:
+    active: true
+  CastNullableToNonNullableType:
     active: true
   CastToNullableType:
     active: true
@@ -661,6 +654,14 @@ style:
   active: true
   AlsoCouldBeApply:
     active: true
+  BracesOnIfStatements:
+    active: true
+    singleLine: 'never'
+    multiLine: 'consistent'
+  DoubleNegativeLambda:
+    active: true
+    negativeFunctions: ['takeUnless', 'none']
+    negativeFunctionNameParts: ['not', 'non']
   # This rule ensures class contents are ordered as follows as recommended by the Kotlin Coding Conventions
   #  ( see https://kotlinlang.org/docs/reference/coding-conventions.html#class-layout ):
   #  Mandatory order
@@ -677,7 +678,8 @@ style:
     includeElvis: true
   DataClassContainsFunctions:
     active: false
-    # conversionFunctionPrefix: 'to'
+    conversionFunctionPrefix: []
+    allowOperators: true
   DataClassShouldBeImmutable:
     active: true
   EqualsNullCall:
@@ -691,13 +693,23 @@ style:
   ExpressionBodySyntax:
     active: true
     includeLineWrapping: false
+  ForbiddenAnnotation:
+    active: true
+    annotations: []
   ForbiddenComment:
     active: true
-    values: ['TODO', 'FIXME', 'STOPSHIP']
+    values: [FIXME', 'STOPSHIP']
     allowedPatterns: ''
   ForbiddenImport:
     active: true
-    imports: ['junit.framework.TestCase.*', 'org.junit.Assert.*', 'org.junit.framework.Assert.*', 'org.junit.Test']
+    imports: [
+      # Importing the whole package is not allowed, import only the classes you need
+      'cinescout.design.R',
+      # Use the relative opt-in instead
+      'androidx.compose.ui.test.ExperimentalTestApi',
+      'kotlinx.coroutines.ExperimentalCoroutinesApi',
+      'kotlinx.coroutines.FlowPreview'
+    ]
     forbiddenPatterns: ''
   ForbiddenMethodCall:
     active: true
@@ -730,8 +742,6 @@ style:
     # ignoreNamedArgument: true
     # ignoreEnums: true
     # ignoreRanges: false
-  MandatoryBracesIfStatements:
-    active: false
   MandatoryBracesLoops:
     active: true
   MaxChainedCallsOnSameLine:
@@ -750,7 +760,7 @@ style:
   MultilineLambdaItParameter:
     active: false
   MultilineRawStringIndentation:
-    active: true
+    active: false
     indentSize: 4
   NestedClassesVisibility:
     active: true
@@ -830,6 +840,10 @@ style:
     active: false
   SpacingBetweenPackageAndImports:
     active: true
+  StringShouldBeRawString:
+    active: true
+    maxEscapedCharacterCount: 2
+    ignoredCharacters: []
   ThrowsCount:
     active: true
     max: 3
@@ -862,12 +876,18 @@ style:
     active: true
   UnusedImports:
     active: true
+  UnusedParameter:
+    active: true
+    allowedNames: ''
   UnusedPrivateClass:
     active: true
   UnusedPrivateMember:
     active: true
     ignoreAnnotated: ['Preview', '*Previews', '*Previews.*']
     allowedNames: "(_|ignored|expected|serialVersionUID)"
+  UnusedPrivateProperty:
+    active: true
+    allowedNames: ''
   UseArrayLiteralsInAnnotations:
     active: false
   # flag `check` calls for not-null check that can be replaced with a `checkNotNull` call.
@@ -904,6 +924,7 @@ style:
     active: true
   UseIfInsteadOfWhen:
     active: false
+    ignoreWhenContainingVariableDeclaration: true
   UseIsNullOrEmpty:
     active: true
   UseOrEmpty:

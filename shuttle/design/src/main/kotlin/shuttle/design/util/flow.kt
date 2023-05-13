@@ -34,5 +34,6 @@ fun <T : R, R> Flow<T>.collectAsStateLifecycleAware(
 
 @Suppress("StateFlowValueCalledInComposition")
 @Composable
-fun <T> StateFlow<T>.collectAsStateLifecycleAware(context: CoroutineContext = EmptyCoroutineContext): State<T> =
-    collectAsStateLifecycleAware(value, context)
+fun <T> StateFlow<T>.collectAsStateLifecycleAware(
+    context: CoroutineContext = EmptyCoroutineContext
+): State<T> = collectAsStateLifecycleAware(value, context)

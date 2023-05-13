@@ -88,12 +88,13 @@ internal class SortAppStats(
             .toList()
     }
 
-    private fun Collection<Pair<DatabaseAppId, List<Stat>>>.sort(date: DatabaseDate): List<AppId> = asSequence()
-        .sortedByDescending { (_, stats) ->
-            stats.sumOf { stat -> DaysToKeep - (date.dayNumber - stat.date.dayNumber) }
-        }
-        .map { (appId, _) -> AppId(appId.value) }
-        .toList()
+    private fun Collection<Pair<DatabaseAppId, List<Stat>>>.sort(date: DatabaseDate): List<AppId> =
+        asSequence()
+            .sortedByDescending { (_, stats) ->
+                stats.sumOf { stat -> DaysToKeep - (date.dayNumber - stat.date.dayNumber) }
+            }
+            .map { (appId, _) -> AppId(appId.value) }
+            .toList()
 
     companion object {
 

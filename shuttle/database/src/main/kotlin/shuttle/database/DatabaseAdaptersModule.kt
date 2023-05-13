@@ -12,7 +12,8 @@ import shuttle.database.adapter.TimeAdapter
 internal class DatabaseAdaptersModule {
     
     @Factory
-    fun appAdapter(@Named(Qualifier.AppIdAdapter) addIdAdapter: AppIdAdapter) = App.Adapter(idAdapter = addIdAdapter)
+    fun appAdapter(@Named(Qualifier.AppIdAdapter) addIdAdapter: AppIdAdapter) =
+        App.Adapter(idAdapter = addIdAdapter)
     
     @Factory
     fun appBlacklistSettingAdapter(@Named(Qualifier.AppIdAdapter) appIdAdapter: AppIdAdapter) =

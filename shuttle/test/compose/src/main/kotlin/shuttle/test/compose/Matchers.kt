@@ -20,11 +20,13 @@ fun SemanticsNodeInteractionsProvider.onNodeWithText(
     substring: Boolean = false,
     ignoreCase: Boolean = false,
     useUnmergedTree: Boolean = false
-): SemanticsNodeInteraction = onNodeWithText(getString(text), substring, ignoreCase, useUnmergedTree = useUnmergedTree)
+): SemanticsNodeInteraction =
+    onNodeWithText(getString(text), substring, ignoreCase, useUnmergedTree = useUnmergedTree)
 
 fun SemanticsNodeInteractionsProvider.onAllNodesWithText(
     @StringRes text: Int,
     substring: Boolean = false,
     ignoreCase: Boolean = false,
     useUnmergedTree: Boolean = false
-): SemanticsNodeInteractionCollection = onAllNodesWithText(getString(text), substring, ignoreCase, useUnmergedTree)
+): SemanticsNodeInteractionCollection =
+    onAllNodesWithText(getString(text), substring, ignoreCase, useUnmergedTree)

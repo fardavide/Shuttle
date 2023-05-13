@@ -16,9 +16,11 @@ internal class DatabaseDateAndTimeMapper {
         time = toDatabaseTime(dateTime.time)
     )
 
-    fun toDatabaseDate(date: Date) = DatabaseDate(dayNumber = date.dayOfYear + (date.year - YearOffset) * DaysInOneYear)
+    fun toDatabaseDate(date: Date) =
+        DatabaseDate(dayNumber = date.dayOfYear + (date.year - YearOffset) * DaysInOneYear)
 
-    fun toDatabaseTime(time: Time) = DatabaseTime(minuteOfTheDay = time.hourAdjusted * OneHourInMinutes + time.minute)
+    fun toDatabaseTime(time: Time) =
+        DatabaseTime(minuteOfTheDay = time.hourAdjusted * OneHourInMinutes + time.minute)
 
     companion object {
 

@@ -22,7 +22,10 @@ import shuttle.resources.TextRes
 import shuttle.utils.kotlin.exhaustive
 
 @Composable
-internal fun OnboardingBlacklistPage(state: OnboardingBlacklistState, actions: OnboardingPage.NavigationActions) {
+internal fun OnboardingBlacklistPage(
+    state: OnboardingBlacklistState,
+    actions: OnboardingPage.NavigationActions
+) {
     OnboardingPageContent(
         index = OnboardingPage.Index.BLACKLIST,
         title = string.onboarding_blacklist_title,

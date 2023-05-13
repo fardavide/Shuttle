@@ -18,22 +18,23 @@ class LaunchPurchaseFlow(
     private val getProductDetails: GetProductDetails
 ) {
 
-    suspend operator fun invoke(activity: Activity, product: Product): Either<PaymentError, PurchaseSuccess> = either {
-        val productDetails = getProductDetails(product).bind()
+    suspend operator fun invoke(activity: Activity, product: Product): Either<PaymentError, PurchaseSuccess> =
+        either {
+            val productDetails = getProductDetails(product).bind()
 
-        val flowParams = BillingFlowParams.newBuilder()
-            .setProductDetailsParamsList(
-                listOf(
-                    BillingFlowParams.ProductDetailsParams.newBuilder()
-                        .setProductDetails(productDetails)
-                        .build()
+            val flowParams = BillingFlowParams.newBuilder()
+                .setProductDetailsParamsList(
+                    listOf(
+                        BillingFlowParams.ProductDetailsParams.newBuilder()
+                            .setProductDetails(productDetails)
+                            .build()
+                    )
                 )
-            )
-            .build()
+                .build()
 
-        billingClient.launchBillingFlow(activity, flowParams)
-            .toSuccessOrErrorReason()
-            .mapLeft { PaymentError.PurchaseFlow(it) }
-            .bind()
-    }
+            billingClient.launchBillingFlow(activity, flowParams)
+                .toSuccessOrErrorReason()
+                .mapLeft { PaymentError.PurchaseFlow(it) }
+                .bind()
+        }
 }

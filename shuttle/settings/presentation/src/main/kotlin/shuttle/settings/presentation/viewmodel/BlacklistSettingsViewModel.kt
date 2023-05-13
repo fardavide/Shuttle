@@ -92,7 +92,10 @@ internal class BlacklistSettingsViewModel(
     }
 
     @Suppress("MaxLineLength")
-    private fun List<Either<GetSystemIconError, AppBlacklistSettingUiModel>>.filterRight(): ImmutableList<AppBlacklistSettingUiModel> = mapNotNull { it.getOrNull() }.toImmutableList()
+    private fun List<Either<GetSystemIconError, AppBlacklistSettingUiModel>>.filterRight(): ImmutableList<AppBlacklistSettingUiModel> =
+        mapNotNull {
+            it.getOrNull()
+        }.toImmutableList()
 
     sealed interface State {
 

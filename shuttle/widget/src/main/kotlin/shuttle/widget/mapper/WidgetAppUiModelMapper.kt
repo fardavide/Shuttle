@@ -52,6 +52,8 @@ internal class WidgetAppUiModelMapper(
 
                 drawBitmap(this@withTint, 0f, 0f, paint)
             }
-        } else this
+        } else {
+            this
+        }
     }
 }

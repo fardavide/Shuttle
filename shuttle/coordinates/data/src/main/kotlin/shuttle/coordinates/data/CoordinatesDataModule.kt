@@ -11,5 +11,6 @@ import org.koin.core.annotation.Module
 class CoordinatesDataModule {
 
     @Factory
-    fun fusedLocationProviderClient(context: Context) = LocationServices.getFusedLocationProviderClient(context)
+    fun fusedLocationProviderClient(context: Context) =
+        LocationServices.getFusedLocationProviderClient(context)
 }

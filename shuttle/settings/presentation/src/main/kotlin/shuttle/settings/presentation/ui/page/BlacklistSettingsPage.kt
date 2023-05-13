@@ -111,7 +111,10 @@ private fun SearchBar(onSearch: (String) -> Unit) {
 }
 
 @Composable
-private fun BlacklistItemsList(apps: ImmutableList<AppBlacklistSettingUiModel>, actions: AppListItem.Actions) {
+private fun BlacklistItemsList(
+    apps: ImmutableList<AppBlacklistSettingUiModel>,
+    actions: AppListItem.Actions
+) {
     LazyColumn(contentPadding = PaddingValues(Dimens.Margin.Small)) {
         items(apps) { model ->
             AppListItem(model, actions)

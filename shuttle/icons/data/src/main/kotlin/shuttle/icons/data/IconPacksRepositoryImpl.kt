@@ -236,9 +236,7 @@ class IconPacksRepositoryImpl(
         val resources = iconPack.resources
 
         val id = resources.getIdentifier(drawableName, "drawable", iconPack.id.value)
-        return if (id > 0) {
-            resources.getDrawable(id)
-        } else null
+        return if (id > 0) resources.getDrawable(id) else null
     }
 
     private fun generateBitmap(iconPack: IconPack, defaultBitmap: Bitmap): Bitmap {

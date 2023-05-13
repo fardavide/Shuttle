@@ -25,7 +25,8 @@ internal class LastLocationDataSourceImpl(
     @Named(IoDispatcher) private val ioDispatcher: CoroutineDispatcher
 ) : LastLocationDataSource {
 
-    override fun find(): Flow<LastLocation?> = lastLocationQueries.find().asFlow().mapToOneNotNull(ioDispatcher)
+    override fun find(): Flow<LastLocation?> =
+        lastLocationQueries.find().asFlow().mapToOneNotNull(ioDispatcher)
 
     override suspend fun insert(geoHash: DatabaseGeoHash) {
         lastLocationQueries.suspendTransaction(ioDispatcher) {

@@ -63,15 +63,16 @@ internal class OnboardingViewModel(
         setOnboardingShown()
     }
 
-    private suspend fun buildOnboardingWidgetPreviewData(apps: List<AppModel>) = OnboardingWidgetPreviewState.Data(
-        widgetPreview = WidgetPreviewUiModel(
-            apps = widgetPreviewAppUiModelMapper
-                .toUiModels(apps)
-                .filterRight()
-                .shuffled(),
-            layout = WidgetLayout
+    private suspend fun buildOnboardingWidgetPreviewData(apps: List<AppModel>) =
+        OnboardingWidgetPreviewState.Data(
+            widgetPreview = WidgetPreviewUiModel(
+                apps = widgetPreviewAppUiModelMapper
+                    .toUiModels(apps)
+                    .filterRight()
+                    .shuffled(),
+                layout = WidgetLayout
+            )
         )
-    )
 
     private suspend fun buildOnboardingBlacklistState(apps: List<AppModel>) = OnboardingBlacklistState.Data(
         onboardingBlacklistUiModelMapper.toUiModel(apps, take = 4)
