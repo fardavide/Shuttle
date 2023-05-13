@@ -5,9 +5,11 @@ import com.squareup.sqldelight.runtime.coroutines.mapToList
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import org.koin.core.annotation.Factory
+import org.koin.core.annotation.Named
 import shuttle.database.App
 import shuttle.database.AppQueries
 import shuttle.database.util.suspendTransaction
+import shuttle.utils.kotlin.IoDispatcher
 
 interface AppDataSource {
 
@@ -20,7 +22,7 @@ interface AppDataSource {
 @Factory
 internal class AppDataSourceImpl(
     private val appQueries: AppQueries,
-    private val ioDispatcher: CoroutineDispatcher
+    @Named(IoDispatcher) private val ioDispatcher: CoroutineDispatcher
 ) : AppDataSource {
 
     override fun findAllApps(): Flow<List<App>> = appQueries.findAllApps().asFlow().mapToList(ioDispatcher)

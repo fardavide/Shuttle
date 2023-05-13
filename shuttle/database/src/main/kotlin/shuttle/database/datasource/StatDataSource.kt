@@ -5,6 +5,8 @@ import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToList
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
+import org.koin.core.annotation.Factory
+import org.koin.core.annotation.Named
 import shuttle.database.Stat
 import shuttle.database.StatQueries
 import shuttle.database.model.DatabaseAppId
@@ -12,6 +14,7 @@ import shuttle.database.model.DatabaseDate
 import shuttle.database.model.DatabaseGeoHash
 import shuttle.database.model.DatabaseTime
 import shuttle.database.util.suspendTransaction
+import shuttle.utils.kotlin.IoDispatcher
 
 interface StatDataSource {
 
@@ -35,9 +38,10 @@ interface StatDataSource {
     )
 }
 
+@Factory
 internal class StatDataSourceImpl(
     private val statQueries: StatQueries,
-    private val ioDispatcher: CoroutineDispatcher
+    @Named(IoDispatcher) private val ioDispatcher: CoroutineDispatcher
 ) : StatDataSource {
 
     override suspend fun clearAllStatsOlderThan(date: DatabaseDate) {
