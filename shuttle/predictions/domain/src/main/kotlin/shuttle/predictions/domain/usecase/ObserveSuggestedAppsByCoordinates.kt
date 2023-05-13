@@ -2,6 +2,7 @@ package shuttle.predictions.domain.usecase
 
 import arrow.core.Option
 import kotlinx.coroutines.flow.Flow
+import org.koin.core.annotation.Factory
 import shuttle.apps.domain.model.SuggestedAppModel
 import shuttle.coordinates.domain.model.Coordinates
 import shuttle.predictions.domain.model.DefaultValuesSpans
@@ -12,6 +13,7 @@ interface ObserveSuggestedAppsByCoordinates {
     operator fun invoke(coordinates: Coordinates): Flow<List<SuggestedAppModel>>
 }
 
+@Factory
 internal class ObserveSuggestedAppsByCoordinatesImpl(
     private val statsRepository: StatsRepository,
     private val timeToTimeRange: TimeToTimeRange

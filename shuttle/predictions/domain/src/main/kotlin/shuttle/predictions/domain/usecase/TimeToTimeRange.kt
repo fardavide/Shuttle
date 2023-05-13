@@ -3,7 +3,9 @@ package shuttle.predictions.domain.usecase
 import korlibs.time.Time
 import korlibs.time.TimeSpan
 import korlibs.time.plus
+import org.koin.core.annotation.Factory
 
+@Factory
 internal class TimeToTimeRange {
 
     operator fun invoke(time: Time, timeSpan: TimeSpan): ClosedRange<Time> {
