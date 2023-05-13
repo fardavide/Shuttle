@@ -30,14 +30,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import shuttle.design.R.drawable
-import shuttle.design.R.string
 import shuttle.design.model.WidgetPreviewUiModel
 import shuttle.design.theme.Dimens
 import shuttle.design.ui.BackIconButton
 import shuttle.design.ui.BottomSheetScaffold
 import shuttle.design.ui.LoadingSpinner
 import shuttle.design.ui.WidgetPreview
+import shuttle.resources.R.drawable
+import shuttle.resources.R.string
 import shuttle.settings.presentation.viewmodel.WidgetLayoutViewModel.State
 
 @OptIn(ExperimentalMaterial3Api::class)

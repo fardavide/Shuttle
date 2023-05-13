@@ -13,9 +13,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.window.Dialog
-import shuttle.design.R
 import shuttle.design.theme.Dimens
 import shuttle.design.theme.ShuttleTheme
+import shuttle.resources.R
 
 @Composable
 internal fun AccessibilityServiceDialog(actions: AccessibilityServiceDialog.Actions) {

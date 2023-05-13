@@ -1,8 +1,8 @@
 package shuttle.predictions.presentation.model
 
 import androidx.annotation.StringRes
-import shuttle.design.R
 import shuttle.predictions.domain.error.ObserveSuggestedAppsError
+import shuttle.resources.R
 
 sealed interface SuggestedAppsState {
 

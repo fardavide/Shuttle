@@ -3,7 +3,6 @@ package shuttle.onboarding.presentation.ui
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import shuttle.apps.domain.sample.AppNameSample
-import shuttle.design.R.string
 import shuttle.design.model.WidgetPreviewAppUiModel
 import shuttle.design.model.WidgetPreviewUiModel
 import shuttle.design.sample.DrawableSample
@@ -12,6 +11,7 @@ import shuttle.design.ui.LoadingSpinner
 import shuttle.design.ui.WidgetPreview
 import shuttle.onboarding.presentation.model.OnboardingWidgetPreviewState
 import shuttle.onboarding.presentation.viewmodel.OnboardingViewModel
+import shuttle.resources.R.string
 
 @Composable
 internal fun OnboardingWidgetPage(state: OnboardingWidgetPreviewState, actions: OnboardingPage.NavigationActions) {

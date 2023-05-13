@@ -7,10 +7,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import shuttle.design.R
-import shuttle.design.R.string
 import shuttle.design.theme.Dimens
 import shuttle.design.theme.ShuttleTheme
+import shuttle.resources.R
+import shuttle.resources.R.string
 
 @Composable
 internal fun OnboardingMainPage(actions: OnboardingPage.NavigationActions) {

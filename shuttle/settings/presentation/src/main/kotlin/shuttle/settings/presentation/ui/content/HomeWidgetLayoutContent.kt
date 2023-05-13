@@ -5,8 +5,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import shuttle.design.PreviewUtils
-import shuttle.design.R.drawable
 import shuttle.design.ui.NavigableListItem
+import shuttle.resources.R.drawable
 import shuttle.settings.presentation.WidgetLayout
 
 @Composable

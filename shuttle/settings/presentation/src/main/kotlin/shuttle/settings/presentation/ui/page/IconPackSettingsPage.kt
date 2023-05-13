@@ -33,11 +33,11 @@ import coil.compose.rememberAsyncImagePainter
 import kotlinx.collections.immutable.ImmutableList
 import org.koin.androidx.compose.getViewModel
 import shuttle.apps.domain.model.AppId
-import shuttle.design.R
 import shuttle.design.theme.Dimens
 import shuttle.design.ui.BackIconButton
 import shuttle.design.ui.LoadingSpinner
 import shuttle.design.util.collectAsStateLifecycleAware
+import shuttle.resources.R
 import shuttle.settings.presentation.model.IconPackSettingsItemUiModel
 import shuttle.settings.presentation.model.IconPackSettingsItemUiModel.FromApp
 import shuttle.settings.presentation.model.IconPackSettingsItemUiModel.SystemDefault

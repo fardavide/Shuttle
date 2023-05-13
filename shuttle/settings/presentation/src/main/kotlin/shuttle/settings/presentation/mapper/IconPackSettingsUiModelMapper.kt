@@ -6,9 +6,9 @@ import arrow.core.continuations.either
 import arrow.core.right
 import shuttle.apps.domain.model.AppId
 import shuttle.apps.domain.model.AppModel
-import shuttle.design.R
 import shuttle.icons.domain.error.GetSystemIconError
 import shuttle.icons.domain.usecase.GetSystemIconDrawableForApp
+import shuttle.resources.R
 import shuttle.settings.presentation.model.IconPackSettingsItemUiModel
 
 internal class IconPackSettingsUiModelMapper(

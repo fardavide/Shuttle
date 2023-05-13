@@ -8,8 +8,8 @@ import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
-import shuttle.design.R.string
 import shuttle.design.TestTag
+import shuttle.resources.R.string
 import shuttle.test.compose.checkIsDisplayed
 import shuttle.test.compose.hasText
 

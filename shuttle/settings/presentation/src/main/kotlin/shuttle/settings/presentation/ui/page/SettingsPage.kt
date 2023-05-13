@@ -33,7 +33,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import org.koin.androidx.compose.getViewModel
-import shuttle.design.R.string
 import shuttle.design.TestTag
 import shuttle.design.theme.Dimens
 import shuttle.design.theme.ShuttleTheme
@@ -42,6 +41,7 @@ import shuttle.design.util.ConsumableLaunchedEffect
 import shuttle.design.util.Effect
 import shuttle.design.util.collectAsStateLifecycleAware
 import shuttle.permissions.domain.model.backgroundPermissionsList
+import shuttle.resources.R.string
 import shuttle.settings.presentation.model.SettingsItemUiModel
 import shuttle.settings.presentation.model.SettingsSectionUiModel
 import shuttle.settings.presentation.model.SettingsState

@@ -2,9 +2,9 @@ import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
-import shuttle.design.R.string
 import shuttle.design.TestTag
 import shuttle.permissions.presentation.ui.PermissionsPage
+import shuttle.resources.R.string
 import shuttle.test.compose.hasText
 import shuttle.test.compose.onBackPressed
 import shuttle.test.compose.requireActivity

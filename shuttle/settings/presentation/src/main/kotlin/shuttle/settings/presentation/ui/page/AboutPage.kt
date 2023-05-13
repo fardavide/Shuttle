@@ -24,7 +24,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import arrow.core.Either
 import org.koin.androidx.compose.koinViewModel
-import shuttle.design.R.string
 import shuttle.design.theme.Dimens
 import shuttle.design.theme.ShuttleTheme
 import shuttle.design.ui.BackIconButton
@@ -36,6 +35,7 @@ import shuttle.design.util.collectAsStateLifecycleAware
 import shuttle.payments.domain.model.PaymentError
 import shuttle.payments.domain.model.Product
 import shuttle.payments.domain.model.PurchaseSuccess
+import shuttle.resources.R.string
 import shuttle.settings.presentation.viewmodel.AboutViewModel
 import shuttle.settings.presentation.viewmodel.AboutViewModel.Action
 import shuttle.settings.presentation.viewmodel.AboutViewModel.State

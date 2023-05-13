@@ -6,7 +6,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
-import shuttle.design.R.string
+import shuttle.resources.R.string
 
 @Composable
 fun BackIconButton(onBack: () -> Unit) {

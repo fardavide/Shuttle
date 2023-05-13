@@ -29,7 +29,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import org.koin.androidx.compose.koinViewModel
-import shuttle.design.R
 import shuttle.design.theme.Dimens
 import shuttle.design.theme.ShuttleTheme
 import shuttle.design.ui.LoadingSpinner
@@ -42,6 +41,7 @@ import shuttle.permissions.presentation.util.openAccessibilitySettings
 import shuttle.permissions.presentation.viewmodel.PermissionsViewModel
 import shuttle.permissions.presentation.viewmodel.PermissionsViewModel.Action
 import shuttle.permissions.presentation.viewmodel.PermissionsViewModel.State
+import shuttle.resources.R
 
 @Composable
 @OptIn(ExperimentalPermissionsApi::class)
