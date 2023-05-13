@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.MultiplePermissionsState
 import kotlinx.coroutines.launch
+import org.koin.android.annotation.KoinViewModel
 import shuttle.accessibility.usecase.IsLaunchCounterServiceEnabled
 import shuttle.design.util.Effect
 import shuttle.permissions.domain.usecase.HasAllLocationPermissions
@@ -13,6 +14,7 @@ import shuttle.settings.presentation.viewmodel.SettingsViewModel.Action
 import shuttle.util.android.viewmodel.ShuttleViewModel
 import shuttle.utils.kotlin.GetAppVersion
 
+@KoinViewModel
 @OptIn(ExperimentalPermissionsApi::class)
 class SettingsViewModel(
     private val getAppVersion: GetAppVersion,

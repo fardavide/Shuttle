@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
+import org.koin.android.annotation.KoinViewModel
 import shuttle.apps.domain.model.AppId
 import shuttle.icons.domain.error.GetSystemIconError
 import shuttle.icons.domain.usecase.ObserveInstalledIconPacks
@@ -22,6 +23,7 @@ import shuttle.settings.presentation.viewmodel.IconPacksSettingsViewModel.Action
 import shuttle.settings.presentation.viewmodel.IconPacksSettingsViewModel.State
 import shuttle.util.android.viewmodel.ShuttleViewModel
 
+@KoinViewModel
 internal class IconPacksSettingsViewModel(
     private val iconPackSettingsMapper: IconPackSettingsUiModelMapper,
     observeInstalledIconPacks: ObserveInstalledIconPacks,

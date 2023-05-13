@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import org.koin.android.annotation.KoinViewModel
 import shuttle.apps.domain.model.AppId
 import shuttle.icons.domain.error.GetSystemIconError
 import shuttle.settings.domain.model.AppBlacklistSetting
@@ -20,6 +21,7 @@ import shuttle.settings.presentation.viewmodel.BlacklistSettingsViewModel.Action
 import shuttle.settings.presentation.viewmodel.BlacklistSettingsViewModel.State
 import shuttle.util.android.viewmodel.ShuttleViewModel
 
+@KoinViewModel
 internal class BlacklistSettingsViewModel(
     private val appUiModelMapper: AppBlacklistSettingUiModelMapper,
     private val addToBlacklist: AddToBlacklist,

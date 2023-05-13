@@ -8,6 +8,7 @@ import arrow.core.getOrElse
 import co.touchlab.kermit.Logger
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import org.koin.android.annotation.KoinViewModel
 import shuttle.design.util.Effect
 import shuttle.payments.domain.model.PaymentError
 import shuttle.payments.domain.model.Product
@@ -18,6 +19,7 @@ import shuttle.settings.presentation.viewmodel.AboutViewModel.Action
 import shuttle.settings.presentation.viewmodel.AboutViewModel.State
 import shuttle.util.android.viewmodel.ShuttleViewModel
 
+@KoinViewModel
 class AboutViewModel(
     private val getProductPrice: GetProductPrice,
     private val launchPurchaseFlow: LaunchPurchaseFlow,

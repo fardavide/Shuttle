@@ -2,11 +2,13 @@ package shuttle.settings.presentation.mapper
 
 import arrow.core.Either
 import arrow.core.continuations.either
+import org.koin.core.annotation.Factory
 import shuttle.icons.domain.error.GetSystemIconError
 import shuttle.icons.domain.usecase.GetSystemIconDrawableForApp
 import shuttle.settings.domain.model.AppBlacklistSetting
 import shuttle.settings.presentation.model.AppBlacklistSettingUiModel
 
+@Factory
 class AppBlacklistSettingUiModelMapper(
     private val getSystemIconDrawableForApp: GetSystemIconDrawableForApp
 ) {

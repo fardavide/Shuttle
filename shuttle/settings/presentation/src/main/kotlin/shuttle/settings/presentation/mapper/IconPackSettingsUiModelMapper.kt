@@ -4,6 +4,7 @@ import arrow.core.Either
 import arrow.core.Option
 import arrow.core.continuations.either
 import arrow.core.right
+import org.koin.core.annotation.Factory
 import shuttle.apps.domain.model.AppId
 import shuttle.apps.domain.model.AppModel
 import shuttle.icons.domain.error.GetSystemIconError
@@ -11,6 +12,7 @@ import shuttle.icons.domain.usecase.GetSystemIconDrawableForApp
 import shuttle.resources.R
 import shuttle.settings.presentation.model.IconPackSettingsItemUiModel
 
+@Factory
 internal class IconPackSettingsUiModelMapper(
     private val getSystemIconDrawableForApp: GetSystemIconDrawableForApp
 ) {
