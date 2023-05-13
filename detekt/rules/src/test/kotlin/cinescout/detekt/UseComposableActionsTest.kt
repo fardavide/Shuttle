@@ -1,10 +1,10 @@
 package cinescout.detekt
 
 import io.gitlab.arturbosch.detekt.test.lint
-import kotlin.test.Test
-import kotlin.test.assertEquals
+import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.matchers.shouldBe
 
-internal class UseComposableActionsTest {
+internal class UseComposableActionsTest : AnnotationSpec() {
 
     private val rule = UseComposableActions()
 
@@ -24,7 +24,7 @@ internal class UseComposableActionsTest {
         val findings = rule.lint(code)
 
         // then
-        assertEquals(expected, findings.size)
+        findings.size shouldBe expected
     }
 
     @Test
@@ -42,7 +42,7 @@ internal class UseComposableActionsTest {
         val findings = rule.lint(code)
 
         // then
-        assertEquals(expected, findings.size)
+        findings.size shouldBe expected
     }
 
     @Test
@@ -61,7 +61,7 @@ internal class UseComposableActionsTest {
         val findings = rule.lint(code)
 
         // then
-        assertEquals(expected, findings.size)
+        findings.size shouldBe expected
     }
 
     @Test
@@ -80,6 +80,6 @@ internal class UseComposableActionsTest {
         val findings = rule.lint(code)
 
         // then
-        assertEquals(expected, findings.size)
+        findings.size shouldBe expected
     }
 }
