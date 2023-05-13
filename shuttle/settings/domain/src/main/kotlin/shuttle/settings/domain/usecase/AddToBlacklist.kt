@@ -3,7 +3,7 @@ package shuttle.settings.domain.usecase
 import org.koin.core.annotation.Factory
 import shuttle.apps.domain.model.AppId
 import shuttle.settings.domain.SettingsRepository
-import shuttle.stats.domain.StatsRepository
+import shuttle.stats.domain.repository.StatsRepository
 
 @Factory
 class AddToBlacklist(

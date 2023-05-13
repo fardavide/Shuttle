@@ -18,13 +18,13 @@ import shuttle.database.model.DatabaseAppId
 import shuttle.database.model.DatabaseGeoHash
 import shuttle.stats.data.mapper.DatabaseDateAndTimeMapper
 import shuttle.stats.data.usecase.SortAppStats
-import shuttle.stats.data.worker.DeleteOldStatsWorker
-import shuttle.stats.domain.StatsRepository
+import shuttle.stats.data.worker.DeleteOldStatsScheduler
+import shuttle.stats.domain.repository.StatsRepository
 
 internal class StatsRepositoryImpl(
     private val appsRepository: AppsRepository,
     private val databaseDateAndTimeMapper: DatabaseDateAndTimeMapper,
-    private val deleteOldStatsScheduler: DeleteOldStatsWorker.Scheduler,
+    private val deleteOldStatsScheduler: DeleteOldStatsScheduler,
     private val statDataSource: StatDataSource,
     private val sortAppStats: SortAppStats
 ) : StatsRepository {

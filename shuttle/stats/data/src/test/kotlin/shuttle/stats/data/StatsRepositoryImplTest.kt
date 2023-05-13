@@ -21,7 +21,7 @@ import shuttle.database.testdata.DatabaseAppIdSample
 import shuttle.database.testdata.DatabaseStatTestData
 import shuttle.stats.data.mapper.DatabaseDateAndTimeMapper
 import shuttle.stats.data.usecase.SortAppStats
-import shuttle.stats.data.worker.DeleteOldStatsWorker
+import shuttle.stats.data.worker.DeleteOldStatsScheduler
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -30,7 +30,7 @@ class StatsRepositoryImplTest {
     private val appsRepository: AppsRepository = mockk {
         coEvery { observeNotBlacklistedApps() } returns flowOf(AppModelTestData.all())
     }
-    private val deleteOldStatsScheduler: DeleteOldStatsWorker.Scheduler = mockk(relaxUnitFun = true)
+    private val deleteOldStatsScheduler: DeleteOldStatsScheduler = mockk(relaxUnitFun = true)
     private val statDataSource: StatDataSource = mockk()
     private val sortAppStats: SortAppStats = mockk {
         coEvery {

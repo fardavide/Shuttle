@@ -1,7 +1,9 @@
 package shuttle.stats.domain.usecase
 
-import shuttle.stats.domain.StatsRepository
+import org.koin.core.annotation.Factory
+import shuttle.stats.domain.repository.StatsRepository
 
+@Factory
 class StartDeleteOldStats(
     private val statsRepository: StatsRepository
 ) {

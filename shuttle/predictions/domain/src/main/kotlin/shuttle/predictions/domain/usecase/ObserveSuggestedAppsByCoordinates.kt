@@ -6,7 +6,7 @@ import org.koin.core.annotation.Factory
 import shuttle.apps.domain.model.SuggestedAppModel
 import shuttle.coordinates.domain.model.Coordinates
 import shuttle.predictions.domain.model.DefaultValuesSpans
-import shuttle.stats.domain.StatsRepository
+import shuttle.stats.domain.repository.StatsRepository
 
 interface ObserveSuggestedAppsByCoordinates {
 

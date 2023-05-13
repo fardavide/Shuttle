@@ -1,4 +1,4 @@
-package shuttle.stats.domain
+package shuttle.stats.domain.repository
 
 import arrow.core.Option
 import korlibs.time.Date
