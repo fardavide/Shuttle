@@ -3,13 +3,13 @@ apply plugin: 'shuttle.android.library'
 android.namespace 'shuttle.stats.data'
 
 moduleDependencies {
-    add 'apps:domain'
-    add 'coordinates:domain'
-    add 'database'
-    add 'settings:domain'
-    add 'stats:domain'
-    add 'utils:kotlin'
-    add 'utils:kotlin'
+    implementation 'apps:domain'
+    implementation 'coordinates:domain'
+    implementation 'database'
+    implementation 'settings:domain'
+    implementation 'stats:domain'
+    implementation 'utils:kotlin'
+    implementation 'utils:kotlin'
 }
 
 dependencies {

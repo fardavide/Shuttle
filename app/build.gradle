@@ -4,16 +4,16 @@ android.namespace 'studio.forface.shuttle'
 
 moduleDependencies {
 
-    add 'accessibility'
-    add 'apps:presentation'
-    add 'design'
-    add 'di'
-    add 'onboarding:presentation'
-    add 'permissions:presentation'
-    add 'predictions:presentation'
-    add 'settings:presentation'
-    add 'stats:domain'
-    add 'test:compose'
+    implementation 'accessibility'
+    implementation 'apps:presentation'
+    implementation 'design'
+    implementation 'di'
+    implementation 'onboarding:presentation'
+    implementation 'permissions:presentation'
+    implementation 'predictions:presentation'
+    implementation 'settings:presentation'
+    implementation 'stats:domain'
+    implementation 'test:compose'
 }
 
 dependencies {

@@ -3,8 +3,8 @@ apply plugin: 'shuttle.android.library'
 android.namespace 'shuttle.icons.data'
 
 moduleDependencies {
-    add 'apps:domain'
-    add 'icons:domain'
+    implementation 'apps:domain'
+    implementation 'icons:domain'
 }
 
 dependencies {

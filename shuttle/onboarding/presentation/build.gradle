@@ -3,13 +3,13 @@ apply plugin: 'shuttle.android.compose.library'
 android.namespace 'shuttle.onboarding.presentation'
 
 moduleDependencies {
-    add 'apps:domain'
-    add 'design'
-    add 'icons:domain'
-    add 'onboarding:domain'
-    add 'test:compose'
-    add 'utils:android'
-    add 'utils:kotlin'
+    implementation 'apps:domain'
+    implementation 'design'
+    implementation 'icons:domain'
+    implementation 'onboarding:domain'
+    implementation 'test:compose'
+    implementation 'utils:android'
+    implementation 'utils:kotlin'
 }
 
 dependencies {

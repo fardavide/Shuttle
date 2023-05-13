@@ -4,11 +4,11 @@ android.namespace 'shuttle.accessibility'
 
 moduleDependencies {
 
-    add 'apps:domain'
-    add 'coordinates:domain'
-    add 'predictions:presentation'
-    add 'settings:domain'
-    add 'stats:domain'
+    implementation 'apps:domain'
+    implementation 'coordinates:domain'
+    implementation 'predictions:presentation'
+    implementation 'settings:domain'
+    implementation 'stats:domain'
 }
 
 dependencies {

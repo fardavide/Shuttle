@@ -1,8 +1,8 @@
 apply plugin: 'shuttle.kotlin'
 
 moduleDependencies {
-    add 'settings:domain'
-    add 'utils:kotlin'
+    implementation 'settings:domain'
+    implementation 'utils:kotlin'
 }
 
 dependencies {

@@ -3,17 +3,17 @@ apply plugin: 'shuttle.android.compose.library'
 android.namespace 'shuttle.settings.presentation'
 
 moduleDependencies {
-    add 'accessibility'
-    add 'apps:domain'
-    add 'design'
-    add 'icons:domain'
-    add 'payments:domain'
-    add 'payments:presentation'
-    add 'permissions:domain'
-    add 'settings:domain'
-    add 'test:compose'
-    add 'utils:android'
-    add 'utils:kotlin'
+    implementation 'accessibility'
+    implementation 'apps:domain'
+    implementation 'design'
+    implementation 'icons:domain'
+    implementation 'payments:domain'
+    implementation 'payments:presentation'
+    implementation 'permissions:domain'
+    implementation 'settings:domain'
+    implementation 'test:compose'
+    implementation 'utils:android'
+    implementation 'utils:kotlin'
 }
 
 dependencies {

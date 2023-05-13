@@ -3,16 +3,16 @@ apply plugin: 'shuttle.android.compose.library'
 android.namespace 'shuttle.predictions.presentation'
 
 moduleDependencies {
-    add 'apps:domain'
-    add 'coordinates:domain'
-    add 'design'
-    add 'icons:domain'
-    add 'predictions:domain'
-    add 'settings:domain'
-    add 'stats:domain'
-    add 'test:compose'
-    add 'utils:android'
-    add 'utils:kotlin'
+    implementation 'apps:domain'
+    implementation 'coordinates:domain'
+    implementation 'design'
+    implementation 'icons:domain'
+    implementation 'predictions:domain'
+    implementation 'settings:domain'
+    implementation 'stats:domain'
+    implementation 'test:compose'
+    implementation 'utils:android'
+    implementation 'utils:kotlin'
 }
 
 dependencies {

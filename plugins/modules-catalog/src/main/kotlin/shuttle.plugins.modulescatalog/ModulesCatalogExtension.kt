@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 open class ModulesCatalogExtension @Inject constructor(private val project: Project) {
 
-    fun add(module: String) {
+    fun implementation(module: String) {
         project.dependencies.add("implementation", project.project(":shuttle:$module"))
     }
 

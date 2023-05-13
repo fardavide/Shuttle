@@ -3,7 +3,7 @@ apply plugin: 'shuttle.android.library'
 android.namespace 'shuttle.payments.domain'
 
 moduleDependencies {
-    add 'utils:kotlin'
+    implementation 'utils:kotlin'
 }
 
 dependencies {

@@ -1,9 +1,9 @@
 apply plugin: 'shuttle.kotlin'
 
 moduleDependencies {
-    add 'apps:domain'
-    add 'coordinates:domain'
-    add 'stats:domain'
+    implementation 'apps:domain'
+    implementation 'coordinates:domain'
+    implementation 'stats:domain'
 }
 
 dependencies {

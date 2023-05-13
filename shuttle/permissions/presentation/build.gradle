@@ -3,10 +3,10 @@ apply plugin: 'shuttle.android.compose.library'
 android.namespace 'shuttle.permissions.presentation'
 
 moduleDependencies {
-    add 'accessibility'
-    add 'design'
-    add 'permissions:domain'
-    add 'utils:android'
+    implementation 'accessibility'
+    implementation 'design'
+    implementation 'permissions:domain'
+    implementation 'utils:android'
 }
 
 dependencies {

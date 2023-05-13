@@ -3,9 +3,9 @@ apply plugin: 'shuttle.android.library'
 android.namespace 'shuttle.settings.data'
 
 moduleDependencies {
-    add 'apps:domain'
-    add 'database'
-    add 'settings:domain'
+    implementation 'apps:domain'
+    implementation 'database'
+    implementation 'settings:domain'
 }
 
 dependencies {

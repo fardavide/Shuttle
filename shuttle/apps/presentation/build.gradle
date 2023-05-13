@@ -3,10 +3,10 @@ apply plugin: 'shuttle.android.compose.library'
 android.namespace 'shuttle.apps.presentation'
 
 moduleDependencies {
-    add 'apps:domain'
-    add 'design'
-    add 'icons:domain'
-    add 'utils:android'
+    implementation 'apps:domain'
+    implementation 'design'
+    implementation 'icons:domain'
+    implementation 'utils:android'
 }
 
 dependencies {

@@ -3,7 +3,7 @@ apply plugin: 'shuttle.android.compose.library'
 android.namespace 'shuttle.icons.presentation'
 
 moduleDependencies {
-    add 'icons:domain'
+    implementation 'icons:domain'
 }
 
 dependencies {
