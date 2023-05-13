@@ -8,33 +8,49 @@ includeBuild 'plugins'
 
 include 'detekt:rules'
 
-include 'app',
-        'shuttle:accessibility',
-        'shuttle:apps:data',
+include 'app'
+
+include 'shuttle:accessibility'
+
+include 'shuttle:apps:data',
         'shuttle:apps:domain',
-        'shuttle:apps:presentation',
-        'shuttle:coordinates:data',
-        'shuttle:coordinates:domain',
-        'shuttle:database',
-        'shuttle:design',
-        'shuttle:di',
-        'shuttle:icons:data',
+        'shuttle:apps:presentation'
+
+include 'shuttle:coordinates:data',
+        'shuttle:coordinates:domain'
+
+include 'shuttle:database'
+
+include 'shuttle:design'
+
+include 'shuttle:di'
+
+include 'shuttle:icons:data',
         'shuttle:icons:domain',
-        'shuttle:icons:presentation',
-        'shuttle:onboarding:domain',
-        'shuttle:onboarding:presentation',
-        'shuttle:payments:data',
+        'shuttle:icons:presentation'
+
+include 'shuttle:onboarding:domain',
+        'shuttle:onboarding:presentation'
+
+include 'shuttle:payments:data',
         'shuttle:payments:domain',
-        'shuttle:payments:presentation',
-        'shuttle:permissions:domain',
-        'shuttle:permissions:presentation',
-        'shuttle:predictions:domain',
-        'shuttle:predictions:presentation',
-        'shuttle:settings:data',
+        'shuttle:payments:presentation'
+
+include 'shuttle:permissions:domain',
+        'shuttle:permissions:presentation'
+
+
+include 'shuttle:predictions:domain',
+        'shuttle:predictions:presentation'
+
+include 'shuttle:settings:data',
         'shuttle:settings:domain',
-        'shuttle:settings:presentation',
-        'shuttle:stats:data',
-        'shuttle:stats:domain',
-        'shuttle:test:compose',
-        'shuttle:utils:android',
+        'shuttle:settings:presentation'
+
+include 'shuttle:stats:data',
+        'shuttle:stats:domain'
+
+include 'shuttle:test:compose'
+
+include 'shuttle:utils:android',
         'shuttle:utils:kotlin'
