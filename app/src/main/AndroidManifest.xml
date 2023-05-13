@@ -53,7 +53,7 @@
         </service>
 
         <!-- Widget -->
-        <receiver android:name="shuttle.predictions.presentation.ui.SuggestedAppsWidgetReceiver"
+        <receiver android:name="shuttle.widget.ui.SuggestedAppsWidgetReceiver"
             android:enabled="true"
             android:exported="false">
             <intent-filter>

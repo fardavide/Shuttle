@@ -1,9 +1,9 @@
-package shuttle.predictions.presentation.model
+package shuttle.widget.model
 
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 
-data class WidgetSettingsUiModel(
+internal data class WidgetSettingsUiModel(
     val columnsCount: Int,
     val horizontalSpacing: Dp,
     val iconSize: Dp,

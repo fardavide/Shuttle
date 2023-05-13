@@ -16,7 +16,7 @@ import shuttle.design.ui.LoadingSpinner
 import shuttle.onboarding.presentation.model.OnboardingBlacklistAppUiModel
 import shuttle.onboarding.presentation.model.OnboardingBlacklistState
 import shuttle.onboarding.presentation.model.OnboardingBlacklistUiModel
-import shuttle.resources.NoContentDescription
+import shuttle.resources.NoContentDescriptionRes
 import shuttle.resources.R.string
 import shuttle.resources.TextRes
 import shuttle.utils.kotlin.exhaustive
@@ -46,7 +46,7 @@ private fun OnboardingBlacklistImage(uiModel: OnboardingBlacklistUiModel) {
             CheckableListItem.LargeIcon(
                 title = TextRes(app.name),
                 iconDrawable = app.icon,
-                contentDescription = NoContentDescription,
+                contentDescription = NoContentDescriptionRes,
                 isChecked = app.isBlacklisted,
                 onCheckChange = {}
             )

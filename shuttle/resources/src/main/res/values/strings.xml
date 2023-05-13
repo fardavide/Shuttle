@@ -127,6 +127,7 @@
     <!-- endregion -->
 
     <!-- region Widget -->
+    <string name="widget_description">Suggests your most used apps by time and location</string>
     <!-- endregion -->
 
 </resources>

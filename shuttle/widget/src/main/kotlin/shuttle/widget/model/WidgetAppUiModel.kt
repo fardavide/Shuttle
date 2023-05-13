@@ -1,10 +1,10 @@
-package shuttle.predictions.presentation.model
+package shuttle.widget.model
 
 import android.content.Intent
 import android.graphics.Bitmap
 import shuttle.apps.domain.model.AppId
 
-data class WidgetAppUiModel(
+internal data class WidgetAppUiModel(
     val id: AppId,
     val name: String,
     val icon: Bitmap,

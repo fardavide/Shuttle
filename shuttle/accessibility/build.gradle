@@ -6,9 +6,9 @@ moduleDependencies {
 
     implementation 'apps:domain'
     implementation 'coordinates:domain'
-    implementation 'predictions:presentation'
     implementation 'settings:domain'
     implementation 'stats:domain'
+    implementation 'widget'
 }
 
 dependencies {

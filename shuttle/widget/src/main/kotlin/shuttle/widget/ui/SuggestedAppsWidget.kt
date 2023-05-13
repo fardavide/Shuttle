@@ -1,4 +1,4 @@
-package shuttle.predictions.presentation.ui
+package shuttle.widget.ui
 
 import android.content.Context
 import android.content.Intent
@@ -7,7 +7,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
-import androidx.glance.GlanceTheme
 import androidx.glance.Image
 import androidx.glance.ImageProvider
 import androidx.glance.LocalContext
@@ -36,13 +35,15 @@ import androidx.glance.text.TextAlign
 import androidx.glance.text.TextStyle
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import shuttle.design.theme.Dimens
-import shuttle.predictions.presentation.RefreshCurrentLocationActionCallback
-import shuttle.predictions.presentation.model.SuggestedAppsState
-import shuttle.predictions.presentation.model.WidgetAppUiModel
-import shuttle.predictions.presentation.model.WidgetSettingsUiModel
-import shuttle.predictions.presentation.viewmodel.SuggestedAppsWidgetViewModel
+import shuttle.resources.NoContentDescription
 import shuttle.utils.kotlin.takeOrFillWithNulls
+import shuttle.widget.action.RefreshCurrentLocationActionCallback
+import shuttle.widget.model.WidgetAppUiModel
+import shuttle.widget.model.WidgetSettingsUiModel
+import shuttle.widget.state.SuggestedAppsState
+import shuttle.widget.theme.ShuttleWidgetTheme
+import shuttle.widget.theme.WidgetDimen
+import shuttle.widget.viewmodel.SuggestedAppsWidgetViewModel
 
 class SuggestedAppsWidget : GlanceAppWidget(), KoinComponent {
 
@@ -51,7 +52,7 @@ class SuggestedAppsWidget : GlanceAppWidget(), KoinComponent {
     override suspend fun provideGlance(context: Context, id: GlanceId) {
         provideContent {
             val state by viewModel.state.collectAsState()
-            GlanceTheme {
+            ShuttleWidgetTheme {
                 Content(state)
             }
         }
@@ -67,20 +68,20 @@ class SuggestedAppsWidget : GlanceAppWidget(), KoinComponent {
         Box(
             modifier = GlanceModifier
                 .wrapContentSize()
-                .cornerRadius(Dimens.Margin.Large)
+                .cornerRadius(WidgetDimen.Margin.Outer)
         ) {
             when (state) {
                 is SuggestedAppsState.Data -> WidgetContent(data = state, actions)
                 is SuggestedAppsState.Error -> Box(
                     modifier = GlanceModifier
-                        .padding(Dimens.Margin.Small)
+                        .padding(WidgetDimen.Margin.Inner)
                         .widgetBackground()
                 ) {
                     Text(text = state.toString())
                 }
                 is SuggestedAppsState.Loading -> Box(
                     modifier = GlanceModifier
-                        .padding(Dimens.Margin.Small)
+                        .padding(WidgetDimen.Margin.Inner)
                         .widgetBackground()
                 ) {
                     Text(text = "Loading...")
@@ -139,11 +140,11 @@ class SuggestedAppsWidget : GlanceAppWidget(), KoinComponent {
             modifier = GlanceModifier
                 .padding(vertical = widgetSettings.verticalSpacing, horizontal = widgetSettings.horizontalSpacing)
                 .clickable(actions.onOpenApp(app.launchIntent))
-                .cornerRadius(Dimens.Margin.Medium)
+                .cornerRadius(WidgetDimen.CornerRadius)
         ) {
             Image(
                 provider = ImageProvider(app.icon),
-                contentDescription = "",
+                contentDescription = NoContentDescription,
                 modifier = GlanceModifier.size(widgetSettings.iconSize)
             )
             Spacer(modifier = GlanceModifier.height(widgetSettings.verticalSpacing))

@@ -1,10 +1,12 @@
-package shuttle.predictions.presentation.model
+package shuttle.widget.state
 
 import androidx.annotation.StringRes
 import shuttle.predictions.domain.error.ObserveSuggestedAppsError
-import shuttle.resources.R
+import shuttle.resources.R.string
+import shuttle.widget.model.WidgetAppUiModel
+import shuttle.widget.model.WidgetSettingsUiModel
 
-sealed interface SuggestedAppsState {
+internal sealed interface SuggestedAppsState {
 
     data class Data(
         val apps: List<WidgetAppUiModel>,
@@ -17,7 +19,7 @@ sealed interface SuggestedAppsState {
 
             fun from(error: ObserveSuggestedAppsError): Error {
                 val message = when (error) {
-                    ObserveSuggestedAppsError.LocationNotAvailable -> R.string.predictions_location_not_available
+                    ObserveSuggestedAppsError.LocationNotAvailable -> string.predictions_location_not_available
                 }
                 return Error(message)
             }

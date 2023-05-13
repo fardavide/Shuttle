@@ -85,5 +85,6 @@
     <string name="x_generic_error">Qualcosa è andato storto!</string>
     <string name="settings_widget_colors_transparency">Trasparenza sfondo</string>
     <string name="settings_widget_colors_use_material_colors">Usa color Material U</string>
+    <string name="widget_description">Suggerisce le app più utilizzare a seconda di orario e posizione</string>
 
 </resources>

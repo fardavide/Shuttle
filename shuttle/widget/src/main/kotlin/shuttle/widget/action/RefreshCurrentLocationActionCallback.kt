@@ -1,4 +1,4 @@
-package shuttle.predictions.presentation
+package shuttle.widget.action
 
 import android.content.Context
 import androidx.glance.GlanceId

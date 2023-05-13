@@ -1,3 +1,4 @@
 package shuttle.resources
 
-val NoContentDescription: TextRes? = null
+val NoContentDescription: String? = null
+val NoContentDescriptionRes: TextRes? = null

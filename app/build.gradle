@@ -13,7 +13,9 @@ moduleDependencies {
     implementation 'predictions:presentation'
     implementation 'settings:presentation'
     implementation 'stats:domain'
-    implementation 'test:compose'
+    implementation 'widget'
+
+    androidTestImplementation 'test:compose'
 }
 
 dependencies {

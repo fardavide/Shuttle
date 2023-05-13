@@ -1,4 +1,4 @@
-package shuttle.predictions.presentation.viewmodel
+package shuttle.widget.viewmodel
 
 import arrow.core.Either
 import kotlinx.coroutines.CoroutineScope
@@ -6,15 +6,17 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
+import org.koin.core.annotation.Single
 import shuttle.icons.domain.error.GetSystemIconError
 import shuttle.predictions.domain.usecase.ObserveSuggestedApps
-import shuttle.predictions.presentation.mapper.WidgetAppUiModelMapper
-import shuttle.predictions.presentation.mapper.WidgetSettingsUiModelMapper
-import shuttle.predictions.presentation.model.SuggestedAppsState
-import shuttle.predictions.presentation.model.WidgetAppUiModel
 import shuttle.settings.domain.usecase.ObserveCurrentIconPack
 import shuttle.settings.domain.usecase.ObserveWidgetSettings
+import shuttle.widget.mapper.WidgetAppUiModelMapper
+import shuttle.widget.mapper.WidgetSettingsUiModelMapper
+import shuttle.widget.model.WidgetAppUiModel
+import shuttle.widget.state.SuggestedAppsState
 
+@Single
 internal class SuggestedAppsWidgetViewModel(
     private val appUiModelMapper: WidgetAppUiModelMapper,
     observeCurrentIconPack: ObserveCurrentIconPack,

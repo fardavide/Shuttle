@@ -1,11 +1,13 @@
-package shuttle.predictions.presentation.mapper
+package shuttle.widget.mapper
 
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import shuttle.predictions.presentation.model.WidgetSettingsUiModel
+import org.koin.core.annotation.Factory
 import shuttle.settings.domain.model.WidgetSettings
+import shuttle.widget.model.WidgetSettingsUiModel
 
-class WidgetSettingsUiModelMapper {
+@Factory
+internal class WidgetSettingsUiModelMapper {
 
     fun toUiModel(settings: WidgetSettings) = WidgetSettingsUiModel(
         columnsCount = settings.columnsCount,

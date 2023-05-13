@@ -1,4 +1,4 @@
-package shuttle.predictions.presentation.mapper
+package shuttle.widget.mapper
 
 import android.graphics.Bitmap
 import android.graphics.Color
@@ -10,14 +10,16 @@ import androidx.core.graphics.applyCanvas
 import arrow.core.Either
 import arrow.core.Option
 import arrow.core.continuations.either
+import org.koin.core.annotation.Factory
 import shuttle.apps.domain.model.AppId
 import shuttle.apps.domain.model.SuggestedAppModel
 import shuttle.icons.domain.error.GetSystemIconError
 import shuttle.icons.domain.usecase.GetIconBitmapForApp
-import shuttle.predictions.presentation.model.WidgetAppUiModel
 import shuttle.util.android.GetLaunchIntentForApp
+import shuttle.widget.model.WidgetAppUiModel
 
-class WidgetAppUiModelMapper(
+@Factory
+internal class WidgetAppUiModelMapper(
     private val getIconBitmapForApp: GetIconBitmapForApp,
     private val getLaunchIntentForApp: GetLaunchIntentForApp
 ) {

@@ -29,6 +29,7 @@ moduleDependencies {
     implementation 'stats:domain'
     implementation 'utils:android'
     implementation 'utils:kotlin'
+    implementation 'widget'
 }
 
 dependencies {

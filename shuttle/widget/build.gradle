@@ -3,12 +3,17 @@ apply plugin: 'shuttle.android.compose.library'
 android.namespace 'shuttle.predictions.presentation'
 
 moduleDependencies {
+    implementation 'coordinates:domain'
+    implementation 'icons:domain'
     implementation 'predictions:domain'
+    implementation 'resources'
     implementation 'settings:domain'
     implementation 'utils:android'
 }
 
 dependencies {
+    ksp libs.koin.ksp
+
     implementation libs.androidx.glance
     implementation libs.bundles.base
     implementation libs.koin.android

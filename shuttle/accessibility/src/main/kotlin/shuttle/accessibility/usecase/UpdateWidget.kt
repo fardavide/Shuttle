@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.glance.appwidget.updateAll
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import shuttle.predictions.presentation.ui.SuggestedAppsWidget
+import shuttle.widget.ui.SuggestedAppsWidget
 
 class UpdateWidget(
     private val appContext: Context,

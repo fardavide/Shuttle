@@ -27,6 +27,7 @@ import shuttle.stats.data.statsDataModule
 import shuttle.stats.domain.statsDomainModule
 import shuttle.util.android.utilsAndroidModule
 import shuttle.utils.kotlin.utilsKotlinModule
+import shuttle.widget.WidgetModule
 
 val shuttleModule =
     accessibilityModule +
@@ -40,6 +41,7 @@ val shuttleModule =
         predictionsDomainModule + predictionsPresentationModule +
         SettingsDataModule().module + settingsDomainModule + settingsPresentationModule +
         statsDataModule + statsDomainModule +
-        utilsAndroidModule + utilsKotlinModule
+        utilsAndroidModule + utilsKotlinModule +
+        WidgetModule().module
 
 val AppVersionQualifier = shuttle.utils.kotlin.AppVersionQualifier
