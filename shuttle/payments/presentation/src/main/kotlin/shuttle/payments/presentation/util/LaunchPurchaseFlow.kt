@@ -5,12 +5,14 @@ import arrow.core.Either
 import arrow.core.continuations.either
 import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingFlowParams
+import org.koin.core.annotation.Factory
 import shuttle.payments.domain.model.PaymentError
 import shuttle.payments.domain.model.Product
 import shuttle.payments.domain.model.PurchaseSuccess
 import shuttle.payments.domain.model.toSuccessOrErrorReason
 import shuttle.payments.domain.usecase.GetProductDetails
 
+@Factory
 class LaunchPurchaseFlow(
     private val billingClient: BillingClient,
     private val getProductDetails: GetProductDetails
