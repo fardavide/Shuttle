@@ -28,7 +28,7 @@ import shuttle.settings.domain.settingsDomainModule
 import shuttle.settings.presentation.settingsPresentationModule
 import shuttle.stats.data.statsDataModule
 import shuttle.stats.domain.statsDomainModule
-import shuttle.util.android.utilsAndroidModule
+import shuttle.util.android.UtilsAndroidModule
 import shuttle.utils.kotlin.utilsKotlinModule
 import shuttle.widget.WidgetModule
 
@@ -45,12 +45,16 @@ val shuttleModule =
         predictionsDomainModule +
         settingsDomainModule + settingsPresentationModule +
         statsDataModule + statsDomainModule +
-        utilsAndroidModule + utilsKotlinModule
+        utilsKotlinModule
 
 @Module(
     includes = [
         PredictionsPresentationModule::class,
+
         SettingsDataModule::class,
+
+        UtilsAndroidModule::class,
+
         WidgetModule::class
     ]
 )

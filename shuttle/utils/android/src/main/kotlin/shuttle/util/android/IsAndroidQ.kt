@@ -2,7 +2,9 @@ package shuttle.util.android
 
 import android.os.Build
 import androidx.annotation.ChecksSdkIntAtLeast
+import org.koin.core.annotation.Factory
 
+@Factory
 class IsAndroidQ {
 
     @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.Q)
