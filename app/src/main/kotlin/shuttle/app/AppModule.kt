@@ -3,6 +3,8 @@ package shuttle.app
 import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.content.res.Resources
 import androidx.work.WorkManager
 import co.touchlab.kermit.Logger
 import co.touchlab.kermit.LoggerConfig
@@ -37,10 +39,10 @@ class AppModule {
     fun logger() = Logger(LoggerConfig.default)
 
     @Factory
-    fun packageManager(context: Context) = context.packageManager
+    fun packageManager(context: Context): PackageManager = context.packageManager
 
     @Factory
-    fun resources(context: Context) = context.resources
+    fun resources(context: Context): Resources = context.resources
 
     @Factory
     @Named(StartAppQualifier)
