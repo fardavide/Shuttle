@@ -1,0 +1,20 @@
+apply plugin: 'shuttle.android.compose.library'
+
+android.namespace 'shuttle.predictions.presentation'
+
+moduleDependencies {
+    implementation 'predictions:domain'
+    implementation 'settings:domain'
+    implementation 'utils:android'
+}
+
+dependencies {
+    implementation libs.androidx.glance
+    implementation libs.bundles.base
+    implementation libs.koin.android
+
+    debugImplementation libs.compose.uiTooling
+
+    testImplementation libs.bundles.test.kotlin
+    androidTestImplementation libs.bundles.test.android
+}

@@ -39,7 +39,6 @@ include 'shuttle:payments:data',
 include 'shuttle:permissions:domain',
         'shuttle:permissions:presentation'
 
-
 include 'shuttle:predictions:domain',
         'shuttle:predictions:presentation'
 
@@ -54,3 +53,5 @@ include 'shuttle:test:compose'
 
 include 'shuttle:utils:android',
         'shuttle:utils:kotlin'
+
+include 'shuttle:widget'

@@ -7,9 +7,10 @@ moduleDependencies {
 }
 
 dependencies {
+    api libs.bundles.test.android
+
     implementation libs.bundles.base
     implementation libs.bundles.compose
-    implementation libs.bundles.test.android
 
     implementation libs.androidx.activity
     implementation libs.compose.uiTest

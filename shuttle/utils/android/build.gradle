@@ -3,6 +3,7 @@ apply plugin: 'shuttle.android.library'
 android.namespace 'shuttle.utils.android'
 
 moduleDependencies {
+    api 'utils:kotlin'
     implementation 'apps:domain'
 }
 
