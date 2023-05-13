@@ -1,5 +1,6 @@
 package shuttle.utils.kotlin
 
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import org.koin.core.annotation.Factory
 import org.koin.core.annotation.Module
@@ -12,5 +13,5 @@ internal class DispatchersModule {
 
     @Factory
     @Named(IoDispatcher)
-    fun ioDispatcher() = Dispatchers.IO
+    fun ioDispatcher(): CoroutineDispatcher = Dispatchers.IO
 }

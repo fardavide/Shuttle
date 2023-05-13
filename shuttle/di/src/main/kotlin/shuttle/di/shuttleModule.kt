@@ -66,4 +66,4 @@ class ShuttleModule
 
 @Factory internal class Empty
 
-val AppVersionQualifier = shuttle.utils.kotlin.AppVersionQualifier
+const val AppVersionQualifier = shuttle.utils.kotlin.AppVersionQualifier

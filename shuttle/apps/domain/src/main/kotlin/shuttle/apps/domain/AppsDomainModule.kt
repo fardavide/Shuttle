@@ -1,8 +1,8 @@
 package shuttle.apps.domain
 
 import org.koin.core.annotation.ComponentScan
-import org.koin.core.annotation.Factory
+import org.koin.core.annotation.Module
 
-@Factory
+@Module
 @ComponentScan
 class AppsDomainModule

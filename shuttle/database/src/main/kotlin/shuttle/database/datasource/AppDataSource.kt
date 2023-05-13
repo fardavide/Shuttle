@@ -4,6 +4,7 @@ import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToList
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
+import org.koin.core.annotation.Factory
 import shuttle.database.App
 import shuttle.database.AppQueries
 import shuttle.database.util.suspendTransaction
@@ -16,6 +17,7 @@ interface AppDataSource {
     suspend fun delete(apps: List<App>)
 }
 
+@Factory
 internal class AppDataSourceImpl(
     private val appQueries: AppQueries,
     private val ioDispatcher: CoroutineDispatcher

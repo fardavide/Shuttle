@@ -11,6 +11,10 @@ sqldelight {
     }
 }
 
+moduleDependencies {
+    implementation 'utils:kotlin'
+}
+
 dependencies {
     implementation libs.bundles.base
     implementation libs.koin.android

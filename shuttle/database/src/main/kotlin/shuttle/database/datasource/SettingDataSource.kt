@@ -4,11 +4,14 @@ import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToList
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
+import org.koin.core.annotation.Factory
+import org.koin.core.annotation.Named
 import shuttle.database.AppBlacklistSettingQueries
 import shuttle.database.model.DatabaseAppBlacklistSetting
 import shuttle.database.model.DatabaseAppId
 import shuttle.database.util.suspendTransaction
 import shuttle.database.util.suspendTransactionWithResult
+import shuttle.utils.kotlin.IoDispatcher
 
 interface SettingDataSource {
 
@@ -18,9 +21,10 @@ interface SettingDataSource {
     suspend fun setBlacklisted(appId: DatabaseAppId, blacklisted: Boolean)
 }
 
+@Factory
 internal class SettingDataSourceImpl(
     private val appBlacklistSettingQueries: AppBlacklistSettingQueries,
-    private val ioDispatcher: CoroutineDispatcher
+    @Named(IoDispatcher) private val ioDispatcher: CoroutineDispatcher
 ) : SettingDataSource {
 
     override fun findAllAppsWithBlacklistSetting(): Flow<List<DatabaseAppBlacklistSetting>> =
