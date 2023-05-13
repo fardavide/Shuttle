@@ -1,5 +1,8 @@
 package shuttle.di
 
+import org.koin.core.annotation.ComponentScan
+import org.koin.core.annotation.Factory
+import org.koin.core.annotation.Module
 import org.koin.ksp.generated.module
 import shuttle.accessibility.accessibilityModule
 import shuttle.apps.data.appsDataModule
@@ -30,7 +33,8 @@ import shuttle.utils.kotlin.utilsKotlinModule
 import shuttle.widget.WidgetModule
 
 val shuttleModule =
-    accessibilityModule +
+    ShuttleModule().module +
+        accessibilityModule +
         appsDataModule + appsDomainModule + appsPresentationModule +
         coordinatesDataModule + coordinatesDomainModule +
         databaseModule +
@@ -38,10 +42,21 @@ val shuttleModule =
         onboardingDomainModule + onboardingPresentationModule +
         paymentsDataModule + paymentsDomainModule + paymentsPresentationModule +
         permissionsDomainModule + permissionsPresentationModule +
-        predictionsDomainModule + PredictionsPresentationModule().module +
-        SettingsDataModule().module + settingsDomainModule + settingsPresentationModule +
+        predictionsDomainModule +
+        settingsDomainModule + settingsPresentationModule +
         statsDataModule + statsDomainModule +
-        utilsAndroidModule + utilsKotlinModule +
-        WidgetModule().module
+        utilsAndroidModule + utilsKotlinModule
+
+@Module(
+    includes = [
+        PredictionsPresentationModule::class,
+        SettingsDataModule::class,
+        WidgetModule::class
+    ]
+)
+@ComponentScan
+class ShuttleModule
+
+@Factory internal class Empty
 
 val AppVersionQualifier = shuttle.utils.kotlin.AppVersionQualifier
