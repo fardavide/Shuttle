@@ -2,12 +2,14 @@ package shuttle.permissions.presentation.mapper
 
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.MultiplePermissionsState
+import org.koin.core.annotation.Factory
 import shuttle.permissions.domain.usecase.HasBackgroundLocation
 import shuttle.permissions.domain.usecase.HasCoarseLocation
 import shuttle.permissions.domain.usecase.HasFineLocation
 import shuttle.permissions.presentation.model.PermissionItem
 import shuttle.permissions.presentation.model.PermissionItemsUiModel
 
+@Factory
 @OptIn(ExperimentalPermissionsApi::class)
 internal class PermissionItemsUiModelMapper(
     private val hasBackgroundLocation: HasBackgroundLocation,
