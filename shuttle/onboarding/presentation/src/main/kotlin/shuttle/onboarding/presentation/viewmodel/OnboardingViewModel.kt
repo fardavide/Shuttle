@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import org.koin.android.annotation.KoinViewModel
 import shuttle.apps.domain.model.AppModel
 import shuttle.apps.domain.usecase.ObserveAllInstalledApps
 import shuttle.design.model.WidgetLayoutUiModel
@@ -23,6 +24,7 @@ import shuttle.onboarding.presentation.model.OnboardingState
 import shuttle.onboarding.presentation.model.OnboardingWidgetPreviewState
 import shuttle.util.android.viewmodel.ShuttleViewModel
 
+@KoinViewModel
 internal class OnboardingViewModel(
     didShowOnboarding: DidShowOnboarding,
     observeAllInstalledApps: ObserveAllInstalledApps,

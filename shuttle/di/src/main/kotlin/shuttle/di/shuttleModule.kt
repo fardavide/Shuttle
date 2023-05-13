@@ -14,7 +14,7 @@ import shuttle.database.databaseModule
 import shuttle.icons.data.IconsDataModule
 import shuttle.icons.domain.IconsDomainModule
 import shuttle.onboarding.domain.OnboardingDomainModule
-import shuttle.onboarding.presentation.onboardingPresentationModule
+import shuttle.onboarding.presentation.OnboardingPresentationModule
 import shuttle.payments.data.paymentsDataModule
 import shuttle.payments.domain.paymentsDomainModule
 import shuttle.payments.presentation.paymentsPresentationModule
@@ -36,7 +36,6 @@ val shuttleModule =
         accessibilityModule +
         coordinatesDataModule +
         databaseModule +
-        onboardingPresentationModule +
         paymentsDataModule + paymentsDomainModule + paymentsPresentationModule +
         permissionsDomainModule + permissionsPresentationModule +
         predictionsDomainModule +
@@ -55,6 +54,7 @@ val shuttleModule =
         IconsDomainModule::class,
 
         OnboardingDomainModule::class,
+        OnboardingPresentationModule::class,
 
         PredictionsPresentationModule::class,
 

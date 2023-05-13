@@ -2,6 +2,7 @@ package shuttle.onboarding.presentation.mapper
 
 import arrow.core.Either
 import arrow.core.continuations.either
+import org.koin.core.annotation.Factory
 import shuttle.apps.domain.model.AppModel
 import shuttle.icons.domain.error.GetSystemIconError
 import shuttle.icons.domain.usecase.GetSystemIconDrawableForApp
@@ -9,6 +10,7 @@ import shuttle.onboarding.presentation.model.OnboardingBlacklistAppUiModel
 import shuttle.onboarding.presentation.model.OnboardingBlacklistUiModel
 import kotlin.random.Random
 
+@Factory
 class OnboardingBlacklistUiModelMapper(
     private val getIconDrawableForApp: GetSystemIconDrawableForApp
 ) {
