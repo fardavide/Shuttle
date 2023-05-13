@@ -23,6 +23,9 @@ allprojects {
 
 subprojects {
     apply plugin: 'com.google.devtools.ksp'
+    dependencies {
+        ksp libs.koin.ksp
+    }
 }
 
 wrapper.distributionType = Wrapper.DistributionType.ALL

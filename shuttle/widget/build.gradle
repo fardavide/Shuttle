@@ -12,8 +12,6 @@ moduleDependencies {
 }
 
 dependencies {
-    ksp libs.koin.ksp
-
     implementation libs.androidx.glance
     implementation libs.bundles.base
     implementation libs.koin.android

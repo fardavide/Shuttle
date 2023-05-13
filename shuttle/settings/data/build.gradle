@@ -9,8 +9,6 @@ moduleDependencies {
 }
 
 dependencies {
-    ksp libs.koin.ksp
-
     implementation libs.bundles.base
     implementation libs.koin.android
     implementation libs.androidx.dataStore.preferences

@@ -16,8 +16,6 @@ moduleDependencies {
 }
 
 dependencies {
-    ksp libs.koin.ksp
-
     implementation libs.androidx.glance
     implementation libs.androidx.lifecycle.viewModel
     implementation libs.bundles.base

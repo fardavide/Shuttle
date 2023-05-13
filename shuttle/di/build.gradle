@@ -33,7 +33,6 @@ moduleDependencies {
 }
 
 dependencies {
-    ksp libs.koin.ksp
     implementation libs.bundles.base
     testImplementation libs.bundles.test.kotlin
 }
