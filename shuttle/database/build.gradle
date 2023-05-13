@@ -11,6 +11,10 @@ sqldelight {
     }
 }
 
+optIns {
+    experimentalCoroutinesApi()
+}
+
 moduleDependencies {
     implementation 'utils:kotlin'
     testImplementation 'test:kotlin'
