@@ -2,6 +2,8 @@ package shuttle.coordinates.data
 
 import app.cash.turbine.test
 import arrow.core.left
+import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
 import korlibs.time.DateTime
@@ -15,10 +17,8 @@ import shuttle.coordinates.data.repository.CoordinatesRepositoryImpl
 import shuttle.coordinates.domain.error.LocationNotAvailable
 import shuttle.coordinates.domain.model.CoordinatesResult
 import shuttle.database.datasource.LastLocationDataSource
-import kotlin.test.Test
-import kotlin.test.assertEquals
 
-class CoordinatesRepositoryImplTest {
+class CoordinatesRepositoryImplTest : AnnotationSpec() {
 
     private val dispatcher = StandardTestDispatcher()
     private val appScope = TestScope(context = dispatcher)
@@ -43,7 +43,7 @@ class CoordinatesRepositoryImplTest {
         val expected = CoordinatesResult
 
         repository.observeCurrentCoordinates().test {
-            assertEquals(expected, awaitItem())
+            awaitItem() shouldBe expected
         }
     }
 
@@ -53,10 +53,10 @@ class CoordinatesRepositoryImplTest {
         val expected = CoordinatesResult
 
         repository.observeCurrentCoordinates().test {
-            assertEquals(expected, awaitItem())
+            awaitItem() shouldBe expected
         }
         repository.observeCurrentCoordinates().test {
-            assertEquals(expected, awaitItem())
+            awaitItem() shouldBe expected
         }
     }
 

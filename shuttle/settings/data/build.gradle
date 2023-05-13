@@ -6,6 +6,8 @@ moduleDependencies {
     implementation 'apps:domain'
     implementation 'database'
     implementation 'settings:domain'
+
+    testImplementation 'test:kotlin'
 }
 
 dependencies {
@@ -13,6 +15,6 @@ dependencies {
     implementation libs.koin.android
     implementation libs.androidx.dataStore.preferences
 
-    testImplementation libs.bundles.test.kotlin
+    testImplementation libs.mockk
     androidTestImplementation libs.bundles.test.android
 }

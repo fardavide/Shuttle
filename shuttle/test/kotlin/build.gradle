@@ -1,0 +1,7 @@
+apply plugin: 'shuttle.kotlin'
+
+dependencies {
+    api libs.bundles.test.kotlin
+
+    implementation libs.bundles.base
+}

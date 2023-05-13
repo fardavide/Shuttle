@@ -166,15 +166,11 @@ test-android = [
     "androidx-test-junit",
     "androidx-test-espresso",
     "koin-test",
-    "koin-test-junit4",
-    "mockk-android"
+    "koin-test-junit4"
 ]
 test-kotlin = [
     "kotest-assertions",
     "kotest-runner",
     "kotlin-coroutines-test",
-    "kotlin-test-junit",
-    "mockk",
     "turbine"
 ]
-

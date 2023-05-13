@@ -1,10 +1,10 @@
 package shuttle.coordinates.data.mapper
 
+import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.matchers.shouldBe
 import shuttle.coordinates.domain.model.GeoHash
-import kotlin.test.Test
-import kotlin.test.assertEquals
 
-class GeoHashMapperTest {
+class GeoHashMapperTest : AnnotationSpec() {
 
     private val mapper = GeoHashMapper()
 
@@ -17,6 +17,6 @@ class GeoHashMapperTest {
         val result = mapper.toGeoHash(30.0, 10.0)
 
         // then
-        assertEquals(expected, result)
+        result shouldBe expected
     }
 }

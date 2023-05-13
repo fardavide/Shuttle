@@ -1,6 +1,9 @@
 package shuttle.settings.data
 
 import app.cash.turbine.test
+import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import shuttle.database.datasource.SettingDataSource
@@ -8,11 +11,8 @@ import shuttle.settings.data.util.mockDataStore
 import shuttle.settings.domain.model.Dp
 import shuttle.settings.domain.model.Sp
 import shuttle.settings.domain.model.WidgetSettings
-import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertNotEquals
 
-class SettingsRepositoryImplTest {
+class SettingsRepositoryImplTest : AnnotationSpec() {
 
     private val settingDataSource: SettingDataSource = mockk()
     private val repository = SettingsRepositoryImpl(
@@ -34,14 +34,14 @@ class SettingsRepositoryImplTest {
             useMaterialColors = false,
             verticalSpacing = Dp(25)
         )
-        assertNotEquals(settings.allowTwoLines, WidgetSettings.Default.allowTwoLines)
+        settings.allowTwoLines shouldNotBe WidgetSettings.Default.allowTwoLines
 
         // when
         repository.updateWidgetSettings(settings)
 
         // then
         repository.observeWidgetSettings().test {
-            assertEquals(settings, awaitItem())
+            awaitItem() shouldBe settings
         }
     }
 }

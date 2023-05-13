@@ -3,6 +3,8 @@ package shuttle.coordinates.data.datasource
 import android.location.Location
 import arrow.core.left
 import arrow.core.right
+import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.matchers.shouldBe
 import io.mockk.Called
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -12,12 +14,10 @@ import korlibs.time.DateTime
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import shuttle.coordinates.domain.error.LocationError
-import kotlin.test.Test
-import kotlin.test.assertEquals
 import kotlin.time.DurationUnit.MINUTES
 import kotlin.time.toDuration
 
-internal class DeviceLocationDataSourceTest {
+internal class DeviceLocationDataSourceTest : AnnotationSpec() {
 
     private val locationClient: ShuttleLocationClient = mockk()
     private val dateTimeSource: DateTimeDataSource = mockk {
@@ -67,7 +67,7 @@ internal class DeviceLocationDataSourceTest {
         val result = dataSource.getLocation()
 
         // then
-        assertEquals(expected, result)
+        result shouldBe expected
     }
 
     @Test
@@ -81,7 +81,7 @@ internal class DeviceLocationDataSourceTest {
         val result = dataSource.getLocation()
 
         // then
-        assertEquals(expected, result)
+        result shouldBe expected
     }
 
     companion object TestData {

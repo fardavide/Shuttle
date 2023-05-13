@@ -1,11 +1,11 @@
 package shuttle.predictions.domain.usecase
 
+import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.matchers.shouldBe
 import korlibs.time.Time
 import korlibs.time.hours
-import kotlin.test.Test
-import kotlin.test.assertEquals
 
-class TimeToTimeRangeTest {
+class TimeToTimeRangeTest : AnnotationSpec() {
 
     private val timeToTimeRange = TimeToTimeRange()
 
@@ -19,7 +19,7 @@ class TimeToTimeRangeTest {
         val result = timeToTimeRange(input, 1.hours)
 
         // then
-        assertEquals(expected, result)
+        result shouldBe expected
     }
 
     @Test
@@ -32,8 +32,8 @@ class TimeToTimeRangeTest {
         val result = timeToTimeRange(input, 4.hours)
 
         // then
-        assertEquals(expected, result)
-        assertEquals(expected.start.adjust(), result.start.adjust())
-        assertEquals(expected.endInclusive.adjust(), result.endInclusive.adjust())
+        result shouldBe expected
+        result.start.adjust() shouldBe expected.start.adjust()
+        result.endInclusive.adjust() shouldBe expected.endInclusive.adjust()
     }
 }

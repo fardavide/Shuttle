@@ -7,9 +7,11 @@ moduleDependencies {
     implementation 'design'
     implementation 'icons:domain'
     implementation 'onboarding:domain'
-    implementation 'test:compose'
     implementation 'utils:android'
     implementation 'utils:kotlin'
+
+    testImplementation 'test:kotlin'
+    androidTestImplementation 'test:compose'
 }
 
 dependencies {
@@ -24,7 +26,7 @@ dependencies {
 
     debugImplementation libs.compose.uiTooling
 
-    testImplementation libs.bundles.test.kotlin
+    testImplementation libs.mockk
     androidTestImplementation libs.bundles.test.android
     androidTestImplementation libs.compose.uiTest
 }

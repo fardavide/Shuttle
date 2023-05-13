@@ -50,7 +50,8 @@ include 'shuttle:settings:data',
 include 'shuttle:stats:data',
         'shuttle:stats:domain'
 
-include 'shuttle:test:compose'
+include 'shuttle:test:compose',
+        'shuttle:test:kotlin'
 
 include 'shuttle:utils:android',
         'shuttle:utils:kotlin'

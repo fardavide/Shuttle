@@ -5,11 +5,11 @@ moduleDependencies {
 
     implementation 'coordinates:domain'
     implementation 'stats:domain'
+
+    testImplementation 'test:kotlin'
 }
 
 dependencies {
     implementation libs.bundles.base
     implementation libs.klock
-
-    testImplementation libs.bundles.test.kotlin
 }

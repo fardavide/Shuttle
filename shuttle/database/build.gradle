@@ -13,6 +13,7 @@ sqldelight {
 
 moduleDependencies {
     implementation 'utils:kotlin'
+    testImplementation 'test:kotlin'
 }
 
 dependencies {
@@ -21,8 +22,13 @@ dependencies {
     implementation libs.sqlDelight.android
     implementation libs.sqlDelight.coroutines
 
-    testImplementation libs.bundles.test.kotlin
+    testImplementation libs.mockk
+    testImplementation libs.kotlin.test.junit
     testImplementation libs.sqlDelight.sqlite
 
     androidTestImplementation libs.bundles.test.android
+}
+
+tasks.withType(Test).configureEach {
+    useJUnit()
 }

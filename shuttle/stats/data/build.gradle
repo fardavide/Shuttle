@@ -10,6 +10,8 @@ moduleDependencies {
     implementation 'stats:domain'
     implementation 'utils:kotlin'
     implementation 'utils:kotlin'
+
+    testImplementation 'test:kotlin'
 }
 
 dependencies {
@@ -19,6 +21,6 @@ dependencies {
     implementation libs.koin.android.workManager
     implementation libs.klock
 
-    testImplementation libs.bundles.test.kotlin
+    testImplementation libs.mockk
     androidTestImplementation libs.bundles.test.android
 }

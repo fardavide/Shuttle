@@ -1,10 +1,9 @@
 package shuttle.design.util
 
-import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertNull
+import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.matchers.shouldBe
 
-internal class EffectTest {
+internal class EffectTest : AnnotationSpec() {
 
     @Test
     fun `event is returned correctly on consume`() {
@@ -13,7 +12,7 @@ internal class EffectTest {
         val effect = Effect.of(event)
 
         // when - then
-        assertEquals(event, effect.consume())
+        effect.consume() shouldBe event
     }
 
     @Test
@@ -25,6 +24,6 @@ internal class EffectTest {
         effect.consume()
 
         // then
-        assertNull(effect.consume())
+        effect.consume() shouldBe null
     }
 }

@@ -2,6 +2,8 @@ package shuttle.stats.data.usecase
 
 import arrow.core.left
 import arrow.core.right
+import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestCoroutineScheduler
 import kotlinx.coroutines.test.runTest
@@ -16,10 +18,8 @@ import shuttle.database.testdata.DatabaseAppIdSample
 import shuttle.database.testdata.DatabaseDateSample
 import shuttle.database.testdata.DatabaseGeoHashSample
 import shuttle.database.testdata.DatabaseTimeSample
-import kotlin.test.Test
-import kotlin.test.assertEquals
 
-class SortAppStatsTest {
+class SortAppStatsTest : AnnotationSpec() {
 
     private val scheduler = TestCoroutineScheduler()
     private val dispatcher = StandardTestDispatcher(scheduler)
@@ -59,7 +59,7 @@ class SortAppStatsTest {
         )
 
         // then
-        assertEquals(expected, result)
+        result shouldBe expected
     }
 
     @Test
@@ -94,7 +94,7 @@ class SortAppStatsTest {
         )
 
         // then
-        assertEquals(expected, result)
+        result shouldBe expected
     }
 
     @Test
@@ -121,7 +121,7 @@ class SortAppStatsTest {
         )
 
         // then
-        assertEquals(expected, result)
+        result shouldBe expected
     }
 
     @Test
@@ -151,7 +151,7 @@ class SortAppStatsTest {
         )
 
         // then
-        assertEquals(expected, result)
+        result shouldBe expected
     }
 
     companion object TestData {

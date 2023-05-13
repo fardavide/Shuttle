@@ -1,6 +1,8 @@
 package shuttle.stats.data
 
 import arrow.core.some
+import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
@@ -22,10 +24,8 @@ import shuttle.database.testdata.DatabaseStatTestData
 import shuttle.stats.data.mapper.DatabaseDateAndTimeMapper
 import shuttle.stats.data.usecase.SortAppStats
 import shuttle.stats.data.worker.DeleteOldStatsScheduler
-import kotlin.test.Test
-import kotlin.test.assertEquals
 
-class StatsRepositoryImplTest {
+class StatsRepositoryImplTest : AnnotationSpec() {
 
     private val appsRepository: AppsRepository = mockk {
         coEvery { observeNotBlacklistedApps() } returns flowOf(AppModelTestData.all())
@@ -86,7 +86,7 @@ class StatsRepositoryImplTest {
             .sortedBy { it.id.value }
 
         // then
-        assertEquals(expected, result)
+        result shouldBe expected
     }
 
     @Test
@@ -106,7 +106,7 @@ class StatsRepositoryImplTest {
             .sortedBy { it.id.value }
 
         // then
-        assertEquals(expected, result)
+        result shouldBe expected
     }
 }
 

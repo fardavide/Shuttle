@@ -3,6 +3,8 @@ package shuttle.onboarding.presentation.viewmodel
 import app.cash.turbine.ReceiveTurbine
 import app.cash.turbine.test
 import arrow.core.Either.Right
+import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
@@ -24,12 +26,8 @@ import shuttle.onboarding.presentation.model.OnboardingBlacklistState
 import shuttle.onboarding.presentation.model.OnboardingBlacklistUiModel
 import shuttle.onboarding.presentation.model.OnboardingState
 import shuttle.onboarding.presentation.model.OnboardingWidgetPreviewState
-import kotlin.test.AfterTest
-import kotlin.test.BeforeTest
-import kotlin.test.Test
-import kotlin.test.assertEquals
 
-class OnboardingViewModelTest {
+class OnboardingViewModelTest : AnnotationSpec() {
 
     private val didShowOnboarding: DidShowOnboarding = mockk {
         coEvery { this@mockk() } returns true
@@ -43,22 +41,20 @@ class OnboardingViewModelTest {
     private val widgetPreviewAppUiModelMapper: WidgetPreviewAppUiModelMapper = mockk {
         coEvery { toUiModels(any()) } returns PreviewApps.map(::Right)
     }
-    private val viewModel by lazy {
-        OnboardingViewModel(
-            didShowOnboarding = didShowOnboarding,
-            observeAllInstalledApps = observeAllInstalledApps,
-            onboardingBlacklistUiModelMapper = onboardingBlacklistUiModelMapper,
-            setOnboardingShown = mockk(relaxUnitFun = true),
-            widgetPreviewAppUiModelMapper = widgetPreviewAppUiModelMapper
-        )
-    }
+    private val viewModel get() = OnboardingViewModel(
+        didShowOnboarding = didShowOnboarding,
+        observeAllInstalledApps = observeAllInstalledApps,
+        onboardingBlacklistUiModelMapper = onboardingBlacklistUiModelMapper,
+        setOnboardingShown = mockk(relaxUnitFun = true),
+        widgetPreviewAppUiModelMapper = widgetPreviewAppUiModelMapper
+    )
 
-    @BeforeTest
+    @Before
     fun setup() {
         Dispatchers.setMain(StandardTestDispatcher())
     }
 
-    @AfterTest
+    @After
     fun teardown() {
         Dispatchers.resetMain()
     }
@@ -66,7 +62,7 @@ class OnboardingViewModelTest {
     @Test
     fun `emits loading state at the start`() = runTest {
         viewModel.state.test {
-            assertEquals(OnboardingState.Loading, awaitItem())
+            awaitItem() shouldBe OnboardingState.Loading
         }
     }
 
@@ -80,7 +76,7 @@ class OnboardingViewModelTest {
             awaitLoading()
 
             // then
-            assertEquals(OnboardingState.OnboardingAlreadyShown, awaitItem())
+            awaitItem() shouldBe OnboardingState.OnboardingAlreadyShown
         }
     }
 
@@ -94,7 +90,7 @@ class OnboardingViewModelTest {
             awaitLoading()
 
             // then
-            assertEquals(OnboardingState.ShowOnboarding.Loading, awaitItem())
+            awaitItem() shouldBe OnboardingState.ShowOnboarding.Loading
         }
     }
 
@@ -116,16 +112,16 @@ class OnboardingViewModelTest {
             awaitPreviewLoading()
 
             // then
-            assertEquals(expected, awaitItem().sortApps())
+            awaitItem().sortApps() shouldBe expected
         }
     }
 
     private suspend fun ReceiveTurbine<OnboardingState>.awaitLoading() {
-        assertEquals(OnboardingState.Loading, awaitItem())
+        awaitItem() shouldBe OnboardingState.Loading
     }
 
     private suspend fun ReceiveTurbine<OnboardingState>.awaitPreviewLoading() {
-        assertEquals(OnboardingState.ShowOnboarding.Loading, awaitItem())
+        awaitItem() shouldBe OnboardingState.ShowOnboarding.Loading
     }
 
     private fun OnboardingState.sortApps(): OnboardingState {

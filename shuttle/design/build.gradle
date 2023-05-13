@@ -4,8 +4,8 @@ android.namespace 'shuttle.design'
 
 moduleDependencies {
     api 'resources'
-
     implementation 'utils:android'
+    testImplementation 'test:kotlin'
 }
 
 dependencies {
@@ -18,7 +18,6 @@ dependencies {
 
     debugImplementation libs.compose.uiTooling
 
-    testImplementation libs.bundles.test.kotlin
     androidTestImplementation libs.bundles.test.android
     androidTestImplementation libs.compose.uiTest
 }

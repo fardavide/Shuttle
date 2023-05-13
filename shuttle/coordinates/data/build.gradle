@@ -6,6 +6,8 @@ moduleDependencies {
     implementation 'coordinates:domain'
     implementation 'database'
     implementation 'utils:kotlin'
+
+    testImplementation 'test:kotlin'
 }
 
 dependencies {
@@ -17,7 +19,7 @@ dependencies {
     implementation libs.koin.android.workManager
     implementation libs.playServices.location
 
-    testImplementation libs.bundles.test.kotlin
+    testImplementation libs.mockk
     androidTestImplementation libs.bundles.test.android
     androidTestImplementation libs.androidx.workManager.test
 }

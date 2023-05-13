@@ -1,13 +1,20 @@
 apply plugin: 'shuttle.kotlin'
 
 moduleDependencies {
-
     implementation 'apps:domain'
     implementation 'stats:domain'
     implementation 'utils:kotlin'
+
+    testImplementation 'test:kotlin'
 }
 
 dependencies {
     implementation libs.bundles.base
-    testImplementation libs.bundles.test.kotlin
+
+    testImplementation libs.kotlin.test.junit
+    testImplementation libs.mockk
+}
+
+tasks.withType(Test).configureEach {
+    useJUnit()
 }

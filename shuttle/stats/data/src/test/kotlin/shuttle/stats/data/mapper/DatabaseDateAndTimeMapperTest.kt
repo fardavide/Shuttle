@@ -1,13 +1,13 @@
 package shuttle.stats.data.mapper
 
+import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.matchers.shouldBe
 import korlibs.time.DateTime
 import shuttle.database.model.DatabaseDate
 import shuttle.database.model.DatabaseTime
 import shuttle.stats.data.model.DatabaseDateAndTime
-import kotlin.test.Test
-import kotlin.test.assertEquals
 
-internal class DatabaseDateAndTimeMapperTest {
+internal class DatabaseDateAndTimeMapperTest : AnnotationSpec() {
 
     private val mapper = DatabaseDateAndTimeMapper()
 
@@ -30,7 +30,7 @@ internal class DatabaseDateAndTimeMapperTest {
         val actual = mapper.toDatabaseDateAndTime(dateTime)
 
         // Then
-        assertEquals(expected, actual)
+        actual shouldBe expected
     }
 
     @Test
@@ -52,7 +52,7 @@ internal class DatabaseDateAndTimeMapperTest {
         val actual = mapper.toDatabaseDateAndTime(dateTime)
 
         // Then
-        assertEquals(expected, actual)
+        actual shouldBe expected
     }
 
     @Test
@@ -74,6 +74,6 @@ internal class DatabaseDateAndTimeMapperTest {
         val actual = mapper.toDatabaseDateAndTime(dateTime)
 
         // Then
-        assertEquals(expected, actual)
+        actual shouldBe expected
     }
 }
