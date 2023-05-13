@@ -41,7 +41,7 @@
         </provider>
 
         <!-- Accessibility -->
-        <service android:name="shuttle.accessibility.LaunchCounterAccessibilityService"
+        <service android:name="shuttle.accessibility.service.LaunchCounterAccessibilityService"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
             android:exported="false">
             <intent-filter>

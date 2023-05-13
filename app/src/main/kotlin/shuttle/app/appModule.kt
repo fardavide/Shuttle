@@ -23,6 +23,7 @@ val appModule = module {
     single { CoroutineScope(Job() + Dispatchers.Default) }
     single { Logger(LoggerConfig.default) }
     factory<PackageManager> { get<Context>().packageManager }
+    factory { get<Context>().contentResolver }
     factory { get<Context>().resources }
     factory(StartAppQualifier) { startMainActivity }
     factory { WorkManager.getInstance(get()) }

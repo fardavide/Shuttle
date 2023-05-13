@@ -3,6 +3,7 @@ package shuttle.accessibility
 import android.content.ComponentName
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
+import shuttle.accessibility.service.LaunchCounterAccessibilityService
 import shuttle.accessibility.usecase.IsLaunchCounterServiceEnabled
 import shuttle.accessibility.usecase.StartRefreshLocationAndUpdateWidget
 import shuttle.accessibility.usecase.StartStoreIfNotBlacklistAndUpdateWidget

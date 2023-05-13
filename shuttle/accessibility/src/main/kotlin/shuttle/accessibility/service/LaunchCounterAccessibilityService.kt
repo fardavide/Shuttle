@@ -1,4 +1,4 @@
-package shuttle.accessibility
+package shuttle.accessibility.service
 
 import android.accessibilityservice.AccessibilityService
 import android.util.Log
@@ -8,6 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
+import shuttle.accessibility.StartAppQualifier
 import shuttle.accessibility.usecase.StartRefreshLocationAndUpdateWidget
 import shuttle.accessibility.usecase.StartStoreIfNotBlacklistAndUpdateWidget
 import shuttle.apps.domain.model.AppId
