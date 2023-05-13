@@ -8,6 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
+import org.koin.core.qualifier.named
 import shuttle.accessibility.StartAppQualifier
 import shuttle.accessibility.usecase.StartRefreshLocationAndUpdateWidget
 import shuttle.accessibility.usecase.StartStoreIfNotBlacklistAndUpdateWidget
@@ -22,7 +23,7 @@ class LaunchCounterAccessibilityService : AccessibilityService() {
     private val hasEnabledAccessibilityService: HasEnabledAccessibilityService by inject()
     private val setHasEnabledAccessibilityService: SetHasEnabledAccessibilityService by inject()
     private val startRefreshLocationAndUpdateWidget: StartRefreshLocationAndUpdateWidget by inject()
-    private val startApp: () -> Unit by inject(StartAppQualifier)
+    private val startApp: () -> Unit by inject(named(StartAppQualifier))
     private val startStoreIfNotBlacklistAndUpdateWidget: StartStoreIfNotBlacklistAndUpdateWidget by inject()
 
     private var previousPackageName: CharSequence? = null

@@ -4,8 +4,9 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.androidx.workmanager.koin.workManagerFactory
 import org.koin.core.context.GlobalContext.startKoin
+import org.koin.ksp.generated.module
+import shuttle.app.AppModule
 import shuttle.app.ShuttleApplicationContext
-import shuttle.app.appModule
 
 object KoinStartup : Startup {
 
@@ -15,7 +16,7 @@ object KoinStartup : Startup {
             androidLogger()
             androidContext(app)
             workManagerFactory()
-            modules(appModule)
+            modules(AppModule().module)
         }
     }
 }
