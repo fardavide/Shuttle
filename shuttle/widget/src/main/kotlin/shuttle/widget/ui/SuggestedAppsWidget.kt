@@ -2,9 +2,12 @@ package shuttle.widget.ui
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.Dp
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
 import androidx.glance.Image
@@ -19,6 +22,7 @@ import androidx.glance.appwidget.action.actionStartActivity
 import androidx.glance.appwidget.background
 import androidx.glance.appwidget.cornerRadius
 import androidx.glance.appwidget.provideContent
+import androidx.glance.background
 import androidx.glance.color.DynamicThemeColorProviders
 import androidx.glance.layout.Alignment
 import androidx.glance.layout.Box
@@ -133,20 +137,14 @@ class SuggestedAppsWidget : GlanceAppWidget(), KoinComponent {
         widgetSettings: WidgetSettingsUiModel,
         actions: Actions
     ) {
-        app ?: return
-
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = GlanceModifier
                 .padding(vertical = widgetSettings.verticalSpacing, horizontal = widgetSettings.horizontalSpacing)
-                .clickable(actions.onOpenApp(app.launchIntent))
+                .maybeClickable(app?.launchIntent?.let(actions.onOpenApp))
                 .cornerRadius(WidgetDimen.CornerRadius)
         ) {
-            Image(
-                provider = ImageProvider(app.icon),
-                contentDescription = NoContentDescription,
-                modifier = GlanceModifier.size(widgetSettings.iconSize)
-            )
+            AppIcon(icon = app?.icon, size = widgetSettings.iconSize)
             Spacer(modifier = GlanceModifier.height(widgetSettings.verticalSpacing))
             val textColor = if (widgetSettings.useMaterialColors) {
                 DynamicThemeColorProviders.onPrimaryContainer
@@ -155,7 +153,7 @@ class SuggestedAppsWidget : GlanceAppWidget(), KoinComponent {
             }
             Text(
                 modifier = GlanceModifier.width(widgetSettings.iconSize),
-                text = app.name,
+                text = app?.name.orEmpty(),
                 maxLines = widgetSettings.maxLines,
                 style = TextStyle(
                     color = textColor,
@@ -166,8 +164,31 @@ class SuggestedAppsWidget : GlanceAppWidget(), KoinComponent {
         }
     }
 
-    @Suppress("ModifierComposable")
     @Composable
+    fun AppIcon(icon: Bitmap?, size: Dp) {
+        if (icon != null) {
+            Image(
+                provider = ImageProvider(icon),
+                contentDescription = NoContentDescription,
+                modifier = GlanceModifier.size(size)
+            )
+        } else {
+            Spacer(
+                modifier = GlanceModifier
+                    .size(size)
+                    .background(Color.Gray)
+                    .cornerRadius(WidgetDimen.CornerRadius)
+            )
+        }
+    }
+
+    @Composable
+    @Suppress("ModifierComposable")
+    private fun GlanceModifier.maybeClickable(action: Action?): GlanceModifier =
+        action?.let(::clickable) ?: this
+
+    @Composable
+    @Suppress("ModifierComposable")
     private fun GlanceModifier.widgetBackground(
         transparency: Float = .7f,
         useMaterialColors: Boolean = true

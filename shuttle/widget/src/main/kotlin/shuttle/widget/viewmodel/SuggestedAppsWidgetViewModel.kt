@@ -1,12 +1,15 @@
 package shuttle.widget.viewmodel
 
 import arrow.core.Either
+import arrow.core.right
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import org.koin.core.annotation.Single
+import shuttle.apps.domain.model.SuggestedAppModel
 import shuttle.icons.domain.error.GetSystemIconError
 import shuttle.predictions.domain.usecase.ObserveSuggestedApps
 import shuttle.settings.domain.usecase.ObserveCurrentIconPack
@@ -28,7 +31,7 @@ internal class SuggestedAppsWidgetViewModel(
 
     val state: StateFlow<SuggestedAppsState> = combine(
         observeCurrentIconPack(),
-        observeSuggestedApps(),
+        observeSuggestedApps().onStart { emit(emptyList<SuggestedAppModel>().right()) },
         observeWidgetSettings()
     ) { currentIconPack, suggestedAppsEither, widgetSettings ->
         suggestedAppsEither.fold(

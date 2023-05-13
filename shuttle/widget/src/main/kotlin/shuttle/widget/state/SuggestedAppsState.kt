@@ -9,7 +9,7 @@ import shuttle.widget.model.WidgetSettingsUiModel
 internal sealed interface SuggestedAppsState {
 
     data class Data(
-        val apps: List<WidgetAppUiModel>,
+        val apps: List<WidgetAppUiModel?>,
         val widgetSettings: WidgetSettingsUiModel
     ) : SuggestedAppsState
 
