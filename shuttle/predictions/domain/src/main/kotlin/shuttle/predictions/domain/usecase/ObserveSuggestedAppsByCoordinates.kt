@@ -14,7 +14,7 @@ interface ObserveSuggestedAppsByCoordinates {
 }
 
 @Factory
-internal class ObserveSuggestedAppsByCoordinatesImpl(
+internal class RealObserveSuggestedAppsByCoordinates(
     private val statsRepository: StatsRepository,
     private val timeToTimeRange: TimeToTimeRange
 ) : ObserveSuggestedAppsByCoordinates {
