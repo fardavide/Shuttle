@@ -1,9 +1,8 @@
 package shuttle.apps.domain
 
-import org.koin.dsl.module
-import shuttle.apps.domain.usecase.ObserveAllInstalledApps
+import org.koin.core.annotation.ComponentScan
+import org.koin.core.annotation.Factory
 
-val appsDomainModule = module {
-
-    factory { ObserveAllInstalledApps(repository = get()) }
-}
+@Factory
+@ComponentScan
+class AppsDomainModule

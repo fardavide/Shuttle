@@ -6,7 +6,7 @@ import org.koin.core.annotation.Module
 import org.koin.ksp.generated.module
 import shuttle.accessibility.accessibilityModule
 import shuttle.apps.data.AppsDataModule
-import shuttle.apps.domain.appsDomainModule
+import shuttle.apps.domain.AppsDomainModule
 import shuttle.apps.presentation.appsPresentationModule
 import shuttle.coordinates.data.coordinatesDataModule
 import shuttle.coordinates.domain.coordinatesDomainModule
@@ -35,7 +35,7 @@ import shuttle.widget.WidgetModule
 val shuttleModule =
     ShuttleModule().module +
         accessibilityModule +
-        appsDomainModule + appsPresentationModule +
+        appsPresentationModule +
         coordinatesDataModule + coordinatesDomainModule +
         databaseModule +
         iconsDataModule + iconsDomainModule + iconsPresentationModule +
@@ -49,6 +49,7 @@ val shuttleModule =
 @Module(
     includes = [
         AppsDataModule::class,
+        AppsDomainModule::class,
 
         PredictionsPresentationModule::class,
 
