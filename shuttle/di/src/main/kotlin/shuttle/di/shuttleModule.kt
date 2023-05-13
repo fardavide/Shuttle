@@ -18,7 +18,7 @@ import shuttle.onboarding.presentation.OnboardingPresentationModule
 import shuttle.payments.data.PaymentsDataModule
 import shuttle.payments.domain.PaymentsDomainModule
 import shuttle.payments.presentation.PaymentsPresentationModule
-import shuttle.permissions.domain.permissionsDomainModule
+import shuttle.permissions.domain.PermissionsDomainModule
 import shuttle.permissions.presentation.permissionsPresentationModule
 import shuttle.predictions.domain.predictionsDomainModule
 import shuttle.predictions.presentation.PredictionsPresentationModule
@@ -34,7 +34,7 @@ import shuttle.widget.WidgetModule
 val shuttleModule =
     ShuttleModule().module +
         accessibilityModule +
-        permissionsDomainModule + permissionsPresentationModule +
+        permissionsPresentationModule +
         predictionsDomainModule +
         settingsDomainModule + settingsPresentationModule +
         statsDataModule + statsDomainModule
@@ -59,6 +59,8 @@ val shuttleModule =
         PaymentsDataModule::class,
         PaymentsDomainModule::class,
         PaymentsPresentationModule::class,
+
+        PermissionsDomainModule::class,
 
         PredictionsPresentationModule::class,
 

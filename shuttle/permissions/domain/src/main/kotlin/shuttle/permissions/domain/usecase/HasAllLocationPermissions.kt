@@ -2,7 +2,9 @@ package shuttle.permissions.domain.usecase
 
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.MultiplePermissionsState
+import org.koin.core.annotation.Factory
 
+@Factory
 @OptIn(ExperimentalPermissionsApi::class)
 class HasAllLocationPermissions(
     private val hasBackgroundLocation: HasBackgroundLocation,
