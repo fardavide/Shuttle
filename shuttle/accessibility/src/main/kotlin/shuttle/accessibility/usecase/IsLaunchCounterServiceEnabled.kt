@@ -4,8 +4,13 @@ import android.content.ComponentName
 import android.content.ContentResolver
 import android.provider.Settings
 import android.text.TextUtils
+import org.koin.core.annotation.Factory
+import org.koin.core.annotation.Named
+import shuttle.accessibility.AccessibilityServiceComponentName
 
+@Factory
 class IsLaunchCounterServiceEnabled(
+    @Named(AccessibilityServiceComponentName)
     private val accessibilityServiceComponentName: ComponentName,
     private val contentResolver: ContentResolver
 ) {

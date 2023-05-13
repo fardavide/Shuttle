@@ -3,8 +3,7 @@ package shuttle.di
 import org.koin.core.annotation.ComponentScan
 import org.koin.core.annotation.Factory
 import org.koin.core.annotation.Module
-import org.koin.ksp.generated.module
-import shuttle.accessibility.accessibilityModule
+import shuttle.accessibility.AccessibilityModule
 import shuttle.apps.data.AppsDataModule
 import shuttle.apps.domain.AppsDomainModule
 import shuttle.apps.presentation.AppsPresentationModule
@@ -31,12 +30,10 @@ import shuttle.util.android.UtilsAndroidModule
 import shuttle.utils.kotlin.UtilsKotlinModule
 import shuttle.widget.WidgetModule
 
-val shuttleModule =
-    ShuttleModule().module +
-        accessibilityModule
-
 @Module(
     includes = [
+        AccessibilityModule::class,
+
         AppsDataModule::class,
         AppsDomainModule::class,
         AppsPresentationModule::class,

@@ -12,12 +12,14 @@ import kotlinx.coroutines.Job
 import org.koin.core.qualifier.named
 import org.koin.core.scope.Scope
 import org.koin.dsl.module
+import org.koin.ksp.generated.module
 import shuttle.accessibility.StartAppQualifier
 import shuttle.di.AppVersionQualifier
-import shuttle.di.shuttleModule
+import shuttle.di.ShuttleModule
 import studio.forface.shuttle.BuildConfig
 
 val appModule = module {
+    includes(ShuttleModule().module)
 
     single(named(AppVersionQualifier)) { BuildConfig.VERSION_CODE }
     single { CoroutineScope(Job() + Dispatchers.Default) }
@@ -28,7 +30,7 @@ val appModule = module {
     factory(StartAppQualifier) { startMainActivity }
     factory { WorkManager.getInstance(get()) }
 
-} + shuttleModule
+}
 
 context (Scope)
 private val Scope.startMainActivity: () -> Unit
