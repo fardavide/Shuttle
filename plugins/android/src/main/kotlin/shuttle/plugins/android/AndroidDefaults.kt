@@ -5,6 +5,7 @@ import shuttle.plugins.common.KotlinDefaults
 object AndroidDefaults {
 
     const val ExperimentalTestApi = "androidx.compose.ui.test.ExperimentalTestApi"
+    const val ExperimentalMaterial3Api = "androidx.compose.material3.ExperimentalMaterial3Api"
     const val ExperimentalPermissionsApi = "com.google.accompanist.permissions.ExperimentalPermissionsApi"
 
     val FreeCompilerArgs = KotlinDefaults.FreeCompilerArgs

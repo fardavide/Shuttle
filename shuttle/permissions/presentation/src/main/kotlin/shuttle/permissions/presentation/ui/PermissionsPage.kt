@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -22,7 +21,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import org.koin.androidx.compose.koinViewModel
 import shuttle.design.theme.ShuttleTheme
@@ -39,7 +37,6 @@ import shuttle.permissions.presentation.viewmodel.PermissionsViewModel.State
 import shuttle.resources.R
 
 @Composable
-@OptIn(ExperimentalPermissionsApi::class)
 fun PermissionsPage(toSettings: () -> Unit) {
     val context = LocalContext.current
     val viewModel: PermissionsViewModel = koinViewModel()
@@ -82,7 +79,6 @@ fun PermissionsPage(toSettings: () -> Unit) {
 }
 
 @Composable
-@OptIn(ExperimentalMaterial3Api::class)
 private fun PermissionsPageContent(
     permissions: PermissionItemsUiModel,
     actions: PermissionsPage.Actions,

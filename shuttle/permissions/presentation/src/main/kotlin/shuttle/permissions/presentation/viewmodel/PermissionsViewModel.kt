@@ -1,7 +1,6 @@
 package shuttle.permissions.presentation.viewmodel
 
 import androidx.lifecycle.viewModelScope
-import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.MultiplePermissionsState
 import kotlinx.coroutines.launch
 import org.koin.android.annotation.KoinViewModel
@@ -13,7 +12,6 @@ import shuttle.permissions.presentation.viewmodel.PermissionsViewModel.State
 import shuttle.util.android.viewmodel.ShuttleViewModel
 
 @KoinViewModel
-@OptIn(ExperimentalPermissionsApi::class)
 internal class PermissionsViewModel(
     private val isLaunchCounterServiceEnabled: IsLaunchCounterServiceEnabled,
     private val permissionItemsUiModelMapper: PermissionItemsUiModelMapper
