@@ -26,8 +26,7 @@ include 'shuttle:design'
 include 'shuttle:di'
 
 include 'shuttle:icons:data',
-        'shuttle:icons:domain',
-        'shuttle:icons:presentation'
+        'shuttle:icons:domain'
 
 include 'shuttle:onboarding:domain',
         'shuttle:onboarding:presentation'

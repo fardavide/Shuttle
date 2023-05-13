@@ -12,7 +12,6 @@ moduleDependencies {
     implementation 'database'
     implementation 'icons:data'
     implementation 'icons:domain'
-    implementation 'icons:presentation'
     implementation 'onboarding:domain'
     implementation 'onboarding:presentation'
     implementation 'payments:data'
