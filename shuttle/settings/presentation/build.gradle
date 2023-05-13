@@ -2,6 +2,10 @@ apply plugin: 'shuttle.android.compose.library'
 
 android.namespace 'shuttle.settings.presentation'
 
+optIns {
+    experimentalMaterial3Api()
+}
+
 moduleDependencies {
     implementation 'accessibility'
     implementation 'apps:domain'

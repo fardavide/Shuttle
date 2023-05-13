@@ -12,10 +12,9 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -47,7 +46,6 @@ import shuttle.settings.presentation.viewmodel.BlacklistSettingsViewModel.Action
 import shuttle.settings.presentation.viewmodel.BlacklistSettingsViewModel.State
 
 @Composable
-@OptIn(ExperimentalMaterial3Api::class)
 fun BlacklistSettingsPage(onBack: () -> Unit) {
     Scaffold(
         modifier = Modifier
@@ -88,11 +86,10 @@ private fun BlacklistSettingsContent() {
 }
 
 @Composable
-@OptIn(ExperimentalMaterial3Api::class)
 private fun SearchBar(onSearch: (String) -> Unit) {
     var textFieldValue by remember { mutableStateOf(TextFieldValue()) }
 
-    TextField(
+    OutlinedTextField(
         modifier = Modifier
             .fillMaxWidth()
             .padding(start = Dimens.Margin.Large, end = Dimens.Margin.Large, bottom = Dimens.Margin.Small),
