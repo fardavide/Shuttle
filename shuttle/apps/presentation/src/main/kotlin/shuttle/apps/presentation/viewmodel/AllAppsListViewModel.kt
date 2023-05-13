@@ -9,11 +9,13 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import org.koin.android.annotation.KoinViewModel
 import shuttle.apps.domain.usecase.ObserveAllInstalledApps
 import shuttle.apps.presentation.mapper.AppUiModelMapper
 import shuttle.apps.presentation.model.AppUiModel
 import shuttle.icons.domain.error.GetSystemIconError
 
+@KoinViewModel
 internal class AllAppsListViewModel(
     private val appUiModelMapper: AppUiModelMapper,
     observeAllInstalledApps: ObserveAllInstalledApps

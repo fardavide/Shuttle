@@ -7,10 +7,10 @@ import korlibs.time.plus
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.mapLatest
-import shuttle.apps.domain.AppsRepository
 import shuttle.apps.domain.model.AppId
 import shuttle.apps.domain.model.AppModel
 import shuttle.apps.domain.model.SuggestedAppModel
+import shuttle.apps.domain.repository.AppsRepository
 import shuttle.coordinates.domain.error.LocationNotAvailable
 import shuttle.coordinates.domain.model.GeoHash
 import shuttle.database.datasource.StatDataSource

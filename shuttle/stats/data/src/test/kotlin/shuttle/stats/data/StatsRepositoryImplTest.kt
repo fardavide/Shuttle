@@ -7,8 +7,8 @@ import io.mockk.mockk
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
-import shuttle.apps.domain.AppsRepository
 import shuttle.apps.domain.model.AppId
+import shuttle.apps.domain.repository.AppsRepository
 import shuttle.apps.domain.testdata.AppModelTestData
 import shuttle.apps.domain.testdata.SuggestedAppModelTestData
 import shuttle.apps.domain.testdata.not

@@ -1,4 +1,4 @@
-package shuttle.apps.domain
+package shuttle.apps.domain.repository
 
 import kotlinx.coroutines.flow.Flow
 import shuttle.apps.domain.model.AppModel
@@ -20,5 +20,3 @@ interface AppsRepository {
      */
     fun observeNotBlacklistedApps(): Flow<List<AppModel>>
 }
-
-object AppNotInstalled

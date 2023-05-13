@@ -1,4 +1,4 @@
-package shuttle.apps.data
+package shuttle.apps.data.repository
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -18,10 +18,10 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.withContext
 import org.koin.core.annotation.Factory
 import org.koin.core.annotation.Named
-import shuttle.apps.domain.AppsRepository
 import shuttle.apps.domain.model.AppId
 import shuttle.apps.domain.model.AppModel
 import shuttle.apps.domain.model.AppName
+import shuttle.apps.domain.repository.AppsRepository
 import shuttle.database.App
 import shuttle.database.datasource.AppDataSource
 import shuttle.database.model.DatabaseAppId

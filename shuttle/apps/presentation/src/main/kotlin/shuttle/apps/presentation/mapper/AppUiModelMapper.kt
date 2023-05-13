@@ -2,11 +2,13 @@ package shuttle.apps.presentation.mapper
 
 import arrow.core.Either
 import arrow.core.continuations.either
+import org.koin.core.annotation.Factory
 import shuttle.apps.domain.model.AppModel
 import shuttle.apps.presentation.model.AppUiModel
 import shuttle.icons.domain.error.GetSystemIconError
 import shuttle.icons.domain.usecase.GetSystemIconDrawableForApp
 
+@Factory
 class AppUiModelMapper(
     private val getSystemIconDrawableForApp: GetSystemIconDrawableForApp
 ) {
