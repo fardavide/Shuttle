@@ -1,5 +1,6 @@
 package shuttle.app
 
+import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
 import androidx.work.WorkManager
@@ -27,7 +28,7 @@ class AppModule {
     fun appVersion(): Int = BuildConfig.VERSION_CODE
 
     @Factory
-    fun contentResolver(context: Context) = context.contentResolver
+    fun contentResolver(context: Context): ContentResolver = context.contentResolver
 
     @Single
     fun coroutineScope() = CoroutineScope(Job() + Dispatchers.Default)

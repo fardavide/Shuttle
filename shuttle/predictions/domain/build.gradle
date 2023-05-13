@@ -1,5 +1,9 @@
 apply plugin: 'shuttle.kotlin'
 
+optIns {
+    experimentalCoroutinesApi()
+}
+
 moduleDependencies {
     api 'apps:domain'
 

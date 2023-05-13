@@ -27,5 +27,7 @@ internal class KotlinPlugin : Plugin<Project> {
         target.extensions.configure<KotlinTopLevelExtension> { ext ->
             ext.jvmToolchain(JvmDefaults.JAVA_VERSION)
         }
+
+        KotlinOptInsExtension.setup(target)
     }
 }
