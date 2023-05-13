@@ -60,6 +60,7 @@ gradle-sqlDelight = { module = "com.squareup.sqldelight:gradle-plugin", version.
 ksp-arrow = { module = "io.arrow-kt:arrow-optics-ksp-plugin", version.ref = "arrow" }
 
 accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanist" }
+accompanist-systemUiController = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanist" }
 
 android-billing = { module = "com.android.billingclient:billing-ktx", version.ref = "androidBilling" }
 

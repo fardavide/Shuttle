@@ -87,9 +87,13 @@ private fun PermissionsPageContent(
     Scaffold(
         modifier = modifier
             .testTag(PermissionsPage.TEST_TAG)
-            .statusBarsPadding()
             .navigationBarsPadding(),
-        topBar = { TopAppBar(title = { Text(text = stringResource(id = R.string.permissions_title)) }) },
+        topBar = {
+            TopAppBar(
+                modifier = Modifier.statusBarsPadding(),
+                title = { Text(text = stringResource(id = R.string.permissions_title)) }
+            )
+        },
         floatingActionButton = {
             ExtendedFloatingActionButton(onClick = actions.toSettings) {
                 Text(text = stringResource(id = R.string.permissions_skip_permissions_action))

@@ -2,6 +2,10 @@ apply plugin: 'shuttle.android.compose.library'
 
 android.namespace 'shuttle.design'
 
+optIns {
+    experimentalMaterial3Api()
+}
+
 moduleDependencies {
     api 'resources'
     implementation 'utils:android'
@@ -11,6 +15,7 @@ moduleDependencies {
 dependencies {
     ksp libs.ksp.arrow
 
+    implementation libs.accompanist.systemUiController
     implementation libs.androidx.lifecycle.runtime
     implementation libs.bundles.base
     implementation libs.bundles.compose
