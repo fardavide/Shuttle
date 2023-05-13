@@ -6,9 +6,14 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.isActive
+import org.koin.core.annotation.Factory
+import org.koin.core.annotation.Named
+import shuttle.coordinates.domain.CoordinatesQualifier
 import kotlin.time.Duration
 
+@Factory
 class DateTimeDataSource(
+    @Named(CoordinatesQualifier.Interval.Location.MinRefresh)
     private val refreshInterval: Duration
 ) {
 

@@ -12,11 +12,16 @@ import com.google.android.gms.tasks.Task
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withTimeout
+import org.koin.core.annotation.Factory
+import org.koin.core.annotation.Named
+import shuttle.coordinates.domain.CoordinatesQualifier
 import shuttle.coordinates.domain.error.LocationError
 import kotlin.coroutines.resume
 import kotlin.time.Duration
 
+@Factory
 internal class ShuttleLocationClient(
+    @Named(CoordinatesQualifier.Interval.Location.FetchTimeout)
     private val freshLocationTimeout: Duration,
     private val fusedLocationClient: FusedLocationProviderClient
 ) {

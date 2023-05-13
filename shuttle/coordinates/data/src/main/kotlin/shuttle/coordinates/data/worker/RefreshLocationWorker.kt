@@ -7,10 +7,15 @@ import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import co.touchlab.kermit.Logger
-import shuttle.coordinates.domain.CoordinatesRepository
+import org.koin.android.annotation.KoinWorker
+import org.koin.core.annotation.Factory
+import org.koin.core.annotation.Named
+import shuttle.coordinates.domain.CoordinatesQualifier
 import shuttle.coordinates.domain.error.LocationError
+import shuttle.coordinates.domain.repository.CoordinatesRepository
 import kotlin.time.Duration
 
+@KoinWorker
 internal class RefreshLocationWorker(
     appContext: Context,
     params: WorkerParameters,
@@ -31,22 +36,25 @@ internal class RefreshLocationWorker(
         ifRight = { Result.success() }
     )
 
-    class Scheduler(
-        private val workManager: WorkManager,
-        private val every: Duration,
-        private val flex: Duration
-    ) {
-
-        fun schedule() {
-            val request = PeriodicWorkRequestBuilder<RefreshLocationWorker>(every.java(), flex.java()).build()
-            workManager.enqueueUniquePeriodicWork(Name, ExistingPeriodicWorkPolicy.UPDATE, request)
-        }
-
-        private fun Duration.java() = java.time.Duration.ofMinutes(inWholeMinutes)
-    }
-
     companion object {
 
         const val Name = "RefreshLocationWorker"
     }
+}
+
+@Factory
+class RefreshLocationScheduler(
+    private val workManager: WorkManager,
+    @Named(CoordinatesQualifier.Interval.Location.Scheduler.Default)
+    private val every: Duration,
+    @Named(CoordinatesQualifier.Interval.Location.Scheduler.Flex)
+    private val flex: Duration
+) {
+
+    fun schedule() {
+        val request = PeriodicWorkRequestBuilder<RefreshLocationWorker>(every.java(), flex.java()).build()
+        workManager.enqueueUniquePeriodicWork(RefreshLocationWorker.Name, ExistingPeriodicWorkPolicy.UPDATE, request)
+    }
+
+    private fun Duration.java() = java.time.Duration.ofMinutes(inWholeMinutes)
 }

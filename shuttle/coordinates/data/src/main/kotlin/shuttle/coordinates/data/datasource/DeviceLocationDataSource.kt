@@ -9,15 +9,21 @@ import arrow.core.left
 import arrow.core.right
 import korlibs.time.DateTime
 import kotlinx.coroutines.flow.first
+import org.koin.core.annotation.Factory
+import org.koin.core.annotation.Named
+import shuttle.coordinates.domain.CoordinatesQualifier
 import shuttle.coordinates.domain.error.LocationError
 import shuttle.coordinates.domain.error.LocationError.ExpiredLocation
 import kotlin.time.Duration
 
+@Factory
 @SuppressLint("MissingPermission")
 internal class DeviceLocationDataSource(
     private val dateTimeSource: DateTimeDataSource,
-    private val locationClient: ShuttleLocationClient,
+    @Named(CoordinatesQualifier.Interval.Location.MinRefresh)
     private val freshLocationMinInterval: Duration,
+    private val locationClient: ShuttleLocationClient,
+    @Named(CoordinatesQualifier.Interval.Location.Expiration)
     private val locationExpiration: Duration
 ) {
 

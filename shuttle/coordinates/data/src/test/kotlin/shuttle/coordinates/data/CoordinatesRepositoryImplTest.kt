@@ -11,6 +11,7 @@ import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runTest
 import shuttle.coordinates.data.datasource.DateTimeDataSource
 import shuttle.coordinates.data.mapper.GeoHashMapper
+import shuttle.coordinates.data.repository.CoordinatesRepositoryImpl
 import shuttle.coordinates.domain.error.LocationNotAvailable
 import shuttle.coordinates.domain.model.CoordinatesResult
 import shuttle.database.datasource.LastLocationDataSource

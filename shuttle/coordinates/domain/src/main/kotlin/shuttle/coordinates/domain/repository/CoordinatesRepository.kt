@@ -1,4 +1,4 @@
-package shuttle.coordinates.domain
+package shuttle.coordinates.domain.repository
 
 import arrow.core.Either
 import korlibs.time.DateTime

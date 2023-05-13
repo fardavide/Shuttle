@@ -1,4 +1,4 @@
-package shuttle.coordinates.data
+package shuttle.coordinates.data.repository
 
 import arrow.core.Either
 import arrow.core.left
@@ -12,25 +12,27 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.shareIn
+import org.koin.core.annotation.Single
 import shuttle.coordinates.data.datasource.DateTimeDataSource
 import shuttle.coordinates.data.datasource.DeviceLocationDataSource
 import shuttle.coordinates.data.mapper.GeoHashMapper
-import shuttle.coordinates.data.worker.RefreshLocationWorker
-import shuttle.coordinates.domain.CoordinatesRepository
+import shuttle.coordinates.data.worker.RefreshLocationScheduler
 import shuttle.coordinates.domain.error.LocationError
 import shuttle.coordinates.domain.error.LocationNotAvailable
 import shuttle.coordinates.domain.model.CoordinatesResult
 import shuttle.coordinates.domain.model.GeoHash
+import shuttle.coordinates.domain.repository.CoordinatesRepository
 import shuttle.database.datasource.LastLocationDataSource
 import shuttle.database.model.DatabaseGeoHash
 import shuttle.utils.kotlin.mapToUnit
 
+@Single
 internal class CoordinatesRepositoryImpl(
     appScope: CoroutineScope,
     private val deviceLocationDataSource: DeviceLocationDataSource,
     private val geoHashMapper: GeoHashMapper,
     private val lastLocationDataSource: LastLocationDataSource,
-    private val refreshLocationWorkerScheduler: RefreshLocationWorker.Scheduler,
+    private val refreshLocationWorkerScheduler: RefreshLocationScheduler,
     dateTimeDataSource: DateTimeDataSource
 ) : CoordinatesRepository {
 
