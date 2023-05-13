@@ -10,7 +10,7 @@ import shuttle.apps.domain.AppsDomainModule
 import shuttle.apps.presentation.AppsPresentationModule
 import shuttle.coordinates.data.coordinatesDataModule
 import shuttle.coordinates.domain.CoordinatesDomainModule
-import shuttle.database.databaseModule
+import shuttle.database.DatabaseModule
 import shuttle.icons.data.IconsDataModule
 import shuttle.icons.domain.IconsDomainModule
 import shuttle.onboarding.domain.OnboardingDomainModule
@@ -35,7 +35,6 @@ val shuttleModule =
     ShuttleModule().module +
         accessibilityModule +
         coordinatesDataModule +
-        databaseModule +
         paymentsDataModule + paymentsDomainModule + paymentsPresentationModule +
         permissionsDomainModule + permissionsPresentationModule +
         predictionsDomainModule +
@@ -49,6 +48,8 @@ val shuttleModule =
         AppsPresentationModule::class,
 
         CoordinatesDomainModule::class,
+
+        DatabaseModule::class,
 
         IconsDataModule::class,
         IconsDomainModule::class,
