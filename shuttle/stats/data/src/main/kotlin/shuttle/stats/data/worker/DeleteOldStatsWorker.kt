@@ -6,9 +6,14 @@ import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
+import org.koin.android.annotation.KoinWorker
+import org.koin.core.annotation.Factory
+import org.koin.core.annotation.Named
 import shuttle.stats.data.usecase.DeleteOldStats
+import shuttle.stats.domain.StatsQualifier
 import kotlin.time.Duration
 
+@KoinWorker
 internal class DeleteOldStatsWorker(
     appContext: Context,
     params: WorkerParameters,
@@ -21,25 +26,28 @@ internal class DeleteOldStatsWorker(
             onFailure = { Result.failure() }
         )
 
-    class Scheduler(
-        private val workManager: WorkManager,
-        private val repeatInterval: Duration,
-        private val flexInterval: Duration
-    ) {
-
-        fun schedule() {
-            val request = PeriodicWorkRequestBuilder<DeleteOldStatsWorker>(
-                repeatInterval = repeatInterval.java(),
-                flexTimeInterval = flexInterval.java()
-            ).build()
-            workManager.enqueueUniquePeriodicWork(Name, ExistingPeriodicWorkPolicy.KEEP, request)
-        }
-
-        private fun Duration.java() = java.time.Duration.ofMinutes(inWholeMinutes)
-    }
-
     companion object {
 
         const val Name = "DeleteOldStatsWorker"
     }
+}
+
+@Factory
+class DeleteOldStatsScheduler(
+    private val workManager: WorkManager,
+    @Named(StatsQualifier.Interval.DeleteOldStats.Scheduler.Default)
+    private val repeatInterval: Duration,
+    @Named(StatsQualifier.Interval.DeleteOldStats.Scheduler.Flex)
+    private val flexInterval: Duration
+) {
+
+    fun schedule() {
+        val request = PeriodicWorkRequestBuilder<DeleteOldStatsWorker>(
+            repeatInterval = repeatInterval.java(),
+            flexTimeInterval = flexInterval.java()
+        ).build()
+        workManager.enqueueUniquePeriodicWork(DeleteOldStatsWorker.Name, ExistingPeriodicWorkPolicy.KEEP, request)
+    }
+
+    private fun Duration.java() = java.time.Duration.ofMinutes(inWholeMinutes)
 }

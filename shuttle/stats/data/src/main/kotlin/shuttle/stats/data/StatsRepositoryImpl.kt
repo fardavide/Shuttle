@@ -7,6 +7,7 @@ import korlibs.time.plus
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.mapLatest
+import org.koin.core.annotation.Factory
 import shuttle.apps.domain.model.AppId
 import shuttle.apps.domain.model.AppModel
 import shuttle.apps.domain.model.SuggestedAppModel
@@ -21,6 +22,7 @@ import shuttle.stats.data.usecase.SortAppStats
 import shuttle.stats.data.worker.DeleteOldStatsScheduler
 import shuttle.stats.domain.repository.StatsRepository
 
+@Factory
 internal class StatsRepositoryImpl(
     private val appsRepository: AppsRepository,
     private val databaseDateAndTimeMapper: DatabaseDateAndTimeMapper,

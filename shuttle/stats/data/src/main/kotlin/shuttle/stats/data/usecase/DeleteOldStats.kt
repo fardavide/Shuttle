@@ -1,10 +1,12 @@
 package shuttle.stats.data.usecase
 
 import kotlinx.coroutines.flow.first
+import org.koin.core.annotation.Factory
 import shuttle.coordinates.domain.usecase.ObserveCurrentDateTime
 import shuttle.database.datasource.StatDataSource
 import shuttle.stats.data.mapper.DatabaseDateAndTimeMapper
 
+@Factory
 internal class DeleteOldStats(
     private val databaseDateAndTimeMapper: DatabaseDateAndTimeMapper,
     private val observeCurrentDateTime: ObserveCurrentDateTime,

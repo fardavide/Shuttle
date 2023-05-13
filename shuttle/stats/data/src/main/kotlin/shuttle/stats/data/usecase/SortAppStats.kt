@@ -3,6 +3,8 @@ package shuttle.stats.data.usecase
 import arrow.core.Either
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
+import org.koin.core.annotation.Factory
+import org.koin.core.annotation.Named
 import shuttle.apps.domain.model.AppId
 import shuttle.coordinates.domain.error.LocationNotAvailable
 import shuttle.database.Stat
@@ -10,9 +12,11 @@ import shuttle.database.model.DatabaseAppId
 import shuttle.database.model.DatabaseDate
 import shuttle.database.model.DatabaseGeoHash
 import shuttle.database.model.DatabaseTime
+import shuttle.utils.kotlin.ComputationDispatcher
 
+@Factory
 internal class SortAppStats(
-    private val computationDispatcher: CoroutineDispatcher
+    @Named(ComputationDispatcher) private val computationDispatcher: CoroutineDispatcher
 ) {
 
     suspend operator fun invoke(

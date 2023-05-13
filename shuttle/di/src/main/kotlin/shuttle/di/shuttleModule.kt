@@ -25,7 +25,7 @@ import shuttle.predictions.presentation.PredictionsPresentationModule
 import shuttle.settings.data.SettingsDataModule
 import shuttle.settings.domain.SettingsDomainModule
 import shuttle.settings.presentation.SettingsPresentationModule
-import shuttle.stats.data.statsDataModule
+import shuttle.stats.data.StatsDataModule
 import shuttle.stats.domain.StatsDomainModule
 import shuttle.util.android.UtilsAndroidModule
 import shuttle.utils.kotlin.UtilsKotlinModule
@@ -33,8 +33,7 @@ import shuttle.widget.WidgetModule
 
 val shuttleModule =
     ShuttleModule().module +
-        accessibilityModule +
-        statsDataModule
+        accessibilityModule
 
 @Module(
     includes = [
@@ -67,6 +66,7 @@ val shuttleModule =
         SettingsDomainModule::class,
         SettingsPresentationModule::class,
 
+        StatsDataModule::class,
         StatsDomainModule::class,
 
         UtilsAndroidModule::class,

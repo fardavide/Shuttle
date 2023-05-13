@@ -3,10 +3,12 @@ package shuttle.stats.data.mapper
 import korlibs.time.Date
 import korlibs.time.DateTime
 import korlibs.time.Time
+import org.koin.core.annotation.Factory
 import shuttle.database.model.DatabaseDate
 import shuttle.database.model.DatabaseTime
 import shuttle.stats.data.model.DatabaseDateAndTime
 
+@Factory
 internal class DatabaseDateAndTimeMapper {
 
     fun toDatabaseDateAndTime(dateTime: DateTime) = DatabaseDateAndTime(
