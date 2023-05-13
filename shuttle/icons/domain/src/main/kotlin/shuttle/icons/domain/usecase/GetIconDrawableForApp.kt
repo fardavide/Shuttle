@@ -4,10 +4,12 @@ import android.graphics.drawable.Drawable
 import arrow.core.Either
 import arrow.core.Option
 import arrow.core.continuations.either
+import org.koin.core.annotation.Factory
 import shuttle.apps.domain.model.AppId
-import shuttle.icons.domain.IconPacksRepository
 import shuttle.icons.domain.error.GetSystemIconError
+import shuttle.icons.domain.repository.IconPacksRepository
 
+@Factory
 class GetIconDrawableForApp(
     private val getSystemIconForApp: GetSystemIconDrawableForApp,
     private val iconsPacksRepository: IconPacksRepository

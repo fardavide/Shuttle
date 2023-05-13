@@ -19,7 +19,7 @@ import org.xmlpull.v1.XmlPullParserException
 import org.xmlpull.v1.XmlPullParserFactory
 import shuttle.apps.domain.model.AppId
 import shuttle.icons.data.model.IconPack
-import shuttle.icons.domain.IconPacksRepository
+import shuttle.icons.domain.repository.IconPacksRepository
 import shuttle.utils.kotlin.IoDispatcher
 import java.io.IOException
 import java.util.Locale

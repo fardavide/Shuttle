@@ -4,10 +4,12 @@ import android.graphics.Bitmap
 import arrow.core.Either
 import arrow.core.Option
 import arrow.core.continuations.either
+import org.koin.core.annotation.Factory
 import shuttle.apps.domain.model.AppId
-import shuttle.icons.domain.IconPacksRepository
 import shuttle.icons.domain.error.GetSystemIconError
+import shuttle.icons.domain.repository.IconPacksRepository
 
+@Factory
 class GetIconBitmapForApp(
     private val getSystemIconBitmapForApp: GetSystemIconBitmapForApp,
     private val iconsPacksRepository: IconPacksRepository

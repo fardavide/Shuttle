@@ -7,12 +7,16 @@ import arrow.core.left
 import arrow.core.right
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
+import org.koin.core.annotation.Factory
+import org.koin.core.annotation.Named
 import shuttle.apps.domain.model.AppId
 import shuttle.icons.domain.error.GetSystemIconError
+import shuttle.utils.kotlin.IoDispatcher
 
+@Factory
 class GetSystemIconDrawableForApp(
     private val packageManager: PackageManager,
-    private val ioDispatcher: CoroutineDispatcher
+    @Named(IoDispatcher) private val ioDispatcher: CoroutineDispatcher
 ) {
 
     private val cache = mutableMapOf<AppId, Drawable>()

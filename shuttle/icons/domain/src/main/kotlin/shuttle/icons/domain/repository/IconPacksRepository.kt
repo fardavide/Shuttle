@@ -1,4 +1,4 @@
-package shuttle.icons.domain
+package shuttle.icons.domain.repository
 
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
