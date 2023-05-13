@@ -5,6 +5,7 @@ android.namespace 'shuttle.icons.data'
 moduleDependencies {
     implementation 'apps:domain'
     implementation 'icons:domain'
+    implementation 'utils:kotlin'
 }
 
 dependencies {

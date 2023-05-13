@@ -12,21 +12,25 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
+import org.koin.core.annotation.Factory
+import org.koin.core.annotation.Named
 import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParserException
 import org.xmlpull.v1.XmlPullParserFactory
 import shuttle.apps.domain.model.AppId
 import shuttle.icons.data.model.IconPack
 import shuttle.icons.domain.IconPacksRepository
+import shuttle.utils.kotlin.IoDispatcher
 import java.io.IOException
 import java.util.Locale
 import java.util.Random
 
+@Factory
 @Suppress("DEPRECATION")
 @SuppressLint("DiscouragedApi", "UseCompatLoadingForDrawables")
 class IconPacksRepositoryImpl(
     private val packageManager: PackageManager,
-    private val dispatcher: CoroutineDispatcher
+    @Named(IoDispatcher) private val dispatcher: CoroutineDispatcher
 ) : IconPacksRepository {
 
     private var cache = mutableMapOf<AppId, IconPack>()
