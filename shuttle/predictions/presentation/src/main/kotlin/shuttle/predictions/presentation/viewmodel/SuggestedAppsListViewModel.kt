@@ -16,6 +16,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import org.koin.android.annotation.KoinViewModel
 import shuttle.apps.domain.model.AppId
 import shuttle.icons.domain.error.GetSystemIconError
 import shuttle.predictions.domain.error.ObserveSuggestedAppsError
@@ -24,6 +25,7 @@ import shuttle.predictions.presentation.mapper.AppUiModelMapper
 import shuttle.predictions.presentation.model.AppUiModel
 import shuttle.resources.R
 
+@KoinViewModel
 internal class SuggestedAppsListViewModel(
     private val appUiModelMapper: AppUiModelMapper,
     observeSuggestedApps: ObserveSuggestedApps,

@@ -19,7 +19,7 @@ import shuttle.payments.presentation.paymentsPresentationModule
 import shuttle.permissions.domain.permissionsDomainModule
 import shuttle.permissions.presentation.permissionsPresentationModule
 import shuttle.predictions.domain.predictionsDomainModule
-import shuttle.predictions.presentation.predictionsPresentationModule
+import shuttle.predictions.presentation.PredictionsPresentationModule
 import shuttle.settings.data.SettingsDataModule
 import shuttle.settings.domain.settingsDomainModule
 import shuttle.settings.presentation.settingsPresentationModule
@@ -38,7 +38,7 @@ val shuttleModule =
         onboardingDomainModule + onboardingPresentationModule +
         paymentsDataModule + paymentsDomainModule + paymentsPresentationModule +
         permissionsDomainModule + permissionsPresentationModule +
-        predictionsDomainModule + predictionsPresentationModule +
+        predictionsDomainModule + PredictionsPresentationModule().module +
         SettingsDataModule().module + settingsDomainModule + settingsPresentationModule +
         statsDataModule + statsDomainModule +
         utilsAndroidModule + utilsKotlinModule +
