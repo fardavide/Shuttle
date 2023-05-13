@@ -42,6 +42,8 @@ include 'shuttle:permissions:domain',
 include 'shuttle:predictions:domain',
         'shuttle:predictions:presentation'
 
+include 'shuttle:resources'
+
 include 'shuttle:settings:data',
         'shuttle:settings:domain',
         'shuttle:settings:presentation'

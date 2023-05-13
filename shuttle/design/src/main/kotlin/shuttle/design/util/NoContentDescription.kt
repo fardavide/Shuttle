@@ -1,5 +1,5 @@
 package shuttle.design.util
 
-import shuttle.design.model.TextRes
+import shuttle.resources.TextRes
 
 val NoContentDescription: TextRes? = null

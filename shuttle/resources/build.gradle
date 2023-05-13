@@ -1,24 +1,16 @@
 apply plugin: 'shuttle.android.compose.library'
 
-android.namespace 'shuttle.design'
+android.namespace 'shuttle.resources'
 
 moduleDependencies {
-    api 'resources'
-
     implementation 'utils:android'
+    implementation 'utils:kotlin'
 }
 
 dependencies {
-    ksp libs.ksp.arrow
-
-    implementation libs.androidx.lifecycle.runtime
     implementation libs.bundles.base
     implementation libs.bundles.compose
-    implementation libs.navigation.compose
-
-    debugImplementation libs.compose.uiTooling
 
     testImplementation libs.bundles.test.kotlin
     androidTestImplementation libs.bundles.test.android
-    androidTestImplementation libs.compose.uiTest
 }

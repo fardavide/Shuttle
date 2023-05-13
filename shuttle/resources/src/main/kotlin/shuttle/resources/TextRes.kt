@@ -1,4 +1,4 @@
-package shuttle.design.model
+package shuttle.resources
 
 import androidx.annotation.StringRes
 import androidx.compose.runtime.Composable

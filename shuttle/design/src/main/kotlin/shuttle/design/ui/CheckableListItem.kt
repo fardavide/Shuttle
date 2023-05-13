@@ -24,9 +24,9 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
-import shuttle.design.model.TextRes
-import shuttle.design.model.stringResource
 import shuttle.design.theme.Dimens
+import shuttle.resources.TextRes
+import shuttle.resources.stringResource
 
 @Suppress("ComposableNaming")
 object CheckableListItem {

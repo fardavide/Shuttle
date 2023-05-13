@@ -10,7 +10,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import arrow.core.nonEmptyListOf
 import shuttle.design.PreviewUtils
 import shuttle.design.R.string
-import shuttle.design.model.TextRes
 import shuttle.design.theme.Dimens
 import shuttle.design.theme.ShuttleTheme
 import shuttle.design.ui.CheckableListItem
@@ -19,6 +18,7 @@ import shuttle.design.util.NoContentDescription
 import shuttle.onboarding.presentation.model.OnboardingBlacklistAppUiModel
 import shuttle.onboarding.presentation.model.OnboardingBlacklistState
 import shuttle.onboarding.presentation.model.OnboardingBlacklistUiModel
+import shuttle.resources.TextRes
 import shuttle.utils.kotlin.exhaustive
 
 @Composable

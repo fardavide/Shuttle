@@ -33,7 +33,6 @@ import org.koin.androidx.compose.getViewModel
 import shuttle.apps.domain.model.AppId
 import shuttle.design.PreviewUtils
 import shuttle.design.R
-import shuttle.design.model.TextRes
 import shuttle.design.theme.Dimens
 import shuttle.design.theme.ShuttleTheme
 import shuttle.design.ui.BackIconButton
@@ -41,6 +40,7 @@ import shuttle.design.ui.CheckableListItem
 import shuttle.design.ui.LoadingSpinner
 import shuttle.design.ui.TextError
 import shuttle.design.util.collectAsStateLifecycleAware
+import shuttle.resources.TextRes
 import shuttle.settings.presentation.model.AppBlacklistSettingUiModel
 import shuttle.settings.presentation.viewmodel.BlacklistSettingsViewModel
 import shuttle.settings.presentation.viewmodel.BlacklistSettingsViewModel.Action
