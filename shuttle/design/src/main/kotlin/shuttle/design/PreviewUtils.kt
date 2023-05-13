@@ -12,8 +12,13 @@ object PreviewUtils {
 
     object Dimens {
 
-        object Medium {
+        object Small {
 
+            const val Width = 400
+            const val Height = 660
+        }
+
+        object Medium {
             const val Width = 540
             const val Height = 900
         }

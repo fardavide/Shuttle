@@ -35,7 +35,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             ShuttleTheme {
                 // A surface container using the 'background' color from the theme
-                Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
+                Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.surface) {
                     App(onFinish = this::finish)
                 }
             }

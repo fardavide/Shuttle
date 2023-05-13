@@ -706,6 +706,7 @@ style:
       # Importing the whole package is not allowed, import only the classes you need
       'cinescout.design.R',
       # Use the relative opt-in instead
+      'androidx.compose.material3.ExperimentalMaterial3Api'
       'androidx.compose.ui.test.ExperimentalTestApi',
       'kotlinx.coroutines.ExperimentalCoroutinesApi',
       'kotlinx.coroutines.FlowPreview'
