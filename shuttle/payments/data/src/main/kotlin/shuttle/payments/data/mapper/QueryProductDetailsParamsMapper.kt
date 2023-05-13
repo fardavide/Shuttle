@@ -1,9 +1,11 @@
-package shuttle.payments.presentation.mapper
+package shuttle.payments.data.mapper
 
 import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.QueryProductDetailsParams
+import org.koin.core.annotation.Factory
 import shuttle.payments.domain.model.Product
 
+@Factory
 internal class QueryProductDetailsParamsMapper {
 
     fun toQueryProductDetailsParams(product: Product) = QueryProductDetailsParams.newBuilder()

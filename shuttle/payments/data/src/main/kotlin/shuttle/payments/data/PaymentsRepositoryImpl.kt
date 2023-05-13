@@ -9,6 +9,8 @@ import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingResult
 import com.android.billingclient.api.ProductDetails
 import com.android.billingclient.api.queryProductDetails
+import org.koin.core.annotation.Factory
+import shuttle.payments.data.mapper.QueryProductDetailsParamsMapper
 import shuttle.payments.data.util.connect
 import shuttle.payments.domain.PaymentsRepository
 import shuttle.payments.domain.model.PaymentError
@@ -16,8 +18,8 @@ import shuttle.payments.domain.model.PaymentErrorReason
 import shuttle.payments.domain.model.Product
 import shuttle.payments.domain.model.ProductPrice
 import shuttle.payments.domain.model.toSuccessOrErrorReason
-import shuttle.payments.presentation.mapper.QueryProductDetailsParamsMapper
 
+@Factory
 internal class PaymentsRepositoryImpl(
     private val billingClient: BillingClient,
     private val paramsMapper: QueryProductDetailsParamsMapper
