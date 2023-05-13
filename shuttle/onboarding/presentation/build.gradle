@@ -12,7 +12,6 @@ moduleDependencies {
     implementation 'icons:domain'
     implementation 'onboarding:domain'
     implementation 'utils:android'
-    implementation 'utils:kotlin'
 
     testImplementation 'test:kotlin'
     androidTestImplementation 'test:compose'
@@ -28,7 +27,7 @@ dependencies {
     implementation libs.koin.android
     implementation libs.navigation.compose
 
-    debugImplementation libs.compose.uiTooling
+    debugImplementation libs.bundles.compose.debug
 
     testImplementation libs.mockk
     androidTestImplementation libs.bundles.test.android

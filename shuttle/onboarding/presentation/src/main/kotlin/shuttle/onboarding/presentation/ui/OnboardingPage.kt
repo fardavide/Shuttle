@@ -10,10 +10,11 @@ import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -23,6 +24,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -119,14 +121,12 @@ internal fun OnboardingPageContent(
         }
 
         Section(weight = 1) {
-            Slider(
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(horizontal = Dimens.Margin.XXLarge),
-                value = Index.values().indexOf(index).toFloat(),
-                valueRange = 0f..Index.values().lastIndex.toFloat(),
-                steps = Index.values().size - 2,
-                onValueChange = {}
+            val progress = Index.values().indexOf(index).toFloat() / Index.values().lastIndex.toFloat()
+            LinearProgressIndicator(
+                modifier = Modifier.height(Dimens.Component.XXSmall),
+                progress = progress,
+                trackColor = MaterialTheme.colorScheme.surface,
+                strokeCap = StrokeCap.Round
             )
         }
         

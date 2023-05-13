@@ -13,6 +13,7 @@ object Dimens {
         val Large = 48.dp
     }
 
+    @Suppress("unused")
     object Margin {
 
         val XXSmall = 2.dp
@@ -24,8 +25,11 @@ object Dimens {
         val XXLarge = 48.dp
     }
 
+    @Suppress("unused")
     object Component {
 
+        val XXSmall = 16.dp
+        val XSmall = 24.dp
         val Small = 48.dp
         val Medium = 56.dp
         val Large = 64.dp
