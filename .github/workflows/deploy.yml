@@ -28,7 +28,7 @@ jobs:
       - name: Upload Android Release to Play Store - Internal track
         uses: r0adkll/upload-google-play@v1.1.1
         with:
-          track: beta
+          track: internal
           serviceAccountJsonPlainText: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
           packageName: studio.forface.shuttle
           releaseFiles: app/build/outputs/bundle/release/*.aab
