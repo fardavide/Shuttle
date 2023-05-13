@@ -16,6 +16,8 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.withContext
+import org.koin.core.annotation.Factory
+import org.koin.core.annotation.Named
 import shuttle.apps.domain.AppsRepository
 import shuttle.apps.domain.model.AppId
 import shuttle.apps.domain.model.AppModel
@@ -24,13 +26,15 @@ import shuttle.database.App
 import shuttle.database.datasource.AppDataSource
 import shuttle.database.model.DatabaseAppId
 import shuttle.settings.domain.usecase.IsBlacklisted
+import shuttle.utils.kotlin.IoDispatcher
 import kotlin.coroutines.coroutineContext
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 
+@Factory
 class AppsRepositoryImpl(
     private val dataSource: AppDataSource,
-    private val ioDispatcher: CoroutineDispatcher,
+    @Named(IoDispatcher) private val ioDispatcher: CoroutineDispatcher,
     private val isBlacklisted: IsBlacklisted,
     private val packageManager: PackageManager
 ) : AppsRepository {

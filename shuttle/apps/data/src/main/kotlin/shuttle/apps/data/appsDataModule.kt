@@ -1,17 +1,8 @@
 package shuttle.apps.data
 
-import kotlinx.coroutines.Dispatchers
-import org.koin.dsl.module
-import shuttle.apps.domain.AppsRepository
+import org.koin.core.annotation.ComponentScan
+import org.koin.core.annotation.Module
 
-val appsDataModule = module {
-
-    factory<AppsRepository> {
-        AppsRepositoryImpl(
-            dataSource = get(),
-            packageManager = get(),
-            ioDispatcher = Dispatchers.IO,
-            isBlacklisted = get()
-        )
-    }
-}
+@Module
+@ComponentScan
+class AppsDataModule
