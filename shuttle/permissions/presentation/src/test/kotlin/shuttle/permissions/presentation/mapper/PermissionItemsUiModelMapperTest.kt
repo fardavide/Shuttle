@@ -1,6 +1,5 @@
 package shuttle.permissions.presentation.mapper
 
-import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.MultiplePermissionsState
 import com.google.accompanist.permissions.PermissionState
 import com.google.accompanist.permissions.PermissionStatus
@@ -20,7 +19,6 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 @RunWith(Parameterized::class)
-@OptIn(ExperimentalPermissionsApi::class)
 internal class PermissionItemsUiModelMapperTest(
     parameters: Parameters
 ) {

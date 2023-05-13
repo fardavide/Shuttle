@@ -2,6 +2,10 @@ apply plugin: 'shuttle.android.library'
 
 android.namespace 'shuttle.permissions.domain'
 
+optIns {
+    experimentalPermissionsApi()
+}
+
 moduleDependencies {
     implementation 'utils:android'
 }

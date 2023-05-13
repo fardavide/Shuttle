@@ -4,6 +4,7 @@ android.namespace 'shuttle.settings.presentation'
 
 optIns {
     experimentalMaterial3Api()
+    experimentalPermissionsApi()
 }
 
 moduleDependencies {

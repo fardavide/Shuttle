@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -40,7 +39,6 @@ import shuttle.resources.R.drawable
 import shuttle.resources.R.string
 import shuttle.settings.presentation.viewmodel.WidgetLayoutViewModel.State
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun WidgetLayoutContainer(
     @StringRes title: Int,
@@ -78,7 +76,6 @@ internal fun WidgetLayoutContainer(
 }
 
 @Composable
-@OptIn(ExperimentalMaterial3Api::class)
 private fun TopBar(
     @StringRes title: Int,
     onBack: () -> Unit,
