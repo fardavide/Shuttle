@@ -54,6 +54,7 @@ include 'shuttle:test:compose',
         'shuttle:test:kotlin'
 
 include 'shuttle:utils:android',
+        'shuttle:utils:compose',
         'shuttle:utils:kotlin'
 
 include 'shuttle:widget'

@@ -1,0 +1,12 @@
+apply plugin: 'shuttle.android.compose.library'
+
+android.namespace 'shuttle.utils.compose'
+
+moduleDependencies {
+    api 'utils:android'
+    testImplementation 'test:compose'
+}
+
+dependencies {
+    api libs.androidx.lifecycle.viewModel
+}
