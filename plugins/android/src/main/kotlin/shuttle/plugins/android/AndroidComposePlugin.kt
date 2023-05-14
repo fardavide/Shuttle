@@ -12,6 +12,7 @@ internal class AndroidComposePlugin : Plugin<Project> {
     override fun apply(target: Project) {
         val libsCatalog = target.libsCatalog
         target.extensions.configure<TestedExtension> { ext -> configureComposeOptions(libsCatalog, ext) }
+        target.pluginManager.apply("app.cash.molecule")
     }
 
     @Suppress("UnstableApiUsage")

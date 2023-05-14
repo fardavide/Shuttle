@@ -12,6 +12,7 @@
       "groupName": "Kotlin and Compose",
       "matchPackagePrefixes": [
         "androidx.compose.compiler",
+        "app.cash.molecule",
         "com.google.devtools.ksp",
         "org.jetbrains.kotlin:kotlin"
       ],
