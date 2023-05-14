@@ -11,7 +11,7 @@ moduleDependencies {
     implementation 'accessibility'
     implementation 'design'
     implementation 'permissions:domain'
-    implementation 'utils:android'
+    implementation 'utils:compose'
 
     testImplementation 'test:kotlin'
 }

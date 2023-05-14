@@ -18,34 +18,34 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import org.koin.androidx.compose.koinViewModel
+import org.koin.core.parameter.parametersOf
 import shuttle.design.theme.ShuttleTheme
 import shuttle.design.ui.LoadingSpinner
 import shuttle.design.util.collectAsStateLifecycleAware
-import shuttle.permissions.domain.model.backgroundPermissionsList
-import shuttle.permissions.domain.model.foregroundPermissionsList
+import shuttle.permissions.presentation.action.PermissionsAction
 import shuttle.permissions.presentation.model.PermissionItem
 import shuttle.permissions.presentation.model.PermissionItemsUiModel
+import shuttle.permissions.presentation.state.PermissionsState
 import shuttle.permissions.presentation.util.openAccessibilitySettings
 import shuttle.permissions.presentation.viewmodel.PermissionsViewModel
-import shuttle.permissions.presentation.viewmodel.PermissionsViewModel.Action
-import shuttle.permissions.presentation.viewmodel.PermissionsViewModel.State
 import shuttle.resources.R
 
 @Composable
 fun PermissionsPage(toSettings: () -> Unit) {
     val context = LocalContext.current
-    val viewModel: PermissionsViewModel = koinViewModel()
+    val lifecycleOwner = LocalLifecycleOwner.current
+    val providedValues = arrayOf(
+        LocalContext provides context,
+        LocalLifecycleOwner provides lifecycleOwner
+    )
+    val viewModel: PermissionsViewModel = koinViewModel { parametersOf(providedValues) }
 
-    val foregroundLocationPermissionsState = rememberMultiplePermissionsState(foregroundPermissionsList)
-    val backgroundLocationPermissionsState = rememberMultiplePermissionsState(backgroundPermissionsList)
-
-    viewModel.submit(Action.UpdatePermissionsState(backgroundLocationPermissionsState))
-    val s by viewModel.state.collectAsStateLifecycleAware()
+    val state = viewModel.state.collectAsStateLifecycleAware().value
 
     var shouldShowAccessibilityServiceDialog by remember { mutableStateOf(false) }
     if (shouldShowAccessibilityServiceDialog) {
@@ -60,17 +60,17 @@ fun PermissionsPage(toSettings: () -> Unit) {
         )
     }
 
-    when (val state = s) {
-        State.Loading -> LoadingSpinner()
-        State.AllGranted -> LaunchedEffect(state) {
+    when (state) {
+        PermissionsState.Loading -> LoadingSpinner()
+        PermissionsState.AllGranted -> LaunchedEffect(state) {
             toSettings()
         }
 
-        is State.Pending -> PermissionsPageContent(
+        is PermissionsState.Pending -> PermissionsPageContent(
             permissions = state.permissionItemsUiModel,
             actions = PermissionsPage.Actions(
-                onRequestLocation = foregroundLocationPermissionsState::launchMultiplePermissionRequest,
-                onRequestBackgroundLocation = backgroundLocationPermissionsState::launchMultiplePermissionRequest,
+                onRequestLocation = { viewModel.submit(PermissionsAction.RequestLocation) },
+                onRequestBackgroundLocation = { viewModel.submit(PermissionsAction.RequestBackgroundLocation) },
                 onRequestAccessibilityService = { shouldShowAccessibilityServiceDialog = true },
                 toSettings = toSettings
             )

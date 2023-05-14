@@ -1,51 +1,24 @@
 package shuttle.permissions.presentation.viewmodel
 
-import androidx.lifecycle.viewModelScope
-import com.google.accompanist.permissions.MultiplePermissionsState
-import kotlinx.coroutines.launch
+import android.annotation.SuppressLint
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ProvidedValue
+import kotlinx.coroutines.flow.Flow
 import org.koin.android.annotation.KoinViewModel
-import shuttle.accessibility.usecase.IsLaunchCounterServiceEnabled
-import shuttle.permissions.presentation.mapper.PermissionItemsUiModelMapper
-import shuttle.permissions.presentation.model.PermissionItemsUiModel
-import shuttle.permissions.presentation.viewmodel.PermissionsViewModel.Action
-import shuttle.permissions.presentation.viewmodel.PermissionsViewModel.State
-import shuttle.util.android.viewmodel.ShuttleViewModel
+import org.koin.core.annotation.InjectedParam
+import shuttle.permissions.presentation.action.PermissionsAction
+import shuttle.permissions.presentation.presenter.PermissionsPresenter
+import shuttle.permissions.presentation.state.PermissionsState
+import shuttle.utils.compose.MoleculeViewModel
 
 @KoinViewModel
+@SuppressLint("StaticFieldLeak")
 internal class PermissionsViewModel(
-    private val isLaunchCounterServiceEnabled: IsLaunchCounterServiceEnabled,
-    private val permissionItemsUiModelMapper: PermissionItemsUiModelMapper
-) : ShuttleViewModel<Action, State>(initialState = State.Loading) {
+    @InjectedParam private val providedValues: Array<ProvidedValue<out Any>>,
+    private val presenter: PermissionsPresenter
+) : MoleculeViewModel<PermissionsAction, PermissionsState>() {
 
-    override fun submit(action: Action) {
-        viewModelScope.launch {
-            val newState = when (action) {
-                is Action.UpdatePermissionsState -> onPermissionsStateUpdate(action.permissionsState)
-            }
-            emit(newState)
-        }
-    }
-
-    private fun onPermissionsStateUpdate(permissionsState: MultiplePermissionsState): State {
-        val uiModel = permissionItemsUiModelMapper.toUiModel(
-            permissionsState = permissionsState,
-            isAccessibilityServiceEnabled = isLaunchCounterServiceEnabled()
-        )
-        return if (uiModel.areAllGranted()) State.AllGranted
-        else State.Pending(uiModel)
-    }
-
-    sealed interface Action {
-
-        data class UpdatePermissionsState(val permissionsState: MultiplePermissionsState) : Action
-    }
-
-    sealed interface State {
-
-        object Loading : State
-
-        object AllGranted : State
-
-        data class Pending(val permissionItemsUiModel: PermissionItemsUiModel) : State
-    }
+    @Composable
+    override fun models(actions: Flow<PermissionsAction>): PermissionsState =
+        presenter.models(actions, providedValues)
 }
