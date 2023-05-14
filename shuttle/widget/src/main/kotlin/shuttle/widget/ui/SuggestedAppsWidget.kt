@@ -18,7 +18,6 @@ import androidx.glance.action.clickable
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.GlanceAppWidgetReceiver
 import androidx.glance.appwidget.action.actionRunCallback
-import androidx.glance.appwidget.action.actionStartActivity
 import androidx.glance.appwidget.background
 import androidx.glance.appwidget.cornerRadius
 import androidx.glance.appwidget.provideContent
@@ -56,18 +55,18 @@ class SuggestedAppsWidget : GlanceAppWidget(), KoinComponent {
     override suspend fun provideGlance(context: Context, id: GlanceId) {
         provideContent {
             val state by viewModel.state.collectAsState()
+            val actions = Actions(
+                onOpenApp = { intent -> context.startActivity(intent) },
+                onRefreshLocation = actionRunCallback<RefreshCurrentLocationActionCallback>()
+            )
             ShuttleWidgetTheme {
-                Content(state)
+                Content(state, actions)
             }
         }
     }
 
     @Composable
-    private fun Content(state: SuggestedAppsState) {
-        val actions = Actions(
-            onOpenApp = ::actionStartActivity,
-            onRefreshLocation = actionRunCallback<RefreshCurrentLocationActionCallback>()
-        )
+    private fun Content(state: SuggestedAppsState, actions: Actions) {
 
         Box(
             modifier = GlanceModifier
@@ -141,7 +140,7 @@ class SuggestedAppsWidget : GlanceAppWidget(), KoinComponent {
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = GlanceModifier
                 .padding(vertical = widgetSettings.verticalSpacing, horizontal = widgetSettings.horizontalSpacing)
-                .maybeClickable(app?.launchIntent?.let(actions.onOpenApp))
+                .clickable { app?.launchIntent?.let { actions.onOpenApp(it) } }
                 .cornerRadius(WidgetDimen.CornerRadius)
         ) {
             AppIcon(icon = app?.icon, size = widgetSettings.iconSize)
@@ -184,11 +183,6 @@ class SuggestedAppsWidget : GlanceAppWidget(), KoinComponent {
 
     @Composable
     @Suppress("ModifierComposable")
-    private fun GlanceModifier.maybeClickable(action: Action?): GlanceModifier =
-        action?.let(::clickable) ?: this
-
-    @Composable
-    @Suppress("ModifierComposable")
     private fun GlanceModifier.widgetBackground(
         transparency: Float = .7f,
         useMaterialColors: Boolean = true
@@ -209,7 +203,7 @@ class SuggestedAppsWidget : GlanceAppWidget(), KoinComponent {
     }
 
     data class Actions(
-        val onOpenApp: (Intent) -> Action,
+        val onOpenApp: (Intent) -> Unit,
         val onRefreshLocation: Action
     )
 }
