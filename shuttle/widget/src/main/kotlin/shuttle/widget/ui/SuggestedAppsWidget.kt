@@ -14,6 +14,7 @@ import androidx.glance.Image
 import androidx.glance.ImageProvider
 import androidx.glance.LocalContext
 import androidx.glance.action.Action
+import androidx.glance.action.action
 import androidx.glance.action.clickable
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.GlanceAppWidgetReceiver
@@ -136,11 +137,14 @@ class SuggestedAppsWidget : GlanceAppWidget(), KoinComponent {
         widgetSettings: WidgetSettingsUiModel,
         actions: Actions
     ) {
+        val action = action(app?.id?.value) {
+            app?.launchIntent?.let { actions.onOpenApp(it) }
+        }
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = GlanceModifier
                 .padding(vertical = widgetSettings.verticalSpacing, horizontal = widgetSettings.horizontalSpacing)
-                .clickable { app?.launchIntent?.let { actions.onOpenApp(it) } }
+                .clickable(action)
                 .cornerRadius(WidgetDimen.CornerRadius)
         ) {
             AppIcon(icon = app?.icon, size = widgetSettings.iconSize)
