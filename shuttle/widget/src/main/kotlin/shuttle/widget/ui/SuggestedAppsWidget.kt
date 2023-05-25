@@ -68,7 +68,6 @@ class SuggestedAppsWidget : GlanceAppWidget(), KoinComponent {
 
     @Composable
     private fun Content(state: SuggestedAppsState, actions: Actions) {
-
         Box(
             modifier = GlanceModifier
                 .wrapContentSize()

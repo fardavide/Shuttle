@@ -41,7 +41,6 @@ import shuttle.settings.presentation.viewmodel.AboutViewModel.State
 
 @Composable
 fun AboutPage(onBack: () -> Unit) {
-
     val activity = LocalContext.current as Activity
     val snackbarHostState = remember { SnackbarHostState() }
     val viewModel: AboutViewModel = koinViewModel()

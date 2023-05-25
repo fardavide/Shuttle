@@ -38,7 +38,7 @@ import shuttle.design.ui.CheckableListItem
 import shuttle.design.ui.LoadingSpinner
 import shuttle.design.ui.TextError
 import shuttle.design.util.collectAsStateLifecycleAware
-import shuttle.resources.R
+import shuttle.resources.R.string
 import shuttle.resources.TextRes
 import shuttle.settings.presentation.model.AppBlacklistSettingUiModel
 import shuttle.settings.presentation.viewmodel.BlacklistSettingsViewModel
@@ -53,7 +53,7 @@ fun BlacklistSettingsPage(onBack: () -> Unit) {
             .navigationBarsPadding(),
         topBar = {
             TopAppBar(
-                title = { Text(stringResource(id = R.string.settings_blacklist_title)) },
+                title = { Text(stringResource(id = string.settings_blacklist_title)) },
                 navigationIcon = { BackIconButton(onBack) }
             )
         }
@@ -93,7 +93,7 @@ private fun SearchBar(onSearch: (String) -> Unit) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(start = Dimens.Margin.Large, end = Dimens.Margin.Large, bottom = Dimens.Margin.Small),
-        placeholder = { Text(text = stringResource(id = R.string.settings_blacklist_search)) },
+        placeholder = { Text(text = stringResource(id = string.settings_blacklist_search)) },
         singleLine = true,
         keyboardOptions = KeyboardOptions(
             capitalization = KeyboardCapitalization.Sentences,
@@ -129,7 +129,7 @@ private fun AppListItem(app: AppBlacklistSettingUiModel, actions: AppListItem.Ac
         id = app.id,
         title = TextRes(app.name),
         iconDrawable = app.icon,
-        contentDescription = TextRes(R.string.x_app_icon_description),
+        contentDescription = TextRes(string.x_app_icon_description),
         isChecked = app.isBlacklisted,
         onCheckChange = onCheckChange
     )

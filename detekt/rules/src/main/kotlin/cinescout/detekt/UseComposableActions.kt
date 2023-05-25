@@ -51,7 +51,6 @@ class UseComposableActions : Rule() {
 
         val annotationNames = function.annotationEntries.map { annotation -> annotation.shortName.toString() }
         if ("Composable" in annotationNames) {
-
             val lambdaParametersCount = function.valueParameters.count(::isNotComposableLambda)
             if (lambdaParametersCount >= Threshold) {
                 report(CodeSmell(issue, Entity.atName(function), Message))

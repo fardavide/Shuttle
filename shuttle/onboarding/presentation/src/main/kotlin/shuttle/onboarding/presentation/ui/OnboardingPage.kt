@@ -38,7 +38,7 @@ import shuttle.design.util.collectAsStateLifecycleAware
 import shuttle.onboarding.presentation.model.OnboardingState
 import shuttle.onboarding.presentation.ui.OnboardingPage.Index
 import shuttle.onboarding.presentation.viewmodel.OnboardingViewModel
-import shuttle.resources.R
+import shuttle.resources.R.string
 import shuttle.utils.kotlin.exhaustive
 
 @Composable
@@ -99,7 +99,6 @@ internal fun OnboardingPageContent(
         verticalArrangement = Arrangement.SpaceEvenly,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-
         Section(weight = 1) {
             Text(
                 text = stringResource(id = title),
@@ -133,18 +132,18 @@ internal fun OnboardingPageContent(
         Section(weight = 1, horizontalArrangement = Arrangement.SpaceBetween) {
             if (index.isFirst().not()) {
                 Button(onClick = navigationActions.onPrevious) {
-                    Text(text = stringResource(id = R.string.onboarding_action_previous))
+                    Text(text = stringResource(id = string.onboarding_action_previous))
                 }
             } else {
                 Box(modifier = Modifier)
             }
             if (index.isLast().not()) {
                 Button(onClick = navigationActions.onNext) {
-                    Text(text = stringResource(id = R.string.onboarding_action_next))
+                    Text(text = stringResource(id = string.onboarding_action_next))
                 }
             } else {
                 Button(onClick = navigationActions.onComplete) {
-                    Text(text = stringResource(id = R.string.onboarding_action_complete))
+                    Text(text = stringResource(id = string.onboarding_action_complete))
                 }
             }
         }
@@ -178,7 +177,10 @@ internal fun Modifier.imageContainerBackground() = composed {
 object OnboardingPage {
 
     enum class Index {
-        MAIN, WIDGET, WIDGET_LAYOUT, BLACKLIST;
+        MAIN,
+        WIDGET,
+        WIDGET_LAYOUT,
+        BLACKLIST;
 
         fun intValue() = values().indexOf(this)
         fun isFirst() = intValue() == 0

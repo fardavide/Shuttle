@@ -1,26 +1,10 @@
 build:
   maxIssues: 0
   excludeCorrectable: false
-  weights:
-  # complexity: 2
-  # LongParameterList: 1
-  # style: 1
-  # comments: 1
 
 config:
-  excludes: ''
   validation: true
   warningsAsErrors: true
-
-processors:
-  active: true
-  exclude:
-    - 'DetektProgressListener'
-  # - 'FunctionCountProcessor'
-  # - 'PropertyCountProcessor'
-  # - 'ClassCountProcessor'
-  # - 'PackageCountProcessor'
-  # - 'KtFileCountProcessor'
 
 console-reports:
   active: true
@@ -283,17 +267,26 @@ formatting:
   CommentWrapping:
     active: true
     autoCorrect: true
+  ClassName:
+    active: true
+    autoCorrect: true
   DiscouragedCommentLocation:
     active: false
   EnumEntryNameCase:
     active: false
     # autoCorrect: true
+  EnumWrapping:
+    active: true
+    autoCorrect: true
   Filename:
     active: false
   FinalNewline:
     active: true
     autoCorrect: true
     insertFinalNewLine: true
+  FunctionName:
+    active: false
+    autoCorrect: true
   FunctionTypeReferenceSpacing:
     active: true
     autoCorrect: true
@@ -309,9 +302,15 @@ formatting:
     indentSize: 4
   FunctionStartOfBodySpacing:
     active: false
-    autoCorrect: false
+    autoCorrect: true
   FunKeywordSpacing:
     active: true
+    autoCorrect: true
+  IfElseBracing:
+    active: true
+    autoCorrect: true
+  IfElseWrapping:
+    active: false
     autoCorrect: true
   ImportOrdering:
     active: false
@@ -336,21 +335,33 @@ formatting:
   ModifierOrdering:
     active: false
     # autoCorrect: true
+  MultilineExpressionWrapping:
+    active: false
+    autoCorrect: true
   MultiLineIfElse:
     active: false
-    # autoCorrect: false
+    # autoCorrect: true
   NoBlankLineBeforeRbrace:
     active: false
     # autoCorrect: true
+  NoBlankLineInList:
+    active: true
+    autoCorrect: true
   NoConsecutiveBlankLines:
     active: false
     # autoCorrect: true
+  NoConsecutiveComments:
+    active: true
+    autoCorrect: true
   NoEmptyClassBody:
     active: false
     # autoCorrect: true
   NoEmptyFirstLineInMethodBlock:
+    active: true
+    autoCorrect: true
+  NoEmptyFirstLineInClassBody:
     active: false
-    # autoCorrect: true
+    autoCorrect: true
   NoLineBreakAfterElse:
     active: false
     # autoCorrect: true
@@ -361,6 +372,9 @@ formatting:
     active: true
     autoCorrect: true
   NoSemicolons:
+    active: true
+    autoCorrect: true
+  NoSingleLineBlockCommentRule:
     active: true
     autoCorrect: true
   NoTrailingSpaces:
@@ -386,6 +400,14 @@ formatting:
     active: true
     autoCorrect: true
   ParameterListWrapping:
+    active: true
+    autoCorrect: true
+  ParameterWrapping:
+    active: true
+    autoCorrect: true
+  PropertyName:
+    active: false
+  PropertyWrapping:
     active: true
     autoCorrect: true
   SpacingAroundAngleBrackets:
@@ -435,6 +457,9 @@ formatting:
   StringTemplate:
     active: true
     autoCorrect: true
+  StringTemplateIndent:
+    active: true
+    autoCorrect: true
   TrailingCommaOnCallSite:
     active: true
     autoCorrect: true
@@ -443,6 +468,9 @@ formatting:
     active: true
     autoCorrect: true
     useTrailingCommaOnDeclarationSite: false
+  TryCatchFinallySpacing:
+    active: true
+    autoCorrect: true
   TypeArgumentListSpacing:
     active: true
     autoCorrect: true
@@ -496,7 +524,7 @@ naming:
     excludeClassPattern: '$^'
   InvalidPackageDeclaration:
     active: false
-    rootPackage: ''
+    # rootPackage: ''
   LambdaParameterNaming:
     active: false
     # parameterPattern: '[a-z][A-Za-z0-9]*|_'
@@ -567,6 +595,7 @@ potential-bugs:
     active: true
   ElseCaseInsteadOfExhaustiveWhen:
     active: true
+    ignoredSubjectTypes: []
   EqualsAlwaysReturnsTrueOrFalse:
     active: true
   EqualsWithHashCodeExist:
@@ -629,6 +658,8 @@ potential-bugs:
     active: true
   NullCheckOnMutableProperty:
     active: false
+  PropertyUsedBeforeDeclaration:
+    active: true
   UnconditionalJumpStatementInLoop:
     active: false
   UnnecessaryNotNullCheck:
@@ -658,6 +689,10 @@ style:
     active: true
     singleLine: 'never'
     multiLine: 'consistent'
+  BracesOnWhenStatements:
+    active: true
+    singleLine: 'never'
+    multiLine: 'necessary'
   DoubleNegativeLambda:
     active: true
     negativeFunctions: ['takeUnless', 'none']
@@ -698,16 +733,16 @@ style:
     annotations: []
   ForbiddenComment:
     active: true
-    values: [FIXME', 'STOPSHIP']
+    comments: ['FIXME', 'STOPSHIP']
     allowedPatterns: ''
   ForbiddenImport:
     active: true
     imports: [
       # Importing the whole package is not allowed, import only the classes you need
-      'shuttle.design.R',
+      '*.resources.R',
       # Use the relative opt-in instead
       '*.Experimental*Api',
-      'kotlinx.coroutines.FlowPreview'
+      'kotlinx.coroutines.FlowPreview',
     ]
     forbiddenPatterns: ''
   ForbiddenMethodCall:
@@ -863,6 +898,8 @@ style:
     active: true
   UnnecessaryBackticks:
     active: true
+  UnnecessaryBracesAroundTrailingLambda:
+    active: true
   UnnecessaryInheritance:
     active: true
   UnnecessaryInnerClass:
@@ -925,6 +962,8 @@ style:
     active: false
     ignoreWhenContainingVariableDeclaration: true
   UseIsNullOrEmpty:
+    active: true
+  UseLet:
     active: true
   UseOrEmpty:
     active: true

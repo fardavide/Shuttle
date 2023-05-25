@@ -36,7 +36,7 @@ import shuttle.design.theme.Dimens
 import shuttle.design.ui.BackIconButton
 import shuttle.design.ui.LoadingSpinner
 import shuttle.design.util.collectAsStateLifecycleAware
-import shuttle.resources.R
+import shuttle.resources.R.string
 import shuttle.settings.presentation.model.IconPackSettingsItemUiModel
 import shuttle.settings.presentation.model.IconPackSettingsItemUiModel.FromApp
 import shuttle.settings.presentation.model.IconPackSettingsItemUiModel.SystemDefault
@@ -50,7 +50,7 @@ fun IconPackSettingsPage(onBack: () -> Unit) {
         modifier = Modifier.statusBarsPadding().navigationBarsPadding(),
         topBar = {
             TopAppBar(
-                title = { Text(stringResource(id = R.string.settings_icon_pack_title)) },
+                title = { Text(stringResource(id = string.settings_icon_pack_title)) },
                 navigationIcon = { BackIconButton(onBack) }
             )
         }
@@ -113,7 +113,7 @@ private fun FromAppIconPackItem(
         if (icon != null) {
             Image(
                 painter = rememberAsyncImagePainter(model = icon),
-                contentDescription = stringResource(id = R.string.x_app_icon_description),
+                contentDescription = stringResource(id = string.x_app_icon_description),
                 modifier = Modifier.size(Dimens.Icon.Medium)
             )
             Spacer(modifier = Modifier.width(Dimens.Margin.Medium))

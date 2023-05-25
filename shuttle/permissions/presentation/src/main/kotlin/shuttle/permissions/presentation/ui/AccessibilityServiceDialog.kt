@@ -18,7 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import shuttle.design.theme.Dimens
 import shuttle.design.theme.ShuttleTheme
 import shuttle.design.ui.ShuttleModalBottomSheet
-import shuttle.resources.R
+import shuttle.resources.R.string
 
 @Composable
 internal fun AccessibilityServiceDialog(
@@ -30,13 +30,13 @@ internal fun AccessibilityServiceDialog(
             modifier = Modifier.padding(Dimens.Margin.Large),
             verticalArrangement = Arrangement.spacedBy(Dimens.Margin.Medium)
         ) {
-            Text(text = stringResource(id = R.string.permissions_accessibility_dialog_disclosure))
+            Text(text = stringResource(id = string.permissions_accessibility_dialog_disclosure))
             Row(horizontalArrangement = Arrangement.End, modifier = Modifier.fillMaxWidth()) {
                 TextButton(onClick = actions.onDismiss) {
-                    Text(text = stringResource(id = R.string.permissions_accessibility_dialog_cancel_action))
+                    Text(text = stringResource(id = string.permissions_accessibility_dialog_cancel_action))
                 }
                 TextButton(onClick = actions.onConfirm) {
-                    Text(text = stringResource(id = R.string.permissions_accessibility_dialog_confirm_action))
+                    Text(text = stringResource(id = string.permissions_accessibility_dialog_confirm_action))
                 }
             }
         }

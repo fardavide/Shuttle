@@ -19,7 +19,6 @@ internal class PermissionItemsUiModelMapper(
         permissionsState: MultiplePermissionsState,
         isAccessibilityServiceEnabled: Boolean
     ): PermissionItemsUiModel {
-
         val coarseLocation =
             if (hasCoarseLocation(permissionsState)) PermissionItem.Location.Coarse.Granted
             else PermissionItem.Location.Coarse.NotGranted

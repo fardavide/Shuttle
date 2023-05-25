@@ -29,7 +29,7 @@ import shuttle.design.PreviewUtils
 import shuttle.design.theme.Dimens
 import shuttle.design.theme.ShuttleTheme
 import shuttle.permissions.presentation.model.PermissionItemUiModel
-import shuttle.resources.R
+import shuttle.resources.R.string
 
 @Composable
 internal fun PermissionItem(permissionItem: PermissionItemUiModel, onRequestPermission: () -> Unit) {
@@ -123,8 +123,8 @@ private fun NotGrantedPermissionItem(
 @Preview(showBackground = true, widthDp = PreviewUtils.Dimens.Small.Width)
 private fun GrantedPermissionItemPreview() {
     val uiModel = PermissionItemUiModel.Granted(
-        name = R.string.permissions_location_background_name,
-        permissionGrantedDescription = R.string.permissions_location_background_granted_description
+        name = string.permissions_location_background_name,
+        permissionGrantedDescription = string.permissions_location_background_granted_description
     )
     ShuttleTheme {
         PermissionItem(uiModel, onRequestPermission = {})
@@ -135,10 +135,10 @@ private fun GrantedPermissionItemPreview() {
 @Preview(showBackground = true, widthDp = PreviewUtils.Dimens.Small.Width)
 private fun NotGrantedPermissionItemPreview() {
     val uiModel = PermissionItemUiModel.NotGranted(
-        name = R.string.permissions_location_background_name,
-        description = R.string.permissions_location_background_description,
-        permissionNotGrantedDescription = R.string.permissions_location_background_not_granted_description,
-        buttonText = R.string.permissions_location_action
+        name = string.permissions_location_background_name,
+        description = string.permissions_location_background_description,
+        permissionNotGrantedDescription = string.permissions_location_background_not_granted_description,
+        buttonText = string.permissions_location_action
     )
     ShuttleTheme {
         PermissionItem(uiModel, onRequestPermission = {})

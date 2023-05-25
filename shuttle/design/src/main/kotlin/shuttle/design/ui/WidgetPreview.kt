@@ -28,7 +28,7 @@ import shuttle.design.model.WidgetLayoutUiModel
 import shuttle.design.model.WidgetPreviewAppUiModel
 import shuttle.design.model.WidgetPreviewUiModel
 import shuttle.design.theme.Dimens
-import shuttle.resources.R
+import shuttle.resources.R.string
 import shuttle.utils.kotlin.takeOrFillWithNulls
 
 @Composable
@@ -81,10 +81,9 @@ private fun AppIconItem(app: WidgetPreviewAppUiModel?, widgetSettings: WidgetLay
             horizontal = widgetSettings.horizontalSpacing
         )
     ) {
-
         Image(
             painter = rememberAsyncImagePainter(model = app.icon),
-            contentDescription = stringResource(id = R.string.x_app_icon_description),
+            contentDescription = stringResource(id = string.x_app_icon_description),
             modifier = Modifier.size(widgetSettings.iconSize)
         )
         Spacer(modifier = Modifier.height(widgetSettings.verticalSpacing))

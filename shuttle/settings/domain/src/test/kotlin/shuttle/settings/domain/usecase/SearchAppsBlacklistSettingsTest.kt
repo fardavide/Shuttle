@@ -78,37 +78,31 @@ class SearchAppsBlacklistSettingsTest(
         @JvmStatic
         @Parameterized.Parameters(name = "{0}")
         fun data() = listOf(
-
             Params(
                 testName = "empty query",
                 query = "",
                 expected = AllAppBlacklistSettings
             ),
-
             Params(
                 testName = "'Tw' query",
                 query = "Tw",
                 expected = listOf(TwitchApp, TwitterApp)
             ),
-
             Params(
                 testName = "'le' query",
                 query = "le",
                 expected = listOf(ShuttleApp, TelegramApp)
             ),
-
             Params(
                 testName = "different case query",
                 query = "SHU",
                 expected = listOf(ShuttleApp)
             ),
-
             Params(
                 testName = "no matching query",
                 query = "not matching",
                 expected = emptyList()
             )
-
         ).map { arrayOf(it.testName, it.query, it.expected) }
 
         private fun buildAppModel(name: String) = AppModel(

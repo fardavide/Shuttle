@@ -33,7 +33,7 @@ import shuttle.permissions.presentation.model.PermissionItemsUiModel
 import shuttle.permissions.presentation.state.PermissionsState
 import shuttle.permissions.presentation.util.openAccessibilitySettings
 import shuttle.permissions.presentation.viewmodel.PermissionsViewModel
-import shuttle.resources.R
+import shuttle.resources.R.string
 
 @Composable
 fun PermissionsPage(toSettings: () -> Unit) {
@@ -91,12 +91,12 @@ private fun PermissionsPageContent(
         topBar = {
             TopAppBar(
                 modifier = Modifier.statusBarsPadding(),
-                title = { Text(text = stringResource(id = R.string.permissions_title)) }
+                title = { Text(text = stringResource(id = string.permissions_title)) }
             )
         },
         floatingActionButton = {
             ExtendedFloatingActionButton(onClick = actions.toSettings) {
-                Text(text = stringResource(id = R.string.permissions_skip_permissions_action))
+                Text(text = stringResource(id = string.permissions_skip_permissions_action))
             }
         }
     ) { paddingValues ->

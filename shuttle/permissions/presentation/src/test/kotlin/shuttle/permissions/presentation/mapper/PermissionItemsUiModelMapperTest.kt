@@ -75,7 +75,6 @@ internal class PermissionItemsUiModelMapperTest(
         @JvmStatic
         @Parameterized.Parameters(name = "{index}: {0}")
         fun data() = listOf(
-
             Parameters(
                 testName = "All granted",
                 Input(
@@ -91,7 +90,6 @@ internal class PermissionItemsUiModelMapperTest(
                     PermissionItem.Accessibility.Granted
                 )
             ),
-
             Parameters(
                 testName = "None granted",
                 input = Input(
@@ -107,7 +105,6 @@ internal class PermissionItemsUiModelMapperTest(
                     PermissionItem.Accessibility.NotGranted
                 )
             ),
-
             Parameters(
                 testName = "Only all location granted",
                 input = Input(
@@ -123,7 +120,6 @@ internal class PermissionItemsUiModelMapperTest(
                     PermissionItem.Accessibility.NotGranted
                 )
             ),
-
             Parameters(
                 testName = "Only accessibility granted",
                 input = Input(
@@ -139,7 +135,6 @@ internal class PermissionItemsUiModelMapperTest(
                     PermissionItem.Accessibility.Granted
                 )
             ),
-
             Parameters(
                 testName = "Only coarse and fine location granted",
                 input = Input(
@@ -155,7 +150,6 @@ internal class PermissionItemsUiModelMapperTest(
                     PermissionItem.Accessibility.NotGranted
                 )
             )
-
         ).map { arrayOf(it) }
 
         private fun buildMultiplePermissionsState(
