@@ -3,7 +3,7 @@ package shuttle.settings.presentation.ui.content
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import shuttle.design.model.WidgetLayoutUiModel
-import shuttle.resources.R
+import shuttle.resources.R.string
 import shuttle.settings.domain.model.WidgetSettings
 import shuttle.settings.presentation.ui.component.SliderItem
 
@@ -15,7 +15,7 @@ internal fun WidgetIconsDimensionsContent(
     LazyColumn {
         item {
             SliderItem(
-                title = R.string.settings_widget_layout_icons_size,
+                title = string.settings_widget_layout_icons_size,
                 valueRange = WidgetSettings.IconsSizeRange,
                 stepsSize = 1,
                 value = settings.iconSize.value.toInt(),
@@ -24,7 +24,7 @@ internal fun WidgetIconsDimensionsContent(
         }
         item {
             SliderItem(
-                title = R.string.settings_widget_layout_horizontal_spacing,
+                title = string.settings_widget_layout_horizontal_spacing,
                 valueRange = WidgetSettings.HorizontalSpacingRange,
                 stepsSize = 1,
                 value = settings.horizontalSpacing.value.toInt(),
@@ -33,7 +33,7 @@ internal fun WidgetIconsDimensionsContent(
         }
         item {
             SliderItem(
-                title = R.string.settings_widget_layout_vertical_spacing,
+                title = string.settings_widget_layout_vertical_spacing,
                 valueRange = WidgetSettings.VerticalSpacingRange,
                 stepsSize = 1,
                 value = settings.verticalSpacing.value.toInt(),

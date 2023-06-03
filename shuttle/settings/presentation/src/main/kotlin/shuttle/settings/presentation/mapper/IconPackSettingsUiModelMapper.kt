@@ -9,7 +9,7 @@ import shuttle.apps.domain.model.AppId
 import shuttle.apps.domain.model.AppModel
 import shuttle.icons.domain.error.GetSystemIconError
 import shuttle.icons.domain.usecase.GetSystemIconDrawableForApp
-import shuttle.resources.R
+import shuttle.resources.R.string
 import shuttle.settings.presentation.model.IconPackSettingsItemUiModel
 
 @Factory
@@ -22,7 +22,7 @@ internal class IconPackSettingsUiModelMapper(
         selectedIconPack: Option<AppId>
     ): List<Either<GetSystemIconError, IconPackSettingsItemUiModel>> {
         val systemDefaultUiModel = IconPackSettingsItemUiModel.SystemDefault(
-            name = R.string.settings_icon_pack_system_default,
+            name = string.settings_icon_pack_system_default,
             isSelected = selectedIconPack.isEmpty()
         ).right()
         val iconsPacksModels = iconPacks

@@ -9,7 +9,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import shuttle.design.theme.Dimens
 import shuttle.design.theme.ShuttleTheme
-import shuttle.resources.R
+import shuttle.resources.R.drawable
 import shuttle.resources.R.string
 
 @Composable
@@ -20,7 +20,7 @@ internal fun OnboardingMainPage(actions: OnboardingPage.NavigationActions) {
         content = {
             Image(
                 modifier = Modifier.size(Dimens.Component.XXXLarge),
-                painter = painterResource(id = R.drawable.ic_shuttle_foreground),
+                painter = painterResource(id = drawable.ic_shuttle_foreground),
                 contentDescription = stringResource(id = string.x_app_icon_description)
             )
         },

@@ -2,33 +2,33 @@ package shuttle.settings.presentation
 
 import androidx.annotation.StringRes
 import shuttle.design.Destination
-import shuttle.resources.R
+import shuttle.resources.R.string
 
 object WidgetLayout : Destination("widget layout") {
 
     internal object Home : WidgetLayoutDestination(
         id = "home",
-        title = R.string.settings_widget_layout_title
+        title = string.settings_widget_layout_title
     )
 
     internal object Grid : WidgetLayoutDestination(
         id = "grid",
-        title = R.string.settings_widget_layout_grid
+        title = string.settings_widget_layout_grid
     )
 
     internal object IconsDimensions : WidgetLayoutDestination(
         id = "icons dimensions",
-        title = R.string.settings_widget_layout_icons_dimensions
+        title = string.settings_widget_layout_icons_dimensions
     )
 
     internal object AppsLabels : WidgetLayoutDestination(
         id = "apps labels",
-        title = R.string.settings_widget_layout_apps_labels
+        title = string.settings_widget_layout_apps_labels
     )
 
     internal object Colors : WidgetLayoutDestination(
         id = "colors",
-        title = R.string.settings_widget_layout_colors
+        title = string.settings_widget_layout_colors
     )
 }
 

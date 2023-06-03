@@ -23,7 +23,7 @@ import shuttle.predictions.domain.error.ObserveSuggestedAppsError
 import shuttle.predictions.domain.usecase.ObserveSuggestedApps
 import shuttle.predictions.presentation.mapper.AppUiModelMapper
 import shuttle.predictions.presentation.model.AppUiModel
-import shuttle.resources.R
+import shuttle.resources.R.string
 
 @KoinViewModel
 internal class SuggestedAppsListViewModel(
@@ -68,7 +68,7 @@ internal class SuggestedAppsListViewModel(
         mapNotNull { it.getOrNull() }.toImmutableList()
 
     private fun ObserveSuggestedAppsError.toMessage() = when (this) {
-        ObserveSuggestedAppsError.LocationNotAvailable -> R.string.predictions_location_not_available
+        ObserveSuggestedAppsError.LocationNotAvailable -> string.predictions_location_not_available
     }
 
     sealed interface State {

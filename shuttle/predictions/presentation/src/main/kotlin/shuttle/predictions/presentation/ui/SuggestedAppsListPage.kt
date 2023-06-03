@@ -43,19 +43,19 @@ import shuttle.predictions.presentation.model.AppUiModel
 import shuttle.predictions.presentation.viewmodel.SuggestedAppsListViewModel
 import shuttle.predictions.presentation.viewmodel.SuggestedAppsListViewModel.Action
 import shuttle.predictions.presentation.viewmodel.SuggestedAppsListViewModel.State
-import shuttle.resources.R
+import shuttle.resources.R.string
 
 @Composable
 fun SuggestedAppsListPage(onSettings: () -> Unit) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(stringResource(id = R.string.app_name)) },
+                title = { Text(stringResource(id = string.app_name)) },
                 actions = {
                     IconButton(onClick = onSettings) {
                         Icon(
                             imageVector = Icons.Filled.Settings,
-                            contentDescription = stringResource(id = R.string.settings_icon_description)
+                            contentDescription = stringResource(id = string.settings_icon_description)
                         )
                     }
                 }
@@ -105,7 +105,7 @@ private fun AppIconItem(app: AppUiModel, onAppClicked: (AppId) -> Unit) {
     ) {
         Image(
             painter = rememberAsyncImagePainter(model = app.icon),
-            contentDescription = stringResource(id = R.string.x_app_icon_description),
+            contentDescription = stringResource(id = string.x_app_icon_description),
             modifier = Modifier.size(Dimens.Icon.Large)
         )
         Spacer(modifier = Modifier.height(Dimens.Margin.Small))

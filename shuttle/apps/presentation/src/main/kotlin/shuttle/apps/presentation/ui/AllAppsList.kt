@@ -26,7 +26,7 @@ import shuttle.apps.presentation.model.AppUiModel
 import shuttle.apps.presentation.viewmodel.AllAppsListViewModel
 import shuttle.design.theme.Dimens
 import shuttle.design.ui.TextError
-import shuttle.resources.R
+import shuttle.resources.R.string
 
 @Composable
 fun AllAppsListPage() {
@@ -54,7 +54,7 @@ internal fun AppListItem(app: AppUiModel) {
     Row(modifier = Modifier.padding(vertical = Dimens.Margin.Medium)) {
         Image(
             painter = rememberAsyncImagePainter(model = app.icon),
-            contentDescription = stringResource(id = R.string.x_app_icon_description),
+            contentDescription = stringResource(id = string.x_app_icon_description),
             modifier = Modifier.size(Dimens.Icon.Large)
         )
         Spacer(modifier = Modifier.width(Dimens.Margin.Large))

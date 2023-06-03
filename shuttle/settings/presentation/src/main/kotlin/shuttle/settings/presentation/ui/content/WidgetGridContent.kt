@@ -3,7 +3,7 @@ package shuttle.settings.presentation.ui.content
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import shuttle.design.model.WidgetLayoutUiModel
-import shuttle.resources.R
+import shuttle.resources.R.string
 import shuttle.settings.domain.model.WidgetSettings
 import shuttle.settings.presentation.ui.component.SliderItem
 
@@ -12,7 +12,7 @@ internal fun WidgetGridContent(settings: WidgetLayoutUiModel, actions: WidgetGri
     LazyColumn {
         item {
             SliderItem(
-                title = R.string.settings_widget_layout_rows_count,
+                title = string.settings_widget_layout_rows_count,
                 valueRange = WidgetSettings.RowsCountRange,
                 stepsSize = 1,
                 value = settings.rowsCount,
@@ -21,7 +21,7 @@ internal fun WidgetGridContent(settings: WidgetLayoutUiModel, actions: WidgetGri
         }
         item {
             SliderItem(
-                title = R.string.settings_widget_layout_columns_count,
+                title = string.settings_widget_layout_columns_count,
                 valueRange = WidgetSettings.ColumnsCountRange,
                 stepsSize = 1,
                 value = settings.columnsCount,

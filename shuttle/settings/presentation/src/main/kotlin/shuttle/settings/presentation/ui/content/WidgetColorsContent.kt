@@ -3,7 +3,7 @@ package shuttle.settings.presentation.ui.content
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import shuttle.design.model.WidgetLayoutUiModel
-import shuttle.resources.R
+import shuttle.resources.R.string
 import shuttle.settings.domain.model.WidgetSettings
 import shuttle.settings.presentation.ui.component.SliderItem
 import shuttle.settings.presentation.ui.component.SwitchItem
@@ -13,14 +13,14 @@ internal fun WidgetColorsContent(settings: WidgetLayoutUiModel, actions: WidgetC
     LazyColumn {
         item {
             SwitchItem(
-                title = R.string.settings_widget_colors_use_material_colors,
+                title = string.settings_widget_colors_use_material_colors,
                 value = settings.useMaterialColors,
                 onValueChange = actions.onUseMaterialColorsUpdated
             )
         }
         item {
             SliderItem(
-                title = R.string.settings_widget_colors_transparency,
+                title = string.settings_widget_colors_transparency,
                 valueRange = WidgetSettings.TransparencyRange,
                 stepsSize = 1,
                 value = settings.transparency,
