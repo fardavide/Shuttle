@@ -19,11 +19,11 @@ class ObserveSuggestedApps(
     private val observeSuggestedApps: ObserveSuggestedAppsByCoordinates
 ) {
 
-    operator fun invoke(): Flow<Either<ObserveSuggestedAppsError, List<SuggestedAppModel>>> =
+    operator fun invoke(takeAtLeast: Int): Flow<Either<ObserveSuggestedAppsError, List<SuggestedAppModel>>> =
         observeCurrentCoordinates().flatMapLatest { coordinatesResult ->
             coordinatesResult.fold(
                 ifLeft = { flowOf(ObserveSuggestedAppsError.LocationNotAvailable.left()) },
-                ifRight = { coordinates -> observeSuggestedApps(coordinates).map { it.right() } }
+                ifRight = { coordinates -> observeSuggestedApps(coordinates, takeAtLeast).map { it.right() } }
             )
         }
 }

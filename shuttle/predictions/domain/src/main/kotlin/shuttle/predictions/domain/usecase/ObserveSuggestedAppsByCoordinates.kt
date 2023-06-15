@@ -10,7 +10,7 @@ import shuttle.stats.domain.repository.StatsRepository
 
 interface ObserveSuggestedAppsByCoordinates {
 
-    operator fun invoke(coordinates: Coordinates): Flow<List<SuggestedAppModel>>
+    operator fun invoke(coordinates: Coordinates, takeAtLeast: Int): Flow<List<SuggestedAppModel>>
 }
 
 @Factory
@@ -19,7 +19,7 @@ internal class RealObserveSuggestedAppsByCoordinates(
     private val timeToTimeRange: TimeToTimeRange
 ) : ObserveSuggestedAppsByCoordinates {
 
-    override operator fun invoke(coordinates: Coordinates): Flow<List<SuggestedAppModel>> {
+    override operator fun invoke(coordinates: Coordinates, takeAtLeast: Int): Flow<List<SuggestedAppModel>> {
         val (startTime, endTime) = with(timeToTimeRange(coordinates.dateTime.time, DefaultValuesSpans.Time)) {
             start to endInclusive
         }
@@ -27,7 +27,8 @@ internal class RealObserveSuggestedAppsByCoordinates(
             location = Option(coordinates.location),
             date = coordinates.dateTime.date,
             startTime = startTime,
-            endTime = endTime
+            endTime = endTime,
+            takeAtLeast = takeAtLeast
         )
     }
 }

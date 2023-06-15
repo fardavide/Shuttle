@@ -39,7 +39,8 @@ class StatsRepositoryImplTest : AnnotationSpec() {
                 location = any(),
                 date = any(),
                 startTime = any(),
-                endTime = any()
+                endTime = any(),
+                takeAtLeast = any()
             )
         } answers {
             val stats = firstArg<List<DatabaseStat>>()
@@ -80,7 +81,8 @@ class StatsRepositoryImplTest : AnnotationSpec() {
             location = GeoHashTestData.Home.some(),
             date = DateTestData.Today,
             startTime = TimeTestData.Midnight,
-            endTime = TimeTestData.Midnight
+            endTime = TimeTestData.Midnight,
+            takeAtLeast = Int.MAX_VALUE
         )
             .first()
             .sortedBy { it.id.value }
@@ -100,7 +102,8 @@ class StatsRepositoryImplTest : AnnotationSpec() {
             location = GeoHashTestData.Home.some(),
             date = DateTestData.Today,
             startTime = TimeTestData.Midnight,
-            endTime = TimeTestData.Midnight
+            endTime = TimeTestData.Midnight,
+            takeAtLeast = Int.MAX_VALUE
         )
             .first()
             .sortedBy { it.id.value }

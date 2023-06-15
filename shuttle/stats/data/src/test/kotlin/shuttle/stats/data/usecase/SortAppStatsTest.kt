@@ -55,7 +55,8 @@ class SortAppStatsTest : AnnotationSpec() {
             location = DatabaseGeoHashSample.Bennet.right(),
             date = DatabaseDateSample.Today,
             startTime = DatabaseTimeSample.Midnight,
-            endTime = DatabaseTimeSample.Midnight
+            endTime = DatabaseTimeSample.Midnight,
+            takeAtLeast = Int.MAX_VALUE
         )
 
         // then
@@ -90,7 +91,8 @@ class SortAppStatsTest : AnnotationSpec() {
             location = LocationNotAvailable.left(),
             date = DatabaseDateSample.Today,
             startTime = DatabaseTimeSample.Noon,
-            endTime = DatabaseTimeSample.Noon
+            endTime = DatabaseTimeSample.Noon,
+            takeAtLeast = Int.MAX_VALUE
         )
 
         // then
@@ -117,7 +119,8 @@ class SortAppStatsTest : AnnotationSpec() {
             location = LocationNotAvailable.left(),
             date = DatabaseDateSample.Today,
             startTime = DatabaseTimeSample.Midnight,
-            endTime = DatabaseTimeSample.Midnight
+            endTime = DatabaseTimeSample.Midnight,
+            takeAtLeast = Int.MAX_VALUE
         )
 
         // then
@@ -147,7 +150,8 @@ class SortAppStatsTest : AnnotationSpec() {
             location = LocationNotAvailable.left(),
             date = DatabaseDateSample.Today,
             startTime = DatabaseTimeSample.Midnight,
-            endTime = DatabaseTimeSample.Midnight
+            endTime = DatabaseTimeSample.Midnight,
+            takeAtLeast = Int.MAX_VALUE
         )
 
         // then

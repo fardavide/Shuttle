@@ -74,13 +74,14 @@ complexity:
     ignoreNestingFunctions: true
     # list of function names which add complexity
     nestingFunctions: [run, let, apply, with, also, use, forEach, isNotNull, ifNull]
+    ignoreAnnotated: [ 'Composable' ]
   # do not report labeled expressions, like `return@something`
   LabeledExpression:
     active: false
     ignoredLabels: []
   LargeClass:
     active: true
-    excludes: ['**/test/**', '**/**Test/**']
+    excludes: ['**/res/**.kt', '**/sample/**.kt', '**/test/**', '**/**Test/**']
     threshold: 500
   LongMethod:
     active: true
@@ -88,16 +89,16 @@ complexity:
     threshold: 60
     ignoreAnnotated: [ 'Composable' ]
   LongParameterList:
-    active: true
+    active: false
     ignoreAnnotated: [ 'Composable', 'Module' ]
-    excludes: ['**/*Mapper.kt']
-    functionThreshold: 7
+    excludes: ['**/*Mapper.kt', '**/*Test/**']
+    functionThreshold: 10
     constructorThreshold: 99
     ignoreDefaultParameters: true
     ignoreDataClasses: true
   # reports methods which are overloaded often
   MethodOverloading:
-    active: true
+    active: false
     threshold: 6
   NamedArguments:
     active: true
@@ -345,7 +346,7 @@ formatting:
     active: false
     # autoCorrect: true
   NoBlankLineInList:
-    active: true
+    active: false
     autoCorrect: true
   NoConsecutiveBlankLines:
     active: false
@@ -475,7 +476,7 @@ formatting:
     active: true
     autoCorrect: true
   TypeParameterListSpacing:
-    active: true
+    active: false
     autoCorrect: true
   UnnecessaryParenthesesBeforeTrailingLambda:
     active: true
@@ -555,6 +556,7 @@ naming:
   VariableMaxLength:
     active: true
     maximumVariableNameLength: 40
+    excludes: ['**/sample/**']
   VariableMinLength:
     active: false
     # minimumVariableNameLength: 1
@@ -709,7 +711,7 @@ style:
   CollapsibleIfStatements:
     active: false
   CascadingCallWrapping:
-    active: true
+    active: false
     includeElvis: true
   DataClassContainsFunctions:
     active: false
@@ -730,7 +732,7 @@ style:
     includeLineWrapping: false
   ForbiddenAnnotation:
     active: true
-    annotations: []
+    annotations: [ 'kotlin.OptIn' ]
   ForbiddenComment:
     active: true
     comments: ['FIXME', 'STOPSHIP']

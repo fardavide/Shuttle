@@ -24,7 +24,8 @@ internal class SortAppStats(
         location: Either<LocationNotAvailable, DatabaseGeoHash>,
         date: DatabaseDate,
         startTime: DatabaseTime,
-        endTime: DatabaseTime
+        endTime: DatabaseTime,
+        takeAtLeast: Int
     ): List<AppId> = withContext(computationDispatcher) {
         val currentLocation = location.fold(
             ifLeft = { DatabaseGeoHash("") },
@@ -39,8 +40,12 @@ internal class SortAppStats(
 
         val result = mutableListOf<AppId>()
 
-        fun handle(stats: Collection<Stat>) {
-            val sorted = stats.groupBy { stat -> stat.appId }.toList().sort(date) - result.toSet()
+        fun handle(stats: Sequence<Stat>) {
+            if (result.size >= takeAtLeast) return
+
+            val sorted = stats.groupBy { stat -> stat.appId }
+                .asSequence()
+                .sort(date) - result.toSet()
             result += sorted
         }
 
@@ -58,7 +63,7 @@ internal class SortAppStats(
         byLocationNot: DatabaseGeoHash? = null,
         byTime: Pair<DatabaseTime, DatabaseTime>? = null,
         byTimeNot: Pair<DatabaseTime, DatabaseTime>? = null
-    ): Collection<Stat> {
+    ): Sequence<Stat> {
         val byLocationCheck = byLocation != null && byLocationNot == null
         val byLocationNotCheck = byLocation == null && byLocationNot != null
         check(byLocationCheck || byLocationNotCheck) {
@@ -85,16 +90,12 @@ internal class SortAppStats(
                     stat.time.minuteOfTheDay in byTimeNot.first.minuteOfTheDay..byTimeNot.second.minuteOfTheDay
                 filterByLocationNot && filterByTimeNot
             }
-            .toList()
     }
 
-    private fun Collection<Pair<DatabaseAppId, List<Stat>>>.sort(date: DatabaseDate): List<AppId> =
-        asSequence()
-            .sortedByDescending { (_, stats) ->
-                stats.sumOf { stat -> DaysToKeep - (date.dayNumber - stat.date.dayNumber) }
-            }
-            .map { (appId, _) -> AppId(appId.value) }
-            .toList()
+    private fun Sequence<Map.Entry<DatabaseAppId, List<Stat>>>.sort(date: DatabaseDate): Sequence<AppId> =
+        sortedByDescending { (_, stats) ->
+            stats.sumOf { stat -> DaysToKeep - (date.dayNumber - stat.date.dayNumber) }
+        }.map { (appId, _) -> AppId(appId.value) }
 
     companion object {
 

@@ -16,7 +16,8 @@ interface StatsRepository {
         location: Option<GeoHash>,
         date: Date,
         startTime: Time,
-        endTime: Time
+        endTime: Time,
+        takeAtLeast: Int
     ): Flow<List<SuggestedAppModel>>
 
     fun startDeleteOldStats()

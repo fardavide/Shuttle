@@ -40,7 +40,7 @@ internal class SuggestedAppsListViewModel(
         MutableSharedFlow(replay = 2)
 
     init {
-        observeSuggestedApps().map { either ->
+        observeSuggestedApps(takeAtLeast = Int.MAX_VALUE).map { either ->
             either.map { appUiModelMapper.toUiModels(it) }
                 .fold(
                     ifRight = { State.Data(it.filterRight()) },

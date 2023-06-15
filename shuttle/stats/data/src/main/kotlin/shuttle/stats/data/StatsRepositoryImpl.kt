@@ -39,7 +39,8 @@ internal class StatsRepositoryImpl(
         location: Option<GeoHash>,
         date: Date,
         startTime: Time,
-        endTime: Time
+        endTime: Time,
+        takeAtLeast: Int
     ): Flow<List<SuggestedAppModel>> = combine(
         appsRepository.observeNotBlacklistedApps(),
         statDataSource.findAllStats().mapLatest { stats ->
@@ -52,7 +53,8 @@ internal class StatsRepositoryImpl(
                 location = databaseGeoHash,
                 date = databaseDate,
                 startTime = databaseStartTime,
-                endTime = databaseEndTime
+                endTime = databaseEndTime,
+                takeAtLeast = takeAtLeast
             )
         }
     ) { installedAppEither, sortedAppsIds ->
