@@ -27,6 +27,7 @@ klock = "4.0.6"
 koin = "3.4.2"
 koinCompose = "3.4.5"
 koinKsp = "1.2.2"
+koinTest = "3.4.1"
 kotest = "5.6.2"
 kotlin = "1.8.22"
 kotlinCoroutines = "1.7.1"
@@ -115,8 +116,8 @@ koin-android-workManager = { module = "io.insert-koin:koin-androidx-workmanager"
 koin-annotations = { module = "io.insert-koin:koin-annotations", version.ref = "koinKsp" }
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 koin-ksp = { module = "io.insert-koin:koin-ksp-compiler", version.ref = "koinKsp" }
-koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin" }
-koin-test-junit4 = { module = "io.insert-koin:koin-test-junit4", version.ref = "koin" }
+koin-test = { module = "io.insert-koin:koin-test", version.ref = "koinTest" }
+koin-test-junit4 = { module = "io.insert-koin:koin-test-junit4", version.ref = "koinTest" }
 
 kotest-assertions = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
 kotest-runner = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
