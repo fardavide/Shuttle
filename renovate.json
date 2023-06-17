@@ -22,7 +22,8 @@
       "groupName": "Koin",
       "matchPackagePrefixes": [
         "io.insert-koin"
-      ]
+      ],
+      "automerge": true
     }
   ]
 }
