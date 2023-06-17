@@ -13,12 +13,10 @@ import androidx.glance.GlanceModifier
 import androidx.glance.Image
 import androidx.glance.ImageProvider
 import androidx.glance.LocalContext
-import androidx.glance.action.Action
 import androidx.glance.action.action
 import androidx.glance.action.clickable
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.GlanceAppWidgetReceiver
-import androidx.glance.appwidget.action.actionRunCallback
 import androidx.glance.appwidget.background
 import androidx.glance.appwidget.cornerRadius
 import androidx.glance.appwidget.provideContent
@@ -41,7 +39,6 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import shuttle.resources.NoContentDescription
 import shuttle.utils.kotlin.takeOrFillWithNulls
-import shuttle.widget.action.RefreshCurrentLocationActionCallback
 import shuttle.widget.model.WidgetAppUiModel
 import shuttle.widget.model.WidgetSettingsUiModel
 import shuttle.widget.state.SuggestedAppsState
@@ -57,10 +54,7 @@ class SuggestedAppsWidget : GlanceAppWidget(), KoinComponent {
         val stateFlow = viewModel.state()
         provideContent {
             val state by stateFlow.collectAsState()
-            val actions = Actions(
-                onOpenApp = { intent -> context.startActivity(intent) },
-                onRefreshLocation = actionRunCallback<RefreshCurrentLocationActionCallback>()
-            )
+            val actions = Actions(openApp = context::startActivity)
             ShuttleWidgetTheme {
                 Content(state, actions)
             }
@@ -131,7 +125,7 @@ class SuggestedAppsWidget : GlanceAppWidget(), KoinComponent {
         actions: Actions
     ) {
         val action = action(app?.id?.value) {
-            app?.launchIntent?.let { actions.onOpenApp(it) }
+            app?.launchIntent?.let { actions.openApp(it) }
         }
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -199,10 +193,7 @@ class SuggestedAppsWidget : GlanceAppWidget(), KoinComponent {
         )
     }
 
-    data class Actions(
-        val onOpenApp: (Intent) -> Unit,
-        val onRefreshLocation: Action
-    )
+    data class Actions(val openApp: (Intent) -> Unit)
 }
 
 class SuggestedAppsWidgetReceiver : GlanceAppWidgetReceiver() {

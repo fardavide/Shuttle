@@ -7,7 +7,6 @@ optIns {
 }
 
 moduleDependencies {
-    implementation 'coordinates:domain'
     implementation 'icons:domain'
     implementation 'predictions:domain'
     implementation 'resources'
