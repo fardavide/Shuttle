@@ -5,7 +5,6 @@ import arrow.core.Option
 import arrow.core.right
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapConcat
@@ -33,10 +32,10 @@ internal class SuggestedAppsWidgetViewModel(
     private val observeSuggestedApps: ObserveSuggestedApps,
     private val observeWidgetSettings: ObserveWidgetSettings,
     private val widgetSettingsUiModelMapper: WidgetSettingsUiModelMapper,
-    viewModelScope: CoroutineScope
+    private val viewModelScope: CoroutineScope
 ) {
 
-    val state: StateFlow<SuggestedAppsState> = observeIconPackAndWidgetSettings()
+    suspend fun state(): StateFlow<SuggestedAppsState> = observeIconPackAndWidgetSettings()
         .flatMapConcat { (currentIconPack, widgetSettings) ->
             val takeAtLeast = widgetSettings.rowsCount * widgetSettings.columnsCount
             observeSuggestedAppsWithDefault(takeAtLeast).map { suggestedAppsEither ->
@@ -50,11 +49,7 @@ internal class SuggestedAppsWidgetViewModel(
                     ifLeft = SuggestedAppsState.Error::from
                 )
             }
-        }.stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(500),
-            initialValue = SuggestedAppsState.Loading
-        )
+        }.stateIn(scope = viewModelScope)
 
     private fun observeIconPackAndWidgetSettings(): Flow<Pair<Option<AppId>, WidgetSettings>> = combine(
         observeCurrentIconPack(),

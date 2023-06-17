@@ -54,8 +54,9 @@ class SuggestedAppsWidget : GlanceAppWidget(), KoinComponent {
     private val viewModel: SuggestedAppsWidgetViewModel by inject()
 
     override suspend fun provideGlance(context: Context, id: GlanceId) {
+        val stateFlow = viewModel.state()
         provideContent {
-            val state by viewModel.state.collectAsState()
+            val state by stateFlow.collectAsState()
             val actions = Actions(
                 onOpenApp = { intent -> context.startActivity(intent) },
                 onRefreshLocation = actionRunCallback<RefreshCurrentLocationActionCallback>()
@@ -81,13 +82,6 @@ class SuggestedAppsWidget : GlanceAppWidget(), KoinComponent {
                         .widgetBackground()
                 ) {
                     Text(text = state.toString())
-                }
-                is SuggestedAppsState.Loading -> Box(
-                    modifier = GlanceModifier
-                        .padding(WidgetDimen.Margin.Inner)
-                        .widgetBackground()
-                ) {
-                    Text(text = "Loading...")
                 }
             }
         }
