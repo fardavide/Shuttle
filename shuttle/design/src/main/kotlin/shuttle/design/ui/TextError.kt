@@ -22,7 +22,7 @@ fun TextError(text: String) {
 
 @Composable
 @Preview(showBackground = true)
-fun ShortTextErrorPreview() {
+private fun ShortTextErrorPreview() {
     ShuttleTheme {
         TextError(text = "Location not available")
     }
@@ -30,7 +30,7 @@ fun ShortTextErrorPreview() {
 
 @Composable
 @Preview(showBackground = true)
-fun LongTextErrorPreview() {
+private fun LongTextErrorPreview() {
     ShuttleTheme {
         TextError(text = "Location not available. Please make sure that location is turned on in your device Settings")
     }

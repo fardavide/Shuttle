@@ -242,9 +242,9 @@ object SettingsPage {
     )
 }
 
-@Composable
 @Preview
-fun SettingsContentPreview() {
+@Composable
+private fun SettingsContentPreview() {
     val state = SettingsState(
         permissions = SettingsState.Permissions.Granted,
         appVersion = "123",
@@ -267,9 +267,9 @@ fun SettingsContentPreview() {
     }
 }
 
-@Composable
 @Preview
-fun SettingsItemPreview() {
+@Composable
+private fun SettingsItemPreview() {
     ShuttleTheme {
         val uiModel = SettingsItemUiModel(
             title = stringResource(id = string.settings_blacklist_title),
