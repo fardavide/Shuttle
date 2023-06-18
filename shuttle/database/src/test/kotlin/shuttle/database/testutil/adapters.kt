@@ -4,6 +4,7 @@ import shuttle.database.App
 import shuttle.database.AppBlacklistSetting
 import shuttle.database.LastLocation
 import shuttle.database.Stat
+import shuttle.database.SuggestionCache
 import shuttle.database.adapter.AppIdAdapter
 import shuttle.database.adapter.DateAdapter
 import shuttle.database.adapter.GeoHashAdapter
@@ -16,4 +17,5 @@ internal val DateAdapter get() = DateAdapter()
 internal val GeoHashAdapter get() = GeoHashAdapter()
 internal val LastLocationAdapter get() = LastLocation.Adapter(GeoHashAdapter)
 internal val StatAdapter get() = Stat.Adapter(AppIdAdapter, GeoHashAdapter, DateAdapter, TimeAdapter)
+internal val SuggestionCacheAdapter get() = SuggestionCache.Adapter(AppIdAdapter)
 internal val TimeAdapter get() = TimeAdapter()

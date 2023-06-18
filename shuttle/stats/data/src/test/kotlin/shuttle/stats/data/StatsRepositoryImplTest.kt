@@ -6,7 +6,6 @@ import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
-import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
@@ -87,7 +86,7 @@ class StatsRepositoryImplTest : AnnotationSpec() {
             startTime = TimeTestData.Midnight,
             endTime = TimeTestData.Midnight,
             takeAtLeast = Int.MAX_VALUE
-        ).drop(1)
+        )
             .first()
             .sortedBy { it.id.value }
 
@@ -108,7 +107,7 @@ class StatsRepositoryImplTest : AnnotationSpec() {
             startTime = TimeTestData.Midnight,
             endTime = TimeTestData.Midnight,
             takeAtLeast = Int.MAX_VALUE
-        ).drop(1)
+        )
             .first()
             .sortedBy { it.id.value }
 
