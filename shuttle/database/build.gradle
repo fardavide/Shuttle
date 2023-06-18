@@ -38,7 +38,7 @@ tasks.withType(Test).configureEach {
 }
 
 tasks.register("updateDatabase") {
-    dependsOn "generateCommonMainDatabaseSchema"
+    dependsOn "generateReleaseDatabaseSchema"
     def migrationFolder = file("${projectDir}/src/main/sqldelight/shuttle/database/migrations")
     def schemaFolder = file("${projectDir}/src/main/sqldelight/shuttle/database/schemas")
     doLast {
