@@ -55,5 +55,3 @@ class AppModule {
     @Factory
     fun workManager(context: Context) = WorkManager.getInstance(context)
 }
-
-@Factory internal class Empty

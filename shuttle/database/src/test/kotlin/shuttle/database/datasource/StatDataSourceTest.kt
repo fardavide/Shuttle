@@ -20,7 +20,7 @@ class StatDataSourceTest : DatabaseTest() {
 
     private val dispatcher = StandardTestDispatcher()
     private val queries: StatQueries = spyk(database.statQueries)
-    private val dataSource = StatDataSourceImpl(
+    private val dataSource = RealStatDataSource(
         statQueries = queries,
         ioDispatcher = dispatcher
     )

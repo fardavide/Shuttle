@@ -1,7 +1,6 @@
 package shuttle.di
 
 import org.koin.core.annotation.ComponentScan
-import org.koin.core.annotation.Factory
 import org.koin.core.annotation.Module
 import shuttle.accessibility.AccessibilityModule
 import shuttle.apps.data.AppsDataModule
@@ -74,7 +73,5 @@ import shuttle.widget.WidgetModule
 )
 @ComponentScan
 class ShuttleModule
-
-@Factory internal class Empty
 
 const val AppVersionQualifier = shuttle.utils.kotlin.AppVersionQualifier

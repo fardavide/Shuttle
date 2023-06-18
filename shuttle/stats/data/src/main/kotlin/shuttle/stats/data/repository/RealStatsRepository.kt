@@ -1,4 +1,4 @@
-package shuttle.stats.data
+package shuttle.stats.data.repository
 
 import arrow.core.Nel
 import arrow.core.Option
@@ -29,7 +29,7 @@ import shuttle.stats.data.worker.DeleteOldStatsScheduler
 import shuttle.stats.domain.repository.StatsRepository
 
 @Factory
-internal class StatsRepositoryImpl(
+internal class RealStatsRepository(
     private val appsRepository: AppsRepository,
     private val cacheDataSource: SuggestionCacheDataSource,
     private val databaseDateAndTimeMapper: DatabaseDateAndTimeMapper,

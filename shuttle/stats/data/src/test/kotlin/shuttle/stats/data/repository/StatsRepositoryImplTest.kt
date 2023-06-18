@@ -1,4 +1,4 @@
-package shuttle.stats.data
+package shuttle.stats.data.repository
 
 import arrow.core.some
 import io.kotest.core.spec.style.AnnotationSpec
@@ -49,7 +49,7 @@ class StatsRepositoryImplTest : AnnotationSpec() {
         }
     }
     private val cacheDataSource = FakeSuggestionCacheDataSource()
-    private val repository = StatsRepositoryImpl(
+    private val repository = RealStatsRepository(
         appsRepository = appsRepository,
         cacheDataSource = cacheDataSource,
         databaseDateAndTimeMapper = DatabaseDateAndTimeMapper(),

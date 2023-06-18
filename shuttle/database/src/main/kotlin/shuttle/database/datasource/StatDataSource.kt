@@ -39,7 +39,7 @@ interface StatDataSource {
 }
 
 @Factory
-internal class StatDataSourceImpl(
+internal class RealStatDataSource(
     private val statQueries: StatQueries,
     @Named(IoDispatcher) private val ioDispatcher: CoroutineDispatcher
 ) : StatDataSource {
@@ -62,20 +62,17 @@ internal class StatDataSourceImpl(
         startTime: DatabaseTime,
         endTime: DatabaseTime
     ): Flow<List<DatabaseStat>> {
-        val geoHashValue = geoHash.orNull()
-        val query =
-            if (geoHashValue == null) {
-                statQueries.findAllStatsByTime(
-                    startTime = startTime,
-                    endTime = endTime
-                )
-            } else {
-                statQueries.findAllStatsByGeoHashAndTime(
-                    geoHash = geoHashValue,
-                    startTime = startTime,
-                    endTime = endTime
-                )
-            }
+        val query = when (val geoHashValue = geoHash.orNull()) {
+            null -> statQueries.findAllStatsByTime(
+                startTime = startTime,
+                endTime = endTime
+            )
+            else -> statQueries.findAllStatsByGeoHashAndTime(
+                geoHash = geoHashValue,
+                startTime = startTime,
+                endTime = endTime
+            )
+        }
         return query.asFlow().mapToList(ioDispatcher)
     }
 
