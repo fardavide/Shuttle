@@ -24,6 +24,12 @@ internal class WidgetAppUiModelMapper(
     private val getLaunchIntentForApp: GetLaunchIntentForApp
 ) {
 
+    suspend fun toUiModels(
+        appModels: Collection<SuggestedAppModel>,
+        iconPackId: Option<AppId>
+    ): List<Either<GetSystemIconError, WidgetAppUiModel>> =
+        appModels.map { toUiModel(appModel = it, iconPackId = iconPackId) }
+
     private suspend fun toUiModel(
         appModel: SuggestedAppModel,
         iconPackId: Option<AppId>
@@ -36,24 +42,22 @@ internal class WidgetAppUiModelMapper(
         )
     }
 
-    suspend fun toUiModels(
-        appModels: Collection<SuggestedAppModel>,
-        iconPackId: Option<AppId>
-    ): List<Either<GetSystemIconError, WidgetAppUiModel>> =
-        appModels.map { toUiModel(appModel = it, iconPackId = iconPackId) }
-
     private fun Bitmap.withTint(isSuggested: Boolean): Bitmap {
         return if (isSuggested.not()) {
             copy(Bitmap.Config.ARGB_8888, true).applyCanvas {
                 val paint = Paint()
-                val filter: ColorFilter =
-                    PorterDuffColorFilter(Color.parseColor("#B3CCCCCC"), PorterDuff.Mode.SRC_IN)
-                paint.colorFilter = filter
+                paint.colorFilter = NotSuggestedColorFilter
 
                 drawBitmap(this@withTint, 0f, 0f, paint)
             }
         } else {
             this
         }
+    }
+
+    companion object {
+
+        val NotSuggestedColorFilter: ColorFilter =
+            PorterDuffColorFilter(Color.parseColor("#B3CCCCCC"), PorterDuff.Mode.SRC_IN)
     }
 }
