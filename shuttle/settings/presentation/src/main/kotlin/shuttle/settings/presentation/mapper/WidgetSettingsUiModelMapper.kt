@@ -11,10 +11,10 @@ class WidgetSettingsUiModelMapper {
 
     fun toUiModel(settings: WidgetSettings) = WidgetLayoutUiModel(
         allowTwoLines = settings.allowTwoLines,
-        columnsCount = settings.columnsCount,
+        columnsCount = settings.columnCount,
         horizontalSpacing = settings.horizontalSpacing.value.dp,
         iconSize = settings.iconsSize.value.dp,
-        rowsCount = settings.rowsCount,
+        rowsCount = settings.rowCount,
         textSize = settings.textSize.value.sp,
         transparency = settings.transparency,
         useMaterialColors = settings.useMaterialColors,

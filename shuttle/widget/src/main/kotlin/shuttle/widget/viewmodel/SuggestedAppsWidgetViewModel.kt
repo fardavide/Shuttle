@@ -20,6 +20,7 @@ import shuttle.predictions.domain.usecase.ObserveSuggestedApps
 import shuttle.settings.domain.model.WidgetSettings
 import shuttle.settings.domain.usecase.ObserveCurrentIconPack
 import shuttle.settings.domain.usecase.ObserveWidgetSettings
+import shuttle.utils.kotlin.takeOrFillWithNulls
 import shuttle.widget.mapper.WidgetAppUiModelMapper
 import shuttle.widget.mapper.WidgetSettingsUiModelMapper
 import shuttle.widget.model.WidgetAppUiModel
@@ -37,12 +38,16 @@ internal class SuggestedAppsWidgetViewModel(
 
     suspend fun state(): StateFlow<SuggestedAppsState> = observeIconPackAndWidgetSettings()
         .flatMapConcat { (currentIconPack, widgetSettings) ->
-            val takeAtLeast = widgetSettings.rowsCount * widgetSettings.columnsCount
+            val takeAtLeast = widgetSettings.itemCount
             observeSuggestedAppsWithDefault(takeAtLeast).map { suggestedAppsEither ->
                 suggestedAppsEither.fold(
                     ifRight = { suggestedApps ->
                         SuggestedAppsState.Data(
-                            apps = appUiModelMapper.toUiModels(suggestedApps, currentIconPack).filterRight(),
+                            apps = appUiModelMapper
+                                .toUiModels(suggestedApps, currentIconPack)
+                                .filterRight()
+                                .takeOrFillWithNulls(widgetSettings.itemCount)
+                                .reversed(),
                             widgetSettings = widgetSettingsUiModelMapper.toUiModel(widgetSettings)
                         )
                     },

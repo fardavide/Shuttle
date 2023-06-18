@@ -2,15 +2,18 @@ package shuttle.settings.domain.model
 
 data class WidgetSettings(
     val allowTwoLines: Boolean,
-    val columnsCount: Int,
+    val columnCount: Int,
     val horizontalSpacing: Dp,
     val iconsSize: Dp,
-    val rowsCount: Int,
+    val rowCount: Int,
     val textSize: Sp,
     val transparency: Int,
     val useMaterialColors: Boolean,
     val verticalSpacing: Dp
 ) {
+
+    val itemCount: Int
+        get() = columnCount * rowCount
 
     companion object {
 
@@ -24,10 +27,10 @@ data class WidgetSettings(
 
         val Default = WidgetSettings(
             allowTwoLines = false,
-            columnsCount = 5,
+            columnCount = 5,
             horizontalSpacing = Dp(8),
             iconsSize = Dp(48),
-            rowsCount = 2,
+            rowCount = 2,
             textSize = Sp(12),
             transparency = 70,
             useMaterialColors = true,

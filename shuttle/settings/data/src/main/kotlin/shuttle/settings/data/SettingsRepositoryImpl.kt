@@ -60,10 +60,10 @@ internal class SettingsRepositoryImpl(
         dataStore.data.map {
             WidgetSettings(
                 allowTwoLines = it[AllowTwoLines] ?: WidgetSettings.Default.allowTwoLines,
-                columnsCount = it[ColumnsCount] ?: WidgetSettings.Default.columnsCount,
+                columnCount = it[ColumnsCount] ?: WidgetSettings.Default.columnCount,
                 horizontalSpacing = it[HorizontalSpacing]?.let(::Dp) ?: WidgetSettings.Default.horizontalSpacing,
                 iconsSize = it[IconSize]?.let(::Dp) ?: WidgetSettings.Default.iconsSize,
-                rowsCount = it[RowsCount] ?: WidgetSettings.Default.rowsCount,
+                rowCount = it[RowsCount] ?: WidgetSettings.Default.rowCount,
                 textSize = it[TextSize]?.let(::Sp) ?: WidgetSettings.Default.textSize,
                 transparency = it[Transparency] ?: WidgetSettings.Default.transparency,
                 useMaterialColors = it[UseMaterialColors] ?: WidgetSettings.Default.useMaterialColors,
@@ -107,10 +107,10 @@ internal class SettingsRepositoryImpl(
         with(WidgetSettingsPreferenceKeys) {
             dataStore.edit {
                 it[AllowTwoLines] = settings.allowTwoLines
-                it[ColumnsCount] = settings.columnsCount
+                it[ColumnsCount] = settings.columnCount
                 it[HorizontalSpacing] = settings.horizontalSpacing.value
                 it[IconSize] = settings.iconsSize.value
-                it[RowsCount] = settings.rowsCount
+                it[RowsCount] = settings.rowCount
                 it[TextSize] = settings.textSize.value
                 it[Transparency] = settings.transparency
                 it[UseMaterialColors] = settings.useMaterialColors

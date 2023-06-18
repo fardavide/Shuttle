@@ -25,10 +25,10 @@ class SettingsRepositoryImplTest : AnnotationSpec() {
         // given
         val settings = WidgetSettings(
             allowTwoLines = true,
-            columnsCount = 20,
+            columnCount = 20,
             horizontalSpacing = Dp(21),
             iconsSize = Dp(22),
-            rowsCount = 23,
+            rowCount = 23,
             textSize = Sp(24),
             transparency = 15,
             useMaterialColors = false,

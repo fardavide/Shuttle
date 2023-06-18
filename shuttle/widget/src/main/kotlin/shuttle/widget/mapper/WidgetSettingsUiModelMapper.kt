@@ -10,11 +10,11 @@ import shuttle.widget.model.WidgetSettingsUiModel
 internal class WidgetSettingsUiModelMapper {
 
     fun toUiModel(settings: WidgetSettings) = WidgetSettingsUiModel(
-        columnsCount = settings.columnsCount,
+        columnsCount = settings.columnCount,
         horizontalSpacing = settings.horizontalSpacing.value.dp,
         iconSize = settings.iconsSize.value.dp,
         maxLines = if (settings.allowTwoLines) 2 else 1,
-        rowsCount = settings.rowsCount,
+        rowsCount = settings.rowCount,
         textSize = settings.textSize.value.sp,
         transparency = settings.transparency / TransparencyIntToFloatRation,
         useMaterialColors = settings.useMaterialColors,

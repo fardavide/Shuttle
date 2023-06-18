@@ -80,7 +80,7 @@ internal class WidgetLayoutViewModel(
     }
 
     private suspend fun updateColumns(currentState: State.Data, value: Int): State {
-        val newSettings = currentState.widgetSettingsDomainModel.copy(columnsCount = value)
+        val newSettings = currentState.widgetSettingsDomainModel.copy(columnCount = value)
         updateWidgetSettings(newSettings)
         return currentState.copy(
             widgetSettingsDomainModel = newSettings,
@@ -107,7 +107,7 @@ internal class WidgetLayoutViewModel(
     }
 
     private suspend fun updateRows(currentState: State.Data, value: Int): State {
-        val newSettings = currentState.widgetSettingsDomainModel.copy(rowsCount = value)
+        val newSettings = currentState.widgetSettingsDomainModel.copy(rowCount = value)
         updateWidgetSettings(newSettings)
         return currentState.copy(
             widgetSettingsDomainModel = newSettings,

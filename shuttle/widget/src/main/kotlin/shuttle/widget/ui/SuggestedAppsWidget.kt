@@ -38,7 +38,6 @@ import androidx.glance.text.TextStyle
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import shuttle.resources.NoContentDescription
-import shuttle.utils.kotlin.takeOrFillWithNulls
 import shuttle.widget.model.WidgetAppUiModel
 import shuttle.widget.model.WidgetSettingsUiModel
 import shuttle.widget.state.SuggestedAppsState
@@ -102,14 +101,13 @@ class SuggestedAppsWidget : GlanceAppWidget(), KoinComponent {
         val settings = data.widgetSettings
         val rows = settings.rowsCount
         val columns = settings.columnsCount
-        val apps = data.apps.takeOrFillWithNulls(rows * columns).reversed()
         var index = 0
 
         repeat(rows) {
             Row {
                 repeat(columns) {
                     AppIconItem(
-                        app = apps[index++],
+                        app = data.apps[index++],
                         widgetSettings = settings,
                         actions = actions
                     )
