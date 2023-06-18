@@ -7,7 +7,8 @@ import korlibs.time.Date
 import korlibs.time.Time
 import korlibs.time.plus
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.combineTransform
+import kotlinx.coroutines.flow.internal.NopCollector.emit
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.onStart
 import org.koin.core.annotation.Factory
@@ -48,7 +49,7 @@ internal class StatsRepositoryImpl(
         startTime: Time,
         endTime: Time,
         takeAtLeast: Int
-    ): Flow<List<SuggestedAppModel>> = combine(
+    ): Flow<List<SuggestedAppModel>> = combineTransform(
         appsRepository.observeNotBlacklistedApps(),
         statDataSource.findAllStats().mapLatest { stats ->
             val databaseGeoHash = location.toEither { LocationNotAvailable }.map { it.toDatabaseGeoHash() }
@@ -74,8 +75,9 @@ internal class StatsRepositoryImpl(
                 SuggestedAppModel(installedApp.id, installedApp.name, isSuggested = true)
             }
         }
-        (appsFromStats + allInstalledApp.map(::toNotSuggestedAppModel).shuffled())
-            .also { storeCache(it) }
+        val suggestions = appsFromStats + allInstalledApp.map(::toNotSuggestedAppModel).shuffled()
+        emit(suggestions)
+        storeCache(suggestions)
     }.onStart { getCache().tap { emit(it) } }
 
     override fun startDeleteOldStats() {
