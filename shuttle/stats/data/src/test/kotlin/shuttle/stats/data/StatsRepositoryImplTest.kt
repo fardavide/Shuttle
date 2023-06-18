@@ -6,6 +6,7 @@ import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
+import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
@@ -17,6 +18,7 @@ import shuttle.apps.domain.testdata.not
 import shuttle.coordinates.domain.testdata.DateTestData
 import shuttle.coordinates.domain.testdata.GeoHashTestData
 import shuttle.coordinates.domain.testdata.TimeTestData
+import shuttle.database.datasource.FakeSuggestionCacheDataSource
 import shuttle.database.datasource.StatDataSource
 import shuttle.database.model.DatabaseStat
 import shuttle.database.testdata.DatabaseAppIdSample
@@ -47,8 +49,10 @@ class StatsRepositoryImplTest : AnnotationSpec() {
             stats.map { AppId(it.appId.value) }
         }
     }
+    private val cacheDataSource = FakeSuggestionCacheDataSource()
     private val repository = StatsRepositoryImpl(
         appsRepository = appsRepository,
+        cacheDataSource = cacheDataSource,
         databaseDateAndTimeMapper = DatabaseDateAndTimeMapper(),
         deleteOldStatsScheduler = deleteOldStatsScheduler,
         statDataSource = statDataSource,
@@ -83,7 +87,7 @@ class StatsRepositoryImplTest : AnnotationSpec() {
             startTime = TimeTestData.Midnight,
             endTime = TimeTestData.Midnight,
             takeAtLeast = Int.MAX_VALUE
-        )
+        ).drop(1)
             .first()
             .sortedBy { it.id.value }
 
@@ -104,7 +108,7 @@ class StatsRepositoryImplTest : AnnotationSpec() {
             startTime = TimeTestData.Midnight,
             endTime = TimeTestData.Midnight,
             takeAtLeast = Int.MAX_VALUE
-        )
+        ).drop(1)
             .first()
             .sortedBy { it.id.value }
 

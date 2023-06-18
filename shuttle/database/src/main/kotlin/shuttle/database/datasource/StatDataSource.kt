@@ -7,11 +7,11 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import org.koin.core.annotation.Factory
 import org.koin.core.annotation.Named
-import shuttle.database.Stat
 import shuttle.database.StatQueries
 import shuttle.database.model.DatabaseAppId
 import shuttle.database.model.DatabaseDate
 import shuttle.database.model.DatabaseGeoHash
+import shuttle.database.model.DatabaseStat
 import shuttle.database.model.DatabaseTime
 import shuttle.database.util.suspendTransaction
 import shuttle.utils.kotlin.IoDispatcher
@@ -22,13 +22,13 @@ interface StatDataSource {
 
     suspend fun deleteAllCountersFor(appId: DatabaseAppId)
 
-    fun findAllStats(): Flow<List<Stat>>
+    fun findAllStats(): Flow<List<DatabaseStat>>
 
     fun findAllStats(
         geoHash: Option<DatabaseGeoHash>,
         startTime: DatabaseTime,
         endTime: DatabaseTime
-    ): Flow<List<Stat>>
+    ): Flow<List<DatabaseStat>>
 
     suspend fun insertOpenStats(
         appId: DatabaseAppId,
@@ -54,14 +54,14 @@ internal class StatDataSourceImpl(
         }
     }
 
-    override fun findAllStats(): Flow<List<Stat>> =
+    override fun findAllStats(): Flow<List<DatabaseStat>> =
         statQueries.findAllStats().asFlow().mapToList(ioDispatcher)
 
     override fun findAllStats(
         geoHash: Option<DatabaseGeoHash>,
         startTime: DatabaseTime,
         endTime: DatabaseTime
-    ): Flow<List<Stat>> {
+    ): Flow<List<DatabaseStat>> {
         val geoHashValue = geoHash.orNull()
         val query =
             if (geoHashValue == null) {

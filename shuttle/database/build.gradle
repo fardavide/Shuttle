@@ -36,3 +36,24 @@ dependencies {
 tasks.withType(Test).configureEach {
     useJUnit()
 }
+
+tasks.register("updateDatabase") {
+    dependsOn "generateCommonMainDatabaseSchema"
+    def migrationFolder = file("${projectDir}/src/main/sqldelight/shuttle/database/migrations")
+    def schemaFolder = file("${projectDir}/src/main/sqldelight/shuttle/database/schemas")
+    doLast {
+        def threeMonthsAgo = new Date().time - 90 * 24 * 60 * 60 * 1000
+        migrationFolder.listFiles().each { file ->
+            def schemaFile = new File(migrationFolder, file.name)
+            if (schemaFile.lastModified() < threeMonthsAgo) {
+                file.delete()
+            }
+        }
+        schemaFolder.listFiles().each { file ->
+            def schemaFile = new File(schemaFolder, file.name)
+            if (schemaFile.lastModified() < threeMonthsAgo) {
+                file.delete()
+            }
+        }
+    }
+}

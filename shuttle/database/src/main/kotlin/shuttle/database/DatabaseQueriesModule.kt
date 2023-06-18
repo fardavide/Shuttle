@@ -17,4 +17,7 @@ internal class DatabaseQueriesModule {
 
     @Factory
     fun statQueries(database: Database) = database.statQueries
+
+    @Factory
+    fun suggestionCacheQueries(database: Database) = database.suggestionCacheQueries
 }

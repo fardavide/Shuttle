@@ -26,12 +26,14 @@ class DatabaseModule {
         appAdapter: App.Adapter,
         appBlacklistSettingsAdapter: AppBlacklistSetting.Adapter,
         lastLocationAdapter: LastLocation.Adapter,
-        statAdapter: Stat.Adapter
+        statAdapter: Stat.Adapter,
+        suggestionCacheAdapter: SuggestionCache.Adapter
     ) = Database(
         driver = sqlDriver,
         appAdapter = appAdapter,
         appBlacklistSettingAdapter = appBlacklistSettingsAdapter,
         lastLocationAdapter = lastLocationAdapter,
-        statAdapter = statAdapter
+        statAdapter = statAdapter,
+        suggestionCacheAdapter = suggestionCacheAdapter
     )
 }

@@ -1,0 +1,23 @@
+import kotlin.Boolean;
+import shuttle.database.model.DatabaseAppId;
+
+CREATE TABLE IF NOT EXISTS suggestionCache(
+    id TEXT AS DatabaseAppId NOT NULL PRIMARY KEY,
+    position INTEGER NOT NULL,
+    isSuggested INTEGER AS Boolean NOT NULL
+);
+
+CREATE VIEW IF NOT EXISTS cachedSuggestedApp AS
+    SELECT
+    app.id,
+    app.name,
+    suggestionCache.isSuggested
+    FROM suggestionCache
+    INNER JOIN app ON suggestionCache.id = app.id
+    ORDER BY suggestionCache.position ASC;
+
+findAll:
+    SELECT * FROM cachedSuggestedApp;
+
+insert:
+    INSERT OR REPLACE INTO suggestionCache(id, position, isSuggested) VALUES ?;

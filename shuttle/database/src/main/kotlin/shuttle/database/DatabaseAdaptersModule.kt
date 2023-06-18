@@ -47,6 +47,10 @@ internal class DatabaseAdaptersModule {
         geoHashAdapter = geoHashAdapter,
         timeAdapter = timeAdapter
     )
+
+    @Factory
+    fun suggestionCacheAdapter(@Named(Qualifier.AppIdAdapter) appIdAdapter: AppIdAdapter) =
+        SuggestionCache.Adapter(idAdapter = appIdAdapter)
     
     @Factory
     @Named(Qualifier.TimeAdapter)

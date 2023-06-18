@@ -7,16 +7,20 @@ import korlibs.time.plus
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.mapLatest
+import kotlinx.coroutines.flow.onStart
 import org.koin.core.annotation.Factory
 import shuttle.apps.domain.model.AppId
 import shuttle.apps.domain.model.AppModel
+import shuttle.apps.domain.model.AppName
 import shuttle.apps.domain.model.SuggestedAppModel
 import shuttle.apps.domain.repository.AppsRepository
 import shuttle.coordinates.domain.error.LocationNotAvailable
 import shuttle.coordinates.domain.model.GeoHash
 import shuttle.database.datasource.StatDataSource
+import shuttle.database.datasource.SuggestionCacheDataSource
 import shuttle.database.model.DatabaseAppId
 import shuttle.database.model.DatabaseGeoHash
+import shuttle.database.model.DatabaseSuggestionCache
 import shuttle.stats.data.mapper.DatabaseDateAndTimeMapper
 import shuttle.stats.data.usecase.SortAppStats
 import shuttle.stats.data.worker.DeleteOldStatsScheduler
@@ -25,6 +29,7 @@ import shuttle.stats.domain.repository.StatsRepository
 @Factory
 internal class StatsRepositoryImpl(
     private val appsRepository: AppsRepository,
+    private val cacheDataSource: SuggestionCacheDataSource,
     private val databaseDateAndTimeMapper: DatabaseDateAndTimeMapper,
     private val deleteOldStatsScheduler: DeleteOldStatsScheduler,
     private val statDataSource: StatDataSource,
@@ -67,7 +72,22 @@ internal class StatsRepositoryImpl(
                 SuggestedAppModel(installedApp.id, installedApp.name, isSuggested = true)
             }
         }
-        appsFromStats + allInstalledApp.map(::toNotSuggestedAppModel).shuffled()
+        val result = appsFromStats + allInstalledApp.map(::toNotSuggestedAppModel).shuffled()
+        result.also { all ->
+            val cache = all.mapIndexed { index, app ->
+                DatabaseSuggestionCache(
+                    id = app.id.toDatabaseAppId(),
+                    position = index.toLong(),
+                    isSuggested = app.isSuggested
+                )
+            }
+            cacheDataSource.insertSuggestionCache(cache)
+        }
+    }.onStart {
+        val cache = cacheDataSource.findCachedSuggestions().map { app ->
+            SuggestedAppModel(app.id.toAppId(), app.name.toAppName(), isSuggested = app.isSuggested)
+        }
+        emit(cache)
     }
 
     override fun startDeleteOldStats() {
@@ -104,3 +124,6 @@ private fun toNotSuggestedAppModel(app: AppModel) = SuggestedAppModel(
 
 private fun AppId.toDatabaseAppId() = DatabaseAppId(value)
 private fun GeoHash.toDatabaseGeoHash() = DatabaseGeoHash(value)
+
+private fun DatabaseAppId.toAppId() = AppId(value)
+private fun String.toAppName() = AppName(this)
