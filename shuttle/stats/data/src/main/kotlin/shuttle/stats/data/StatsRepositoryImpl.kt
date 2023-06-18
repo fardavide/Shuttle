@@ -1,6 +1,8 @@
 package shuttle.stats.data
 
+import arrow.core.Nel
 import arrow.core.Option
+import arrow.core.toNonEmptyListOrNone
 import korlibs.time.Date
 import korlibs.time.Time
 import korlibs.time.plus
@@ -72,23 +74,9 @@ internal class StatsRepositoryImpl(
                 SuggestedAppModel(installedApp.id, installedApp.name, isSuggested = true)
             }
         }
-        val result = appsFromStats + allInstalledApp.map(::toNotSuggestedAppModel).shuffled()
-        result.also { all ->
-            val cache = all.mapIndexed { index, app ->
-                DatabaseSuggestionCache(
-                    id = app.id.toDatabaseAppId(),
-                    position = index.toLong(),
-                    isSuggested = app.isSuggested
-                )
-            }
-            cacheDataSource.insertSuggestionCache(cache)
-        }
-    }.onStart {
-        val cache = cacheDataSource.findCachedSuggestions().map { app ->
-            SuggestedAppModel(app.id.toAppId(), app.name.toAppName(), isSuggested = app.isSuggested)
-        }
-        emit(cache)
-    }
+        (appsFromStats + allInstalledApp.map(::toNotSuggestedAppModel).shuffled())
+            .also { storeCache(it) }
+    }.onStart { getCache().tap { emit(it) } }
 
     override fun startDeleteOldStats() {
         deleteOldStatsScheduler.schedule()
@@ -107,6 +95,21 @@ internal class StatsRepositoryImpl(
             date = databaseDate,
             time = databaseTime
         )
+    }
+    
+    private suspend fun getCache(): Option<Nel<SuggestedAppModel>> = cacheDataSource.findCachedSuggestions()
+        .map { app -> SuggestedAppModel(app.id.toAppId(), app.name.toAppName(), isSuggested = app.isSuggested) }
+        .toNonEmptyListOrNone()
+
+    private suspend fun storeCache(suggestedApps: List<SuggestedAppModel>) {
+        val cache = suggestedApps.mapIndexed { index, app ->
+            DatabaseSuggestionCache(
+                id = app.id.toDatabaseAppId(),
+                position = index.toLong(),
+                isSuggested = app.isSuggested
+            )
+        }
+        cacheDataSource.insertSuggestionCache(cache)
     }
 }
 
