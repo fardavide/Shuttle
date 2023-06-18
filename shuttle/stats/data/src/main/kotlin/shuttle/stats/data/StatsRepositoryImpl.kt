@@ -8,7 +8,6 @@ import korlibs.time.Time
 import korlibs.time.plus
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combineTransform
-import kotlinx.coroutines.flow.internal.NopCollector.emit
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.onStart
 import org.koin.core.annotation.Factory
