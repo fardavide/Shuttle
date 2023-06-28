@@ -2,14 +2,12 @@ package shuttle.widget.viewmodel
 
 import arrow.core.Either
 import arrow.core.Option
-import arrow.core.right
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import org.koin.core.annotation.Single
 import shuttle.apps.domain.model.AppId
@@ -64,8 +62,7 @@ internal class SuggestedAppsWidgetViewModel(
 
     private fun observeSuggestedAppsWithDefault(
         takeAtLeast: Int
-    ): Flow<Either<ObserveSuggestedAppsError, List<SuggestedAppModel>>> =
-        observeSuggestedApps(takeAtLeast).onStart { emit(emptyList<SuggestedAppModel>().right()) }
+    ): Flow<Either<ObserveSuggestedAppsError, List<SuggestedAppModel>>> = observeSuggestedApps(takeAtLeast)
 
     private fun List<Either<GetSystemIconError, WidgetAppUiModel>>.filterRight(): List<WidgetAppUiModel> =
         mapNotNull { it.getOrNull() }
