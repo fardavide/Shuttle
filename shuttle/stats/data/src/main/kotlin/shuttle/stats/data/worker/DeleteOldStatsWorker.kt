@@ -6,6 +6,7 @@ import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
+import co.touchlab.kermit.Logger
 import org.koin.android.annotation.KoinWorker
 import org.koin.core.annotation.Factory
 import org.koin.core.annotation.Named
@@ -20,10 +21,18 @@ internal class DeleteOldStatsWorker(
     private val deleteOldStats: DeleteOldStats
 ) : CoroutineWorker(appContext, params) {
 
+    private val logger = Logger.withTag("DeleteOldStatsWorker")
+
     override suspend fun doWork(): Result = runCatching { deleteOldStats() }
         .fold(
-            onSuccess = { Result.success() },
-            onFailure = { Result.failure() }
+            onSuccess = {
+                logger.i("Successfully deleted old stats")
+                Result.success()
+            },
+            onFailure = {
+                logger.e(it) { "Failed to delete old stats" }
+                Result.failure()
+            }
         )
 
     companion object {
