@@ -40,11 +40,11 @@ import shuttle.design.util.Effect
 import shuttle.design.util.collectAsStateLifecycleAware
 import shuttle.permissions.domain.model.backgroundPermissionsList
 import shuttle.resources.R.string
+import shuttle.settings.presentation.action.SettingsAction
 import shuttle.settings.presentation.model.SettingsItemUiModel
 import shuttle.settings.presentation.model.SettingsSectionUiModel
-import shuttle.settings.presentation.model.SettingsState
+import shuttle.settings.presentation.state.SettingsState
 import shuttle.settings.presentation.viewmodel.SettingsViewModel
-import shuttle.settings.presentation.viewmodel.SettingsViewModel.Action
 
 @Composable
 fun SettingsPage(actions: SettingsPage.Actions) {
@@ -56,7 +56,7 @@ fun SettingsPage(actions: SettingsPage.Actions) {
     }
 
     val backgroundLocationPermissionsState = rememberMultiplePermissionsState(backgroundPermissionsList)
-    viewModel.submit(Action.UpdatePermissionsState(backgroundLocationPermissionsState))
+    viewModel.submit(SettingsAction.UpdatePermissionsState(backgroundLocationPermissionsState))
 
     Scaffold(
         modifier = Modifier
@@ -69,7 +69,7 @@ fun SettingsPage(actions: SettingsPage.Actions) {
         SettingsContent(
             state = state,
             actions = actions,
-            resetOnboardingShown = { viewModel.submit(Action.ResetOnboardingShown) },
+            resetOnboardingShown = { viewModel.submit(SettingsAction.ResetOnboardingShown) },
             modifier = Modifier.padding(paddingValues)
         )
     }
@@ -87,6 +87,9 @@ private fun SettingsContent(
         item { WidgetLayoutItem(actions.toWidgetLayout) }
         item { IconPackItem(actions.toIconPacks) }
         item { BlacklistItem(actions.toBlacklist) }
+
+        item { DataSection() }
+        item { StatisticsItem(actions.toStatistics) }
 
         item { InfoSection() }
         item { RestartOnboardingItem(resetOnboardingShown) }
@@ -130,6 +133,23 @@ private fun BlacklistItem(toBlacklist: () -> Unit) {
         description = stringResource(id = string.settings_blacklist_description)
     )
     SettingsItem(item = uiModel, onClick = toBlacklist)
+}
+
+@Composable
+private fun DataSection() {
+    val uiModel = SettingsSectionUiModel(
+        title = stringResource(id = string.settings_data_section_title)
+    )
+    SettingsSection(item = uiModel)
+}
+
+@Composable
+private fun StatisticsItem(toDataSettings: () -> Unit) {
+    val uiModel = SettingsItemUiModel(
+        title = stringResource(id = string.settings_statistics_title),
+        description = stringResource(id = string.settings_statistics_description)
+    )
+    SettingsItem(item = uiModel, onClick = toDataSettings)
 }
 
 @Composable
@@ -233,13 +253,28 @@ private fun AppVersionFooter(version: String) {
 object SettingsPage {
 
     data class Actions(
+        val toAbout: () -> Unit,
         val toBlacklist: () -> Unit,
-        val toWidgetLayout: () -> Unit,
         val toIconPacks: () -> Unit,
         val toOnboarding: () -> Unit,
         val toPermissions: () -> Unit,
-        val toAbout: () -> Unit
-    )
+        val toStatistics: () -> Unit,
+        val toWidgetLayout: () -> Unit
+    ) {
+
+        companion object {
+
+            val Empty = Actions(
+                toAbout = {},
+                toBlacklist = {},
+                toIconPacks = {},
+                toOnboarding = {},
+                toPermissions = {},
+                toStatistics = {},
+                toWidgetLayout = {}
+            )
+        }
+    }
 }
 
 @Preview
@@ -253,14 +288,7 @@ private fun SettingsContentPreview() {
     ShuttleTheme {
         SettingsContent(
             state = state,
-            actions = SettingsPage.Actions(
-                toBlacklist = {},
-                toWidgetLayout = {},
-                toIconPacks = {},
-                toOnboarding = {},
-                toPermissions = {},
-                toAbout = {}
-            ),
+            actions = SettingsPage.Actions.Empty,
             resetOnboardingShown = {},
             modifier = Modifier
         )

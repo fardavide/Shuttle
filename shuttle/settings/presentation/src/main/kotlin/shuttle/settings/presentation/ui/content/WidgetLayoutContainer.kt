@@ -37,12 +37,12 @@ import shuttle.design.ui.LoadingSpinner
 import shuttle.design.ui.WidgetPreview
 import shuttle.resources.R.drawable
 import shuttle.resources.R.string
-import shuttle.settings.presentation.viewmodel.WidgetLayoutViewModel.State
+import shuttle.settings.presentation.state.WidgetLayoutState
 
 @Composable
 internal fun WidgetLayoutContainer(
     @StringRes title: Int,
-    state: State,
+    state: WidgetLayoutState,
     onBack: () -> Unit,
     content: @Composable () -> Unit
 ) {
@@ -52,7 +52,7 @@ internal fun WidgetLayoutContainer(
         val dpDelta = with(density) { pixelsDelta.toDp() }
         previewHeight += dpDelta
     }
-    val backgroundColor = if (state is State.Data && state.layout.useMaterialColors.not()) {
+    val backgroundColor = if (state is WidgetLayoutState.Data && state.layout.useMaterialColors.not()) {
         MaterialTheme.colorScheme.primaryContainer
     } else {
         MaterialTheme.colorScheme.background
@@ -99,7 +99,7 @@ private fun TopBar(
 }
 
 @Composable
-private fun WidgetPreviewContent(state: State, height: androidx.compose.ui.unit.Dp) {
+private fun WidgetPreviewContent(state: WidgetLayoutState, height: androidx.compose.ui.unit.Dp) {
     Box(
         modifier = Modifier
             .height(height)
@@ -107,8 +107,8 @@ private fun WidgetPreviewContent(state: State, height: androidx.compose.ui.unit.
         contentAlignment = Alignment.Center
     ) {
         when (state) {
-            State.Loading, is State.Error -> LoadingSpinner()
-            is State.Data -> WidgetPreview(
+            WidgetLayoutState.Loading, is WidgetLayoutState.Error -> LoadingSpinner()
+            is WidgetLayoutState.Data -> WidgetPreview(
                 WidgetPreviewUiModel(
                     apps = state.previewApps,
                     layout = state.layout

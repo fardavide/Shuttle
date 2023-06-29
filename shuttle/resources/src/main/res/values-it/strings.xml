@@ -89,7 +89,7 @@
     <string name="widget_description">Suggerisce le app più utilizzare a seconda di orario e posizione</string>
 
     <string name="settings_statistics_title">Statistiche</string>
-    <string name="settings_statistics_description">Scegli come Shuttle salva le statistiche sull\'uso dell\'app. Tieni presente che salvare molte statistiche può influire sul tempo di aggiornamento del Widget</string>
+    <string name="settings_statistics_description">Scegli come Shuttle salva le statistiche sull\'uso dell\'app.\nTieni presente che salvare molte statistiche può influire sul tempo di aggiornamento del Widget</string>
     <string name="settings_statistics_keep_for">Mantieni le statistiche per</string>
     <plurals name="settings_statistics_months">
         <item quantity="one">%d mese</item>

@@ -17,10 +17,10 @@ import shuttle.icons.domain.error.GetSystemIconError
 import shuttle.icons.domain.usecase.ObserveInstalledIconPacks
 import shuttle.settings.domain.usecase.ObserveCurrentIconPack
 import shuttle.settings.domain.usecase.SetCurrentIconPack
+import shuttle.settings.presentation.action.IconPacksSettingsAction
 import shuttle.settings.presentation.mapper.IconPackSettingsUiModelMapper
 import shuttle.settings.presentation.model.IconPackSettingsItemUiModel
-import shuttle.settings.presentation.viewmodel.IconPacksSettingsViewModel.Action
-import shuttle.settings.presentation.viewmodel.IconPacksSettingsViewModel.State
+import shuttle.settings.presentation.state.IconPacksSettingsState
 import shuttle.util.android.viewmodel.ShuttleViewModel
 
 @KoinViewModel
@@ -29,7 +29,7 @@ internal class IconPacksSettingsViewModel(
     observeInstalledIconPacks: ObserveInstalledIconPacks,
     observeCurrentIconPack: ObserveCurrentIconPack,
     private val setCurrentIconPack: SetCurrentIconPack
-) : ShuttleViewModel<Action, State>(initialState = State.Loading) {
+) : ShuttleViewModel<IconPacksSettingsAction, IconPacksSettingsState>(initialState = IconPacksSettingsState.Loading) {
 
     init {
         combine(
@@ -37,23 +37,26 @@ internal class IconPacksSettingsViewModel(
             observeCurrentIconPack().onStart { emit(None) }
         ) { iconPacks, currentIconPack ->
             val uiModels = iconPackSettingsMapper.toUiModels(iconPacks, currentIconPack)
-            State.Data(uiModels.filterRight())
+            IconPacksSettingsState.Data(uiModels.filterRight())
         }
             .onEach(::emit)
             .launchIn(viewModelScope)
     }
 
-    override fun submit(action: Action) {
-        val currentState = state.value as? State.Data ?: return
+    override fun submit(action: IconPacksSettingsAction) {
+        val currentState = state.value as? IconPacksSettingsState.Data ?: return
         viewModelScope.launch {
             val newState = when (action) {
-                is Action.SetCurrentIconPack -> setCurrentIconPack(currentState, action.iconPackId)
+                is IconPacksSettingsAction.SetCurrentIconPack -> setCurrentIconPack(currentState, action.iconPackId)
             }
             emit(newState)
         }
     }
 
-    private suspend fun setCurrentIconPack(currentState: State.Data, iconPackId: Option<AppId>): State {
+    private suspend fun setCurrentIconPack(
+        currentState: IconPacksSettingsState.Data,
+        iconPackId: Option<AppId>
+    ): IconPacksSettingsState {
         val newData = currentState.iconPackSettingItems.map { uiModel ->
             when (uiModel) {
                 is IconPackSettingsItemUiModel.SystemDefault -> uiModel.copy(isSelected = iconPackId.isEmpty())
@@ -63,7 +66,7 @@ internal class IconPacksSettingsViewModel(
         viewModelScope.launch {
             setCurrentIconPack(iconPackId)
         }
-        return State.Data(newData)
+        return IconPacksSettingsState.Data(newData)
     }
 
     @Suppress("MaxLineLength")
@@ -72,14 +75,4 @@ internal class IconPacksSettingsViewModel(
             it.getOrNull()
         }.toImmutableList()
 
-    sealed interface State {
-
-        object Loading : State
-        data class Data(val iconPackSettingItems: ImmutableList<IconPackSettingsItemUiModel>) : State
-    }
-
-    sealed interface Action {
-
-        data class SetCurrentIconPack(val iconPackId: Option<AppId>) : Action
-    }
 }

@@ -15,6 +15,8 @@ import shuttle.design.ui.LoadingSpinner
 import shuttle.design.ui.TextError
 import shuttle.design.util.collectAsStateLifecycleAware
 import shuttle.settings.presentation.WidgetLayout
+import shuttle.settings.presentation.action.WidgetLayoutAction
+import shuttle.settings.presentation.state.WidgetLayoutState
 import shuttle.settings.presentation.ui.content.HomeWidgetLayoutContent
 import shuttle.settings.presentation.ui.content.WidgetAppsLabelsContent
 import shuttle.settings.presentation.ui.content.WidgetColorsContent
@@ -22,8 +24,6 @@ import shuttle.settings.presentation.ui.content.WidgetGridContent
 import shuttle.settings.presentation.ui.content.WidgetIconsDimensionsContent
 import shuttle.settings.presentation.ui.content.WidgetLayoutContainer
 import shuttle.settings.presentation.viewmodel.WidgetLayoutViewModel
-import shuttle.settings.presentation.viewmodel.WidgetLayoutViewModel.Action
-import shuttle.settings.presentation.viewmodel.WidgetLayoutViewModel.State
 
 @Composable
 fun WidgetLayoutPage(onBack: () -> Unit) {
@@ -35,9 +35,9 @@ fun WidgetLayoutPage(onBack: () -> Unit) {
 
     WidgetLayoutContainer(title = titleState.value, state = state.value, onBack = onWidgetLayoutBack) {
         when (val s = state.value) {
-            State.Loading -> LoadingSpinner()
-            is State.Error -> TextError(text = s.message)
-            is State.Data -> {
+            WidgetLayoutState.Loading -> LoadingSpinner()
+            is WidgetLayoutState.Error -> TextError(text = s.message)
+            is WidgetLayoutState.Data -> {
                 val args = Args(
                     state = s,
                     viewModel = viewModel,
@@ -75,8 +75,8 @@ private fun WidgetGridRoute(args: Args) = with(args) {
     WidgetGridContent(
         settings = state.layout,
         actions = WidgetGridContent.Actions(
-            onRowsUpdated = { viewModel.submit(Action.UpdateRows(it)) },
-            onColumnsUpdated = { viewModel.submit(Action.UpdateColumns(it)) }
+            onRowsUpdated = { viewModel.submit(WidgetLayoutAction.UpdateRows(it)) },
+            onColumnsUpdated = { viewModel.submit(WidgetLayoutAction.UpdateColumns(it)) }
         )
     )
 }
@@ -87,9 +87,9 @@ private fun WidgetIconsDimensionsRoute(args: Args) = with(args) {
     WidgetIconsDimensionsContent(
         settings = state.layout,
         actions = WidgetIconsDimensionsContent.Actions(
-            onIconSizeUpdated = { viewModel.submit(Action.UpdateIconsSize(it)) },
-            onHorizontalSpacingUpdated = { viewModel.submit(Action.UpdateHorizontalSpacing(it)) },
-            onVerticalSpacingUpdated = { viewModel.submit(Action.UpdateVerticalSpacing(it)) }
+            onIconSizeUpdated = { viewModel.submit(WidgetLayoutAction.UpdateIconsSize(it)) },
+            onHorizontalSpacingUpdated = { viewModel.submit(WidgetLayoutAction.UpdateHorizontalSpacing(it)) },
+            onVerticalSpacingUpdated = { viewModel.submit(WidgetLayoutAction.UpdateVerticalSpacing(it)) }
         )
     )
 }
@@ -100,8 +100,8 @@ private fun WidgetAppsLabelsRoute(args: Args) = with(args) {
     WidgetAppsLabelsContent(
         settings = state.layout,
         actions = WidgetAppsLabelsContent.Actions(
-            onTextSizeUpdated = { viewModel.submit(Action.UpdateTextSize(it)) },
-            onAllowTwoLinesUpdated = { viewModel.submit(Action.UpdateAllowTwoLines(it)) }
+            onTextSizeUpdated = { viewModel.submit(WidgetLayoutAction.UpdateTextSize(it)) },
+            onAllowTwoLinesUpdated = { viewModel.submit(WidgetLayoutAction.UpdateAllowTwoLines(it)) }
         )
     )
 }
@@ -112,8 +112,8 @@ private fun WidgetColorsRoute(args: Args) = with(args) {
     WidgetColorsContent(
         settings = state.layout,
         actions = WidgetColorsContent.Actions(
-            onTransparencyUpdated = { viewModel.submit(Action.UpdateTransparency(it)) },
-            onUseMaterialColorsUpdated = { viewModel.submit(Action.UpdateUseMaterialColors(it)) }
+            onTransparencyUpdated = { viewModel.submit(WidgetLayoutAction.UpdateTransparency(it)) },
+            onUseMaterialColorsUpdated = { viewModel.submit(WidgetLayoutAction.UpdateUseMaterialColors(it)) }
         )
     )
 }
@@ -124,7 +124,7 @@ private fun NavController.popOrBack(onBack: () -> Unit, titleState: MutableState
 }
 
 private class Args(
-    val state: State.Data,
+    val state: WidgetLayoutState.Data,
     val viewModel: WidgetLayoutViewModel,
     val navController: NavController,
     val titleState: MutableState<Int>

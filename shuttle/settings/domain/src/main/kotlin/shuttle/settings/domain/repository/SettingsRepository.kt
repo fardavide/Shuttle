@@ -4,6 +4,7 @@ import arrow.core.Option
 import kotlinx.coroutines.flow.Flow
 import shuttle.apps.domain.model.AppId
 import shuttle.settings.domain.model.AppBlacklistSetting
+import shuttle.settings.domain.model.KeepStatisticsFor
 import shuttle.settings.domain.model.WidgetSettings
 
 interface SettingsRepository {
@@ -18,6 +19,8 @@ interface SettingsRepository {
 
     fun observeCurrentIconPack(): Flow<Option<AppId>>
 
+    fun observeKeepStatisticsFor(): Flow<KeepStatisticsFor>
+
     fun observeWidgetSettings(): Flow<WidgetSettings>
 
     suspend fun resetOnboardingShown()
@@ -27,6 +30,8 @@ interface SettingsRepository {
     suspend fun setCurrentIconPack(id: Option<AppId>)
 
     suspend fun setHasEnabledAccessibilityService()
+
+    suspend fun setKeepStatisticsFor(keepStatisticsFor: KeepStatisticsFor)
 
     suspend fun setOnboardingShow()
 

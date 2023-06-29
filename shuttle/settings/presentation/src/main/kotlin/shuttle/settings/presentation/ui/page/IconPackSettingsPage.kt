@@ -1,5 +1,3 @@
-@file:Suppress("UnnecessaryVariable")
-
 package shuttle.settings.presentation.ui.page
 
 import android.graphics.drawable.Drawable
@@ -37,12 +35,12 @@ import shuttle.design.ui.BackIconButton
 import shuttle.design.ui.LoadingSpinner
 import shuttle.design.util.collectAsStateLifecycleAware
 import shuttle.resources.R.string
+import shuttle.settings.presentation.action.IconPacksSettingsAction
 import shuttle.settings.presentation.model.IconPackSettingsItemUiModel
 import shuttle.settings.presentation.model.IconPackSettingsItemUiModel.FromApp
 import shuttle.settings.presentation.model.IconPackSettingsItemUiModel.SystemDefault
+import shuttle.settings.presentation.state.IconPacksSettingsState
 import shuttle.settings.presentation.viewmodel.IconPacksSettingsViewModel
-import shuttle.settings.presentation.viewmodel.IconPacksSettingsViewModel.Action
-import shuttle.settings.presentation.viewmodel.IconPacksSettingsViewModel.State
 
 @Composable
 fun IconPackSettingsPage(onBack: () -> Unit) {
@@ -67,16 +65,16 @@ private fun IconPacksSettingsContent() {
 
     val s by viewModel.state.collectAsStateLifecycleAware()
     when (val state = s) {
-        State.Loading -> LoadingSpinner()
-        is State.Data -> BlacklistItemsList(
+        IconPacksSettingsState.Loading -> LoadingSpinner()
+        is IconPacksSettingsState.Data -> IconPackList(
             state.iconPackSettingItems,
-            onSetCurrentIconPack = { viewModel.submit(Action.SetCurrentIconPack(it)) }
+            onSetCurrentIconPack = { viewModel.submit(IconPacksSettingsAction.SetCurrentIconPack(it)) }
         )
     }
 }
 
 @Composable
-private fun BlacklistItemsList(
+private fun IconPackList(
     iconPackItems: ImmutableList<IconPackSettingsItemUiModel>,
     onSetCurrentIconPack: (Option<AppId>) -> Unit
 ) {

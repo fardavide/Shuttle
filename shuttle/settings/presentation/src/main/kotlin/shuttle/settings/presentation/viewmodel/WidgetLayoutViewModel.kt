@@ -8,19 +8,17 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.koin.android.annotation.KoinViewModel
 import shuttle.apps.domain.usecase.ObserveAllInstalledApps
-import shuttle.design.model.WidgetLayoutUiModel
 import shuttle.design.model.WidgetPreviewAppUiModel
 import shuttle.icons.domain.error.GetSystemIconError
 import shuttle.settings.domain.model.Dp
 import shuttle.settings.domain.model.Sp
-import shuttle.settings.domain.model.WidgetSettings
 import shuttle.settings.domain.usecase.ObserveCurrentIconPack
 import shuttle.settings.domain.usecase.ObserveWidgetSettings
 import shuttle.settings.domain.usecase.UpdateWidgetSettings
+import shuttle.settings.presentation.action.WidgetLayoutAction
 import shuttle.settings.presentation.mapper.WidgetPreviewAppUiModelMapper
 import shuttle.settings.presentation.mapper.WidgetSettingsUiModelMapper
-import shuttle.settings.presentation.viewmodel.WidgetLayoutViewModel.Action
-import shuttle.settings.presentation.viewmodel.WidgetLayoutViewModel.State
+import shuttle.settings.presentation.state.WidgetLayoutState
 import shuttle.util.android.viewmodel.ShuttleViewModel
 
 @KoinViewModel
@@ -31,7 +29,7 @@ internal class WidgetLayoutViewModel(
     private val updateWidgetSettings: UpdateWidgetSettings,
     private val widgetPreviewAppUiModelMapper: WidgetPreviewAppUiModelMapper,
     private val widgetSettingsUiModelMapper: WidgetSettingsUiModelMapper
-) : ShuttleViewModel<Action, State>(initialState = State.Loading) {
+) : ShuttleViewModel<WidgetLayoutAction, WidgetLayoutState>(initialState = WidgetLayoutState.Loading) {
 
     init {
         combine(
@@ -39,7 +37,7 @@ internal class WidgetLayoutViewModel(
             observeCurrentIconPack(),
             observeWidgetSettings()
         ) { installedApps, currentIconPack, widgetSettings ->
-            State.Data(
+            WidgetLayoutState.Data(
                 previewApps = widgetPreviewAppUiModelMapper
                     .toUiModels(installedApps, currentIconPack)
                     .filterRight()
@@ -52,25 +50,28 @@ internal class WidgetLayoutViewModel(
             .launchIn(viewModelScope)
     }
 
-    override fun submit(action: Action) {
-        val currentState = state.value as? State.Data ?: return
+    override fun submit(action: WidgetLayoutAction) {
+        val currentState = state.value as? WidgetLayoutState.Data ?: return
         viewModelScope.launch {
             val newState = when (action) {
-                is Action.UpdateAllowTwoLines -> updateAllowTwoLines(currentState, action.value)
-                is Action.UpdateColumns -> updateColumns(currentState, action.value)
-                is Action.UpdateHorizontalSpacing -> updateHorizontalSpacing(currentState, action.value)
-                is Action.UpdateIconsSize -> updateIconsSize(currentState, action.value)
-                is Action.UpdateRows -> updateRows(currentState, action.value)
-                is Action.UpdateTextSize -> updateTextSize(currentState, action.value)
-                is Action.UpdateTransparency -> updateTransparency(currentState, action.value)
-                is Action.UpdateUseMaterialColors -> updateUseMaterialColors(currentState, action.value)
-                is Action.UpdateVerticalSpacing -> updateVerticalSpacing(currentState, action.value)
+                is WidgetLayoutAction.UpdateAllowTwoLines -> updateAllowTwoLines(currentState, action.value)
+                is WidgetLayoutAction.UpdateColumns -> updateColumns(currentState, action.value)
+                is WidgetLayoutAction.UpdateHorizontalSpacing -> updateHorizontalSpacing(currentState, action.value)
+                is WidgetLayoutAction.UpdateIconsSize -> updateIconsSize(currentState, action.value)
+                is WidgetLayoutAction.UpdateRows -> updateRows(currentState, action.value)
+                is WidgetLayoutAction.UpdateTextSize -> updateTextSize(currentState, action.value)
+                is WidgetLayoutAction.UpdateTransparency -> updateTransparency(currentState, action.value)
+                is WidgetLayoutAction.UpdateUseMaterialColors -> updateUseMaterialColors(currentState, action.value)
+                is WidgetLayoutAction.UpdateVerticalSpacing -> updateVerticalSpacing(currentState, action.value)
             }
             emit(newState)
         }
     }
 
-    private suspend fun updateAllowTwoLines(currentState: State.Data, value: Boolean): State {
+    private suspend fun updateAllowTwoLines(
+        currentState: WidgetLayoutState.Data,
+        value: Boolean
+    ): WidgetLayoutState {
         val newSettings = currentState.widgetSettingsDomainModel.copy(allowTwoLines = value)
         updateWidgetSettings(newSettings)
         return currentState.copy(
@@ -79,7 +80,7 @@ internal class WidgetLayoutViewModel(
         )
     }
 
-    private suspend fun updateColumns(currentState: State.Data, value: Int): State {
+    private suspend fun updateColumns(currentState: WidgetLayoutState.Data, value: Int): WidgetLayoutState {
         val newSettings = currentState.widgetSettingsDomainModel.copy(columnCount = value)
         updateWidgetSettings(newSettings)
         return currentState.copy(
@@ -88,7 +89,10 @@ internal class WidgetLayoutViewModel(
         )
     }
 
-    private suspend fun updateHorizontalSpacing(currentState: State.Data, value: Int): State {
+    private suspend fun updateHorizontalSpacing(
+        currentState: WidgetLayoutState.Data,
+        value: Int
+    ): WidgetLayoutState {
         val newSettings = currentState.widgetSettingsDomainModel.copy(horizontalSpacing = Dp(value))
         updateWidgetSettings(newSettings)
         return currentState.copy(
@@ -97,7 +101,7 @@ internal class WidgetLayoutViewModel(
         )
     }
 
-    private suspend fun updateIconsSize(currentState: State.Data, value: Int): State {
+    private suspend fun updateIconsSize(currentState: WidgetLayoutState.Data, value: Int): WidgetLayoutState {
         val newSettings = currentState.widgetSettingsDomainModel.copy(iconsSize = Dp(value))
         updateWidgetSettings(newSettings)
         return currentState.copy(
@@ -106,7 +110,7 @@ internal class WidgetLayoutViewModel(
         )
     }
 
-    private suspend fun updateRows(currentState: State.Data, value: Int): State {
+    private suspend fun updateRows(currentState: WidgetLayoutState.Data, value: Int): WidgetLayoutState {
         val newSettings = currentState.widgetSettingsDomainModel.copy(rowCount = value)
         updateWidgetSettings(newSettings)
         return currentState.copy(
@@ -115,7 +119,7 @@ internal class WidgetLayoutViewModel(
         )
     }
 
-    private suspend fun updateTextSize(currentState: State.Data, value: Int): State {
+    private suspend fun updateTextSize(currentState: WidgetLayoutState.Data, value: Int): WidgetLayoutState {
         val newSettings = currentState.widgetSettingsDomainModel.copy(textSize = Sp(value))
         updateWidgetSettings(newSettings)
         return currentState.copy(
@@ -124,7 +128,10 @@ internal class WidgetLayoutViewModel(
         )
     }
 
-    private suspend fun updateTransparency(currentState: State.Data, value: Int): State {
+    private suspend fun updateTransparency(
+        currentState: WidgetLayoutState.Data,
+        value: Int
+    ): WidgetLayoutState {
         val newSettings = currentState.widgetSettingsDomainModel.copy(transparency = value)
         updateWidgetSettings(newSettings)
         return currentState.copy(
@@ -133,7 +140,10 @@ internal class WidgetLayoutViewModel(
         )
     }
 
-    private suspend fun updateUseMaterialColors(currentState: State.Data, value: Boolean): State {
+    private suspend fun updateUseMaterialColors(
+        currentState: WidgetLayoutState.Data,
+        value: Boolean
+    ): WidgetLayoutState {
         val newSettings = currentState.widgetSettingsDomainModel.copy(useMaterialColors = value)
         updateWidgetSettings(newSettings)
         return currentState.copy(
@@ -142,7 +152,10 @@ internal class WidgetLayoutViewModel(
         )
     }
 
-    private suspend fun updateVerticalSpacing(currentState: State.Data, value: Int): State {
+    private suspend fun updateVerticalSpacing(
+        currentState: WidgetLayoutState.Data,
+        value: Int
+    ): WidgetLayoutState {
         val newSettings = currentState.widgetSettingsDomainModel.copy(verticalSpacing = Dp(value))
         updateWidgetSettings(newSettings)
         return currentState.copy(
@@ -154,28 +167,4 @@ internal class WidgetLayoutViewModel(
     private fun List<Either<GetSystemIconError, WidgetPreviewAppUiModel>>.filterRight(): List<WidgetPreviewAppUiModel> =
         mapNotNull { it.getOrNull() }
 
-    sealed interface State {
-
-        object Loading : State
-        data class Data(
-            val previewApps: List<WidgetPreviewAppUiModel>,
-            val widgetSettingsDomainModel: WidgetSettings,
-            val layout: WidgetLayoutUiModel
-        ) : State
-
-        data class Error(val message: String) : State
-    }
-
-    sealed interface Action {
-
-        data class UpdateAllowTwoLines(val value: Boolean) : Action
-        data class UpdateColumns(val value: Int) : Action
-        data class UpdateHorizontalSpacing(val value: Int) : Action
-        data class UpdateIconsSize(val value: Int) : Action
-        data class UpdateRows(val value: Int) : Action
-        data class UpdateTextSize(val value: Int) : Action
-        data class UpdateTransparency(val value: Int) : Action
-        data class UpdateUseMaterialColors(val value: Boolean) : Action
-        data class UpdateVerticalSpacing(val value: Int) : Action
-    }
 }

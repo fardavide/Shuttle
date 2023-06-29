@@ -8,8 +8,8 @@ import shuttle.accessibility.usecase.IsLaunchCounterServiceEnabled
 import shuttle.design.util.Effect
 import shuttle.permissions.domain.usecase.HasAllLocationPermissions
 import shuttle.settings.domain.usecase.ResetOnboardingShown
-import shuttle.settings.presentation.model.SettingsState
-import shuttle.settings.presentation.viewmodel.SettingsViewModel.Action
+import shuttle.settings.presentation.action.SettingsAction
+import shuttle.settings.presentation.state.SettingsState
 import shuttle.util.android.viewmodel.ShuttleViewModel
 import shuttle.utils.kotlin.GetAppVersion
 
@@ -19,7 +19,7 @@ class SettingsViewModel(
     private val hasAllLocationPermissions: HasAllLocationPermissions,
     private val isLaunchCounterServiceEnabled: IsLaunchCounterServiceEnabled,
     private val resetOnboardingShown: ResetOnboardingShown
-) : ShuttleViewModel<Action, SettingsState>(initialState = SettingsState.Loading) {
+) : ShuttleViewModel<SettingsAction, SettingsState>(initialState = SettingsState.Loading) {
 
     init {
         viewModelScope.launch {
@@ -28,11 +28,11 @@ class SettingsViewModel(
         }
     }
 
-    override fun submit(action: Action) {
+    override fun submit(action: SettingsAction) {
         viewModelScope.launch {
             val newState = when (action) {
-                Action.ResetOnboardingShown -> onResetOnboardingShown()
-                is Action.UpdatePermissionsState -> onPermissionsStateUpdate(action.permissionsState)
+                SettingsAction.ResetOnboardingShown -> onResetOnboardingShown()
+                is SettingsAction.UpdatePermissionsState -> onPermissionsStateUpdate(action.permissionsState)
             }
             emit(newState)
         }
@@ -50,9 +50,4 @@ class SettingsViewModel(
         return state.value.copy(permissions = permissions)
     }
 
-    sealed interface Action {
-
-        object ResetOnboardingShown : Action
-        data class UpdatePermissionsState(val permissionsState: MultiplePermissionsState) : Action
-    }
 }

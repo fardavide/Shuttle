@@ -40,10 +40,10 @@ import shuttle.design.ui.TextError
 import shuttle.design.util.collectAsStateLifecycleAware
 import shuttle.resources.R.string
 import shuttle.resources.TextRes
+import shuttle.settings.presentation.action.BlacklistSettingsAction
 import shuttle.settings.presentation.model.AppBlacklistSettingUiModel
+import shuttle.settings.presentation.state.BlacklistSettingsState
 import shuttle.settings.presentation.viewmodel.BlacklistSettingsViewModel
-import shuttle.settings.presentation.viewmodel.BlacklistSettingsViewModel.Action
-import shuttle.settings.presentation.viewmodel.BlacklistSettingsViewModel.State
 
 @Composable
 fun BlacklistSettingsPage(onBack: () -> Unit) {
@@ -70,18 +70,18 @@ private fun BlacklistSettingsContent() {
 
     val s by viewModel.state.collectAsStateLifecycleAware()
     when (val state = s) {
-        State.Loading -> LoadingSpinner()
-        is State.Data -> Column {
-            SearchBar(onSearch = { viewModel.submit(Action.Search(it)) })
+        BlacklistSettingsState.Loading -> LoadingSpinner()
+        is BlacklistSettingsState.Data -> Column {
+            SearchBar(onSearch = { viewModel.submit(BlacklistSettingsAction.Search(it)) })
             BlacklistItemsList(
                 apps = state.apps,
                 actions = AppListItem.Actions(
-                    onAddToBlacklist = { viewModel.submit(Action.AddToBlacklist(it)) },
-                    onRemoveFromBlacklist = { viewModel.submit(Action.RemoveFromBlacklist(it)) }
+                    onAddToBlacklist = { viewModel.submit(BlacklistSettingsAction.AddToBlacklist(it)) },
+                    onRemoveFromBlacklist = { viewModel.submit(BlacklistSettingsAction.RemoveFromBlacklist(it)) }
                 )
             )
         }
-        is State.Error -> TextError(text = state.message)
+        is BlacklistSettingsState.Error -> TextError(text = state.message)
     }
 }
 

@@ -1,4 +1,4 @@
-package shuttle.settings.presentation.model
+package shuttle.settings.presentation.state
 
 import shuttle.design.util.Effect
 

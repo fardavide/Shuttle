@@ -7,6 +7,7 @@ import io.kotest.matchers.shouldNotBe
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import shuttle.database.datasource.SettingDataSource
+import shuttle.settings.data.repository.DataStoreSettingsRepository
 import shuttle.settings.data.util.mockDataStore
 import shuttle.settings.domain.model.Dp
 import shuttle.settings.domain.model.Sp
@@ -15,7 +16,7 @@ import shuttle.settings.domain.model.WidgetSettings
 class SettingsRepositoryImplTest : AnnotationSpec() {
 
     private val settingDataSource: SettingDataSource = mockk()
-    private val repository = SettingsRepositoryImpl(
+    private val repository = DataStoreSettingsRepository(
         dataStoreProvider = ::mockDataStore,
         settingDataSource = settingDataSource
     )

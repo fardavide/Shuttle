@@ -35,9 +35,9 @@ import shuttle.payments.domain.model.PaymentError
 import shuttle.payments.domain.model.Product
 import shuttle.payments.domain.model.PurchaseSuccess
 import shuttle.resources.R.string
+import shuttle.settings.presentation.action.AboutAction
+import shuttle.settings.presentation.state.AboutState
 import shuttle.settings.presentation.viewmodel.AboutViewModel
-import shuttle.settings.presentation.viewmodel.AboutViewModel.Action
-import shuttle.settings.presentation.viewmodel.AboutViewModel.State
 
 @Composable
 fun AboutPage(onBack: () -> Unit) {
@@ -53,8 +53,8 @@ fun AboutPage(onBack: () -> Unit) {
         toGitHubIssues = { uriHandler.openUri(actionsStrings.gitHubIssuesUrl) },
         toGitHubDev = { uriHandler.openUri(actionsStrings.gitHubDevUrl) },
         toTwitterDev = { uriHandler.openUri(actionsStrings.twitterDevUrl) },
-        buyCoffee = { viewModel.submit(Action.LaunchPurchase(activity, Product.Small)) },
-        buyMakeup = { viewModel.submit(Action.LaunchPurchase(activity, Product.Large)) }
+        buyCoffee = { viewModel.submit(AboutAction.LaunchPurchase(activity, Product.Small)) },
+        buyMakeup = { viewModel.submit(AboutAction.LaunchPurchase(activity, Product.Large)) }
     )
     val state = viewModel.state.collectAsStateLifecycleAware()
 
@@ -69,14 +69,14 @@ fun AboutPage(onBack: () -> Unit) {
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
     ) { paddingValues ->
         when (val s = state.value) {
-            is State.Data -> AboutContent(
+            is AboutState.Data -> AboutContent(
                 modifier = Modifier.padding(paddingValues),
                 state = s,
                 actions = actions,
                 snackbarHostState = snackbarHostState
             )
-            State.Loading -> LoadingSpinner()
-            State.Error -> TextError(text = stringResource(id = string.x_generic_error))
+            AboutState.Loading -> LoadingSpinner()
+            AboutState.Error -> TextError(text = stringResource(id = string.x_generic_error))
         }
     }
 }
@@ -93,7 +93,7 @@ private suspend fun SnackbarHostState.showSnackbarIfNone(message: String) {
 
 @Composable
 private fun AboutContent(
-    state: State.Data,
+    state: AboutState.Data,
     actions: Actions,
     snackbarHostState: SnackbarHostState,
     modifier: Modifier = Modifier
@@ -159,7 +159,7 @@ private fun ClickableItem(text: String, onClick: () -> Unit) {
 @Composable
 @Preview(showSystemUi = true)
 private fun AboutContentPreview() {
-    val state = State.Data(
+    val state = AboutState.Data(
         smallProductFormattedPrice = "1.19 $",
         largeProductFormattedPrice = "5.49 $",
         purchaseResult = Effect.empty()

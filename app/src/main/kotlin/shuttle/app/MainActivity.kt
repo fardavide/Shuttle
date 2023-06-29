@@ -25,6 +25,7 @@ import shuttle.settings.presentation.ui.page.AboutPage
 import shuttle.settings.presentation.ui.page.BlacklistSettingsPage
 import shuttle.settings.presentation.ui.page.IconPackSettingsPage
 import shuttle.settings.presentation.ui.page.SettingsPage
+import shuttle.settings.presentation.ui.page.StatisticsSettingsPage
 import shuttle.settings.presentation.ui.page.WidgetLayoutPage
 
 class MainActivity : ComponentActivity() {
@@ -55,6 +56,7 @@ internal fun App(onFinish: () -> Unit) {
         composable(Onboarding) { OnboardingRoute(navController) }
         composable(Permissions) { PermissionsRoute(navController) }
         composable(Settings) { SettingsRoute(navController) }
+        composable(StatisticsSettings) { StatisticsSettingsRoute(onBack = onBack) }
         composable(Suggestions) { SuggestionsRoute(navController) }
         composable(WidgetLayout) { WidgetLayoutRoute(onBack = onBack) }
     }
@@ -83,14 +85,18 @@ private fun PermissionsRoute(navController: NavController) =
 @Composable
 private fun SettingsRoute(navController: NavController) = SettingsPage(
     actions = SettingsPage.Actions(
+        toAbout = { navController.navigate(About) },
         toBlacklist = { navController.navigate(BlacklistSettings) },
-        toWidgetLayout = { navController.navigate(WidgetLayout) },
         toIconPacks = { navController.navigate(IconPackSettings) },
         toOnboarding = { navController.navigate(Onboarding) },
         toPermissions = { navController.navigate(Permissions) },
-        toAbout = { navController.navigate(About) }
+        toStatistics = { navController.navigate(StatisticsSettings) },
+        toWidgetLayout = { navController.navigate(WidgetLayout) }
     )
 )
+
+@Composable
+private fun StatisticsSettingsRoute(onBack: () -> Unit) = StatisticsSettingsPage(onBack = onBack)
 
 @Composable
 private fun SuggestionsRoute(navController: NavController) =

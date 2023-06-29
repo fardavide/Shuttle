@@ -15,10 +15,10 @@ import shuttle.settings.domain.model.AppBlacklistSetting
 import shuttle.settings.domain.usecase.AddToBlacklist
 import shuttle.settings.domain.usecase.RemoveFromBlacklist
 import shuttle.settings.domain.usecase.SearchAppsBlacklistSettings
+import shuttle.settings.presentation.action.BlacklistSettingsAction
 import shuttle.settings.presentation.mapper.AppBlacklistSettingUiModelMapper
 import shuttle.settings.presentation.model.AppBlacklistSettingUiModel
-import shuttle.settings.presentation.viewmodel.BlacklistSettingsViewModel.Action
-import shuttle.settings.presentation.viewmodel.BlacklistSettingsViewModel.State
+import shuttle.settings.presentation.state.BlacklistSettingsState
 import shuttle.util.android.viewmodel.ShuttleViewModel
 
 @KoinViewModel
@@ -27,30 +27,37 @@ internal class BlacklistSettingsViewModel(
     private val addToBlacklist: AddToBlacklist,
     private val removeFromBlacklist: RemoveFromBlacklist,
     private val searchAppsBlacklistSettings: SearchAppsBlacklistSettings
-) : ShuttleViewModel<Action, State>(initialState = State.Loading) {
+) : ShuttleViewModel<BlacklistSettingsAction, BlacklistSettingsState>(initialState = BlacklistSettingsState.Loading) {
 
     private var sortingOrder: List<AppId>? = null
 
     init {
         searchAppsBlacklistSettings()
-            .map { list -> State.Data(appUiModelMapper.toUiModels(list.sortIfFirstData()).filterRight()) }
+            .map { list ->
+                BlacklistSettingsState.Data(
+                    apps = appUiModelMapper.toUiModels(list.sortIfFirstData()).filterRight()
+                )
+            }
             .onEach(::emit)
             .launchIn(viewModelScope)
     }
 
-    override fun submit(action: Action) {
-        val currentState = state.value as? State.Data ?: return
+    override fun submit(action: BlacklistSettingsAction) {
+        val currentState = state.value as? BlacklistSettingsState.Data ?: return
         viewModelScope.launch {
             val newState = when (action) {
-                is Action.AddToBlacklist -> onAddToBlacklist(currentState, action.appId)
-                is Action.RemoveFromBlacklist -> onRemoveFromBlacklist(currentState, action.appId)
-                is Action.Search -> onSearch(action.query)
+                is BlacklistSettingsAction.AddToBlacklist -> onAddToBlacklist(currentState, action.appId)
+                is BlacklistSettingsAction.RemoveFromBlacklist -> onRemoveFromBlacklist(currentState, action.appId)
+                is BlacklistSettingsAction.Search -> onSearch(action.query)
             }
             emit(newState)
         }
     }
 
-    private suspend fun onAddToBlacklist(currentState: State.Data, appId: AppId): State {
+    private suspend fun onAddToBlacklist(
+        currentState: BlacklistSettingsState.Data,
+        appId: AppId
+    ): BlacklistSettingsState {
         val newData = currentState.apps.map { app ->
             val shouldBeBlacklisted =
                 if (app.id == appId) true
@@ -60,10 +67,13 @@ internal class BlacklistSettingsViewModel(
         viewModelScope.launch {
             addToBlacklist(appId)
         }
-        return State.Data(newData)
+        return BlacklistSettingsState.Data(newData)
     }
 
-    private suspend fun onRemoveFromBlacklist(currentState: State.Data, appId: AppId): State {
+    private suspend fun onRemoveFromBlacklist(
+        currentState: BlacklistSettingsState.Data,
+        appId: AppId
+    ): BlacklistSettingsState {
         val newData = currentState.apps.map { app ->
             val shouldBeBlacklisted =
                 if (app.id == appId) false
@@ -73,10 +83,10 @@ internal class BlacklistSettingsViewModel(
         viewModelScope.launch {
             removeFromBlacklist(appId)
         }
-        return State.Data(newData)
+        return BlacklistSettingsState.Data(newData)
     }
 
-    private fun onSearch(query: String): State {
+    private fun onSearch(query: String): BlacklistSettingsState {
         searchAppsBlacklistSettings(query)
         return state.value
     }
@@ -97,17 +107,4 @@ internal class BlacklistSettingsViewModel(
             it.getOrNull()
         }.toImmutableList()
 
-    sealed interface State {
-
-        object Loading : State
-        data class Data(val apps: ImmutableList<AppBlacklistSettingUiModel>) : State
-        data class Error(val message: String) : State
-    }
-
-    sealed interface Action {
-
-        data class AddToBlacklist(val appId: AppId) : Action
-        data class RemoveFromBlacklist(val appId: AppId) : Action
-        data class Search(val query: String) : Action
-    }
 }

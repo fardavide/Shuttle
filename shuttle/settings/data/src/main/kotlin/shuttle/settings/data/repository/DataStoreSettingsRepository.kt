@@ -1,4 +1,4 @@
-package shuttle.settings.data
+package shuttle.settings.data.repository
 
 import androidx.datastore.preferences.core.edit
 import arrow.core.Option
@@ -12,18 +12,21 @@ import shuttle.apps.domain.model.AppModel
 import shuttle.apps.domain.model.AppName
 import shuttle.database.datasource.SettingDataSource
 import shuttle.database.model.DatabaseAppId
+import shuttle.settings.data.DataStoreProvider
 import shuttle.settings.data.model.CurrentIconPackPreferenceKey
 import shuttle.settings.data.model.DidShowOnboardingPreferenceKey
 import shuttle.settings.data.model.HasAccessibilityServicePreferenceKey
+import shuttle.settings.data.model.KeepStatisticsForPreferenceKey
 import shuttle.settings.data.model.WidgetSettingsPreferenceKeys
 import shuttle.settings.domain.model.AppBlacklistSetting
 import shuttle.settings.domain.model.Dp
+import shuttle.settings.domain.model.KeepStatisticsFor
 import shuttle.settings.domain.model.Sp
 import shuttle.settings.domain.model.WidgetSettings
 import shuttle.settings.domain.repository.SettingsRepository
 
 @Factory
-internal class SettingsRepositoryImpl(
+internal class DataStoreSettingsRepository(
     dataStoreProvider: DataStoreProvider,
     private val settingDataSource: SettingDataSource
 ) : SettingsRepository {
@@ -54,6 +57,10 @@ internal class SettingsRepositoryImpl(
 
     override fun observeCurrentIconPack(): Flow<Option<AppId>> = dataStore.data.map {
         Option.fromNullable(it[CurrentIconPackPreferenceKey]?.let(::AppId))
+    }.distinctUntilChanged()
+
+    override fun observeKeepStatisticsFor(): Flow<KeepStatisticsFor> = dataStore.data.map {
+        it[KeepStatisticsForPreferenceKey]?.let(KeepStatisticsFor::fromMonths) ?: KeepStatisticsFor.Default
     }.distinctUntilChanged()
 
     override fun observeWidgetSettings(): Flow<WidgetSettings> = with(WidgetSettingsPreferenceKeys) {
@@ -94,6 +101,12 @@ internal class SettingsRepositoryImpl(
     override suspend fun setHasEnabledAccessibilityService() {
         dataStore.edit {
             it[HasAccessibilityServicePreferenceKey] = true
+        }
+    }
+
+    override suspend fun setKeepStatisticsFor(keepStatisticsFor: KeepStatisticsFor) {
+        dataStore.edit {
+            it[KeepStatisticsForPreferenceKey] = keepStatisticsFor.toMonths()
         }
     }
 
