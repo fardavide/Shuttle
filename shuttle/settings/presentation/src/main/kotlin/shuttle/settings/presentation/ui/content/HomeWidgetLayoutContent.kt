@@ -1,10 +1,9 @@
 package shuttle.settings.presentation.ui.content
 
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import shuttle.design.PreviewUtils
+import shuttle.design.theme.ShuttleTheme
 import shuttle.design.ui.NavigableListItem
 import shuttle.resources.R.drawable
 import shuttle.settings.presentation.WidgetLayout
@@ -64,13 +63,9 @@ object HomeWidgetLayoutContent {
 }
 
 @Composable
-@Preview(
-    showBackground = true,
-    widthDp = PreviewUtils.Dimens.Medium.Width,
-    heightDp = PreviewUtils.Dimens.Medium.Height
-)
+@Preview
 private fun HomeWidgetLayoutContentPreview() {
-    MaterialTheme {
+    ShuttleTheme {
         HomeWidgetLayoutContent(HomeWidgetLayoutContent.Actions.Empty)
     }
 }

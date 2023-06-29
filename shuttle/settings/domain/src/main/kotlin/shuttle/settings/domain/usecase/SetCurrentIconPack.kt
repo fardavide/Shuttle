@@ -3,7 +3,7 @@ package shuttle.settings.domain.usecase
 import arrow.core.Option
 import org.koin.core.annotation.Factory
 import shuttle.apps.domain.model.AppId
-import shuttle.settings.domain.SettingsRepository
+import shuttle.settings.domain.repository.SettingsRepository
 
 @Factory
 class SetCurrentIconPack(

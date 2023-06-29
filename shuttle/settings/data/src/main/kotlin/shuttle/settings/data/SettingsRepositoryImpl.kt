@@ -16,11 +16,11 @@ import shuttle.settings.data.model.CurrentIconPackPreferenceKey
 import shuttle.settings.data.model.DidShowOnboardingPreferenceKey
 import shuttle.settings.data.model.HasAccessibilityServicePreferenceKey
 import shuttle.settings.data.model.WidgetSettingsPreferenceKeys
-import shuttle.settings.domain.SettingsRepository
 import shuttle.settings.domain.model.AppBlacklistSetting
 import shuttle.settings.domain.model.Dp
 import shuttle.settings.domain.model.Sp
 import shuttle.settings.domain.model.WidgetSettings
+import shuttle.settings.domain.repository.SettingsRepository
 
 @Factory
 internal class SettingsRepositoryImpl(

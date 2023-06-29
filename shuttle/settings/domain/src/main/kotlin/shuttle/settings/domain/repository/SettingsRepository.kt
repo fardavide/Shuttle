@@ -1,4 +1,4 @@
-package shuttle.settings.domain
+package shuttle.settings.domain.repository
 
 import arrow.core.Option
 import kotlinx.coroutines.flow.Flow
