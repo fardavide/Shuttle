@@ -62,6 +62,7 @@
     <string name="settings_icon_pack_description">Scegli un Pacchetto d\'Icone</string>
     <string name="settings_icon_pack_system_default">Icone di sistema</string>
     <string name="settings_icon_pack_title">Pacchetti Icone</string>
+    <string name="settings_data_section_title">Data</string>
     <string name="settings_info_section_title">Info</string>
     <string name="settings_restart_onboarding_description">Guarda do nuovo l\'introduzione all\'app, in caso ti fossi perso qualcosa</string>
     <string name="settings_restart_onboarding_title">Guarda tutorial</string>
@@ -86,5 +87,14 @@
     <string name="settings_widget_colors_transparency">Trasparenza sfondo</string>
     <string name="settings_widget_colors_use_material_colors">Usa color Material U</string>
     <string name="widget_description">Suggerisce le app più utilizzare a seconda di orario e posizione</string>
+
+    <string name="settings_statistics_title">Statistiche</string>
+    <string name="settings_statistics_description">Scegli come Shuttle salva le statistiche sull\'uso dell\'app. Tieni presente che salvare molte statistiche può influire sul tempo di aggiornamento del Widget</string>
+    <string name="settings_statistics_keep_for">Mantieni le statistiche per</string>
+    <plurals name="settings_statistics_months">
+        <item quantity="one">%d mese</item>
+        <item quantity="other">%d mesi</item>
+    </plurals>
+    <string name="settings_statistics_keep_forever">Per sempre</string>
 
 </resources>

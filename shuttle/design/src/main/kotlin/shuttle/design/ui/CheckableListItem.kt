@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import shuttle.design.theme.Dimens
 import shuttle.resources.TextRes
-import shuttle.resources.stringResource
+import shuttle.resources.string
 
 @Suppress("ComposableNaming")
 object CheckableListItem {
@@ -142,11 +142,11 @@ object CheckableListItem {
             Image(
                 modifier = Modifier.padding(iconPadding).size(iconSize),
                 painter = icon,
-                contentDescription = contentDescription?.let { stringResource(textRes = it) }
+                contentDescription = contentDescription?.let { string(textRes = it) }
             )
             Spacer(modifier = Modifier.width(Dimens.Margin.Medium))
             Text(
-                text = stringResource(textRes = title),
+                text = string(textRes = title),
                 style = MaterialTheme.typography.titleMedium
             )
             Column(horizontalAlignment = Alignment.End, modifier = Modifier.fillMaxWidth()) {
