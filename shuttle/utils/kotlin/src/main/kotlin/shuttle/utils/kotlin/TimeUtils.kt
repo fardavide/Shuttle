@@ -7,7 +7,7 @@ import korlibs.time.minus
 import kotlin.time.Duration
 
 val Duration.inWholeMonths: Int
-    get() = inWholeDays.toInt() / 30
+    get() = (inWholeDays / 30).toInt()
 
 operator fun Date.minus(duration: Duration): Date = minus(duration.toTimeSpan())
 operator fun DateTime.minus(duration: Duration): DateTime = minus(duration.toTimeSpan())

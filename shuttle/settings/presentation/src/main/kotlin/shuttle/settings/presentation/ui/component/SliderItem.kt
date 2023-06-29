@@ -114,8 +114,8 @@ internal object SliderItem {
     ) : FloatValue {
 
         constructor(name: TextRes, value: Int) : this(name, value.toFloat())
-        constructor(@PluralsRes nameRes: Int, quantity: Int) :
-            this(TextRes.plural(nameRes, quantity = quantity, quantity), quantity.toFloat())
+        constructor(@PluralsRes nameRes: Int, quantity: Int, value: Int) :
+            this(TextRes.plural(nameRes, quantity = quantity, quantity), value.toFloat())
     }
 }
 
@@ -138,12 +138,11 @@ private fun SliderItemPreview() {
 @Composable
 private fun NamedValueSliderItemPreview() {
     val values: ImmutableList<SliderItem.NamedValue> = persistentListOf(
-        SliderItem.NamedValue(plurals.settings_statistics_months, quantity = 1),
-        SliderItem.NamedValue(plurals.settings_statistics_months, quantity = 2),
-        SliderItem.NamedValue(plurals.settings_statistics_months, quantity = 3),
-        SliderItem.NamedValue(plurals.settings_statistics_months, quantity = 4),
-        SliderItem.NamedValue(plurals.settings_statistics_months, quantity = 5),
-        SliderItem.NamedValue(TextRes(string.settings_statistics_keep_forever), value = 6)
+        SliderItem.NamedValue(plurals.settings_statistics_months, quantity = 1, value = 0),
+        SliderItem.NamedValue(plurals.settings_statistics_months, quantity = 2, value = 1),
+        SliderItem.NamedValue(plurals.settings_statistics_months, quantity = 3, value = 2),
+        SliderItem.NamedValue(plurals.settings_statistics_months, quantity = 6, value = 3),
+        SliderItem.NamedValue(TextRes(string.settings_statistics_keep_forever), value = 4)
     )
     var currentValue by remember { mutableStateOf(values.first()) }
     ShuttleTheme {
