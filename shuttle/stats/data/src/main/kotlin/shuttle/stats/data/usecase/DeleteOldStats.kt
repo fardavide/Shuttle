@@ -19,7 +19,7 @@ internal class DeleteOldStats(
 
     suspend operator fun invoke() {
         val toKeep = observeKeepStatisticsFor().first()
-            .takeIf { it !is KeepStatisticsFor.Forever }
+            .takeIf { it != KeepStatisticsFor.Forever }
             ?.duration
             ?: return
         val currentDate = observeCurrentDateTime().first().date
