@@ -48,7 +48,7 @@ private fun StatisticsSettingsPageContent() {
     when (val state = s) {
         StatisticsSettingsState.Loading -> LoadingSpinner()
         is StatisticsSettingsState.Data -> SliderItem(
-            title = string.settings_statistics_title,
+            title = string.settings_statistics_keep_for,
             values = state.uiModel.allSlideItemValues,
             value = state.uiModel.currentValueUiModel.sliderItemValue,
             onValueChange = { viewModel.submit(StatisticsSettingsAction.SetKeepStatisticsFor(it)) }
