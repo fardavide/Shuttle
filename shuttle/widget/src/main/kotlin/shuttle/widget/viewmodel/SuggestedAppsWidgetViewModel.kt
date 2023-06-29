@@ -11,9 +11,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import org.koin.core.annotation.Single
 import shuttle.apps.domain.model.AppId
-import shuttle.apps.domain.model.SuggestedAppModel
 import shuttle.icons.domain.error.GetSystemIconError
-import shuttle.predictions.domain.error.ObserveSuggestedAppsError
 import shuttle.predictions.domain.usecase.ObserveSuggestedApps
 import shuttle.settings.domain.model.WidgetSettings
 import shuttle.settings.domain.usecase.ObserveCurrentIconPack
@@ -37,7 +35,7 @@ internal class SuggestedAppsWidgetViewModel(
     suspend fun state(): StateFlow<SuggestedAppsState> = observeIconPackAndWidgetSettings()
         .flatMapConcat { (currentIconPack, widgetSettings) ->
             val takeAtLeast = widgetSettings.itemCount
-            observeSuggestedAppsWithDefault(takeAtLeast).map { suggestedAppsEither ->
+            observeSuggestedApps(takeAtLeast).map { suggestedAppsEither ->
                 suggestedAppsEither.fold(
                     ifRight = { suggestedApps ->
                         SuggestedAppsState.Data(
@@ -59,10 +57,6 @@ internal class SuggestedAppsWidgetViewModel(
         observeWidgetSettings(),
         ::Pair
     )
-
-    private fun observeSuggestedAppsWithDefault(
-        takeAtLeast: Int
-    ): Flow<Either<ObserveSuggestedAppsError, List<SuggestedAppModel>>> = observeSuggestedApps(takeAtLeast)
 
     private fun List<Either<GetSystemIconError, WidgetAppUiModel>>.filterRight(): List<WidgetAppUiModel> =
         mapNotNull { it.getOrNull() }
