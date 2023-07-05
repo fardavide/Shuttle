@@ -10,5 +10,5 @@ import korlibs.time.hours
  */
 object DefaultValuesSpans {
 
-    val Time: TimeSpan = 1.hours
+    val Time: TimeSpan = 2.hours
 }
