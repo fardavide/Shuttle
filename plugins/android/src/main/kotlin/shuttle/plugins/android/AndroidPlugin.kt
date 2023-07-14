@@ -68,6 +68,7 @@ internal class AndroidPlugin : Plugin<Project> {
 
         ext.packaging.resources.excludes.addAll(
             listOf(
+                "META-INF/licenses/ASM",
                 "META-INF/LICENSE-notice.md",
                 "META-INF/LICENSE.md",
                 "META-INF/{AL2.0,LGPL2.1}",
