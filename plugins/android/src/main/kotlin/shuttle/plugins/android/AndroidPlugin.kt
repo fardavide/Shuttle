@@ -71,7 +71,8 @@ internal class AndroidPlugin : Plugin<Project> {
                 "META-INF/LICENSE-notice.md",
                 "META-INF/LICENSE.md",
                 "META-INF/{AL2.0,LGPL2.1}",
-                "win32-x86-64/attach_hotspot_windows.dll"
+                "win32-x86-64/attach_hotspot_windows.dll",
+                "win32-x86/attach_hotspot_windows.dll"
             )
         )
     }
