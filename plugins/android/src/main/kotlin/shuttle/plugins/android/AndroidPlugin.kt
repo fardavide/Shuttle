@@ -63,7 +63,7 @@ internal class AndroidPlugin : Plugin<Project> {
         ext.lint {
             checkAllWarnings = true
             warningsAsErrors = true
-            disable += listOf("DuplicateStrings", "SyntheticAccessor", "VectorPath")
+            disable += listOf("DuplicateStrings", "InvalidPackage", "SyntheticAccessor", "VectorPath")
         }
 
         ext.packaging.resources.excludes.addAll(
