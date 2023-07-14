@@ -1,7 +1,5 @@
 apply plugin: 'shuttle.android.library'
 
-android.namespace 'shuttle.utils.android'
-
 // modules
 dependencies {
     api projects.shuttle.utils.kotlin

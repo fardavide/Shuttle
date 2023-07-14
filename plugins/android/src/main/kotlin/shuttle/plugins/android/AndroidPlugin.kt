@@ -1,5 +1,6 @@
 package shuttle.plugins.android
 
+import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.api.dsl.CommonExtension
 import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
@@ -34,12 +35,19 @@ internal class AndroidPlugin : Plugin<Project> {
             }
         }
 
-        target.extensions.configure(::configureAndroidExtension)
+        target.extensions.configure<CommonExtension<*, *, *, *>> { ext ->
+            val namespace = target.path.removePrefix(":").replace(":", ".")
+            configureAndroidExtension(ext, namespace)
+        }
         AndroidOptInsExtension.setup(target)
     }
 
     @Suppress("UnstableApiUsage")
-    private fun configureAndroidExtension(ext: CommonExtension<*, *, *, *>) {
+    private fun configureAndroidExtension(ext: CommonExtension<*, *, *, *>, namespace: String) {
+        if (ext !is ApplicationExtension) {
+            ext.namespace = namespace
+        }
+
         ext.buildToolsVersion = AndroidDefaults.BUILD_TOOLS
         ext.compileSdk = AndroidDefaults.COMPILE_SDK
         ext.defaultConfig.minSdk = AndroidDefaults.MIN_SDK
@@ -60,9 +68,10 @@ internal class AndroidPlugin : Plugin<Project> {
 
         ext.packaging.resources.excludes.addAll(
             listOf(
-                "META-INF/{AL2.0,LGPL2.1}",
+                "META-INF/LICENSE-notice.md",
                 "META-INF/LICENSE.md",
-                "META-INF/LICENSE-notice.md"
+                "META-INF/{AL2.0,LGPL2.1}",
+                "win32-x86-64/attach_hotspot_windows.dll"
             )
         )
     }

@@ -1,7 +1,5 @@
 apply plugin: 'shuttle.android.library'
 
-android.namespace 'shuttle.di'
-
 // modules
 dependencies {
     implementation projects.shuttle.accessibility

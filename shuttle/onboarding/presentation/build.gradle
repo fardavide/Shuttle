@@ -1,7 +1,5 @@
 apply plugin: 'shuttle.android.compose.library'
 
-android.namespace 'shuttle.onboarding.presentation'
-
 optIns {
     experimentalCoroutinesApi()
 }

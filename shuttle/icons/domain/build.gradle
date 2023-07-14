@@ -1,7 +1,5 @@
 apply plugin: 'shuttle.android.library'
 
-android.namespace 'shuttle.icons.domain'
-
 // modules
 dependencies {
     implementation projects.shuttle.apps.domain

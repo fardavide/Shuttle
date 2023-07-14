@@ -1,7 +1,5 @@
 apply plugin: 'shuttle.android.compose.library'
 
-android.namespace 'shuttle.apps.presentation'
-
 // modules
 dependencies {
     implementation projects.shuttle.apps.domain

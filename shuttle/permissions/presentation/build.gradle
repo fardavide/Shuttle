@@ -1,7 +1,5 @@
 apply plugin: 'shuttle.android.compose.library'
 
-android.namespace 'shuttle.permissions.presentation'
-
 optIns {
     experimentalMaterial3Api()
     experimentalPermissionsApi()

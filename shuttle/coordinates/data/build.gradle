@@ -1,7 +1,5 @@
 apply plugin: 'shuttle.android.library'
 
-android.namespace 'shuttle.coordinates.data'
-
 // modules
 dependencies {
     implementation projects.shuttle.coordinates.domain

@@ -1,7 +1,5 @@
 apply plugin: 'shuttle.android.compose.library'
 
-android.namespace 'shuttle.resources'
-
 // modules
 dependencies {
     implementation projects.shuttle.utils.android

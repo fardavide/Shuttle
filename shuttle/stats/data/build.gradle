@@ -1,7 +1,5 @@
 apply plugin: 'shuttle.android.library'
 
-android.namespace 'shuttle.stats.data'
-
 optIns {
     experimentalCoroutinesApi()
 }

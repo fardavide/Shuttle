@@ -1,7 +1,5 @@
 apply plugin: 'shuttle.android.compose.app'
 
-android.namespace 'studio.forface.shuttle'
-
 // modules
 dependencies {
     implementation projects.shuttle.accessibility

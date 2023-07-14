@@ -1,7 +1,5 @@
 apply plugin: 'shuttle.android.library'
 
-android.namespace 'shuttle.settings.data'
-
 // modules
 dependencies {
     implementation projects.shuttle.apps.domain
