@@ -2,7 +2,7 @@ package shuttle.settings.presentation.mapper
 
 import arrow.core.Either
 import arrow.core.Option
-import arrow.core.continuations.either
+import arrow.core.raise.either
 import org.koin.core.annotation.Factory
 import shuttle.apps.domain.model.AppId
 import shuttle.apps.domain.model.AppModel

@@ -4,8 +4,8 @@ import android.annotation.SuppressLint
 import android.location.Location
 import arrow.core.Either
 import arrow.core.flatMap
-import arrow.core.handleErrorWith
 import arrow.core.left
+import arrow.core.recover
 import arrow.core.right
 import korlibs.time.DateTime
 import kotlinx.coroutines.flow.first
@@ -32,8 +32,8 @@ internal class DeviceLocationDataSource(
         val currentTime = dateTimeSource.flow.first()
 
         return inMinRefreshInterval(lastLocation, currentTime)
-            .handleErrorWith { locationClient.getCurrentLocation() }
-            .handleErrorWith { notExpired(lastLocation, currentTime) }
+            .recover { locationClient.getCurrentLocation().bind() }
+            .recover { notExpired(lastLocation, currentTime).bind() }
     }
 
     private fun inMinRefreshInterval(

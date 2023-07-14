@@ -1,7 +1,7 @@
 package shuttle.settings.presentation.mapper
 
 import arrow.core.Either
-import arrow.core.continuations.either
+import arrow.core.raise.either
 import org.koin.core.annotation.Factory
 import shuttle.icons.domain.error.GetSystemIconError
 import shuttle.icons.domain.usecase.GetSystemIconDrawableForApp

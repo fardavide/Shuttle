@@ -62,11 +62,12 @@ internal class RealStatDataSource(
         startTime: DatabaseTime,
         endTime: DatabaseTime
     ): Flow<List<DatabaseStat>> {
-        val query = when (val geoHashValue = geoHash.orNull()) {
+        val query = when (val geoHashValue = geoHash.getOrNull()) {
             null -> statQueries.findAllStatsByTime(
                 startTime = startTime,
                 endTime = endTime
             )
+
             else -> statQueries.findAllStatsByGeoHashAndTime(
                 geoHash = geoHashValue,
                 startTime = startTime,
@@ -85,7 +86,7 @@ internal class RealStatDataSource(
         statQueries.insertStat(
             appId = appId,
             date = date,
-            geoHash = geoHash.orNull(),
+            geoHash = geoHash.getOrNull(),
             time = time
         )
     }

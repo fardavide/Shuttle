@@ -13,7 +13,7 @@ class StoreOpenStatsByCoordinates(
     suspend operator fun invoke(appId: AppId, coordinatesResult: CoordinatesResult) {
         statsRepository.storeOpenStats(
             appId = appId,
-            location = coordinatesResult.location.orNone(),
+            location = coordinatesResult.location.getOrNone(),
             time = coordinatesResult.dateTime.time,
             date = coordinatesResult.dateTime.date
         )

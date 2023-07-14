@@ -59,8 +59,10 @@ internal class IconPacksSettingsViewModel(
     ): IconPacksSettingsState {
         val newData = currentState.iconPackSettingItems.map { uiModel ->
             when (uiModel) {
-                is IconPackSettingsItemUiModel.SystemDefault -> uiModel.copy(isSelected = iconPackId.isEmpty())
-                is IconPackSettingsItemUiModel.FromApp -> uiModel.copy(isSelected = uiModel.id == iconPackId.orNull())
+                is IconPackSettingsItemUiModel.SystemDefault ->
+                    uiModel.copy(isSelected = iconPackId.isNone())
+                is IconPackSettingsItemUiModel.FromApp ->
+                    uiModel.copy(isSelected = uiModel.id == iconPackId.getOrNull())
             }
         }.toImmutableList()
         viewModelScope.launch {

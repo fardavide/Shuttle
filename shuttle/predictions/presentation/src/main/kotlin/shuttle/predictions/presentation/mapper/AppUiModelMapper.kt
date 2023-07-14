@@ -1,7 +1,7 @@
 package shuttle.predictions.presentation.mapper
 
 import arrow.core.Either
-import arrow.core.continuations.either
+import arrow.core.raise.either
 import org.koin.core.annotation.Factory
 import shuttle.apps.domain.model.SuggestedAppModel
 import shuttle.icons.domain.error.GetSystemIconError

@@ -2,8 +2,8 @@ package shuttle.settings.presentation.viewmodel
 
 import android.app.Activity
 import androidx.lifecycle.viewModelScope
-import arrow.core.continuations.either
 import arrow.core.getOrElse
+import arrow.core.raise.either
 import co.touchlab.kermit.Logger
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch

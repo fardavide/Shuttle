@@ -77,7 +77,7 @@ internal class RealStatsRepository(
         val suggestions = appsFromStats + allInstalledApp.map(::toNotSuggestedAppModel).shuffled()
         emit(suggestions)
         storeCache(suggestions)
-    }.onStart { getCache().tap { emit(it) } }
+    }.onStart { getCache().onSome { emit(it) } }
 
     override fun startDeleteOldStats() {
         deleteOldStatsScheduler.schedule()

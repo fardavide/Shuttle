@@ -2,7 +2,7 @@ package shuttle.settings.presentation.mapper
 
 import arrow.core.Either
 import arrow.core.Option
-import arrow.core.continuations.either
+import arrow.core.raise.either
 import arrow.core.right
 import org.koin.core.annotation.Factory
 import shuttle.apps.domain.model.AppId
@@ -23,10 +23,10 @@ internal class IconPackSettingsUiModelMapper(
     ): List<Either<GetSystemIconError, IconPackSettingsItemUiModel>> {
         val systemDefaultUiModel = IconPackSettingsItemUiModel.SystemDefault(
             name = string.settings_icon_pack_system_default,
-            isSelected = selectedIconPack.isEmpty()
+            isSelected = selectedIconPack.isNone()
         ).right()
         val iconsPacksModels = iconPacks
-            .map { toUiModel(it, isSelected = it.id == selectedIconPack.orNull()) }
+            .map { toUiModel(it, isSelected = it.id == selectedIconPack.getOrNull()) }
         return listOf(systemDefaultUiModel) + iconsPacksModels
     }
 
