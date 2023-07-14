@@ -1,14 +1,13 @@
 plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version("0.6.0")
 }
-
-rootProject.name = "Shuttle"
+rootProject.name = "Shuttle_app"
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 includeBuild 'plugins'
 
-include 'detekt:rules'
-
 include 'app'
+include 'detekt:rules'
 
 include 'shuttle:accessibility'
 

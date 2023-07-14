@@ -2,13 +2,13 @@ apply plugin: 'shuttle.android.library'
 
 android.namespace 'shuttle.accessibility'
 
-moduleDependencies {
-
-    implementation 'apps:domain'
-    implementation 'coordinates:domain'
-    implementation 'settings:domain'
-    implementation 'stats:domain'
-    implementation 'widget'
+// modules
+dependencies {
+    implementation projects.shuttle.apps.domain
+    implementation projects.shuttle.coordinates.domain
+    implementation projects.shuttle.settings.domain
+    implementation projects.shuttle.stats.domain
+    implementation projects.shuttle.widget
 }
 
 dependencies {

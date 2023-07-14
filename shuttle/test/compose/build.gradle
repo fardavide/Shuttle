@@ -6,8 +6,9 @@ optIns {
     experimentalTestApi()
 }
 
-moduleDependencies {
-    implementation 'design'
+// modules
+dependencies {
+    implementation projects.shuttle.design
 }
 
 dependencies {

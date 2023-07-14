@@ -6,12 +6,13 @@ optIns {
     experimentalCoroutinesApi()
 }
 
-moduleDependencies {
-    implementation 'icons:domain'
-    implementation 'predictions:domain'
-    implementation 'resources'
-    implementation 'settings:domain'
-    implementation 'utils:android'
+// modules
+dependencies {
+    implementation projects.shuttle.icons.domain
+    implementation projects.shuttle.predictions.domain
+    implementation projects.shuttle.resources
+    implementation projects.shuttle.settings.domain
+    implementation projects.shuttle.utils.android
 }
 
 dependencies {

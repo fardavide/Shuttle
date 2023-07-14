@@ -1,11 +1,12 @@
 apply plugin: 'shuttle.kotlin'
 
-moduleDependencies {
-    implementation 'apps:domain'
-    implementation 'stats:domain'
-    implementation 'utils:kotlin'
+// modules
+dependencies {
+    implementation projects.shuttle.apps.domain
+    implementation projects.shuttle.stats.domain
+    implementation projects.shuttle.utils.kotlin
 
-    testImplementation 'test:kotlin'
+    testImplementation projects.shuttle.test.kotlin
 }
 
 dependencies {

@@ -2,20 +2,20 @@ apply plugin: 'shuttle.android.compose.app'
 
 android.namespace 'studio.forface.shuttle'
 
-moduleDependencies {
+// modules
+dependencies {
+    implementation projects.shuttle.accessibility
+    implementation projects.shuttle.apps.presentation
+    implementation projects.shuttle.design
+    implementation projects.shuttle.di
+    implementation projects.shuttle.onboarding.presentation
+    implementation projects.shuttle.permissions.presentation
+    implementation projects.shuttle.predictions.presentation
+    implementation projects.shuttle.settings.presentation
+    implementation projects.shuttle.stats.domain
+    implementation projects.shuttle.widget
 
-    implementation 'accessibility'
-    implementation 'apps:presentation'
-    implementation 'design'
-    implementation 'di'
-    implementation 'onboarding:presentation'
-    implementation 'permissions:presentation'
-    implementation 'predictions:presentation'
-    implementation 'settings:presentation'
-    implementation 'stats:domain'
-    implementation 'widget'
-
-    androidTestImplementation 'test:compose'
+    androidTestImplementation projects.shuttle.test.compose
 }
 
 dependencies {

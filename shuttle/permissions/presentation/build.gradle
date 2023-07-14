@@ -7,13 +7,14 @@ optIns {
     experimentalPermissionsApi()
 }
 
-moduleDependencies {
-    implementation 'accessibility'
-    implementation 'design'
-    implementation 'permissions:domain'
-    implementation 'utils:compose'
+// modules
+dependencies {
+    implementation projects.shuttle.accessibility
+    implementation projects.shuttle.design
+    implementation projects.shuttle.permissions.domain
+    implementation projects.shuttle.utils.compose
 
-    testImplementation 'test:kotlin'
+    testImplementation projects.shuttle.test.kotlin
 }
 
 dependencies {

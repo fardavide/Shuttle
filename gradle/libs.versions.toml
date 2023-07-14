@@ -56,7 +56,6 @@ gradle-molecule = { module = "app.cash.molecule:molecule-gradle-plugin", version
 gradle-paparazzi = { module = "app.cash.paparazzi:paparazzi-gradle-plugin", version.ref = "paparazzi" }
 gradle-shuttle-android = { module = "shuttle.plugins.android:android" }
 gradle-shuttle-detekt = { module = "shuttle.plugins.detekt:detekt" }
-gradle-shuttle-modulesCatalog = { module = "shuttle.plugins.modules-catalog:modules-catalog" }
 gradle-sqlDelight = { module = "com.squareup.sqldelight:gradle-plugin", version.ref = "sqlDelight" }
 # endregion
 

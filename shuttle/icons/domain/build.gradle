@@ -2,9 +2,10 @@ apply plugin: 'shuttle.android.library'
 
 android.namespace 'shuttle.icons.domain'
 
-moduleDependencies {
-    implementation 'apps:domain'
-    implementation 'utils:kotlin'
+// modules
+dependencies {
+    implementation projects.shuttle.apps.domain
+    implementation projects.shuttle.utils.kotlin
 }
 
 dependencies {

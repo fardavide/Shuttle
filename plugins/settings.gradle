@@ -1,10 +1,10 @@
 rootProject.name = "plugins"
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 include 'android'
 include 'common'
 include 'detekt'
 include 'kotlin'
-include 'modules-catalog'
 
 dependencyResolutionManagement {
     versionCatalogs {

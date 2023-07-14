@@ -2,10 +2,11 @@ apply plugin: 'shuttle.android.library'
 
 android.namespace 'shuttle.payments.data'
 
-moduleDependencies {
-    implementation 'payments:domain'
-    implementation 'utils:android'
-    implementation 'utils:kotlin'
+// modules
+dependencies {
+    implementation projects.shuttle.payments.domain
+    implementation projects.shuttle.utils.android
+    implementation projects.shuttle.utils.kotlin
 }
 
 dependencies {

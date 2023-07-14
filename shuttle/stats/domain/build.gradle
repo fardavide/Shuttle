@@ -1,9 +1,11 @@
 apply plugin: 'shuttle.kotlin'
 
-moduleDependencies {
+// modules
+dependencies {
+    implementation projects.shuttle.apps.domain
+    implementation projects.shuttle.coordinates.domain
 
-    implementation 'apps:domain'
-    implementation 'coordinates:domain'
+    testImplementation projects.shuttle.test.kotlin
 }
 
 dependencies {

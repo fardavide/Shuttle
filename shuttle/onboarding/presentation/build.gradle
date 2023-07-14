@@ -6,15 +6,16 @@ optIns {
     experimentalCoroutinesApi()
 }
 
-moduleDependencies {
-    implementation 'apps:domain'
-    implementation 'design'
-    implementation 'icons:domain'
-    implementation 'onboarding:domain'
-    implementation 'utils:android'
+// modules
+dependencies {
+    implementation projects.shuttle.apps.domain
+    implementation projects.shuttle.design
+    implementation projects.shuttle.icons.domain
+    implementation projects.shuttle.onboarding.domain
+    implementation projects.shuttle.utils.android
 
-    testImplementation 'test:kotlin'
-    androidTestImplementation 'test:compose'
+    testImplementation projects.shuttle.test.kotlin
+    androidTestImplementation projects.shuttle.test.compose
 }
 
 dependencies {

@@ -6,10 +6,11 @@ optIns {
     experimentalMaterial3Api()
 }
 
-moduleDependencies {
-    api 'resources'
-    implementation 'utils:android'
-    testImplementation 'test:kotlin'
+// modules
+dependencies {
+    api projects.shuttle.resources
+    implementation projects.shuttle.utils.android
+    testImplementation projects.shuttle.test.kotlin
 }
 
 dependencies {

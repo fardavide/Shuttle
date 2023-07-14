@@ -6,17 +6,19 @@ optIns {
     experimentalMaterial3Api()
 }
 
-moduleDependencies {
-    implementation 'apps:domain'
-    implementation 'coordinates:domain'
-    implementation 'design'
-    implementation 'icons:domain'
-    implementation 'predictions:domain'
-    implementation 'settings:domain'
-    implementation 'stats:domain'
-    implementation 'test:compose'
-    implementation 'utils:android'
-    implementation 'utils:kotlin'
+// modules
+dependencies {
+    implementation projects.shuttle.apps.domain
+    implementation projects.shuttle.coordinates.domain
+    implementation projects.shuttle.design
+    implementation projects.shuttle.icons.domain
+    implementation projects.shuttle.predictions.domain
+    implementation projects.shuttle.settings.domain
+    implementation projects.shuttle.stats.domain
+    implementation projects.shuttle.utils.android
+    implementation projects.shuttle.utils.kotlin
+
+    androidTestImplementation projects.shuttle.test.compose
 }
 
 dependencies {

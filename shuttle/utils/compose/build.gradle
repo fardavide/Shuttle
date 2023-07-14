@@ -2,9 +2,10 @@ apply plugin: 'shuttle.android.compose.library'
 
 android.namespace 'shuttle.utils.compose'
 
-moduleDependencies {
-    api 'utils:android'
-    testImplementation 'test:compose'
+// modules
+dependencies {
+    api projects.shuttle.utils.android
+    testImplementation projects.shuttle.test.compose
 }
 
 dependencies {

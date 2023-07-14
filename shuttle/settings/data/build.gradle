@@ -2,12 +2,13 @@ apply plugin: 'shuttle.android.library'
 
 android.namespace 'shuttle.settings.data'
 
-moduleDependencies {
-    implementation 'apps:domain'
-    implementation 'database'
-    implementation 'settings:domain'
+// modules
+dependencies {
+    implementation projects.shuttle.apps.domain
+    implementation projects.shuttle.database
+    implementation projects.shuttle.settings.domain
 
-    testImplementation 'test:kotlin'
+    implementation projects.shuttle.test.kotlin
 }
 
 dependencies {

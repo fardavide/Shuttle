@@ -4,13 +4,14 @@ optIns {
     experimentalCoroutinesApi()
 }
 
-moduleDependencies {
-    api 'apps:domain'
+// modules
+dependencies {
+    api projects.shuttle.apps.domain
 
-    implementation 'coordinates:domain'
-    implementation 'stats:domain'
+    implementation projects.shuttle.coordinates.domain
+    implementation projects.shuttle.stats.domain
 
-    testImplementation 'test:kotlin'
+    testImplementation projects.shuttle.test.kotlin
 }
 
 dependencies {

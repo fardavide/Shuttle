@@ -2,11 +2,11 @@ apply plugin: 'shuttle.android.compose.library'
 
 android.namespace 'shuttle.payments.presentation'
 
-moduleDependencies {
-    implementation 'design'
-    implementation 'payments:domain'
-    implementation 'utils:android'
-    implementation 'utils:kotlin'
+// modules
+dependencies {
+    implementation projects.shuttle.design
+    implementation projects.shuttle.payments.domain
+    implementation projects.shuttle.utils.android
 }
 
 dependencies {

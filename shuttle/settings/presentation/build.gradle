@@ -7,18 +7,19 @@ optIns {
     experimentalPermissionsApi()
 }
 
-moduleDependencies {
-    implementation 'accessibility'
-    implementation 'apps:domain'
-    implementation 'design'
-    implementation 'icons:domain'
-    implementation 'payments:domain'
-    implementation 'payments:presentation'
-    implementation 'permissions:domain'
-    implementation 'settings:domain'
-    implementation 'test:compose'
-    implementation 'utils:android'
-    implementation 'utils:kotlin'
+// modules
+dependencies {
+    implementation projects.shuttle.accessibility
+    implementation projects.shuttle.apps.domain
+    implementation projects.shuttle.design
+    implementation projects.shuttle.icons.domain
+    implementation projects.shuttle.payments.domain
+    implementation projects.shuttle.payments.presentation
+    implementation projects.shuttle.permissions.domain
+    implementation projects.shuttle.settings.domain
+    implementation projects.shuttle.utils.android
+
+    androidTestImplementation projects.shuttle.test.compose
 }
 
 dependencies {

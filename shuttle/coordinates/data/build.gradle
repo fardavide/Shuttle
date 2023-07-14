@@ -2,12 +2,13 @@ apply plugin: 'shuttle.android.library'
 
 android.namespace 'shuttle.coordinates.data'
 
-moduleDependencies {
-    implementation 'coordinates:domain'
-    implementation 'database'
-    implementation 'utils:kotlin'
+// modules
+dependencies {
+    implementation projects.shuttle.coordinates.domain
+    implementation projects.shuttle.database
+    implementation projects.shuttle.utils.android
 
-    testImplementation 'test:kotlin'
+    testImplementation projects.shuttle.test.kotlin
 }
 
 dependencies {

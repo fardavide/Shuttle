@@ -13,6 +13,6 @@ gradlePlugin {
 }
 
 dependencies {
-    implementation project(':common')
+    implementation projects.common
     implementation libs.gradle.detekt
 }

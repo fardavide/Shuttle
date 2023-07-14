@@ -2,9 +2,10 @@ apply plugin: 'shuttle.android.compose.library'
 
 android.namespace 'shuttle.resources'
 
-moduleDependencies {
-    implementation 'utils:android'
-    implementation 'utils:kotlin'
+// modules
+dependencies {
+    implementation projects.shuttle.utils.android
+    implementation projects.shuttle.utils.kotlin
 }
 
 dependencies {
