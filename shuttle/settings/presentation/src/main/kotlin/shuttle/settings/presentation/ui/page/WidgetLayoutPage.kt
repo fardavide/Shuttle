@@ -57,65 +57,75 @@ fun WidgetLayoutPage(onBack: () -> Unit) {
 }
 
 @Composable
-private fun HomeWidgetLayoutRoute(args: Args) = with(args) {
-    LaunchedEffect(key1 = 0, block = { titleState.value = WidgetLayout.Home.title })
-    HomeWidgetLayoutContent(
-        HomeWidgetLayoutContent.Actions(
-            toGrid = { navController.navigate(WidgetLayout.Grid) },
-            toIconsDimensions = { navController.navigate(WidgetLayout.IconsDimensions) },
-            toAppsLabels = { navController.navigate(WidgetLayout.AppsLabels) },
-            toColors = { navController.navigate(WidgetLayout.Colors) }
+private fun HomeWidgetLayoutRoute(args: Args) {
+    with(args) {
+        LaunchedEffect(key1 = 0, block = { titleState.value = WidgetLayout.Home.title })
+        HomeWidgetLayoutContent(
+            HomeWidgetLayoutContent.Actions(
+                toGrid = { navController.navigate(WidgetLayout.Grid) },
+                toIconsDimensions = { navController.navigate(WidgetLayout.IconsDimensions) },
+                toAppsLabels = { navController.navigate(WidgetLayout.AppsLabels) },
+                toColors = { navController.navigate(WidgetLayout.Colors) }
+            )
         )
-    )
+    }
 }
 
 @Composable
-private fun WidgetGridRoute(args: Args) = with(args) {
-    LaunchedEffect(key1 = 0, block = { titleState.value = WidgetLayout.Grid.title })
-    WidgetGridContent(
-        settings = state.layout,
-        actions = WidgetGridContent.Actions(
-            onRowsUpdated = { viewModel.submit(WidgetLayoutAction.UpdateRows(it)) },
-            onColumnsUpdated = { viewModel.submit(WidgetLayoutAction.UpdateColumns(it)) }
+private fun WidgetGridRoute(args: Args) {
+    with(args) {
+        LaunchedEffect(key1 = 0, block = { titleState.value = WidgetLayout.Grid.title })
+        WidgetGridContent(
+            settings = state.layout,
+            actions = WidgetGridContent.Actions(
+                onRowsUpdated = { viewModel.submit(WidgetLayoutAction.UpdateRows(it)) },
+                onColumnsUpdated = { viewModel.submit(WidgetLayoutAction.UpdateColumns(it)) }
+            )
         )
-    )
+    }
 }
 
 @Composable
-private fun WidgetIconsDimensionsRoute(args: Args) = with(args) {
-    LaunchedEffect(key1 = 0, block = { titleState.value = WidgetLayout.IconsDimensions.title })
-    WidgetIconsDimensionsContent(
-        settings = state.layout,
-        actions = WidgetIconsDimensionsContent.Actions(
-            onIconSizeUpdated = { viewModel.submit(WidgetLayoutAction.UpdateIconsSize(it)) },
-            onHorizontalSpacingUpdated = { viewModel.submit(WidgetLayoutAction.UpdateHorizontalSpacing(it)) },
-            onVerticalSpacingUpdated = { viewModel.submit(WidgetLayoutAction.UpdateVerticalSpacing(it)) }
+private fun WidgetIconsDimensionsRoute(args: Args) {
+    with(args) {
+        LaunchedEffect(key1 = 0, block = { titleState.value = WidgetLayout.IconsDimensions.title })
+        WidgetIconsDimensionsContent(
+            settings = state.layout,
+            actions = WidgetIconsDimensionsContent.Actions(
+                onIconSizeUpdated = { viewModel.submit(WidgetLayoutAction.UpdateIconsSize(it)) },
+                onHorizontalSpacingUpdated = { viewModel.submit(WidgetLayoutAction.UpdateHorizontalSpacing(it)) },
+                onVerticalSpacingUpdated = { viewModel.submit(WidgetLayoutAction.UpdateVerticalSpacing(it)) }
+            )
         )
-    )
+    }
 }
 
 @Composable
-private fun WidgetAppsLabelsRoute(args: Args) = with(args) {
-    LaunchedEffect(key1 = 0, block = { titleState.value = WidgetLayout.AppsLabels.title })
-    WidgetAppsLabelsContent(
-        settings = state.layout,
-        actions = WidgetAppsLabelsContent.Actions(
-            onTextSizeUpdated = { viewModel.submit(WidgetLayoutAction.UpdateTextSize(it)) },
-            onAllowTwoLinesUpdated = { viewModel.submit(WidgetLayoutAction.UpdateAllowTwoLines(it)) }
+private fun WidgetAppsLabelsRoute(args: Args) {
+    with(args) {
+        LaunchedEffect(key1 = 0, block = { titleState.value = WidgetLayout.AppsLabels.title })
+        WidgetAppsLabelsContent(
+            settings = state.layout,
+            actions = WidgetAppsLabelsContent.Actions(
+                onTextSizeUpdated = { viewModel.submit(WidgetLayoutAction.UpdateTextSize(it)) },
+                onAllowTwoLinesUpdated = { viewModel.submit(WidgetLayoutAction.UpdateAllowTwoLines(it)) }
+            )
         )
-    )
+    }
 }
 
 @Composable
-private fun WidgetColorsRoute(args: Args) = with(args) {
-    LaunchedEffect(key1 = 0, block = { titleState.value = WidgetLayout.Colors.title })
-    WidgetColorsContent(
-        settings = state.layout,
-        actions = WidgetColorsContent.Actions(
-            onTransparencyUpdated = { viewModel.submit(WidgetLayoutAction.UpdateTransparency(it)) },
-            onUseMaterialColorsUpdated = { viewModel.submit(WidgetLayoutAction.UpdateUseMaterialColors(it)) }
+private fun WidgetColorsRoute(args: Args) {
+    with(args) {
+        LaunchedEffect(key1 = 0, block = { titleState.value = WidgetLayout.Colors.title })
+        WidgetColorsContent(
+            settings = state.layout,
+            actions = WidgetColorsContent.Actions(
+                onTransparencyUpdated = { viewModel.submit(WidgetLayoutAction.UpdateTransparency(it)) },
+                onUseMaterialColorsUpdated = { viewModel.submit(WidgetLayoutAction.UpdateUseMaterialColors(it)) }
+            )
         )
-    )
+    }
 }
 
 private fun NavController.popOrBack(onBack: () -> Unit, titleState: MutableState<Int>) {

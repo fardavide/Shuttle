@@ -63,47 +63,63 @@ internal fun App(onFinish: () -> Unit) {
 }
 
 @Composable
-private fun AboutRoute(onBack: () -> Unit) = AboutPage(onBack = onBack)
+private fun AboutRoute(onBack: () -> Unit) {
+    AboutPage(onBack = onBack)
+}
 
 @Composable
-private fun BlacklistSettingsRoute(onBack: () -> Unit) = BlacklistSettingsPage(onBack = onBack)
+private fun BlacklistSettingsRoute(onBack: () -> Unit) {
+    BlacklistSettingsPage(onBack = onBack)
+}
 
 @Composable
-private fun IconPackSettingsRoute(onBack: () -> Unit) = IconPackSettingsPage(onBack = onBack)
+private fun IconPackSettingsRoute(onBack: () -> Unit) {
+    IconPackSettingsPage(onBack = onBack)
+}
 
 @Composable
-private fun OnboardingRoute(navController: NavController) = OnboardingPage(
-    actions = OnboardingPage.Actions(
-        onOnboardingComplete = { navController.navigate(Permissions, pop(Onboarding)) }
+private fun OnboardingRoute(navController: NavController) {
+    OnboardingPage(
+        actions = OnboardingPage.Actions(
+            onOnboardingComplete = { navController.navigate(Permissions, pop(Onboarding)) }
+        )
     )
-)
+}
 
 @Composable
-private fun PermissionsRoute(navController: NavController) =
+private fun PermissionsRoute(navController: NavController) {
     PermissionsPage(toSettings = { navController.navigate(Settings, pop(Permissions)) })
+}
 
 @Composable
-private fun SettingsRoute(navController: NavController) = SettingsPage(
-    actions = SettingsPage.Actions(
-        toAbout = { navController.navigate(About) },
-        toBlacklist = { navController.navigate(BlacklistSettings) },
-        toIconPacks = { navController.navigate(IconPackSettings) },
-        toOnboarding = { navController.navigate(Onboarding) },
-        toPermissions = { navController.navigate(Permissions) },
-        toStatistics = { navController.navigate(StatisticsSettings) },
-        toWidgetLayout = { navController.navigate(WidgetLayout) }
+private fun SettingsRoute(navController: NavController) {
+    SettingsPage(
+        actions = SettingsPage.Actions(
+            toAbout = { navController.navigate(About) },
+            toBlacklist = { navController.navigate(BlacklistSettings) },
+            toIconPacks = { navController.navigate(IconPackSettings) },
+            toOnboarding = { navController.navigate(Onboarding) },
+            toPermissions = { navController.navigate(Permissions) },
+            toStatistics = { navController.navigate(StatisticsSettings) },
+            toWidgetLayout = { navController.navigate(WidgetLayout) }
+        )
     )
-)
+}
 
 @Composable
-private fun StatisticsSettingsRoute(onBack: () -> Unit) = StatisticsSettingsPage(onBack = onBack)
+private fun StatisticsSettingsRoute(onBack: () -> Unit) {
+    StatisticsSettingsPage(onBack = onBack)
+}
 
 @Composable
-private fun SuggestionsRoute(navController: NavController) =
+private fun SuggestionsRoute(navController: NavController) {
     SuggestedAppsListPage(onSettings = { navController.navigate(Settings) })
+}
 
 @Composable
-private fun WidgetLayoutRoute(onBack: () -> Unit) = WidgetLayoutPage(onBack = onBack)
+private fun WidgetLayoutRoute(onBack: () -> Unit) {
+    WidgetLayoutPage(onBack = onBack)
+}
 
 private fun pop(destination: Destination) = NavOptions.Builder()
     .setPopUpTo(destination.id, inclusive = true)
