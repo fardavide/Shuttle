@@ -33,7 +33,7 @@ import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 
 @Factory
-class AppsRepositoryImpl(
+internal class RealAppRepository(
     private val dataSource: AppDataSource,
     @Named(IoDispatcher) private val ioDispatcher: CoroutineDispatcher,
     private val isBlacklisted: IsBlacklisted,
