@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.pm.ResolveInfo
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
@@ -62,23 +63,33 @@ class AppsRepositoryImpl(
     private fun observeAndRefreshAppsFromDevice(): Flow<List<AppModel>> = flow {
         while (coroutineContext.isActive) {
             coroutineScope {
-                val installedAppsFromDeviceDeferred = async { getAllInstalledAppsFromDevice() }
                 val installedAppsFromCacheDeferred = async { dataSource.findAllApps().first() }
+                val installedAppsFromDeviceDeferred = async { getAllInstalledAppsFromDevice() }
 
-                val installedAppsFromDevice = installedAppsFromDeviceDeferred.await()
                 val installedAppsFromCache = installedAppsFromCacheDeferred.await()
+                try {
+                    val installedAppsFromDevice = installedAppsFromDeviceDeferred.await()
+                    emit(installedAppsFromDevice)
 
-                emit(installedAppsFromDevice)
-                val databaseApps =
-                    installedAppsFromDevice.map { app -> App(DatabaseAppId(app.id.value), app.name.value) }
-                dataSource.insert(databaseApps)
+                    val databaseApps =
+                        installedAppsFromDevice.map { app -> App(DatabaseAppId(app.id.value), app.name.value) }
+                    dataSource.insert(databaseApps)
 
-                val appsToRemove = installedAppsFromCache.filterNot { app ->
-                    app.id.value in installedAppsFromDevice.map { it.id.value }
+                    val appsToRemove = installedAppsFromCache.filterNot { app ->
+                        app.id.value in installedAppsFromDevice.map { it.id.value }
+                    }
+                    dataSource.delete(appsToRemove)
+
+                } catch (e: Exception) {
+                    // BadParcelableException or DeadSystemRuntimeException
+
+                    if (e is CancellationException) throw e
+                    val appModels = installedAppsFromCache.map { AppModel(AppId(it.id.value), AppName(it.name)) }
+                    emit(appModels)
+
+                } finally {
+                    delay(RefreshDelay)
                 }
-                dataSource.delete(appsToRemove)
-
-                delay(RefreshDelay)
             }
         }
     }
