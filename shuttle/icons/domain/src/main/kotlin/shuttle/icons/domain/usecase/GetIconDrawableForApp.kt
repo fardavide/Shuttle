@@ -6,7 +6,7 @@ import arrow.core.Option
 import arrow.core.raise.either
 import org.koin.core.annotation.Factory
 import shuttle.apps.domain.model.AppId
-import shuttle.icons.domain.error.GetSystemIconError
+import shuttle.apps.domain.model.GetAppError
 import shuttle.icons.domain.repository.IconPacksRepository
 
 @Factory
@@ -15,7 +15,7 @@ class GetIconDrawableForApp(
     private val iconsPacksRepository: IconPacksRepository
 ) {
 
-    suspend operator fun invoke(id: AppId, iconPackId: Option<AppId>): Either<GetSystemIconError, Drawable> =
+    suspend operator fun invoke(id: AppId, iconPackId: Option<AppId>): Either<GetAppError, Drawable> =
         either {
             val systemIcon = getSystemIconForApp(id).bind()
             iconPackId.fold(

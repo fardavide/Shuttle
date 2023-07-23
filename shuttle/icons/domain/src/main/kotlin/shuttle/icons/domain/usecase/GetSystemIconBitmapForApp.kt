@@ -10,7 +10,7 @@ import kotlinx.coroutines.withContext
 import org.koin.core.annotation.Factory
 import org.koin.core.annotation.Named
 import shuttle.apps.domain.model.AppId
-import shuttle.icons.domain.error.GetSystemIconError
+import shuttle.apps.domain.model.GetAppError
 import shuttle.utils.kotlin.IoDispatcher
 
 @Factory
@@ -19,7 +19,7 @@ class GetSystemIconBitmapForApp(
     @Named(IoDispatcher) private val ioDispatcher: CoroutineDispatcher
 ) {
 
-    suspend operator fun invoke(id: AppId): Either<GetSystemIconError, Bitmap> = withContext(ioDispatcher) {
+    suspend operator fun invoke(id: AppId): Either<GetAppError, Bitmap> = withContext(ioDispatcher) {
         getSystemIconDrawableForApp(id).map { drawable ->
             Bitmap.createBitmap(toBitmap(drawable))
         }

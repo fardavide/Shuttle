@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.koin.android.annotation.KoinViewModel
 import shuttle.apps.domain.model.AppId
-import shuttle.icons.domain.error.GetSystemIconError
+import shuttle.apps.domain.model.GetAppError
 import shuttle.settings.domain.model.AppBlacklistSetting
 import shuttle.settings.domain.usecase.AddToBlacklist
 import shuttle.settings.domain.usecase.RemoveFromBlacklist
@@ -102,7 +102,7 @@ internal class BlacklistSettingsViewModel(
     }
 
     @Suppress("MaxLineLength")
-    private fun List<Either<GetSystemIconError, AppBlacklistSettingUiModel>>.filterRight(): ImmutableList<AppBlacklistSettingUiModel> =
+    private fun List<Either<GetAppError, AppBlacklistSettingUiModel>>.filterRight(): ImmutableList<AppBlacklistSettingUiModel> =
         mapNotNull {
             it.getOrNull()
         }.toImmutableList()

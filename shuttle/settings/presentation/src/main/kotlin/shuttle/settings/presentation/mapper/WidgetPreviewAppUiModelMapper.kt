@@ -6,8 +6,8 @@ import arrow.core.raise.either
 import org.koin.core.annotation.Factory
 import shuttle.apps.domain.model.AppId
 import shuttle.apps.domain.model.AppModel
+import shuttle.apps.domain.model.GetAppError
 import shuttle.design.model.WidgetPreviewAppUiModel
-import shuttle.icons.domain.error.GetSystemIconError
 import shuttle.icons.domain.usecase.GetIconDrawableForApp
 
 @Factory
@@ -18,13 +18,13 @@ class WidgetPreviewAppUiModelMapper(
     suspend fun toUiModels(
         apps: Collection<AppModel>,
         iconPackId: Option<AppId>
-    ): List<Either<GetSystemIconError, WidgetPreviewAppUiModel>> =
+    ): List<Either<GetAppError, WidgetPreviewAppUiModel>> =
         apps.map { toUiModel(app = it, iconPackId = iconPackId) }
 
     private suspend fun toUiModel(
         app: AppModel,
         iconPackId: Option<AppId>
-    ): Either<GetSystemIconError, WidgetPreviewAppUiModel> = either {
+    ): Either<GetAppError, WidgetPreviewAppUiModel> = either {
         WidgetPreviewAppUiModel(
             name = app.name.value,
             icon = getIconDrawableForApp(id = app.id, iconPackId = iconPackId).bind()

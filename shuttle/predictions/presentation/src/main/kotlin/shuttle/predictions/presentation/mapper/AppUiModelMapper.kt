@@ -3,8 +3,8 @@ package shuttle.predictions.presentation.mapper
 import arrow.core.Either
 import arrow.core.raise.either
 import org.koin.core.annotation.Factory
+import shuttle.apps.domain.model.GetAppError
 import shuttle.apps.domain.model.SuggestedAppModel
-import shuttle.icons.domain.error.GetSystemIconError
 import shuttle.icons.domain.usecase.GetSystemIconDrawableForApp
 import shuttle.predictions.presentation.model.AppUiModel
 
@@ -13,7 +13,7 @@ class AppUiModelMapper(
     private val getSystemIconDrawableForApp: GetSystemIconDrawableForApp
 ) {
 
-    suspend fun toUiModel(appModel: SuggestedAppModel): Either<GetSystemIconError, AppUiModel> = either {
+    suspend fun toUiModel(appModel: SuggestedAppModel): Either<GetAppError, AppUiModel> = either {
         AppUiModel(
             id = appModel.id,
             name = appModel.name.value,
@@ -21,7 +21,6 @@ class AppUiModelMapper(
         )
     }
 
-    suspend fun toUiModels(
-        appModels: Collection<SuggestedAppModel>
-    ): List<Either<GetSystemIconError, AppUiModel>> = appModels.map { toUiModel(it) }
+    suspend fun toUiModels(appModels: Collection<SuggestedAppModel>): List<Either<GetAppError, AppUiModel>> =
+        appModels.map { toUiModel(it) }
 }

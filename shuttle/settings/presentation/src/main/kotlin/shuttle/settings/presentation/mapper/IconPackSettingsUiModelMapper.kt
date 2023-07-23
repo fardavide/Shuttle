@@ -7,7 +7,7 @@ import arrow.core.right
 import org.koin.core.annotation.Factory
 import shuttle.apps.domain.model.AppId
 import shuttle.apps.domain.model.AppModel
-import shuttle.icons.domain.error.GetSystemIconError
+import shuttle.apps.domain.model.GetAppError
 import shuttle.icons.domain.usecase.GetSystemIconDrawableForApp
 import shuttle.resources.R.string
 import shuttle.settings.presentation.model.IconPackSettingsItemUiModel
@@ -20,7 +20,7 @@ internal class IconPackSettingsUiModelMapper(
     suspend fun toUiModels(
         iconPacks: Collection<AppModel>,
         selectedIconPack: Option<AppId>
-    ): List<Either<GetSystemIconError, IconPackSettingsItemUiModel>> {
+    ): List<Either<GetAppError, IconPackSettingsItemUiModel>> {
         val systemDefaultUiModel = IconPackSettingsItemUiModel.SystemDefault(
             name = string.settings_icon_pack_system_default,
             isSelected = selectedIconPack.isNone()
@@ -33,7 +33,7 @@ internal class IconPackSettingsUiModelMapper(
     private suspend fun toUiModel(
         iconPack: AppModel,
         isSelected: Boolean
-    ): Either<GetSystemIconError, IconPackSettingsItemUiModel.FromApp> = either {
+    ): Either<GetAppError, IconPackSettingsItemUiModel.FromApp> = either {
         IconPackSettingsItemUiModel.FromApp(
             id = iconPack.id,
             name = iconPack.name.value,

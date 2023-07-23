@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import org.koin.core.annotation.Single
 import shuttle.apps.domain.model.AppId
-import shuttle.icons.domain.error.GetSystemIconError
+import shuttle.apps.domain.model.GetAppError
 import shuttle.predictions.domain.usecase.ObserveSuggestedApps
 import shuttle.settings.domain.model.WidgetSettings
 import shuttle.settings.domain.usecase.ObserveCurrentIconPack
@@ -58,6 +58,6 @@ internal class SuggestedAppsWidgetViewModel(
         ::Pair
     )
 
-    private fun List<Either<GetSystemIconError, WidgetAppUiModel>>.filterRight(): List<WidgetAppUiModel> =
+    private fun List<Either<GetAppError, WidgetAppUiModel>>.filterRight(): List<WidgetAppUiModel> =
         mapNotNull { it.getOrNull() }
 }

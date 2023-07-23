@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import org.koin.android.annotation.KoinViewModel
 import shuttle.apps.domain.model.AppId
-import shuttle.icons.domain.error.GetSystemIconError
+import shuttle.apps.domain.model.GetAppError
 import shuttle.icons.domain.usecase.ObserveInstalledIconPacks
 import shuttle.settings.domain.usecase.ObserveCurrentIconPack
 import shuttle.settings.domain.usecase.SetCurrentIconPack
@@ -72,7 +72,7 @@ internal class IconPacksSettingsViewModel(
     }
 
     @Suppress("MaxLineLength")
-    private fun List<Either<GetSystemIconError, IconPackSettingsItemUiModel>>.filterRight(): ImmutableList<IconPackSettingsItemUiModel> =
+    private fun List<Either<GetAppError, IconPackSettingsItemUiModel>>.filterRight(): ImmutableList<IconPackSettingsItemUiModel> =
         mapNotNull {
             it.getOrNull()
         }.toImmutableList()

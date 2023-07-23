@@ -7,9 +7,9 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.koin.android.annotation.KoinViewModel
+import shuttle.apps.domain.model.GetAppError
 import shuttle.apps.domain.usecase.ObserveAllInstalledApps
 import shuttle.design.model.WidgetPreviewAppUiModel
-import shuttle.icons.domain.error.GetSystemIconError
 import shuttle.settings.domain.model.Dp
 import shuttle.settings.domain.model.Sp
 import shuttle.settings.domain.usecase.ObserveCurrentIconPack
@@ -164,7 +164,7 @@ internal class WidgetLayoutViewModel(
         )
     }
 
-    private fun List<Either<GetSystemIconError, WidgetPreviewAppUiModel>>.filterRight(): List<WidgetPreviewAppUiModel> =
+    private fun List<Either<GetAppError, WidgetPreviewAppUiModel>>.filterRight(): List<WidgetPreviewAppUiModel> =
         mapNotNull { it.getOrNull() }
 
 }

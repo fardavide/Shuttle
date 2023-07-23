@@ -10,7 +10,7 @@ import kotlinx.coroutines.withContext
 import org.koin.core.annotation.Factory
 import org.koin.core.annotation.Named
 import shuttle.apps.domain.model.AppId
-import shuttle.icons.domain.error.GetSystemIconError
+import shuttle.apps.domain.model.GetAppError
 import shuttle.utils.kotlin.IoDispatcher
 
 @Factory
@@ -21,15 +21,15 @@ class GetSystemIconDrawableForApp(
 
     private val cache = mutableMapOf<AppId, Drawable>()
 
-    suspend operator fun invoke(id: AppId): Either<GetSystemIconError, Drawable> = withContext(ioDispatcher) {
+    suspend operator fun invoke(id: AppId): Either<GetAppError, Drawable> = withContext(ioDispatcher) {
         cache[id]?.right()
             ?: getSystemIconFromSystem(id)
                 .onRight { cache[id] = it }
     }
 
-    private fun getSystemIconFromSystem(id: AppId): Either<GetSystemIconError, Drawable> = try {
+    private fun getSystemIconFromSystem(id: AppId): Either<GetAppError, Drawable> = try {
         packageManager.getApplicationIcon(id.value).right()
     } catch (ignored: PackageManager.NameNotFoundException) {
-        GetSystemIconError.AppNotInstalled.left()
+        GetAppError.AppNotInstalled.left()
     }
 }

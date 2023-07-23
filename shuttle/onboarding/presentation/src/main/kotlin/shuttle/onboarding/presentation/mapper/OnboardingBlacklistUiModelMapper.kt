@@ -4,7 +4,7 @@ import arrow.core.Either
 import arrow.core.raise.either
 import org.koin.core.annotation.Factory
 import shuttle.apps.domain.model.AppModel
-import shuttle.icons.domain.error.GetSystemIconError
+import shuttle.apps.domain.model.GetAppError
 import shuttle.icons.domain.usecase.GetSystemIconDrawableForApp
 import shuttle.onboarding.presentation.model.OnboardingBlacklistAppUiModel
 import shuttle.onboarding.presentation.model.OnboardingBlacklistUiModel
@@ -15,7 +15,7 @@ class OnboardingBlacklistUiModelMapper(
     private val getIconDrawableForApp: GetSystemIconDrawableForApp
 ) {
 
-    suspend fun toUiModel(app: AppModel): Either<GetSystemIconError, OnboardingBlacklistAppUiModel> = either {
+    suspend fun toUiModel(app: AppModel): Either<GetAppError, OnboardingBlacklistAppUiModel> = either {
         OnboardingBlacklistAppUiModel(
             name = app.name.value,
             icon = getIconDrawableForApp(id = app.id).bind(),

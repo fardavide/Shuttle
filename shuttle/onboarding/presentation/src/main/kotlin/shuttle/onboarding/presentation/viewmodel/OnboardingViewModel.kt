@@ -10,11 +10,11 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.koin.android.annotation.KoinViewModel
 import shuttle.apps.domain.model.AppModel
+import shuttle.apps.domain.model.GetAppError
 import shuttle.apps.domain.usecase.ObserveAllInstalledApps
 import shuttle.design.model.WidgetLayoutUiModel
 import shuttle.design.model.WidgetPreviewAppUiModel
 import shuttle.design.model.WidgetPreviewUiModel
-import shuttle.icons.domain.error.GetSystemIconError
 import shuttle.onboarding.domain.usecase.DidShowOnboarding
 import shuttle.onboarding.domain.usecase.SetOnboardingShown
 import shuttle.onboarding.presentation.mapper.OnboardingBlacklistUiModelMapper
@@ -78,7 +78,7 @@ internal class OnboardingViewModel(
         onboardingBlacklistUiModelMapper.toUiModel(apps, take = 4)
     )
 
-    private fun List<Either<GetSystemIconError, WidgetPreviewAppUiModel>>.filterRight(): List<WidgetPreviewAppUiModel> =
+    private fun List<Either<GetAppError, WidgetPreviewAppUiModel>>.filterRight(): List<WidgetPreviewAppUiModel> =
         mapNotNull { it.getOrNull() }
 
     sealed interface Action {

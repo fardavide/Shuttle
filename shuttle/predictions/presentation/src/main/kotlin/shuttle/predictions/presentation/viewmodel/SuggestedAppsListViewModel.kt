@@ -18,7 +18,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.koin.android.annotation.KoinViewModel
 import shuttle.apps.domain.model.AppId
-import shuttle.icons.domain.error.GetSystemIconError
+import shuttle.apps.domain.model.GetAppError
 import shuttle.predictions.domain.error.ObserveSuggestedAppsError
 import shuttle.predictions.domain.usecase.ObserveSuggestedApps
 import shuttle.predictions.presentation.mapper.AppUiModelMapper
@@ -64,7 +64,7 @@ internal class SuggestedAppsListViewModel(
         return State.RequestOpenApp(intent)
     }
 
-    private fun List<Either<GetSystemIconError, AppUiModel>>.filterRight(): ImmutableList<AppUiModel> =
+    private fun List<Either<GetAppError, AppUiModel>>.filterRight(): ImmutableList<AppUiModel> =
         mapNotNull { it.getOrNull() }.toImmutableList()
 
     private fun ObserveSuggestedAppsError.toMessage() = when (this) {

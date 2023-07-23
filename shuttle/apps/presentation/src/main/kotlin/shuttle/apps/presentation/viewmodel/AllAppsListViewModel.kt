@@ -10,10 +10,10 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import org.koin.android.annotation.KoinViewModel
+import shuttle.apps.domain.model.GetAppError
 import shuttle.apps.domain.usecase.ObserveAllInstalledApps
 import shuttle.apps.presentation.mapper.AppUiModelMapper
 import shuttle.apps.presentation.model.AppUiModel
-import shuttle.icons.domain.error.GetSystemIconError
 
 @KoinViewModel
 internal class AllAppsListViewModel(
@@ -26,7 +26,7 @@ internal class AllAppsListViewModel(
             State.Data(appUiModelMapper.toUiModels(list).filterRight())
         }.stateIn(viewModelScope, SharingStarted.Eagerly, State.Loading)
 
-    private fun List<Either<GetSystemIconError, AppUiModel>>.filterRight(): ImmutableList<AppUiModel> =
+    private fun List<Either<GetAppError, AppUiModel>>.filterRight(): ImmutableList<AppUiModel> =
         mapNotNull { it.getOrNull() }.toImmutableList()
 
     sealed interface State {

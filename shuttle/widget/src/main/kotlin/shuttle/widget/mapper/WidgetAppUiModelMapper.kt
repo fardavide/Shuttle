@@ -12,8 +12,8 @@ import arrow.core.Option
 import arrow.core.raise.either
 import org.koin.core.annotation.Factory
 import shuttle.apps.domain.model.AppId
+import shuttle.apps.domain.model.GetAppError
 import shuttle.apps.domain.model.SuggestedAppModel
-import shuttle.icons.domain.error.GetSystemIconError
 import shuttle.icons.domain.usecase.GetIconBitmapForApp
 import shuttle.util.android.GetLaunchIntentForApp
 import shuttle.widget.model.WidgetAppUiModel
@@ -27,18 +27,18 @@ internal class WidgetAppUiModelMapper(
     suspend fun toUiModels(
         appModels: Collection<SuggestedAppModel>,
         iconPackId: Option<AppId>
-    ): List<Either<GetSystemIconError, WidgetAppUiModel>> =
+    ): List<Either<GetAppError, WidgetAppUiModel>> =
         appModels.map { toUiModel(appModel = it, iconPackId = iconPackId) }
 
     private suspend fun toUiModel(
         appModel: SuggestedAppModel,
         iconPackId: Option<AppId>
-    ): Either<GetSystemIconError, WidgetAppUiModel> = either {
+    ): Either<GetAppError, WidgetAppUiModel> = either {
         WidgetAppUiModel(
             id = appModel.id,
             name = appModel.name.value,
             icon = getIconBitmapForApp(id = appModel.id, iconPackId = iconPackId).bind().withTint(appModel.isSuggested),
-            launchIntent = getLaunchIntentForApp(appModel.id)
+            launchIntent = getLaunchIntentForApp(appModel.id).bind()
         )
     }
 
