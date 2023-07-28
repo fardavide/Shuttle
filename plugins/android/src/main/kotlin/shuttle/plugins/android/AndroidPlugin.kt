@@ -35,15 +35,14 @@ internal class AndroidPlugin : Plugin<Project> {
             }
         }
 
-        target.extensions.configure<CommonExtension<*, *, *, *>> { ext ->
+        target.extensions.configure<CommonExtension<*, *, *, *, *>> { ext ->
             val namespace = target.path.removePrefix(":").replace(":", ".")
             configureAndroidExtension(ext, namespace)
         }
         AndroidOptInsExtension.setup(target)
     }
 
-    @Suppress("UnstableApiUsage")
-    private fun configureAndroidExtension(ext: CommonExtension<*, *, *, *>, namespace: String) {
+    private fun configureAndroidExtension(ext: CommonExtension<*, *, *, *, *>, namespace: String) {
         if (ext !is ApplicationExtension) {
             ext.namespace = namespace
         }

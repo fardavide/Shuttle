@@ -74,7 +74,7 @@
     <string name="settings_about_title">About the app</string>
     <string name="settings_about_description">Info about this app and the developer</string>
     <string name="settings_about_dev_info_title">About the developer</string>
-    <string name="settings_about_dev_info_description">I\'m Davide, a passionate Android developer and a freelance from Italy. I love coding, video-games, gym and my wife</string>
+    <string name="settings_about_dev_info_description">I’m Davide, a passionate Android developer and a freelance from Italy. I love coding, video-games, gym and my wife</string>
     <string name="settings_about_app_info_title">About the app</string>
     <string name="settings_about_app_info_description">This app is born from a single developer during the free time.\nThe app is created in Kotlin using Jetpack Compose, Glance Widget, SqlDelight and few more libraries from awesome developers.\nThis app will always be free, open source and ads-free. If you appreciate my job, feel free to support me from any channel below.</string>
     <string name="settings_about_github_project_title">⭐️ the project on GitHub</string>
@@ -86,10 +86,10 @@
     <string name="settings_about_twitter_dev_title">Follow me on Twitter</string>
     <string name="settings_about_twitter_dev_link" translatable="false">https://twitter.com/4face91</string>
     <string name="settings_about_coffee_title">Buy me a ☕️ ( %s )</string>
-    <string name="settings_about_makeup_title">Buy my wife some 💄️ so she won\'t get angry when I work late ( %s )</string>
+    <string name="settings_about_makeup_title">Buy my wife some 💄️ so she won’t get angry when I work late ( %s )</string>
 
     <string name="settings_blacklist_title">Blacklist</string>
-    <string name="settings_blacklist_description">Selected apps won\'t be proposed as suggestions</string>
+    <string name="settings_blacklist_description">Selected apps won’t be proposed as suggestions</string>
     <string name="settings_blacklist_search">Search</string>
 
     <string name="settings_check_permissions_title">Check permissions</string>
@@ -121,8 +121,8 @@
     <string name="settings_widget_layout_description">Customise the layout of the Widget</string>
 
     <string name="settings_widget_layout_grid">Widget grid</string>
-    <string name="settings_widget_layout_icons_dimensions">Icons\' dimensions</string>
-    <string name="settings_widget_layout_apps_labels">Apps\' labels</string>
+    <string name="settings_widget_layout_icons_dimensions">Icons’ dimensions</string>
+    <string name="settings_widget_layout_apps_labels">Apps’ labels</string>
     <string name="settings_widget_layout_colors">Colors</string>
 
     <string name="settings_widget_layout_rows_count">Rows count</string>
@@ -131,7 +131,7 @@
     <string name="settings_widget_layout_vertical_spacing">Vertical spacing between icons</string>
     <string name="settings_widget_layout_horizontal_spacing">Horizontal spacing between icons</string>
     <string name="settings_widget_layout_text_size">Text size</string>
-    <string name="settings_widget_layout_two_lines">Apps\' labels on two lines</string>
+    <string name="settings_widget_layout_two_lines">Apps’ labels on two lines</string>
 
     <string name="settings_footer_app_version">Version %s</string>
     <!-- endregion -->
