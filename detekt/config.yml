@@ -812,8 +812,6 @@ style:
     active: true
   OptionalUnit:
     active: true
-  OptionalWhenBraces:
-    active: false
   PreferToOverPairSyntax:
     active: false
   ProtectedMemberInFinalClass:
