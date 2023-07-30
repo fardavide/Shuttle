@@ -23,6 +23,7 @@ import shuttle.database.datasource.SuggestionCacheDataSource
 import shuttle.database.model.DatabaseAppId
 import shuttle.database.model.DatabaseGeoHash
 import shuttle.database.model.DatabaseSuggestionCache
+import shuttle.performance.SuggestionsTracer
 import shuttle.stats.data.mapper.DatabaseDateAndTimeMapper
 import shuttle.stats.data.usecase.SortAppStats
 import shuttle.stats.data.worker.DeleteOldStatsScheduler
@@ -35,7 +36,8 @@ internal class RealStatsRepository(
     private val databaseDateAndTimeMapper: DatabaseDateAndTimeMapper,
     private val deleteOldStatsScheduler: DeleteOldStatsScheduler,
     private val statDataSource: StatDataSource,
-    private val sortAppStats: SortAppStats
+    private val sortAppStats: SortAppStats,
+    private val tracer: SuggestionsTracer
 ) : StatsRepository {
 
     override suspend fun deleteCountersFor(appId: AppId) {
@@ -55,14 +57,16 @@ internal class RealStatsRepository(
             val databaseDate = databaseDateAndTimeMapper.toDatabaseDate(date)
             val databaseStartTime = databaseDateAndTimeMapper.toDatabaseTime(startTime)
             val databaseEndTime = databaseDateAndTimeMapper.toDatabaseTime(endTime)
-            sortAppStats(
-                stats = stats,
-                location = databaseGeoHash,
-                date = databaseDate,
-                startTime = databaseStartTime,
-                endTime = databaseEndTime,
-                takeAtLeast = takeAtLeast
-            )
+            tracer.sort {
+                sortAppStats(
+                    stats = stats,
+                    location = databaseGeoHash,
+                    date = databaseDate,
+                    startTime = databaseStartTime,
+                    endTime = databaseEndTime,
+                    takeAtLeast = takeAtLeast
+                )
+            }
         }
     ) { installedAppEither, sortedAppsIds ->
         val allInstalledApp = installedAppEither

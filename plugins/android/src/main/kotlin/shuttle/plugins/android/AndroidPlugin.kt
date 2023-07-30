@@ -9,7 +9,6 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinTopLevelExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinAndroidPluginWrapper
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import shuttle.plugins.common.JvmDefaults
-import shuttle.plugins.common.KotlinDefaults
 import shuttle.plugins.util.apply
 import shuttle.plugins.util.configure
 import shuttle.plugins.util.withType
@@ -31,7 +30,12 @@ internal class AndroidPlugin : Plugin<Project> {
                 jvmTarget.set(JvmDefaults.Target)
             }
             task.kotlinOptions {
-                freeCompilerArgs = freeCompilerArgs + KotlinDefaults.FreeCompilerArgs
+                freeCompilerArgs = freeCompilerArgs + AndroidDefaults.FreeCompilerArgs
+            }
+            if ("Test" in task.name) {
+                task.kotlinOptions {
+                    freeCompilerArgs = freeCompilerArgs + AndroidDefaults.TestFreeCompilerArgs
+                }
             }
         }
 

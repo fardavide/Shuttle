@@ -9,11 +9,18 @@ object KotlinDefaults {
     const val ExperimentalStdlibApi = "kotlin.ExperimentalStdlibApi"
     const val FlowPreview = "kotlinx.coroutines.FlowPreview"
 
-    val DefaultOptIns = listOf(
+    private val DefaultOptIns = listOf(
         "kotlin.experimental.ExperimentalTypeInference",
         "kotlin.time.ExperimentalTime"
     )
 
+    private val TestOptIns = listOf(
+        "shuttle.ShuttleTestApi"
+    )
+
     val FreeCompilerArgs =
         DefaultOptIns.map { annotationName -> "-opt-in=$annotationName" } + ContextReceiversCompilerArg
+
+    val TestFreeCompilerArgs = TestOptIns
+        .map { annotationName -> "-opt-in=$annotationName" }
 }

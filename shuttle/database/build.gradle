@@ -15,6 +15,7 @@ optIns {
 
 // modules
 dependencies {
+    implementation projects.shuttle.performance.api
     implementation projects.shuttle.utils.kotlin
     testImplementation projects.shuttle.test.kotlin
 }

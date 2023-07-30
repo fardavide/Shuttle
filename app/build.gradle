@@ -1,4 +1,7 @@
 apply plugin: 'shuttle.android.compose.app'
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
+apply plugin: 'com.google.firebase.firebase-perf'
 
 // modules
 dependencies {

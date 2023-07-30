@@ -3,7 +3,8 @@ buildscript {
 
     dependencies {
         classpath libs.gradle.android
-        classpath libs.gradle.crashlytics
+        classpath libs.gradle.firebase.crashlytics
+        classpath libs.gradle.firebase.performance
         classpath libs.gradle.gms
         classpath libs.gradle.kotlin
         classpath libs.gradle.ksp

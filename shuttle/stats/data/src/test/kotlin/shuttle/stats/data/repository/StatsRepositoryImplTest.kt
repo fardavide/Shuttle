@@ -22,6 +22,7 @@ import shuttle.database.datasource.StatDataSource
 import shuttle.database.model.DatabaseStat
 import shuttle.database.testdata.DatabaseAppIdSample
 import shuttle.database.testdata.DatabaseStatTestData
+import shuttle.performance.FakeSuggestionsTracer
 import shuttle.stats.data.mapper.DatabaseDateAndTimeMapper
 import shuttle.stats.data.usecase.SortAppStats
 import shuttle.stats.data.worker.DeleteOldStatsScheduler
@@ -55,7 +56,8 @@ class StatsRepositoryImplTest : AnnotationSpec() {
         databaseDateAndTimeMapper = DatabaseDateAndTimeMapper(),
         deleteOldStatsScheduler = deleteOldStatsScheduler,
         statDataSource = statDataSource,
-        sortAppStats = sortAppStats
+        sortAppStats = sortAppStats,
+        tracer = FakeSuggestionsTracer()
     )
 
     @Test

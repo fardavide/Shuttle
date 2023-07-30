@@ -8,6 +8,7 @@ import shuttle.database.SuggestionCacheQueries
 import shuttle.database.model.DatabaseCachedSuggestedApp
 import shuttle.database.model.DatabaseSuggestionCache
 import shuttle.database.util.suspendTransaction
+import shuttle.performance.SuggestionsTracer
 import shuttle.utils.kotlin.IoDispatcher
 
 interface SuggestionCacheDataSource {
@@ -20,11 +21,14 @@ interface SuggestionCacheDataSource {
 @Factory
 internal class RealSuggestionCacheDataSource(
     private val cacheQueries: SuggestionCacheQueries,
-    @Named(IoDispatcher) private val ioDispatcher: CoroutineDispatcher
+    @Named(IoDispatcher) private val ioDispatcher: CoroutineDispatcher,
+    private val tracer: SuggestionsTracer
 ) : SuggestionCacheDataSource {
 
     override suspend fun findCachedSuggestions(): List<DatabaseCachedSuggestedApp> = ioDispatcher {
-        cacheQueries.findAll().executeAsList()
+        tracer.fromCache {
+            cacheQueries.findAll().executeAsList()
+        }
     }
 
     override suspend fun insertSuggestionCache(suggestionCache: List<DatabaseSuggestionCache>) {

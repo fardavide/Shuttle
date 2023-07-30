@@ -1,9 +1,5 @@
 apply plugin: 'shuttle.android.compose.library'
 
-optIns {
-    experimentalMaterial3Api()
-}
-
 // modules
 dependencies {
     implementation projects.shuttle.apps.domain

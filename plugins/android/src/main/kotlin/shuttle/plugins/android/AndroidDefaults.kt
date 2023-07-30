@@ -5,13 +5,14 @@ import shuttle.plugins.common.KotlinDefaults
 object AndroidDefaults {
 
     const val ExperimentalTestApi = "androidx.compose.ui.test.ExperimentalTestApi"
-    const val ExperimentalMaterial3Api = "androidx.compose.material3.ExperimentalMaterial3Api"
     const val ExperimentalPermissionsApi = "com.google.accompanist.permissions.ExperimentalPermissionsApi"
+    private const val ExperimentalMaterial3Api = "androidx.compose.material3.ExperimentalMaterial3Api"
 
     val FreeCompilerArgs = KotlinDefaults.FreeCompilerArgs
     val ComposeFreeCompilerArgs = FreeCompilerArgs + listOf(
-        "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api"
+        "-opt-in=$ExperimentalMaterial3Api"
     )
+    val TestFreeCompilerArgs = KotlinDefaults.TestFreeCompilerArgs
 
     const val APPLICATION_ID = "studio.forface.shuttle"
     const val BUILD_TOOLS = "34.0.0"

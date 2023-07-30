@@ -18,6 +18,7 @@ dataStore = "1.0.0"
 detekt = "1.23.1"
 detektRulesCompose = "0.1.12"
 firebase = "32.2.0"
+firebasePerformance = "1.4.2"
 geohash = "1.4.0"
 glance = "1.0.0-rc01"
 gms = "4.3.15"
@@ -47,8 +48,9 @@ workManager = "2.8.1"
 [libraries]
 # region Gradle
 gradle-android = { module = "com.android.tools.build:gradle", version.ref = "androidGradle" }
-gradle-crashlytics = { module = "com.google.firebase:firebase-crashlytics-gradle", version.ref = "crashlytics" }
 gradle-detekt = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
+gradle-firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-gradle", version.ref = "crashlytics" }
+gradle-firebase-performance = { module = "com.google.firebase:perf-plugin", version.ref = "firebasePerformance" }
 gradle-gms = { module = "com.google.gms:google-services", version.ref = "gms" }
 gradle-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 gradle-ksp = { module = "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
@@ -100,6 +102,7 @@ detekt-test = { module = "io.gitlab.arturbosch.detekt:detekt-test", version.ref 
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebase" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics-ktx" }
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-ktx" }
+firebase-performance = { module = "com.google.firebase:firebase-perf-ktx" }
 
 geohash = { module = "ch.hsr:geohash", version.ref = "geohash" }
 

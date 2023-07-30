@@ -1,0 +1,11 @@
+apply plugin: 'shuttle.kotlin'
+
+// modules
+dependencies {
+    implementation projects.shuttle.utils.kotlin
+}
+
+dependencies {
+    implementation libs.bundles.base
+    testImplementation libs.bundles.test.kotlin
+}

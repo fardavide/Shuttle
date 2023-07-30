@@ -16,6 +16,8 @@ dependencies {
     implementation projects.shuttle.payments.data
     implementation projects.shuttle.payments.domain
     implementation projects.shuttle.payments.presentation
+    implementation projects.shuttle.performance.android
+    implementation projects.shuttle.performance.api
     implementation projects.shuttle.permissions.domain
     implementation projects.shuttle.permissions.presentation
     implementation projects.shuttle.predictions.domain

@@ -49,7 +49,8 @@ internal class ShuttleLocationClient(
 
     private suspend fun Task<Location?>.tryGetWithTimeout(): Either<LocationError, Location> = try {
         withTimeout(freshLocationTimeout) {
-            suspendCancellableCoroutine { continuation ->
+            @Suppress("RemoveExplicitTypeArguments") // Type mismatch with K2 compiler
+            suspendCancellableCoroutine<Either<LocationError, Location>> { continuation ->
                 addOnSuccessListener { location ->
                     val either = location?.right() ?: LocationError.NoCachedLocation.left()
                     continuation.resume(either)

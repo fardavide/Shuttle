@@ -1,0 +1,15 @@
+apply plugin: 'shuttle.android.library'
+
+// modules
+dependencies {
+    implementation projects.shuttle.performance.api
+}
+
+dependencies {
+    implementation platform(libs.firebase.bom)
+
+    implementation libs.bundles.base
+    implementation libs.firebase.performance
+
+    testImplementation libs.bundles.test.kotlin
+}

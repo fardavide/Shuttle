@@ -1,6 +1,7 @@
 package shuttle.app
 
 import android.app.Application
+import shuttle.app.startup.FirebaseStartup
 import shuttle.app.startup.KoinStartup
 import shuttle.app.startup.StrictModeStartup
 import shuttle.app.startup.SyncStartup
@@ -13,7 +14,7 @@ class ShuttleApplication : Application(), ShuttleApplicationContext {
 
     override fun onCreate() {
         super.onCreate()
-        init(KoinStartup, StrictModeStartup, SyncStartup)
+        init(FirebaseStartup, KoinStartup, StrictModeStartup, SyncStartup)
     }
 }
 

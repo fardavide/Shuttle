@@ -9,6 +9,7 @@ dependencies {
     implementation projects.shuttle.apps.domain
     implementation projects.shuttle.coordinates.domain
     implementation projects.shuttle.database
+    implementation projects.shuttle.performance.api
     implementation projects.shuttle.settings.domain
     implementation projects.shuttle.stats.domain
     implementation projects.shuttle.utils.android

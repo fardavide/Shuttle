@@ -16,6 +16,8 @@ import shuttle.onboarding.presentation.OnboardingPresentationModule
 import shuttle.payments.data.PaymentsDataModule
 import shuttle.payments.domain.PaymentsDomainModule
 import shuttle.payments.presentation.PaymentsPresentationModule
+import shuttle.performance.PerformanceModule
+import shuttle.performance.android.PerformanceAndroidModule
 import shuttle.permissions.domain.PermissionsDomainModule
 import shuttle.permissions.presentation.PermissionsPresentationModule
 import shuttle.predictions.domain.PredictionsDomainModule
@@ -51,6 +53,9 @@ import shuttle.widget.WidgetModule
         PaymentsDataModule::class,
         PaymentsDomainModule::class,
         PaymentsPresentationModule::class,
+
+        PerformanceAndroidModule::class,
+        PerformanceModule::class,
 
         PermissionsDomainModule::class,
         PermissionsPresentationModule::class,
