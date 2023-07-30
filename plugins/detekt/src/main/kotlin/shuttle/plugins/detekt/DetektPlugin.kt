@@ -5,11 +5,12 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.artifacts.VersionCatalog
 import org.gradle.api.artifacts.dsl.DependencyHandler
+import shuttle.plugins.common.GradlePlugin
 import shuttle.plugins.util.apply
 import shuttle.plugins.util.libsCatalog
 import shuttle.plugins.util.withType
 
-@Suppress("unused")
+@GradlePlugin
 internal class DetektPlugin : Plugin<Project> {
 
     override fun apply(target: Project) {
