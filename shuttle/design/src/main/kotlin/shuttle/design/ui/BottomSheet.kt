@@ -27,7 +27,7 @@ fun ShuttleModalBottomSheet(
     val statusBarBaseAlpha = remember { statusBarColor.alpha }
     val windowHeight = getWindowHeightExcludingStatusBar()
     val sheetOffset = runCatching { sheetState.requireOffset() }.getOrDefault(windowHeight.toFloat())
-    val alpha = ((windowHeight - sheetOffset) / windowHeight).coerceAtMost(statusBarBaseAlpha)
+    val alpha = ((windowHeight - sheetOffset) / windowHeight).coerceIn(0f, statusBarBaseAlpha)
     Logger.withTag("ShuttleModalBottomSheet").v("sheetOffset=$sheetOffset, windowHeight=$windowHeight, alpha=$alpha")
     systemUiController.setStatusBarColor(color = statusBarColor.copy(alpha = alpha))
     DisposableEffect(Unit) {
