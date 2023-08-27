@@ -82,7 +82,6 @@ internal class RealAppRepository(
 
                 } catch (e: Exception) {
                     // BadParcelableException or DeadSystemRuntimeException
-
                     if (e is CancellationException) throw e
                     val appModels = installedAppsFromCache.map { AppModel(AppId(it.id.value), AppName(it.name)) }
                     emit(appModels)
@@ -96,7 +95,6 @@ internal class RealAppRepository(
 
     @SuppressLint("QueryPermissionsNeeded")
     private suspend fun getAllInstalledAppsFromDevice(): List<AppModel> = withContext(ioDispatcher) {
-        @Suppress("DEPRECATION")
         packageManager.queryIntentActivities(buildLauncherCategoryIntent(), PackageManager.GET_META_DATA)
             .map(::toAppModel)
             .sortedBy { it.name.value.uppercase() }
@@ -105,7 +103,6 @@ internal class RealAppRepository(
 
     @SuppressLint("QueryPermissionsNeeded")
     private suspend fun getIconPacksFromDevice(): List<AppModel> = withContext(ioDispatcher) {
-        @Suppress("DEPRECATION")
         packageManager.queryIntentActivities(Intent(IconPackThemesId), PackageManager.GET_META_DATA)
             .map(::toAppModel)
             .sortedBy { it.name.value.uppercase() }

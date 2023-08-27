@@ -21,6 +21,7 @@ import shuttle.apps.domain.model.AppId
 import shuttle.icons.data.model.IconPack
 import shuttle.icons.domain.repository.IconPacksRepository
 import shuttle.utils.kotlin.IoDispatcher
+import java.io.FileNotFoundException
 import java.io.IOException
 import java.util.Locale
 import java.util.Random
@@ -226,7 +227,11 @@ class IconPacksRepositoryImpl(
 
         val id = resources.getIdentifier(drawableName, "drawable", iconPack.id.value)
         if (id > 0) {
-            val bitmap = resources.getDrawable(id)
+            val bitmap = try {
+                resources.getDrawable(id)
+            } catch (e: FileNotFoundException) {
+                return null
+            }
             if (bitmap is BitmapDrawable) return bitmap.bitmap
         }
         return null

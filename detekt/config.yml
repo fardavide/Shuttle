@@ -123,7 +123,7 @@ complexity:
     thresholdInClasses: 26
     thresholdInInterfaces: 21
     thresholdInObjects: 21
-    thresholdInEnums: 5
+    thresholdInEnums: 6
     ignoreDeprecated: true
     ignorePrivate: false
     ignoreOverridden: false

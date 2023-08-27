@@ -65,8 +65,8 @@ fun OnboardingPage(actions: OnboardingPage.Actions) {
 private fun OnboardingContent(state: OnboardingState.ShowOnboarding, actions: OnboardingPage.Actions) {
     val index = remember { mutableStateOf(Index.MAIN) }
     val navigationActions = OnboardingPage.NavigationActions(
-        onPrevious = { index -= 1 },
-        onNext = { index += 1 },
+        onPrevious = { index.previousOrSame() },
+        onNext = { index.nextOrSame() },
         onComplete = actions.onOnboardingComplete
     )
 
@@ -120,7 +120,7 @@ internal fun OnboardingPageContent(
         }
 
         Section(weight = 1) {
-            val progress = Index.values().indexOf(index).toFloat() / Index.values().lastIndex.toFloat()
+            val progress = Index.entries.indexOf(index).toFloat() / Index.entries.lastIndex.toFloat()
             LinearProgressIndicator(
                 modifier = Modifier.height(Dimens.Component.XXSmall),
                 progress = progress,
@@ -168,7 +168,7 @@ private fun ColumnScope.Section(
 }
 
 internal fun Modifier.imageContainerBackground() = composed {
-    background(
+    this.background(
         color = MaterialTheme.colorScheme.surface,
         shape = MaterialTheme.shapes.large
     )
@@ -182,9 +182,11 @@ object OnboardingPage {
         WIDGET_LAYOUT,
         BLACKLIST;
 
-        fun intValue() = values().indexOf(this)
         fun isFirst() = intValue() == 0
-        fun isLast() = intValue() == values().lastIndex
+        fun isLast() = intValue() == entries.lastIndex
+        fun nextOrSame() = if (isLast()) this else entries[intValue() + 1]
+        fun previousOrSame() = if (isFirst()) this else entries[intValue() - 1]
+        private fun intValue() = entries.indexOf(this)
     }
 
     data class Actions(
@@ -208,14 +210,12 @@ object OnboardingPage {
     }
 }
 
-private operator fun MutableState<Index>.plusAssign(intValue: Int) {
-    val newIntValue = value.intValue() + intValue
-    value = Index.values()[newIntValue]
+private fun MutableState<Index>.nextOrSame() {
+    value = value.nextOrSame()
 }
 
-private operator fun MutableState<Index>.minusAssign(intValue: Int) {
-    val newIntValue = value.intValue() - intValue
-    value = Index.values()[newIntValue]
+private fun MutableState<Index>.previousOrSame() {
+    value = value.previousOrSame()
 }
 
 @Composable
