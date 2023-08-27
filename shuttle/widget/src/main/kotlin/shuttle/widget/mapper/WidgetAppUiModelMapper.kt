@@ -44,12 +44,12 @@ internal class WidgetAppUiModelMapper(
 
     private fun Bitmap.withTint(isSuggested: Boolean): Bitmap {
         return if (isSuggested.not()) {
-            copy(Bitmap.Config.ARGB_8888, true).applyCanvas {
+            copy(Bitmap.Config.ARGB_8888, true)?.applyCanvas {
                 val paint = Paint()
                 paint.colorFilter = NotSuggestedColorFilter
 
                 drawBitmap(this@withTint, 0f, 0f, paint)
-            }
+            } ?: this
         } else {
             this
         }
