@@ -95,7 +95,7 @@ internal class RealAppRepository(
 
     @SuppressLint("QueryPermissionsNeeded")
     private suspend fun getAllInstalledAppsFromDevice(): List<AppModel> = withContext(ioDispatcher) {
-        packageManager.queryIntentActivities(buildLauncherCategoryIntent(), PackageManager.MATCH_DEFAULT_ONLY)
+        packageManager.queryIntentActivities(buildLauncherCategoryIntent(), 0)
             .map(::toAppModel)
             .sortedBy { it.name.value.uppercase() }
     }
@@ -103,7 +103,7 @@ internal class RealAppRepository(
 
     @SuppressLint("QueryPermissionsNeeded")
     private suspend fun getIconPacksFromDevice(): List<AppModel> = withContext(ioDispatcher) {
-        packageManager.queryIntentActivities(Intent(IconPackThemesId), PackageManager.MATCH_DEFAULT_ONLY)
+        packageManager.queryIntentActivities(Intent(IconPackThemesId), 0)
             .map(::toAppModel)
             .sortedBy { it.name.value.uppercase() }
     }
