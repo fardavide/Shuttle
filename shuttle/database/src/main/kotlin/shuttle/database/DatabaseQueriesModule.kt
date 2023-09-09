@@ -13,6 +13,9 @@ internal class DatabaseQueriesModule {
     fun appBlacklistSettingQueries(database: Database) = database.appBlacklistSettingQueries
 
     @Factory
+    fun counterQueries(database: Database) = database.counterQueries
+
+    @Factory
     fun lastLocationQueries(database: Database) = database.lastLocationQueries
 
     @Factory

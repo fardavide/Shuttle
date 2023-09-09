@@ -1,0 +1,29 @@
+import shuttle.database.model.DatabaseAppId;
+import shuttle.database.model.DatabaseCounterId;
+import shuttle.database.model.DatabaseGeoHash;
+import shuttle.database.model.DatabaseHour;
+
+CREATE TABLE IF NOT EXISTS counter(
+    counterId TEXT AS DatabaseCounterId NOT NULL,
+    appId TEXT AS DatabaseAppId NOT NULL,
+    count INTEGER NOT NULL,
+
+    PRIMARY KEY (counterId, appId)
+);
+
+incrementCounter {
+    INSERT OR IGNORE INTO counter (counterId, appId, count)
+    VALUES (:counterId, :appId, 0);
+
+    UPDATE counter SET count = count + 1
+    WHERE counterId = :counterId AND appId = :appId;
+}
+
+findSortedApps:
+    SELECT appId, count FROM counter
+    WHERE counterId = ?
+    ORDER BY count DESC;
+
+deleteByAppId:
+    DELETE FROM counter
+    WHERE appId = ?;

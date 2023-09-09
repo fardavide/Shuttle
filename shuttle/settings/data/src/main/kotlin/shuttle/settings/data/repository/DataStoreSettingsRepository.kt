@@ -61,7 +61,7 @@ internal class DataStoreSettingsRepository(
     }.distinctUntilChanged()
 
     override fun observeUseExperimentalAppSorting(): Flow<Boolean> = dataStore.data.map {
-        it[AppPreferenceKey.UseExperimentalAppSorting] ?: false
+        it[AppPreferenceKey.UseExperimentalAppSorting] ?: true
     }.distinctUntilChanged()
 
     override fun observeWidgetSettings(): Flow<WidgetSettings> = with(WidgetPreferenceKey) {

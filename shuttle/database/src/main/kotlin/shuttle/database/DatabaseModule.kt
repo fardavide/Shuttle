@@ -25,6 +25,7 @@ class DatabaseModule {
         sqlDriver: SqlDriver,
         appAdapter: App.Adapter,
         appBlacklistSettingsAdapter: AppBlacklistSetting.Adapter,
+        counterAdapter: Counter.Adapter,
         lastLocationAdapter: LastLocation.Adapter,
         statAdapter: Stat.Adapter,
         suggestionCacheAdapter: SuggestionCache.Adapter
@@ -32,6 +33,7 @@ class DatabaseModule {
         driver = sqlDriver,
         appAdapter = appAdapter,
         appBlacklistSettingAdapter = appBlacklistSettingsAdapter,
+        counterAdapter = counterAdapter,
         lastLocationAdapter = lastLocationAdapter,
         statAdapter = statAdapter,
         suggestionCacheAdapter = suggestionCacheAdapter

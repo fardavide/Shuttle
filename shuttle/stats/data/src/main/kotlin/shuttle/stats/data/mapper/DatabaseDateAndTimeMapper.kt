@@ -5,6 +5,7 @@ import korlibs.time.DateTime
 import korlibs.time.Time
 import org.koin.core.annotation.Factory
 import shuttle.database.model.DatabaseDate
+import shuttle.database.model.DatabaseHour
 import shuttle.database.model.DatabaseTime
 import shuttle.stats.data.model.DatabaseDateAndTime
 
@@ -21,6 +22,8 @@ internal class DatabaseDateAndTimeMapper {
 
     fun toDatabaseTime(time: Time) =
         DatabaseTime(minuteOfTheDay = time.hourAdjusted * OneHourInMinutes + time.minute)
+
+    fun toDatabaseHour(time: Time) = DatabaseHour(hourOfTheDay = time.hourAdjusted)
 
     companion object {
 
