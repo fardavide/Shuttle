@@ -3,7 +3,7 @@ package shuttle.settings.data.model
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.intPreferencesKey
 
-internal object WidgetSettingsPreferenceKeys {
+internal object WidgetPreferenceKey {
 
     val AllowTwoLines = booleanPreferencesKey("allow two lines")
     val ColumnsCount = intPreferencesKey("columns")

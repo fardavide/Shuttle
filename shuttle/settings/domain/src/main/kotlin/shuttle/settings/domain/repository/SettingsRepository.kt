@@ -21,6 +21,8 @@ interface SettingsRepository {
 
     fun observeKeepStatisticsFor(): Flow<KeepStatisticsFor>
 
+    fun observeUseExperimentalAppSorting(): Flow<Boolean>
+
     fun observeWidgetSettings(): Flow<WidgetSettings>
 
     suspend fun resetOnboardingShown()
@@ -34,6 +36,8 @@ interface SettingsRepository {
     suspend fun setKeepStatisticsFor(keepStatisticsFor: KeepStatisticsFor)
 
     suspend fun setOnboardingShow()
+
+    suspend fun setUseExperimentalAppSorting(useExperimentalAppSorting: Boolean)
 
     suspend fun updateWidgetSettings(settings: WidgetSettings)
 }

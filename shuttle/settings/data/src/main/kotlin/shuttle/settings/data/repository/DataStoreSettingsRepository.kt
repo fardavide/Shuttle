@@ -13,11 +13,8 @@ import shuttle.apps.domain.model.AppName
 import shuttle.database.datasource.SettingDataSource
 import shuttle.database.model.DatabaseAppId
 import shuttle.settings.data.DataStoreProvider
-import shuttle.settings.data.model.CurrentIconPackPreferenceKey
-import shuttle.settings.data.model.DidShowOnboardingPreferenceKey
-import shuttle.settings.data.model.HasAccessibilityServicePreferenceKey
-import shuttle.settings.data.model.KeepStatisticsForPreferenceKey
-import shuttle.settings.data.model.WidgetSettingsPreferenceKeys
+import shuttle.settings.data.model.AppPreferenceKey
+import shuttle.settings.data.model.WidgetPreferenceKey
 import shuttle.settings.domain.model.AppBlacklistSetting
 import shuttle.settings.domain.model.Dp
 import shuttle.settings.domain.model.KeepStatisticsFor
@@ -34,11 +31,11 @@ internal class DataStoreSettingsRepository(
     private val dataStore = dataStoreProvider.dataStore()
 
     override suspend fun didShowOnboarding(): Boolean = dataStore.data.map {
-        it[DidShowOnboardingPreferenceKey] ?: false
+        it[AppPreferenceKey.DidShowOnboarding] ?: false
     }.first()
 
     override suspend fun hasEnabledAccessibilityService(): Boolean = dataStore.data.map {
-        it[HasAccessibilityServicePreferenceKey] ?: false
+        it[AppPreferenceKey.HasAccessibilityService] ?: false
     }.first()
 
     override suspend fun isBlacklisted(appId: AppId) =
@@ -56,14 +53,18 @@ internal class DataStoreSettingsRepository(
         }
 
     override fun observeCurrentIconPack(): Flow<Option<AppId>> = dataStore.data.map {
-        Option.fromNullable(it[CurrentIconPackPreferenceKey]?.let(::AppId))
+        Option.fromNullable(it[AppPreferenceKey.CurrentIconPack]?.let(::AppId))
     }.distinctUntilChanged()
 
     override fun observeKeepStatisticsFor(): Flow<KeepStatisticsFor> = dataStore.data.map {
-        it[KeepStatisticsForPreferenceKey]?.let(KeepStatisticsFor::fromMonths) ?: KeepStatisticsFor.Default
+        it[AppPreferenceKey.KeepStatisticsFor]?.let(KeepStatisticsFor::fromMonths) ?: KeepStatisticsFor.Default
     }.distinctUntilChanged()
 
-    override fun observeWidgetSettings(): Flow<WidgetSettings> = with(WidgetSettingsPreferenceKeys) {
+    override fun observeUseExperimentalAppSorting(): Flow<Boolean> = dataStore.data.map {
+        it[AppPreferenceKey.UseExperimentalAppSorting] ?: false
+    }.distinctUntilChanged()
+
+    override fun observeWidgetSettings(): Flow<WidgetSettings> = with(WidgetPreferenceKey) {
         dataStore.data.map {
             WidgetSettings(
                 allowTwoLines = it[AllowTwoLines] ?: WidgetSettings.Default.allowTwoLines,
@@ -81,7 +82,7 @@ internal class DataStoreSettingsRepository(
 
     override suspend fun resetOnboardingShown() {
         dataStore.edit {
-            it[DidShowOnboardingPreferenceKey] = false
+            it[AppPreferenceKey.DidShowOnboarding] = false
         }
     }
 
@@ -92,32 +93,38 @@ internal class DataStoreSettingsRepository(
     override suspend fun setCurrentIconPack(id: Option<AppId>) {
         dataStore.edit { preferences ->
             id.fold(
-                ifEmpty = { preferences -= CurrentIconPackPreferenceKey },
-                ifSome = { preferences[CurrentIconPackPreferenceKey] = it.value }
+                ifEmpty = { preferences -= AppPreferenceKey.CurrentIconPack },
+                ifSome = { preferences[AppPreferenceKey.CurrentIconPack] = it.value }
             )
         }
     }
 
     override suspend fun setHasEnabledAccessibilityService() {
         dataStore.edit {
-            it[HasAccessibilityServicePreferenceKey] = true
+            it[AppPreferenceKey.HasAccessibilityService] = true
         }
     }
 
     override suspend fun setKeepStatisticsFor(keepStatisticsFor: KeepStatisticsFor) {
         dataStore.edit {
-            it[KeepStatisticsForPreferenceKey] = keepStatisticsFor.toMonths()
+            it[AppPreferenceKey.KeepStatisticsFor] = keepStatisticsFor.toMonths()
         }
     }
 
     override suspend fun setOnboardingShow() {
         dataStore.edit {
-            it[DidShowOnboardingPreferenceKey] = true
+            it[AppPreferenceKey.DidShowOnboarding] = true
+        }
+    }
+
+    override suspend fun setUseExperimentalAppSorting(useExperimentalAppSorting: Boolean) {
+        dataStore.edit {
+            it[AppPreferenceKey.UseExperimentalAppSorting] = useExperimentalAppSorting
         }
     }
 
     override suspend fun updateWidgetSettings(settings: WidgetSettings) {
-        with(WidgetSettingsPreferenceKeys) {
+        with(WidgetPreferenceKey) {
             dataStore.edit {
                 it[AllowTwoLines] = settings.allowTwoLines
                 it[ColumnsCount] = settings.columnCount
