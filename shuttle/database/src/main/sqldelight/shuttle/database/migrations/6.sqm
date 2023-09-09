@@ -1,0 +1,12 @@
+import shuttle.database.model.DatabaseAppId;
+import shuttle.database.model.DatabaseCounterId;
+import shuttle.database.model.DatabaseGeoHash;
+import shuttle.database.model.DatabaseHour;
+
+CREATE TABLE IF NOT EXISTS counter(
+    counterId TEXT AS DatabaseCounterId NOT NULL,
+    appId TEXT AS DatabaseAppId NOT NULL,
+    count INTEGER NOT NULL,
+
+    PRIMARY KEY (counterId, appId)
+);
