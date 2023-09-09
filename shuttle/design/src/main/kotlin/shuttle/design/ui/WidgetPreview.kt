@@ -61,7 +61,7 @@ fun WidgetPreview(model: WidgetPreviewUiModel) {
             Row {
                 repeat(columns) {
                     AppIconItem(
-                        app = apps[index++],
+                        app = apps.getOrNull(index++),
                         widgetSettings = layout
                     )
                 }
