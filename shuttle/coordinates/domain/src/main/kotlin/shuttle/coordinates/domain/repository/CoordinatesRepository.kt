@@ -13,5 +13,4 @@ interface CoordinatesRepository {
     fun observeCurrentDateTime(): Flow<DateTime>
 
     suspend fun refreshLocation(): Either<LocationError, Unit>
-
 }

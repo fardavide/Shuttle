@@ -3,14 +3,24 @@ package shuttle.performance
 import org.koin.core.annotation.Factory
 import shuttle.ShuttleTestApi
 
+/**
+ * Tracer for Suggestions performance.
+ */
 interface SuggestionsTracer {
 
+    /**
+     * Loading suggestions from cache (legacy method)
+     */
     suspend fun <T> fromCache(block: suspend () -> T): T
+
+    /**
+     * Sorting suggestions (legacy method)
+     */
     suspend fun <T> sort(block: suspend () -> T): T
 }
 
 @Factory
-class RealSuggestionsTracer internal constructor(
+internal class RealSuggestionsTracer internal constructor(
     private val performance: Performance
 ) : SuggestionsTracer {
 

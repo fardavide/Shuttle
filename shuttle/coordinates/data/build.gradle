@@ -1,15 +1,11 @@
 apply plugin: 'shuttle.android.library'
 
-// modules
 dependencies {
     implementation projects.shuttle.coordinates.domain
     implementation projects.shuttle.database
+    implementation projects.shuttle.performance.api
     implementation projects.shuttle.utils.android
 
-    testImplementation projects.shuttle.test.kotlin
-}
-
-dependencies {
     implementation libs.androidx.workManager
     implementation libs.bundles.base
     implementation libs.geohash
@@ -18,7 +14,10 @@ dependencies {
     implementation libs.koin.android.workManager
     implementation libs.playServices.location
 
+    testImplementation projects.shuttle.test.kotlin
+
     testImplementation libs.mockk
+
     androidTestImplementation libs.bundles.test.android
     androidTestImplementation libs.androidx.workManager.test
 }

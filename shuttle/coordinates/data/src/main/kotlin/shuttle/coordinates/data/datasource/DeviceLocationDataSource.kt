@@ -14,6 +14,7 @@ import org.koin.core.annotation.Named
 import shuttle.coordinates.domain.CoordinatesQualifier
 import shuttle.coordinates.domain.error.LocationError
 import shuttle.coordinates.domain.error.LocationError.ExpiredLocation
+import shuttle.performance.LocationTracer
 import kotlin.time.Duration
 
 @Factory
@@ -24,15 +25,16 @@ internal class DeviceLocationDataSource(
     private val freshLocationMinInterval: Duration,
     private val locationClient: ShuttleLocationClient,
     @Named(CoordinatesQualifier.Interval.Location.Expiration)
-    private val locationExpiration: Duration
+    private val locationExpiration: Duration,
+    private val tracer: LocationTracer
 ) {
 
     suspend fun getLocation(): Either<LocationError, Location> {
-        val lastLocation = locationClient.getLastLocation()
+        val lastLocation = tracer.last { locationClient.getLastLocation() }
         val currentTime = dateTimeSource.flow.first()
 
         return inMinRefreshInterval(lastLocation, currentTime)
-            .recover { locationClient.getCurrentLocation().bind() }
+            .recover { tracer.fresh { locationClient.getCurrentLocation().bind() } }
             .recover { notExpired(lastLocation, currentTime).bind() }
     }
 
