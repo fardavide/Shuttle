@@ -42,16 +42,19 @@ tasks.register("updateDatabase") {
     def migrationFolder = file("${projectDir}/src/main/sqldelight/shuttle/database/migrations")
     def schemaFolder = file("${projectDir}/src/main/sqldelight/shuttle/database/schemas")
     doLast {
-        def threeMonthsAgo = new Date().time - 90 * 24 * 60 * 60 * 1000
+        def threeMonthsAgo = new Date() - 90
+        logger.warn("Deleting migrations older than ${threeMonthsAgo}")
         migrationFolder.listFiles().each { file ->
-            def schemaFile = new File(migrationFolder, file.name)
-            if (schemaFile.lastModified() < threeMonthsAgo) {
+            def migrationFile = new File(migrationFolder, file.name)
+            def lastModified = migrationFile.lastModified()
+            if (lastModified != 0 && lastModified < threeMonthsAgo.time) {
                 file.delete()
             }
         }
         schemaFolder.listFiles().each { file ->
             def schemaFile = new File(schemaFolder, file.name)
-            if (schemaFile.lastModified() < threeMonthsAgo) {
+            def lastModified = schemaFile.lastModified()
+            if (lastModified != 0 && lastModified < threeMonthsAgo.time) {
                 file.delete()
             }
         }
