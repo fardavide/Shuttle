@@ -14,6 +14,7 @@ import korlibs.time.DateTime
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import shuttle.coordinates.domain.error.LocationError
+import shuttle.performance.FakeLocationTracer
 import kotlin.time.DurationUnit.MINUTES
 import kotlin.time.toDuration
 
@@ -25,10 +26,11 @@ internal class DeviceLocationDataSourceTest : AnnotationSpec() {
     }
 
     private val dataSource = DeviceLocationDataSource(
+        dateTimeSource = dateTimeSource,
         freshLocationMinInterval = Interval.MinRefresh,
         locationClient = locationClient,
         locationExpiration = Interval.Expiration,
-        dateTimeSource = dateTimeSource
+        tracer = FakeLocationTracer()
     )
 
     @Test

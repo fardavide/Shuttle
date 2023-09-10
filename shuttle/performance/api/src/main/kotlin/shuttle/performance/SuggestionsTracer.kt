@@ -26,6 +26,7 @@ internal class RealSuggestionsTracer internal constructor(
 
     override suspend fun <T> fromCache(block: suspend () -> T): T =
         performance.trace("$Name-fromCache") { block() }
+
     override suspend fun <T> sort(block: suspend () -> T): T = performance.trace("$Name-sort") { block() }
 
     companion object {
