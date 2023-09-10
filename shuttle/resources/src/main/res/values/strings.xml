@@ -97,6 +97,9 @@
     <string name="settings_check_permissions_granted_description">All the required permissions are granted</string>
     <string name="settings_check_permissions_not_granted_description">Some of the required permissions are not granted</string>
 
+    <string name="settings_experimental_app_sorting_title">Experimental app sorting</string>
+    <string name="settings_experimental_app_sorting_description">Try a new way to sort apps. This feature is still experimental and may not work as expected</string>
+
     <string name="settings_icon_pack_title">Icon packs</string>
     <string name="settings_icon_pack_description">Choose an Icon Pack for your icons</string>
     <string name="settings_icon_pack_system_default">System icons</string>

@@ -7,7 +7,9 @@ import org.koin.android.annotation.KoinViewModel
 import shuttle.accessibility.usecase.IsLaunchCounterServiceEnabled
 import shuttle.design.util.Effect
 import shuttle.permissions.domain.usecase.HasAllLocationPermissions
+import shuttle.settings.domain.usecase.ObserveUseExperimentalAppSorting
 import shuttle.settings.domain.usecase.ResetOnboardingShown
+import shuttle.settings.domain.usecase.SetUseExperimentalAppSorting
 import shuttle.settings.presentation.action.SettingsAction
 import shuttle.settings.presentation.state.SettingsState
 import shuttle.util.android.viewmodel.ShuttleViewModel
@@ -18,7 +20,9 @@ class SettingsViewModel(
     private val getAppVersion: GetAppVersion,
     private val hasAllLocationPermissions: HasAllLocationPermissions,
     private val isLaunchCounterServiceEnabled: IsLaunchCounterServiceEnabled,
-    private val resetOnboardingShown: ResetOnboardingShown
+    private val observeUseExperimentalAppSorting: ObserveUseExperimentalAppSorting,
+    private val resetOnboardingShown: ResetOnboardingShown,
+    private val setUseExperimentalAppSorting: SetUseExperimentalAppSorting
 ) : ShuttleViewModel<SettingsAction, SettingsState>(initialState = SettingsState.Loading) {
 
     init {
@@ -26,12 +30,22 @@ class SettingsViewModel(
             val newState = state.value.copy(appVersion = getAppVersion().toString())
             emit(newState)
         }
+        viewModelScope.launch {
+            observeUseExperimentalAppSorting().collect { useExperimentalAppSorting ->
+                val newState = state.value.copy(
+                    shouldShowStatisticsItem = useExperimentalAppSorting.not(),
+                    useExperimentalAppSorting = useExperimentalAppSorting
+                )
+                emit(newState)
+            }
+        }
     }
 
     override fun submit(action: SettingsAction) {
         viewModelScope.launch {
             val newState = when (action) {
                 SettingsAction.ResetOnboardingShown -> onResetOnboardingShown()
+                is SettingsAction.ToggleExperimentalAppSorting -> onUseExperimentalAppSortingChanged(action.enable)
                 is SettingsAction.UpdatePermissionsState -> onPermissionsStateUpdate(action.permissionsState)
             }
             emit(newState)
@@ -50,4 +64,11 @@ class SettingsViewModel(
         return state.value.copy(permissions = permissions)
     }
 
+    private suspend fun onUseExperimentalAppSortingChanged(enable: Boolean): SettingsState {
+        setUseExperimentalAppSorting(enable)
+        return state.value.copy(
+            shouldShowStatisticsItem = enable.not(),
+            useExperimentalAppSorting = enable
+        )
+    }
 }

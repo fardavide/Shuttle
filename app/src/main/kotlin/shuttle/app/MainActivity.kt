@@ -94,7 +94,7 @@ private fun PermissionsRoute(navController: NavController) {
 @Composable
 private fun SettingsRoute(navController: NavController) {
     SettingsPage(
-        actions = SettingsPage.Actions(
+        navigationActions = SettingsPage.NavigationActions(
             toAbout = { navController.navigate(About) },
             toBlacklist = { navController.navigate(BlacklistSettings) },
             toIconPacks = { navController.navigate(IconPackSettings) },

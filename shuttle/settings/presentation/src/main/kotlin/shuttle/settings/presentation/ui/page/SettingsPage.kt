@@ -1,5 +1,6 @@
 package shuttle.settings.presentation.ui.page
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -19,6 +20,7 @@ import androidx.compose.material.icons.rounded.Warning
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
@@ -47,9 +49,13 @@ import shuttle.settings.presentation.state.SettingsState
 import shuttle.settings.presentation.viewmodel.SettingsViewModel
 
 @Composable
-fun SettingsPage(actions: SettingsPage.Actions) {
+fun SettingsPage(navigationActions: SettingsPage.NavigationActions) {
     val viewModel = getViewModel<SettingsViewModel>()
     val state by viewModel.state.collectAsStateLifecycleAware()
+
+    val actions = navigationActions.toActions(toggleExperimentalAppSorting = { enable ->
+        viewModel.submit(SettingsAction.ToggleExperimentalAppSorting(enable))
+    })
 
     ConsumableLaunchedEffect(effect = state.openOnboardingEffect) {
         actions.toOnboarding()
@@ -89,7 +95,12 @@ private fun SettingsContent(
         item { BlacklistItem(actions.toBlacklist) }
 
         item { DataSection() }
-        item { StatisticsItem(actions.toStatistics) }
+        item { ExperimentalAppSortingItem(state.useExperimentalAppSorting, actions.toggleExperimentalAppSorting) }
+        item {
+            AnimatedVisibility(visible = state.shouldShowStatisticsItem) {
+                StatisticsItem(actions.toStatistics)
+            }
+        }
 
         item { InfoSection() }
         item { RestartOnboardingItem(resetOnboardingShown) }
@@ -141,6 +152,20 @@ private fun DataSection() {
         title = stringResource(id = string.settings_data_section_title)
     )
     SettingsSection(item = uiModel)
+}
+
+@Composable
+private fun ExperimentalAppSortingItem(
+    useExperimentalAppSorting: Boolean,
+    toggleExperimentalAppSorting: (Boolean) -> Unit
+) {
+    val uiModel = SettingsItemUiModel(
+        title = stringResource(id = string.settings_experimental_app_sorting_title),
+        description = stringResource(id = string.settings_experimental_app_sorting_description)
+    )
+    SettingsItem(item = uiModel, onClick = { toggleExperimentalAppSorting(!useExperimentalAppSorting) }) {
+        Switch(checked = useExperimentalAppSorting, onCheckedChange = null)
+    }
 }
 
 @Composable
@@ -252,14 +277,15 @@ private fun AppVersionFooter(version: String) {
 
 object SettingsPage {
 
-    data class Actions(
+    internal data class Actions(
         val toAbout: () -> Unit,
         val toBlacklist: () -> Unit,
         val toIconPacks: () -> Unit,
         val toOnboarding: () -> Unit,
         val toPermissions: () -> Unit,
         val toStatistics: () -> Unit,
-        val toWidgetLayout: () -> Unit
+        val toWidgetLayout: () -> Unit,
+        val toggleExperimentalAppSorting: (Boolean) -> Unit
     ) {
 
         companion object {
@@ -271,9 +297,32 @@ object SettingsPage {
                 toOnboarding = {},
                 toPermissions = {},
                 toStatistics = {},
-                toWidgetLayout = {}
+                toWidgetLayout = {},
+                toggleExperimentalAppSorting = {}
             )
         }
+    }
+
+    data class NavigationActions(
+        val toAbout: () -> Unit,
+        val toBlacklist: () -> Unit,
+        val toIconPacks: () -> Unit,
+        val toOnboarding: () -> Unit,
+        val toPermissions: () -> Unit,
+        val toStatistics: () -> Unit,
+        val toWidgetLayout: () -> Unit
+    ) {
+
+        internal fun toActions(toggleExperimentalAppSorting: (Boolean) -> Unit) = Actions(
+            toAbout = toAbout,
+            toBlacklist = toBlacklist,
+            toIconPacks = toIconPacks,
+            toOnboarding = toOnboarding,
+            toPermissions = toPermissions,
+            toStatistics = toStatistics,
+            toWidgetLayout = toWidgetLayout,
+            toggleExperimentalAppSorting = toggleExperimentalAppSorting
+        )
     }
 }
 
@@ -283,7 +332,9 @@ private fun SettingsContentPreview() {
     val state = SettingsState(
         permissions = SettingsState.Permissions.Granted,
         appVersion = "123",
-        openOnboardingEffect = Effect.empty()
+        openOnboardingEffect = Effect.empty(),
+        shouldShowStatisticsItem = true,
+        useExperimentalAppSorting = false
     )
     ShuttleTheme {
         SettingsContent(

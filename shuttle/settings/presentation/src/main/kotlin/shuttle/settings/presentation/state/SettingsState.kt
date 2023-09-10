@@ -5,14 +5,16 @@ import shuttle.design.util.Effect
 data class SettingsState(
     val permissions: Permissions,
     val appVersion: String,
-    val openOnboardingEffect: Effect<Unit>
+    val openOnboardingEffect: Effect<Unit>,
+    val shouldShowStatisticsItem: Boolean,
+    val useExperimentalAppSorting: Boolean
 ) {
 
     sealed interface Permissions {
 
-        object Loading : Permissions
-        object Granted : Permissions
-        object Denied : Permissions
+        data object Loading : Permissions
+        data object Granted : Permissions
+        data object Denied : Permissions
     }
 
     companion object {
@@ -20,7 +22,9 @@ data class SettingsState(
         val Loading = SettingsState(
             permissions = Permissions.Loading,
             appVersion = "",
-            openOnboardingEffect = Effect.empty()
+            openOnboardingEffect = Effect.empty(),
+            shouldShowStatisticsItem = false,
+            useExperimentalAppSorting = false
         )
     }
 }

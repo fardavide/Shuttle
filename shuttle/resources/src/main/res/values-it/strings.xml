@@ -57,6 +57,8 @@
     <string name="settings_check_permissions_not_granted_description">Non tutti i permessi necessari sono abilitati</string>
     <string name="settings_check_permissions_title">Controlla i permessi</string>
     <string name="settings_customize_widget_section_title">Customizza il widget</string>
+    <string name="settings_experimental_app_sorting_title">Ordinamento app sperimentale</string>
+    <string name="settings_experimental_app_sorting_description">Prova un nuovo modo di ordinare le app. Questa funzionalità è ancora sperimentale e potrebbe non funzionare come previsto</string>
     <string name="settings_footer_app_version">Versione %s</string>
     <string name="settings_icon_description">Impostazioni</string>
     <string name="settings_icon_pack_description">Scegli un Pacchetto d’Icone</string>
