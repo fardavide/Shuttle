@@ -19,6 +19,7 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.withContext
 import org.koin.core.annotation.Factory
 import org.koin.core.annotation.Named
+import shuttle.analytics.LaunchersLogger
 import shuttle.apps.domain.model.AppId
 import shuttle.apps.domain.model.AppModel
 import shuttle.apps.domain.model.AppName
@@ -37,6 +38,7 @@ internal class RealAppRepository(
     private val dataSource: AppDataSource,
     @Named(IoDispatcher) private val ioDispatcher: CoroutineDispatcher,
     private val isBlacklisted: IsBlacklisted,
+    private val launchersLogger: LaunchersLogger,
     private val packageManager: PackageManager
 ) : AppsRepository {
 
@@ -80,6 +82,8 @@ internal class RealAppRepository(
                     }
                     dataSource.delete(appsToRemove)
 
+                    logInstalledLaunchers()
+
                 } catch (e: Exception) {
                     // BadParcelableException or DeadSystemRuntimeException
                     if (e is CancellationException) throw e
@@ -108,8 +112,16 @@ internal class RealAppRepository(
             .sortedBy { it.name.value.uppercase() }
     }
 
+    private suspend fun logInstalledLaunchers() = withContext(ioDispatcher) {
+        val launchers = packageManager.queryIntentActivities(buildHomeCategoryIntent(), 0)
+            .map { it.activityInfo.packageName }
+        launchersLogger.logInstalledLaunchers(launchers)
+    }
+
     private fun buildLauncherCategoryIntent() =
         Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_LAUNCHER)
+
+    private fun buildHomeCategoryIntent() = Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_HOME)
 
     private fun toAppModel(resolveInfo: ResolveInfo) = AppModel(
         AppId(resolveInfo.activityInfo.packageName),

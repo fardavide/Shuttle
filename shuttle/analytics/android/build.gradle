@@ -1,12 +1,12 @@
 apply plugin: 'shuttle.android.library'
 
 dependencies {
-    implementation projects.shuttle.performance.api
+    implementation projects.shuttle.analytics.api
 
     implementation platform(libs.firebase.bom)
 
     implementation libs.bundles.base
-    implementation libs.firebase.performance
+    implementation libs.firebase.analytics
 
     testImplementation libs.bundles.test.kotlin
 }

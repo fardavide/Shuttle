@@ -3,6 +3,8 @@ package shuttle.di
 import org.koin.core.annotation.ComponentScan
 import org.koin.core.annotation.Module
 import shuttle.accessibility.AccessibilityModule
+import shuttle.analytics.AnalyticsModule
+import shuttle.analytics.android.AnalyticsAndroidModule
 import shuttle.apps.data.AppsDataModule
 import shuttle.apps.domain.AppsDomainModule
 import shuttle.apps.presentation.AppsPresentationModule
@@ -34,6 +36,9 @@ import shuttle.widget.WidgetModule
 @Module(
     includes = [
         AccessibilityModule::class,
+
+        AnalyticsAndroidModule::class,
+        AnalyticsModule::class,
 
         AppsDataModule::class,
         AppsDomainModule::class,

@@ -31,7 +31,7 @@ class LaunchCounterAccessibilityService : AccessibilityService() {
     override fun onAccessibilityEvent(event: AccessibilityEvent) {
         fun isPackageValid(p: CharSequence?) = p.isNullOrBlank().not()
         fun isPackageChanged(p: CharSequence?) = p != previousPackageName
-        fun isSystemUi(p: CharSequence?) = p == "com.android.systemui"
+        fun isLauncher(p: CharSequence?) = p in LauncherPackages
 
         if (event.eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
             val packageName = event.packageName
@@ -39,7 +39,7 @@ class LaunchCounterAccessibilityService : AccessibilityService() {
                 previousPackageName = packageName
                 Log.d("LaunchCounterAccessibilityService", "Package changed: $packageName")
 
-                if (isSystemUi(packageName)) {
+                if (isLauncher(packageName)) {
                     startRefreshLocationAndUpdateWidget()
                 } else {
                     startStoreIfNotBlacklistAndUpdateWidget(AppId(event.packageName.toString()))
@@ -58,4 +58,12 @@ class LaunchCounterAccessibilityService : AccessibilityService() {
     }
 
     override fun onInterrupt() {}
+
+    companion object {
+
+        val LauncherPackages = listOf(
+            "com.android.systemui",
+            "com.google.android.apps.nexuslauncher"
+        )
+    }
 }

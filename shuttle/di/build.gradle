@@ -3,6 +3,8 @@ apply plugin: 'shuttle.android.library'
 // modules
 dependencies {
     implementation projects.shuttle.accessibility
+    implementation projects.shuttle.analytics.api
+    implementation projects.shuttle.analytics.android
     implementation projects.shuttle.apps.data
     implementation projects.shuttle.apps.domain
     implementation projects.shuttle.apps.presentation

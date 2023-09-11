@@ -11,6 +11,9 @@ include 'detekt:rules'
 
 include 'shuttle:accessibility'
 
+include 'shuttle:analytics:android',
+        'shuttle:analytics:api'
+
 include 'shuttle:apps:data',
         'shuttle:apps:domain',
         'shuttle:apps:presentation'
