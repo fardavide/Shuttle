@@ -17,20 +17,79 @@ internal class FirebaseAnalytics : Analytics {
     override fun log(event: AnalyticsEvent) {
         Firebase.analytics.logEvent(event.name, event.toBundle())
     }
+
+    companion object {
+
+        const val StringLimit = 100
+    }
 }
 
 private fun AnalyticsEvent.toBundle() = Bundle().apply {
     putString("name", name)
     for ((k, v) in values) {
         when (v) {
-            is String -> putString(k, v)
-            is Int -> putInt(k, v)
-            is Long -> putLong(k, v)
-            is Float -> putFloat(k, v)
-            is Double -> putDouble(k, v)
-            is Boolean -> putBoolean(k, v)
-            is Collection<*> -> putStringArrayList(k, ArrayList(v.map { it.toString() }))
+            is String -> putAnalyticsString(k, v)
+            is Number -> putAnalyticsNumber(k, v)
+            is Boolean -> putAnalyticsBoolean(k, v)
+            is Collection<*> -> putAnalyticsCollection(k, v)
             else -> error("Unsupported type ${v::class.java}")
+        }
+    }
+}
+
+private fun Bundle.putAnalyticsBoolean(key: String, value: Boolean): Bundle =
+    apply { putString(key, value.toString()) }
+
+private fun Bundle.putAnalyticsNumber(key: String, value: Number): Bundle = apply { 
+    when (value) {
+        is Int -> putLong(key, value.toLong())
+        is Long -> putLong(key, value)
+        is Float -> putDouble(key, value.toDouble())
+        is Double -> putDouble(key, value)
+    }
+}
+
+private fun Bundle.putAnalyticsString(key: String, value: String): Bundle = apply {
+    if (value.length <= FirebaseAnalytics.StringLimit) {
+        putString(key, value)
+    } else {
+        value.chunked(FirebaseAnalytics.StringLimit).forEachIndexed { index, chunk ->
+            putString("$key$index", chunk)
+        }
+    }
+}
+
+@Suppress("NestedBlockDepth")
+private fun Bundle.putAnalyticsCollection(key: String, value: Collection<*>): Bundle = apply {
+    val listAsString = value.joinToString()
+    if (listAsString.length <= FirebaseAnalytics.StringLimit) {
+        putString(key, listAsString)
+
+    } else {
+        var string = ""
+        var eventValueIndex = 0
+
+        for ((index, item) in value.withIndex()) {
+            val isLast = index == value.size - 1
+
+            val itemString = item.toString()
+            if (string.length + itemString.length < FirebaseAnalytics.StringLimit) {
+                string += itemString
+                if (isLast.not()) {
+                    string += ","
+                }
+
+            } else {
+                putString("$key${eventValueIndex++}", string)
+                string = itemString
+                if (isLast.not()) {
+                    string += ","
+                }
+            }
+        }
+
+        if (string.isNotEmpty()) {
+            putString("$key$eventValueIndex", string)
         }
     }
 }

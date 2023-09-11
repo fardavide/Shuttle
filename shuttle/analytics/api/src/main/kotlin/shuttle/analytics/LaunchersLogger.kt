@@ -13,6 +13,11 @@ internal class RealLaunchersLogger(
 ) : LaunchersLogger {
 
     override fun logInstalledLaunchers(packageNames: List<String>) {
-        analytics.log(event("installed_launchers", "package_names" to packageNames))
+        analytics.log(
+            event("installed_launchers") {
+                "count" withValue packageNames.size
+                "package_names" withValue packageNames
+            }
+        )
     }
 }
