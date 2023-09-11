@@ -63,7 +63,10 @@ class LaunchCounterAccessibilityService : AccessibilityService() {
 
         val LauncherPackages = listOf(
             "com.android.systemui",
-            "com.google.android.apps.nexuslauncher"
+
+            "com.google.android.apps.nexuslauncher",
+            "com.motorola.launcher3",
+            "com.sec.android.app.launcher"
         )
     }
 }
