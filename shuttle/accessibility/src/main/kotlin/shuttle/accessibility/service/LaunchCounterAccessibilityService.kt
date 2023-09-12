@@ -13,6 +13,7 @@ import shuttle.accessibility.StartAppQualifier
 import shuttle.accessibility.usecase.StartRefreshLocationAndUpdateWidget
 import shuttle.accessibility.usecase.StartStoreIfNotBlacklistAndUpdateWidget
 import shuttle.apps.domain.model.AppId
+import shuttle.launchers.Launchers
 import shuttle.settings.domain.usecase.HasEnabledAccessibilityService
 import shuttle.settings.domain.usecase.SetHasEnabledAccessibilityService
 
@@ -31,7 +32,7 @@ class LaunchCounterAccessibilityService : AccessibilityService() {
     override fun onAccessibilityEvent(event: AccessibilityEvent) {
         fun isPackageValid(p: CharSequence?) = p.isNullOrBlank().not()
         fun isPackageChanged(p: CharSequence?) = p != previousPackageName
-        fun isLauncher(p: CharSequence?) = p in LauncherPackages
+        fun shouldRefresh(p: CharSequence?) = p in RefreshTriggers
 
         if (event.eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
             val packageName = event.packageName
@@ -39,10 +40,9 @@ class LaunchCounterAccessibilityService : AccessibilityService() {
                 previousPackageName = packageName
                 Log.d("LaunchCounterAccessibilityService", "Package changed: $packageName")
 
-                if (isLauncher(packageName)) {
+                startStoreIfNotBlacklistAndUpdateWidget(AppId(event.packageName.toString()))
+                if (shouldRefresh(packageName)) {
                     startRefreshLocationAndUpdateWidget()
-                } else {
-                    startStoreIfNotBlacklistAndUpdateWidget(AppId(event.packageName.toString()))
                 }
             }
         }
@@ -61,12 +61,6 @@ class LaunchCounterAccessibilityService : AccessibilityService() {
 
     companion object {
 
-        val LauncherPackages = listOf(
-            "com.android.systemui",
-
-            "com.google.android.apps.nexuslauncher",
-            "com.motorola.launcher3",
-            "com.sec.android.app.launcher"
-        )
+        val RefreshTriggers = Launchers.all() + "com.android.systemui"
     }
 }

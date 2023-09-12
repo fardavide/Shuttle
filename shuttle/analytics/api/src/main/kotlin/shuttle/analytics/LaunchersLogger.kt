@@ -1,10 +1,11 @@
 package shuttle.analytics
 
 import org.koin.core.annotation.Factory
+import shuttle.launchers.Launchers
 
 interface LaunchersLogger {
 
-    fun logInstalledLaunchers(packageNames: List<String>)
+    fun logUnknownLaunchers(packageNames: List<String>)
 }
 
 @Factory
@@ -12,11 +13,12 @@ internal class RealLaunchersLogger(
     private val analytics: Analytics
 ) : LaunchersLogger {
 
-    override fun logInstalledLaunchers(packageNames: List<String>) {
+    override fun logUnknownLaunchers(packageNames: List<String>) {
+        val unknownLaunchers = packageNames.filterNot { it in Launchers.all() }
         analytics.log(
-            event("installed_launchers") {
-                "count" withValue packageNames.size
-                "package_names" withValue packageNames
+            event("unknown_launchers") {
+                "count" withValue unknownLaunchers.size
+                "package_names" withValue unknownLaunchers
             }
         )
     }

@@ -4,6 +4,7 @@ dependencies {
     implementation projects.shuttle.apps.domain
     implementation projects.shuttle.analytics.api
     implementation projects.shuttle.coordinates.domain
+    implementation projects.shuttle.launchers
     implementation projects.shuttle.settings.domain
     implementation projects.shuttle.stats.domain
     implementation projects.shuttle.widget

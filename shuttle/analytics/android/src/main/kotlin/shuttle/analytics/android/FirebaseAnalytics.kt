@@ -25,7 +25,6 @@ internal class FirebaseAnalytics : Analytics {
 }
 
 private fun AnalyticsEvent.toBundle() = Bundle().apply {
-    putString("name", name)
     for ((k, v) in values) {
         when (v) {
             is String -> putAnalyticsString(k, v)
@@ -61,6 +60,10 @@ private fun Bundle.putAnalyticsString(key: String, value: String): Bundle = appl
 
 @Suppress("NestedBlockDepth")
 private fun Bundle.putAnalyticsCollection(key: String, value: Collection<*>): Bundle = apply {
+    if (value.isEmpty()) {
+        return@apply
+    }
+
     val listAsString = value.joinToString()
     if (listAsString.length <= FirebaseAnalytics.StringLimit) {
         putString(key, listAsString)

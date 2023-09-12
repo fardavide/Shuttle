@@ -1,6 +1,7 @@
 apply plugin: 'shuttle.kotlin'
 
 dependencies {
+    implementation projects.shuttle.launchers
     implementation projects.shuttle.utils.kotlin
 
     implementation libs.bundles.base

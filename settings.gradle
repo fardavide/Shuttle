@@ -30,6 +30,8 @@ include 'shuttle:di'
 include 'shuttle:icons:data',
         'shuttle:icons:domain'
 
+include 'shuttle:launchers'
+
 include 'shuttle:onboarding:domain',
         'shuttle:onboarding:presentation'
 

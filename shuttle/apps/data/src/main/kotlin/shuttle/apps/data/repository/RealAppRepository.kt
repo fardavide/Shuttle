@@ -115,7 +115,7 @@ internal class RealAppRepository(
     private suspend fun logInstalledLaunchers() = withContext(ioDispatcher) {
         val launchers = packageManager.queryIntentActivities(buildHomeCategoryIntent(), 0)
             .map { it.activityInfo.packageName }
-        launchersLogger.logInstalledLaunchers(launchers)
+        launchersLogger.logUnknownLaunchers(launchers)
     }
 
     private fun buildLauncherCategoryIntent() =
