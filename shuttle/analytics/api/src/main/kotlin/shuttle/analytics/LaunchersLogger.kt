@@ -15,6 +15,8 @@ internal class RealLaunchersLogger(
 
     override fun logUnknownLaunchers(packageNames: List<String>) {
         val unknownLaunchers = packageNames.filterNot { it in Launchers.all() }
+        if (unknownLaunchers.isEmpty()) return
+
         analytics.log(
             event("unknown_launchers") {
                 "count" withValue unknownLaunchers.size
