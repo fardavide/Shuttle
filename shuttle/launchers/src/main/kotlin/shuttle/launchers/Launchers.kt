@@ -7,12 +7,14 @@ object Launchers {
     private const val NexusLauncher = "com.google.android.apps.nexuslauncher"
     private const val NovaLauncher = "com.teslacoilsw.launcher"
     private const val OneUiLauncher = "com.sec.android.app.launcher"
+    private const val SmartLauncher = "ginlemon.flowerfree"
 
     fun all(): List<String> = listOf(
         AndroidSettings,
         MotorolaLauncher,
         NexusLauncher,
         NovaLauncher,
-        OneUiLauncher
+        OneUiLauncher,
+        SmartLauncher
     )
 }
