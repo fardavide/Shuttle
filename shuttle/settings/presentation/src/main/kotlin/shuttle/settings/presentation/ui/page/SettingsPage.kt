@@ -33,6 +33,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import org.koin.androidx.compose.getViewModel
+import shuttle.consents.presentation.ui.ConsentsModal
 import shuttle.design.TestTag
 import shuttle.design.theme.Dimens
 import shuttle.design.theme.ShuttleTheme
@@ -59,6 +60,15 @@ fun SettingsPage(navigationActions: SettingsPage.NavigationActions) {
 
     ConsumableLaunchedEffect(effect = state.openOnboardingEffect) {
         actions.toOnboarding()
+    }
+
+    if (state.shouldShowConsents) {
+        val action = ConsentsModal.Actions(
+            consent = { viewModel.submit(SettingsAction.SetIsDataCollectionEnabled(true)) },
+            decline = { viewModel.submit(SettingsAction.SetIsDataCollectionEnabled(false)) },
+            dismiss = { viewModel.submit(SettingsAction.SetConsentsShown) }
+        )
+        ConsentsModal(actions = action)
     }
 
     val backgroundLocationPermissionsState = rememberMultiplePermissionsState(backgroundPermissionsList)
@@ -88,7 +98,11 @@ private fun SettingsContent(
     resetOnboardingShown: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    LazyColumn(modifier = modifier.fillMaxHeight().testTag(TestTag.Settings)) {
+    LazyColumn(
+        modifier = modifier
+            .fillMaxHeight()
+            .testTag(TestTag.Settings)
+    ) {
         item { CustomizeWidgetSection() }
         item { WidgetLayoutItem(actions.toWidgetLayout) }
         item { IconPackItem(actions.toIconPacks) }
@@ -208,7 +222,7 @@ private fun CheckPermissionsItem(state: SettingsState.Permissions, toPermissions
                 tint = MaterialTheme.colorScheme.error,
                 contentDescription = stringResource(string.settings_check_permissions_not_granted_description),
                 modifier = Modifier
-                    .padding(end = Dimens.Margin.Small)
+                    .padding(end = Dimens.Margin.small)
                     .size(Dimens.Icon.Small)
             )
             SettingsState.Permissions.Granted -> Icon(
@@ -216,7 +230,7 @@ private fun CheckPermissionsItem(state: SettingsState.Permissions, toPermissions
                 tint = MaterialTheme.colorScheme.secondary,
                 contentDescription = stringResource(string.settings_check_permissions_granted_description),
                 modifier = Modifier
-                    .padding(end = Dimens.Margin.Small)
+                    .padding(end = Dimens.Margin.small)
                     .size(Dimens.Icon.Small)
             )
         }
@@ -234,7 +248,7 @@ private fun AboutItem(toAbout: () -> Unit) {
 
 @Composable
 private fun SettingsSection(item: SettingsSectionUiModel) {
-    Row(modifier = Modifier.padding(horizontal = Dimens.Margin.Medium, vertical = Dimens.Margin.Small)) {
+    Row(modifier = Modifier.padding(horizontal = Dimens.Margin.medium, vertical = Dimens.Margin.small)) {
         Text(text = item.title, style = MaterialTheme.typography.displaySmall)
     }
 }
@@ -249,14 +263,14 @@ private fun SettingsItem(
         modifier = Modifier
             .fillMaxWidth()
             .clickable(onClick = onClick)
-            .padding(horizontal = Dimens.Margin.Medium, vertical = Dimens.Margin.Small)
+            .padding(horizontal = Dimens.Margin.medium, vertical = Dimens.Margin.small)
     ) {
         Column(modifier = Modifier.weight(1f)) {
             Text(text = item.title, style = MaterialTheme.typography.titleMedium)
             Text(text = item.description, style = MaterialTheme.typography.bodySmall)
         }
         Row(
-            modifier = Modifier.padding(start = Dimens.Margin.Small),
+            modifier = Modifier.padding(start = Dimens.Margin.small),
             horizontalArrangement = Arrangement.End,
             content = content
         )
@@ -268,7 +282,7 @@ private fun AppVersionFooter(version: String) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(Dimens.Margin.Large),
+            .padding(Dimens.Margin.large),
         contentAlignment = Alignment.BottomCenter
     ) {
         Text(text = stringResource(id = string.settings_footer_app_version, version))
@@ -333,6 +347,7 @@ private fun SettingsContentPreview() {
         permissions = SettingsState.Permissions.Granted,
         appVersion = "123",
         openOnboardingEffect = Effect.empty(),
+        shouldShowConsents = false,
         shouldShowStatisticsItem = true,
         useExperimentalAppSorting = false
     )

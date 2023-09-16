@@ -76,7 +76,7 @@ fun AboutPage(onBack: () -> Unit) {
                 snackbarHostState = snackbarHostState
             )
             AboutState.Loading -> LoadingSpinner()
-            AboutState.Error -> TextError(text = stringResource(id = string.x_generic_error))
+            AboutState.Error -> TextError(text = stringResource(id = string.generic_error))
         }
     }
 }
@@ -102,7 +102,7 @@ private fun AboutContent(
         result.handle(snackbarHostState)
     }
 
-    LazyColumn(modifier = modifier, contentPadding = PaddingValues(Dimens.Margin.Medium)) {
+    LazyColumn(modifier = modifier, contentPadding = PaddingValues(Dimens.Margin.medium)) {
         item { TitleText(textRes = string.settings_about_dev_info_title) }
         item { DescriptionText(textRes = string.settings_about_dev_info_description) }
         item { TitleText(textRes = string.settings_about_app_info_title) }
@@ -129,7 +129,7 @@ private fun AboutContent(
 @Composable
 private fun TitleText(@StringRes textRes: Int) {
     Text(
-        modifier = Modifier.padding(bottom = Dimens.Margin.Small),
+        modifier = Modifier.padding(bottom = Dimens.Margin.small),
         text = stringResource(id = textRes),
         style = MaterialTheme.typography.displaySmall
     )
@@ -151,7 +151,7 @@ private fun ClickableItem(@StringRes textRes: Int, onClick: () -> Unit) {
 
 @Composable
 private fun ClickableItem(text: String, onClick: () -> Unit) {
-    ElevatedButton(modifier = Modifier.padding(bottom = Dimens.Margin.Small), onClick = onClick) {
+    ElevatedButton(modifier = Modifier.padding(bottom = Dimens.Margin.small), onClick = onClick) {
         Text(text = text)
     }
 }

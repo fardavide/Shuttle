@@ -83,10 +83,10 @@ fun SuggestedAppsListContent() {
 
 @Composable
 private fun SuggestedAppsList(apps: ImmutableList<AppUiModel>, onAppClicked: (AppId) -> Unit) {
-    val minCellSize = Dimens.Icon.Large + Dimens.Margin.Large
+    val minCellSize = Dimens.Icon.Large + Dimens.Margin.large
     LazyVerticalGrid(
         columns = GridCells.Adaptive(minCellSize),
-        modifier = Modifier.padding(Dimens.Margin.Small)
+        modifier = Modifier.padding(Dimens.Margin.small)
     ) {
         items(apps) {
             AppIconItem(it, onAppClicked)
@@ -99,16 +99,16 @@ private fun AppIconItem(app: AppUiModel, onAppClicked: (AppId) -> Unit) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
-            .padding(Dimens.Margin.Small)
+            .padding(Dimens.Margin.small)
             .fillMaxWidth()
             .clickable { onAppClicked(app.id) }
     ) {
         Image(
             painter = rememberAsyncImagePainter(model = app.icon),
-            contentDescription = stringResource(id = string.x_app_icon_description),
+            contentDescription = stringResource(id = string.app_icon_description),
             modifier = Modifier.size(Dimens.Icon.Large)
         )
-        Spacer(modifier = Modifier.height(Dimens.Margin.Small))
+        Spacer(modifier = Modifier.height(Dimens.Margin.small))
         Text(
             text = app.name,
             maxLines = 1,

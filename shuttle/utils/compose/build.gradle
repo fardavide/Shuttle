@@ -1,11 +1,15 @@
 apply plugin: 'shuttle.android.compose.library'
 
-// modules
-dependencies {
-    api projects.shuttle.utils.android
-    testImplementation projects.shuttle.test.compose
+optIns {
+    experimentalWindowSizeClassApi()
 }
 
 dependencies {
+    api projects.shuttle.utils.android
+    testImplementation projects.shuttle.test.compose
+
     api libs.androidx.lifecycle.viewModel
+    api libs.bundles.base
+    api libs.bundles.compose
+    implementation libs.material3.windowSizeClass
 }

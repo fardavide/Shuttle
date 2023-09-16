@@ -48,7 +48,7 @@ object CheckableListItem {
             isChecked = isChecked,
             onCheckChange = onCheckChange,
             iconSize = Dimens.Icon.Small,
-            iconPadding = Dimens.Margin.Medium
+            iconPadding = Dimens.Margin.medium
         )
     }
 
@@ -134,8 +134,8 @@ object CheckableListItem {
                 .padding(
                     top = Dimens.Margin.XXSmall,
                     bottom = Dimens.Margin.XXSmall,
-                    start = Dimens.Margin.Medium,
-                    end = Dimens.Margin.Small
+                    start = Dimens.Margin.medium,
+                    end = Dimens.Margin.small
                 )
                 .clickable { toggleAction(checkedState.not()) }
         ) {
@@ -144,7 +144,7 @@ object CheckableListItem {
                 painter = icon,
                 contentDescription = contentDescription?.let { string(textRes = it) }
             )
-            Spacer(modifier = Modifier.width(Dimens.Margin.Medium))
+            Spacer(modifier = Modifier.width(Dimens.Margin.medium))
             Text(
                 text = string(textRes = title),
                 style = MaterialTheme.typography.titleMedium

@@ -1,21 +1,18 @@
 package shuttle.analytics.android
 
 import android.os.Bundle
-import com.google.firebase.analytics.ktx.analytics
-import com.google.firebase.ktx.Firebase
 import org.koin.core.annotation.Single
 import shuttle.analytics.Analytics
 import shuttle.analytics.AnalyticsEvent
+import com.google.firebase.analytics.FirebaseAnalytics as GoogleFirebaseAnalytics
 
 @Single
-internal class FirebaseAnalytics : Analytics {
-
-    init {
-        Firebase.analytics.setAnalyticsCollectionEnabled(true)
-    }
+internal class FirebaseAnalytics(
+    private val analytics: GoogleFirebaseAnalytics
+) : Analytics {
 
     override fun log(event: AnalyticsEvent) {
-        Firebase.analytics.logEvent(event.name, event.toBundle())
+        analytics.logEvent(event.name, event.toBundle())
     }
 
     companion object {

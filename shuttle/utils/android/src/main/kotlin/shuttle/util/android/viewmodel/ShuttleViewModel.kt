@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 
 abstract class ShuttleViewModel<Action, State>(
     initialState: State
@@ -19,5 +20,9 @@ abstract class ShuttleViewModel<Action, State>(
 
     protected suspend fun emit(state: State) {
         mutableState.emit(state)
+    }
+
+    fun update(transform: (State) -> State) {
+        mutableState.update(transform)
     }
 }

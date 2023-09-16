@@ -78,7 +78,7 @@ private fun IconPackList(
     iconPackItems: ImmutableList<IconPackSettingsItemUiModel>,
     onSetCurrentIconPack: (Option<AppId>) -> Unit
 ) {
-    LazyColumn(contentPadding = PaddingValues(Dimens.Margin.Small)) {
+    LazyColumn(contentPadding = PaddingValues(Dimens.Margin.small)) {
         items(iconPackItems) { iconPackItem ->
             FromAppIconPackItem(
                 iconPackItem = iconPackItem,
@@ -106,15 +106,15 @@ private fun FromAppIconPackItem(
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.padding(vertical = Dimens.Margin.XXSmall, horizontal = Dimens.Margin.Small)
+        modifier = Modifier.padding(vertical = Dimens.Margin.XXSmall, horizontal = Dimens.Margin.small)
     ) {
         if (icon != null) {
             Image(
                 painter = rememberAsyncImagePainter(model = icon),
-                contentDescription = stringResource(id = string.x_app_icon_description),
+                contentDescription = stringResource(id = string.app_icon_description),
                 modifier = Modifier.size(Dimens.Icon.Medium)
             )
-            Spacer(modifier = Modifier.width(Dimens.Margin.Medium))
+            Spacer(modifier = Modifier.width(Dimens.Margin.medium))
         }
         Text(
             text = name,

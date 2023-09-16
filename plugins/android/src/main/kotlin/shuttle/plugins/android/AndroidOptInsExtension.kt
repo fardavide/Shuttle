@@ -29,6 +29,10 @@ open class AndroidOptInsExtension @Inject constructor(private val project: Proje
         optIn(AndroidDefaults.ExperimentalTestApi)
     }
 
+    fun experimentalWindowSizeClassApi() {
+        optIn(AndroidDefaults.ExperimentalWindowSizeClassApi)
+    }
+
     fun flowPreview() {
         optIn(KotlinDefaults.FlowPreview)
     }

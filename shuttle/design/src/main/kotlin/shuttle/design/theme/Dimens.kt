@@ -18,9 +18,9 @@ object Dimens {
 
         val XXSmall = 2.dp
         val XSmall = 4.dp
-        val Small = 8.dp
-        val Medium = 16.dp
-        val Large = 24.dp
+        val small = 8.dp
+        val medium = 16.dp
+        val large = 24.dp
         val XLarge = 32.dp
         val XXLarge = 48.dp
     }

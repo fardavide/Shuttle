@@ -6,6 +6,7 @@ data class SettingsState(
     val permissions: Permissions,
     val appVersion: String,
     val openOnboardingEffect: Effect<Unit>,
+    val shouldShowConsents: Boolean,
     val shouldShowStatisticsItem: Boolean,
     val useExperimentalAppSorting: Boolean
 ) {
@@ -23,6 +24,7 @@ data class SettingsState(
             permissions = Permissions.Loading,
             appVersion = "",
             openOnboardingEffect = Effect.empty(),
+            shouldShowConsents = false,
             shouldShowStatisticsItem = false,
             useExperimentalAppSorting = false
         )

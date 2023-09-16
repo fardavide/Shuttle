@@ -18,6 +18,9 @@ include 'shuttle:apps:data',
         'shuttle:apps:domain',
         'shuttle:apps:presentation'
 
+include 'shuttle:consents:domain',
+        'shuttle:consents:presentation'
+
 include 'shuttle:coordinates:data',
         'shuttle:coordinates:domain'
 

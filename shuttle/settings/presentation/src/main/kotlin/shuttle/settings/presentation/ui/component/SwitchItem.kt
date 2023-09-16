@@ -28,7 +28,7 @@ internal fun SwitchItem(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = Dimens.Margin.Small, horizontal = Dimens.Margin.Medium),
+            .padding(vertical = Dimens.Margin.small, horizontal = Dimens.Margin.medium),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {

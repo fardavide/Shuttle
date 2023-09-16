@@ -53,7 +53,7 @@ fun WidgetPreview(model: WidgetPreviewUiModel) {
             .wrapContentSize()
             .background(
                 color = color,
-                shape = RoundedCornerShape(Dimens.Margin.Large)
+                shape = RoundedCornerShape(Dimens.Margin.large)
             )
             .padding(horizontal = layout.horizontalSpacing, vertical = layout.verticalSpacing)
     ) {
@@ -83,7 +83,7 @@ private fun AppIconItem(app: WidgetPreviewAppUiModel?, widgetSettings: WidgetLay
     ) {
         Image(
             painter = rememberAsyncImagePainter(model = app.icon),
-            contentDescription = stringResource(id = string.x_app_icon_description),
+            contentDescription = stringResource(id = string.app_icon_description),
             modifier = Modifier.size(widgetSettings.iconSize)
         )
         Spacer(modifier = Modifier.height(widgetSettings.verticalSpacing))

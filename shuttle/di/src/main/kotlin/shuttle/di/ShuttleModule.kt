@@ -8,6 +8,8 @@ import shuttle.analytics.android.AnalyticsAndroidModule
 import shuttle.apps.data.AppsDataModule
 import shuttle.apps.domain.AppsDomainModule
 import shuttle.apps.presentation.AppsPresentationModule
+import shuttle.consents.domain.ConsentsDomainModule
+import shuttle.consents.presentation.ConsentsPresentationModule
 import shuttle.coordinates.data.CoordinatesDataModule
 import shuttle.coordinates.domain.CoordinatesDomainModule
 import shuttle.database.DatabaseModule
@@ -43,6 +45,9 @@ import shuttle.widget.WidgetModule
         AppsDataModule::class,
         AppsDomainModule::class,
         AppsPresentationModule::class,
+
+        ConsentsDomainModule::class,
+        ConsentsPresentationModule::class,
 
         CoordinatesDataModule::class,
         CoordinatesDomainModule::class,

@@ -14,7 +14,7 @@ class ShuttleApplication : Application(), ShuttleApplicationContext {
 
     override fun onCreate() {
         super.onCreate()
-        init(FirebaseStartup, KoinStartup, StrictModeStartup, SyncStartup)
+        init(KoinStartup, FirebaseStartup, StrictModeStartup, SyncStartup)
     }
 }
 

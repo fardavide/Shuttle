@@ -13,7 +13,7 @@ fun BackIconButton(onBack: () -> Unit) {
     IconButton(onClick = onBack) {
         Icon(
             imageVector = Icons.Rounded.ArrowBack,
-            contentDescription = stringResource(id = string.x_back_button_description)
+            contentDescription = stringResource(id = string.back_button_description)
         )
     }
 }

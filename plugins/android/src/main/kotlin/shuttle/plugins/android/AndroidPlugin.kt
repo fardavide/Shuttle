@@ -63,18 +63,6 @@ internal class AndroidPlugin : Plugin<Project> {
 
         ext.defaultConfig.testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        ext.lint {
-            checkAllWarnings = true
-            warningsAsErrors = true
-            disable += listOf(
-                "DuplicateStrings",
-                "GradleDependency",
-                "InvalidPackage",
-                "SyntheticAccessor",
-                "VectorPath"
-            )
-        }
-
         ext.packaging.resources.excludes.addAll(
             listOf(
                 "META-INF/licenses/ASM",

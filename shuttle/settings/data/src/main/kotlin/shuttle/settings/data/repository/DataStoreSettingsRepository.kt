@@ -56,6 +56,14 @@ internal class DataStoreSettingsRepository(
         Option.fromNullable(it[AppPreferenceKey.CurrentIconPack]?.let(::AppId))
     }.distinctUntilChanged()
 
+    override fun observeDidShowConsents(): Flow<Boolean> = dataStore.data.map {
+        it[AppPreferenceKey.DidShowConsents] ?: false
+    }.distinctUntilChanged()
+
+    override fun observeIsDataCollectionEnabled(): Flow<Boolean> = dataStore.data.map {
+        it[AppPreferenceKey.IsDataCollectionEnabled] ?: false
+    }.distinctUntilChanged()
+
     override fun observeKeepStatisticsFor(): Flow<KeepStatisticsFor> = dataStore.data.map {
         it[AppPreferenceKey.KeepStatisticsFor]?.let(KeepStatisticsFor::fromMonths) ?: KeepStatisticsFor.Default
     }.distinctUntilChanged()
@@ -105,9 +113,21 @@ internal class DataStoreSettingsRepository(
         }
     }
 
+    override suspend fun setIsDataCollectionEnabled(isDataCollectionEnabled: Boolean) {
+        dataStore.edit {
+            it[AppPreferenceKey.IsDataCollectionEnabled] = isDataCollectionEnabled
+        }
+    }
+
     override suspend fun setKeepStatisticsFor(keepStatisticsFor: KeepStatisticsFor) {
         dataStore.edit {
             it[AppPreferenceKey.KeepStatisticsFor] = keepStatisticsFor.toMonths()
+        }
+    }
+
+    override suspend fun setConsentsShown() {
+        dataStore.edit {
+            it[AppPreferenceKey.DidShowConsents] = true
         }
     }
 

@@ -5,30 +5,23 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.SheetState
-import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import shuttle.design.theme.Dimens
 import shuttle.design.theme.ShuttleTheme
-import shuttle.design.ui.ShuttleModalBottomSheet
+import shuttle.design.ui.Modal
 import shuttle.resources.R.string
 
 @Composable
-internal fun AccessibilityServiceDialog(
-    actions: AccessibilityServiceDialog.Actions,
-    sheetState: SheetState = rememberModalBottomSheetState()
-) {
-    ShuttleModalBottomSheet(sheetState = sheetState, onDismissRequest = actions.onDismiss) {
+internal fun AccessibilityServiceDialog(actions: AccessibilityServiceDialog.Actions) {
+    Modal(onDismiss = actions.onDismiss) {
         Column(
-            modifier = Modifier.padding(Dimens.Margin.Large),
-            verticalArrangement = Arrangement.spacedBy(Dimens.Margin.Medium)
+            modifier = Modifier.padding(Dimens.Margin.large),
+            verticalArrangement = Arrangement.spacedBy(Dimens.Margin.medium)
         ) {
             Text(text = stringResource(id = string.permissions_accessibility_dialog_disclosure))
             Row(horizontalArrangement = Arrangement.End, modifier = Modifier.fillMaxWidth()) {
@@ -60,31 +53,7 @@ object AccessibilityServiceDialog {
 private fun AccessibilityServiceDialogPreview() {
     ShuttleTheme {
         AccessibilityServiceDialog(
-            AccessibilityServiceDialog.Actions.Empty,
-            sheetState = rememberSheetState(initialValue = SheetValue.Expanded)
-        )
-    }
-}
-
-@Composable
-private fun rememberSheetState(
-    initialValue: SheetValue = SheetValue.Hidden,
-    skipHiddenState: Boolean = false
-): SheetState {
-    val confirmValueChange: (SheetValue) -> Boolean = { true }
-    val skipPartiallyExpanded = false
-    return rememberSaveable(
-        skipPartiallyExpanded, confirmValueChange,
-        saver = SheetState.Saver(
-            skipPartiallyExpanded = skipPartiallyExpanded,
-            confirmValueChange = confirmValueChange
-        )
-    ) {
-        SheetState(
-            skipPartiallyExpanded = skipPartiallyExpanded,
-            initialValue = initialValue,
-            confirmValueChange = confirmValueChange,
-            skipHiddenState = skipHiddenState
+            AccessibilityServiceDialog.Actions.Empty
         )
     }
 }

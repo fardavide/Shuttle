@@ -39,12 +39,12 @@ internal fun PermissionItem(permissionItem: PermissionItemUiModel, onRequestPerm
     Card(
         colors = CardDefaults.cardColors(containerColor = containerColor),
         modifier = Modifier
-            .padding(horizontal = Dimens.Margin.Medium, vertical = Dimens.Margin.Small)
+            .padding(horizontal = Dimens.Margin.medium, vertical = Dimens.Margin.small)
             .fillMaxWidth()
     ) {
         Box(
             modifier = Modifier
-                .padding(horizontal = Dimens.Margin.Medium, vertical = Dimens.Margin.Small)
+                .padding(horizontal = Dimens.Margin.medium, vertical = Dimens.Margin.small)
                 .fillMaxWidth()
         ) {
             when (permissionItem) {
@@ -71,7 +71,7 @@ private fun GrantedPermissionItem(permissionItem: PermissionItemUiModel.Granted)
                 contentDescription = stringResource(permissionItem.permissionGrantedDescription)
             )
         }
-        Spacer(modifier = Modifier.height(Dimens.Margin.Small))
+        Spacer(modifier = Modifier.height(Dimens.Margin.small))
         Text(
             text = stringResource(permissionItem.permissionGrantedDescription),
             style = MaterialTheme.typography.bodyMedium,
@@ -100,14 +100,14 @@ private fun NotGrantedPermissionItem(
                 contentDescription = stringResource(permissionItem.permissionNotGrantedDescription)
             )
         }
-        Spacer(modifier = Modifier.height(Dimens.Margin.Small))
+        Spacer(modifier = Modifier.height(Dimens.Margin.small))
         Text(
             text = stringResource(permissionItem.description),
             style = MaterialTheme.typography.bodyMedium,
             textAlign = TextAlign.Justify,
             modifier = Modifier.fillMaxWidth()
         )
-        Spacer(modifier = Modifier.height(Dimens.Margin.Small))
+        Spacer(modifier = Modifier.height(Dimens.Margin.small))
         Row(horizontalArrangement = Arrangement.End, modifier = Modifier.fillMaxWidth()) {
             TextButton(
                 colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colorScheme.onErrorContainer),

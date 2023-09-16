@@ -42,7 +42,7 @@ fun AllAppsListPage() {
 
 @Composable
 internal fun AllAppsList(apps: ImmutableList<AppUiModel>) {
-    LazyColumn(contentPadding = PaddingValues(Dimens.Margin.Large)) {
+    LazyColumn(contentPadding = PaddingValues(Dimens.Margin.large)) {
         items(apps) {
             AppListItem(it)
         }
@@ -51,13 +51,13 @@ internal fun AllAppsList(apps: ImmutableList<AppUiModel>) {
 
 @Composable
 internal fun AppListItem(app: AppUiModel) {
-    Row(modifier = Modifier.padding(vertical = Dimens.Margin.Medium)) {
+    Row(modifier = Modifier.padding(vertical = Dimens.Margin.medium)) {
         Image(
             painter = rememberAsyncImagePainter(model = app.icon),
-            contentDescription = stringResource(id = string.x_app_icon_description),
+            contentDescription = stringResource(id = string.app_icon_description),
             modifier = Modifier.size(Dimens.Icon.Large)
         )
-        Spacer(modifier = Modifier.width(Dimens.Margin.Large))
+        Spacer(modifier = Modifier.width(Dimens.Margin.large))
         Text(
             text = app.name,
             style = MaterialTheme.typography.titleSmall,

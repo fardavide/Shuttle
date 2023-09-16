@@ -54,19 +54,19 @@ object NavigableListItem {
             modifier = Modifier
                 .fillMaxWidth()
                 .clickable { onClick() }
-                .padding(horizontal = Dimens.Margin.Medium),
+                .padding(horizontal = Dimens.Margin.medium),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(
                     modifier = Modifier
-                        .padding(Dimens.Margin.Medium)
+                        .padding(Dimens.Margin.medium)
                         .size(Dimens.Icon.Small),
                     painter = iconPainter,
                     contentDescription = contentDescription
                 )
-                Spacer(modifier = Modifier.width(Dimens.Margin.Medium))
+                Spacer(modifier = Modifier.width(Dimens.Margin.medium))
                 Text(text = title, style = MaterialTheme.typography.titleMedium)
             }
             Icon(

@@ -4,10 +4,10 @@ optIns {
     experimentalPermissionsApi()
 }
 
-// modules
 dependencies {
     implementation projects.shuttle.accessibility
     implementation projects.shuttle.apps.domain
+    implementation projects.shuttle.consents.presentation
     implementation projects.shuttle.design
     implementation projects.shuttle.icons.domain
     implementation projects.shuttle.payments.domain
@@ -17,19 +17,12 @@ dependencies {
     implementation projects.shuttle.utils.android
 
     androidTestImplementation projects.shuttle.test.compose
-}
 
-dependencies {
     implementation libs.accompanist.permissions
     implementation libs.androidx.lifecycle.viewModel
     implementation libs.bundles.base
-    implementation libs.bundles.compose
     implementation libs.koin.android
     implementation libs.navigation.compose
 
-    debugImplementation libs.compose.uiTooling
-
-    testImplementation libs.bundles.test.kotlin
-    androidTestImplementation libs.bundles.test.android
-    androidTestImplementation libs.compose.uiTest
+    debugImplementation libs.bundles.compose.debug
 }

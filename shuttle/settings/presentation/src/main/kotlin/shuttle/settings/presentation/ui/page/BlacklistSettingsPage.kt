@@ -92,7 +92,7 @@ private fun SearchBar(onSearch: (String) -> Unit) {
     OutlinedTextField(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(start = Dimens.Margin.Large, end = Dimens.Margin.Large, bottom = Dimens.Margin.Small),
+            .padding(start = Dimens.Margin.large, end = Dimens.Margin.large, bottom = Dimens.Margin.small),
         placeholder = { Text(text = stringResource(id = string.settings_blacklist_search)) },
         singleLine = true,
         keyboardOptions = KeyboardOptions(
@@ -112,7 +112,7 @@ private fun BlacklistItemsList(
     apps: ImmutableList<AppBlacklistSettingUiModel>,
     actions: AppListItem.Actions
 ) {
-    LazyColumn(contentPadding = PaddingValues(Dimens.Margin.Small)) {
+    LazyColumn(contentPadding = PaddingValues(Dimens.Margin.small)) {
         items(apps) { model ->
             AppListItem(model, actions)
         }
@@ -129,7 +129,7 @@ private fun AppListItem(app: AppBlacklistSettingUiModel, actions: AppListItem.Ac
         id = app.id,
         title = TextRes(app.name),
         iconDrawable = app.icon,
-        contentDescription = TextRes(string.x_app_icon_description),
+        contentDescription = TextRes(string.app_icon_description),
         isChecked = app.isBlacklisted,
         onCheckChange = onCheckChange
     )

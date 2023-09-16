@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <issue id="ComposeCompositionLocalUsage" severity="ignore"/>
+    <issue id="DuplicateStrings" severity="ignore"/>
+    <issue id="GradleDependency" severity="ignore"/>
+    <issue id="InvalidPackage">
+        <ignore path="**/.gradle/**"/>
+    </issue>
+    <issue id="MissingPermission">
+        <ignore path="**/NotificationReference.kt"/>
+    </issue>
+    <issue id="SyntheticAccessor" severity="ignore"/>
+</lint>

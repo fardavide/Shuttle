@@ -7,8 +7,11 @@ import org.koin.android.annotation.KoinViewModel
 import shuttle.accessibility.usecase.IsLaunchCounterServiceEnabled
 import shuttle.design.util.Effect
 import shuttle.permissions.domain.usecase.HasAllLocationPermissions
+import shuttle.settings.domain.usecase.ObserveDidShowConsents
 import shuttle.settings.domain.usecase.ObserveUseExperimentalAppSorting
 import shuttle.settings.domain.usecase.ResetOnboardingShown
+import shuttle.settings.domain.usecase.SetConsentsShown
+import shuttle.settings.domain.usecase.SetIsDataCollectionEnabled
 import shuttle.settings.domain.usecase.SetUseExperimentalAppSorting
 import shuttle.settings.presentation.action.SettingsAction
 import shuttle.settings.presentation.state.SettingsState
@@ -20,23 +23,32 @@ class SettingsViewModel(
     private val getAppVersion: GetAppVersion,
     private val hasAllLocationPermissions: HasAllLocationPermissions,
     private val isLaunchCounterServiceEnabled: IsLaunchCounterServiceEnabled,
+    private val observeDidShowConsents: ObserveDidShowConsents,
     private val observeUseExperimentalAppSorting: ObserveUseExperimentalAppSorting,
     private val resetOnboardingShown: ResetOnboardingShown,
+    private val setConsentsShown: SetConsentsShown,
+    private val setIsDataCollectionEnabled: SetIsDataCollectionEnabled,
     private val setUseExperimentalAppSorting: SetUseExperimentalAppSorting
 ) : ShuttleViewModel<SettingsAction, SettingsState>(initialState = SettingsState.Loading) {
 
     init {
         viewModelScope.launch {
-            val newState = state.value.copy(appVersion = getAppVersion().toString())
-            emit(newState)
+            val appVersion = getAppVersion().toString()
+            update { state -> state.copy(appVersion = appVersion) }
+        }
+        viewModelScope.launch {
+            observeDidShowConsents().collect { didShowConsents ->
+                update { state -> state.copy(shouldShowConsents = !didShowConsents) }
+            }
         }
         viewModelScope.launch {
             observeUseExperimentalAppSorting().collect { useExperimentalAppSorting ->
-                val newState = state.value.copy(
-                    shouldShowStatisticsItem = useExperimentalAppSorting.not(),
-                    useExperimentalAppSorting = useExperimentalAppSorting
-                )
-                emit(newState)
+                update { state ->
+                    state.copy(
+                        shouldShowStatisticsItem = useExperimentalAppSorting.not(),
+                        useExperimentalAppSorting = useExperimentalAppSorting
+                    )
+                }
             }
         }
     }
@@ -45,6 +57,8 @@ class SettingsViewModel(
         viewModelScope.launch {
             val newState = when (action) {
                 SettingsAction.ResetOnboardingShown -> onResetOnboardingShown()
+                SettingsAction.SetConsentsShown -> onSetConsentsShown()
+                is SettingsAction.SetIsDataCollectionEnabled -> onSetIsDataCollectionEnabled(action.enable)
                 is SettingsAction.ToggleExperimentalAppSorting -> onUseExperimentalAppSortingChanged(action.enable)
                 is SettingsAction.UpdatePermissionsState -> onPermissionsStateUpdate(action.permissionsState)
             }
@@ -52,16 +66,26 @@ class SettingsViewModel(
         }
     }
 
-    private suspend fun onResetOnboardingShown(): SettingsState {
-        resetOnboardingShown()
-        return state.value.copy(openOnboardingEffect = Effect.of(Unit))
-    }
-
     private fun onPermissionsStateUpdate(permissionsState: MultiplePermissionsState): SettingsState {
         val hasPermissions = hasAllLocationPermissions(permissionsState) && isLaunchCounterServiceEnabled()
         val permissions = if (hasPermissions) SettingsState.Permissions.Granted else SettingsState.Permissions.Denied
 
         return state.value.copy(permissions = permissions)
+    }
+
+    private suspend fun onResetOnboardingShown(): SettingsState {
+        resetOnboardingShown()
+        return state.value.copy(openOnboardingEffect = Effect.of(Unit))
+    }
+
+    private suspend fun onSetConsentsShown(): SettingsState {
+        setConsentsShown()
+        return state.value.copy(shouldShowConsents = false)
+    }
+
+    private suspend fun onSetIsDataCollectionEnabled(enable: Boolean): SettingsState {
+        setIsDataCollectionEnabled(enable)
+        return state.value
     }
 
     private suspend fun onUseExperimentalAppSortingChanged(enable: Boolean): SettingsState {

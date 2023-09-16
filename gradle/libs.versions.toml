@@ -131,6 +131,7 @@ kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version
 kotlin-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinSerialization" }
 
 material3 = { module = "androidx.compose.material3:material3", version.ref = "material3" }
+material3-windowSizeClass = { module = "androidx.compose.material3:material3-window-size-class", version.ref = "material3" }
 
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 mockk-android = { module = "io.mockk:mockk-android", version.ref = "mockk" }

@@ -78,7 +78,7 @@ private fun SliderItemContainer(
     currentValueText: TextRes,
     content: @Composable () -> Unit
 ) {
-    Column(modifier = Modifier.padding(vertical = Dimens.Margin.Small, horizontal = Dimens.Margin.Medium)) {
+    Column(modifier = Modifier.padding(vertical = Dimens.Margin.small, horizontal = Dimens.Margin.medium)) {
         Row {
             Text(text = stringResource(id = title), style = MaterialTheme.typography.titleMedium)
             Text(

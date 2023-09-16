@@ -15,7 +15,7 @@ import shuttle.design.theme.ShuttleTheme
 
 @Composable
 fun TextError(text: String) {
-    Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize().padding(Dimens.Margin.Large)) {
+    Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize().padding(Dimens.Margin.large)) {
         Text(textAlign = TextAlign.Justify, style = MaterialTheme.typography.headlineMedium, text = text)
     }
 }

@@ -30,7 +30,7 @@ internal fun OnboardingBlacklistPage(
         index = OnboardingPage.Index.BLACKLIST,
         title = string.onboarding_blacklist_title,
         content = {
-            Box(modifier = Modifier.imageContainerBackground().padding(Dimens.Margin.Small)) {
+            Box(modifier = Modifier.imageContainerBackground().padding(Dimens.Margin.small)) {
                 when (state) {
                     OnboardingBlacklistState.Loading -> LoadingSpinner()
                     is OnboardingBlacklistState.Data -> OnboardingBlacklistImage(uiModel = state.blacklist)

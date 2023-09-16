@@ -25,6 +25,8 @@ class Effect<T : Any> private constructor(private var event: T?) {
     }
 }
 
+fun Effect.Companion.ofUnit() = of(Unit)
+
 /**
  * Executes a [LaunchedEffect] in the scope of [effect]
  * @param block will be called only when there is an [Effect.event] to consume

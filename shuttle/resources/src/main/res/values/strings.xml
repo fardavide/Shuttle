@@ -2,10 +2,12 @@
 <resources>
 
     <!-- region Common -->
-    <string name="x_app_icon_description">App icon</string>
-    <string name="x_back_button_description">Back</string>
-    <string name="x_generic_error">Something wrong happened!</string>
-
+    <string name="action_consent">Consent</string>
+    <string name="action_decline">Decline</string>
+    <string name="app_icon_description">App icon</string>
+    <string name="back_button_description">Back</string>
+    <string name="close_button_description">Close</string>
+    <string name="generic_error">Something wrong happened!</string>
     <string name="navigable_item_go_to">Go to %s</string>
     <!-- endregion -->
 
@@ -13,6 +15,10 @@
     <string name="app_name" translatable="false">Shuttle</string>
     <string name="launch_counter_service_description">This service will count how many time an app has been launched on the device</string>
     <!-- endregion -->
+
+    <!-- region Consents -->
+    <string name="consents_data_title">Data usage</string>
+    <string name="consents_data_description">We use Firebase Analytics, Performance Monitoring, and Crashlytics to improve our app\'s functionality and stability. The data collected is anonymous and used solely for analytical and debugging purposes. Do you consent to the collection of anonymous usage data?</string>
 
     <!-- region Onboarding -->
     <string name="onboarding_main_title">Welcome to Shuttle!</string>

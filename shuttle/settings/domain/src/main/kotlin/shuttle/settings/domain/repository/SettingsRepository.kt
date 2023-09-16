@@ -19,6 +19,10 @@ interface SettingsRepository {
 
     fun observeCurrentIconPack(): Flow<Option<AppId>>
 
+    fun observeDidShowConsents(): Flow<Boolean>
+
+    fun observeIsDataCollectionEnabled(): Flow<Boolean>
+
     fun observeKeepStatisticsFor(): Flow<KeepStatisticsFor>
 
     fun observeUseExperimentalAppSorting(): Flow<Boolean>
@@ -33,7 +37,11 @@ interface SettingsRepository {
 
     suspend fun setHasEnabledAccessibilityService()
 
+    suspend fun setIsDataCollectionEnabled(isDataCollectionEnabled: Boolean)
+
     suspend fun setKeepStatisticsFor(keepStatisticsFor: KeepStatisticsFor)
+
+    suspend fun setConsentsShown()
 
     suspend fun setOnboardingShow()
 

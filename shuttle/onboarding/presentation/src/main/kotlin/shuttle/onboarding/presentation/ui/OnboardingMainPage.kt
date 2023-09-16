@@ -21,7 +21,7 @@ internal fun OnboardingMainPage(actions: OnboardingPage.NavigationActions) {
             Image(
                 modifier = Modifier.size(Dimens.Component.XXXLarge),
                 painter = painterResource(id = drawable.ic_shuttle_foreground),
-                contentDescription = stringResource(id = string.x_app_icon_description)
+                contentDescription = stringResource(id = string.app_icon_description)
             )
         },
         description = string.onboarding_main_description,

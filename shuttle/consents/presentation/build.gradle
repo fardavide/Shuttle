@@ -1,0 +1,13 @@
+apply plugin: 'shuttle.android.compose.library'
+
+dependencies {
+    implementation projects.shuttle.consents.domain
+    implementation projects.shuttle.design
+    implementation projects.shuttle.resources
+
+    implementation libs.androidx.lifecycle.viewModel
+    implementation libs.koin.android
+
+    testImplementation libs.bundles.test.kotlin
+    androidTestImplementation libs.compose.uiTest
+}

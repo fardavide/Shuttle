@@ -83,9 +83,9 @@
     <string name="settings_widget_layout_toolbar_drag_description">Trascina verticalmente per dimensionare</string>
     <string name="settings_widget_layout_two_lines">Etichette app su due linee</string>
     <string name="settings_widget_layout_vertical_spacing">Spazio verticale tra le icone</string>
-    <string name="x_app_icon_description">Icona app</string>
-    <string name="x_back_button_description">Indietro</string>
-    <string name="x_generic_error">Qualcosa è andato storto!</string>
+    <string name="app_icon_description">Icona app</string>
+    <string name="back_button_description">Indietro</string>
+    <string name="generic_error">Qualcosa è andato storto!</string>
     <string name="settings_widget_colors_transparency">Trasparenza sfondo</string>
     <string name="settings_widget_colors_use_material_colors">Usa color Material U</string>
     <string name="widget_description">Suggerisce le app più utilizzare a seconda di orario e posizione</string>
@@ -98,5 +98,10 @@
         <item quantity="other">%d mesi</item>
     </plurals>
     <string name="settings_statistics_keep_forever">Per sempre</string>
+    <string name="close_button_description">Chiudi</string>
+    <string name="consents_data_description">Usiamo Firebase Analytics, Performance Monitoring e Crashlytics per migliorare la funzionalità e la stabilità dell’app. I dati raccolti sono anonimi e usati solo per scopi analitici e di debug. Acconsenti alla raccolta di dati anonimi?</string>
+    <string name="consents_data_title">Uso dei dati</string>
+    <string name="action_consent">Acconsento</string>
+    <string name="action_decline">Declino</string>
 
 </resources>

@@ -987,6 +987,7 @@ style:
 Compose:
   CompositionLocalAllowlist:
     active: true
+    allowedCompositionLocals: ['LocalWindowSizeClass']
   ContentEmitterReturningValues:
     active: true
     # You can optionally add your own composables here

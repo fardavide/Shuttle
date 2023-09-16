@@ -8,6 +8,8 @@ dependencies {
     implementation projects.shuttle.apps.data
     implementation projects.shuttle.apps.domain
     implementation projects.shuttle.apps.presentation
+    implementation projects.shuttle.consents.domain
+    implementation projects.shuttle.consents.presentation
     implementation projects.shuttle.coordinates.data
     implementation projects.shuttle.coordinates.domain
     implementation projects.shuttle.database
