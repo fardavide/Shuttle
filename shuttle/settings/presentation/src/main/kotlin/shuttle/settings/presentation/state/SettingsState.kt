@@ -5,6 +5,7 @@ import shuttle.design.util.Effect
 data class SettingsState(
     val permissions: Permissions,
     val appVersion: String,
+    val isDataCollectionEnabled: Boolean,
     val openOnboardingEffect: Effect<Unit>,
     val shouldShowConsents: Boolean,
     val shouldShowStatisticsItem: Boolean,
@@ -23,6 +24,7 @@ data class SettingsState(
         val Loading = SettingsState(
             permissions = Permissions.Loading,
             appVersion = "",
+            isDataCollectionEnabled = false,
             openOnboardingEffect = Effect.empty(),
             shouldShowConsents = false,
             shouldShowStatisticsItem = false,

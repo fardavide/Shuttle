@@ -8,6 +8,7 @@ import shuttle.accessibility.usecase.IsLaunchCounterServiceEnabled
 import shuttle.design.util.Effect
 import shuttle.permissions.domain.usecase.HasAllLocationPermissions
 import shuttle.settings.domain.usecase.ObserveDidShowConsents
+import shuttle.settings.domain.usecase.ObserveIsDataCollectionEnabled
 import shuttle.settings.domain.usecase.ObserveUseExperimentalAppSorting
 import shuttle.settings.domain.usecase.ResetOnboardingShown
 import shuttle.settings.domain.usecase.SetConsentsShown
@@ -24,6 +25,7 @@ class SettingsViewModel(
     private val hasAllLocationPermissions: HasAllLocationPermissions,
     private val isLaunchCounterServiceEnabled: IsLaunchCounterServiceEnabled,
     private val observeDidShowConsents: ObserveDidShowConsents,
+    private val observeIsDataCollectionEnabled: ObserveIsDataCollectionEnabled,
     private val observeUseExperimentalAppSorting: ObserveUseExperimentalAppSorting,
     private val resetOnboardingShown: ResetOnboardingShown,
     private val setConsentsShown: SetConsentsShown,
@@ -39,6 +41,11 @@ class SettingsViewModel(
         viewModelScope.launch {
             observeDidShowConsents().collect { didShowConsents ->
                 update { state -> state.copy(shouldShowConsents = !didShowConsents) }
+            }
+        }
+        viewModelScope.launch {
+            observeIsDataCollectionEnabled().collect { isDataCollectionEnabled ->
+                update { state -> state.copy(isDataCollectionEnabled = isDataCollectionEnabled) }
             }
         }
         viewModelScope.launch {

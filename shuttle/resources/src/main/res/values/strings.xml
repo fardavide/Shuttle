@@ -17,7 +17,7 @@
     <!-- endregion -->
 
     <!-- region Consents -->
-    <string name="consents_data_title">Data usage</string>
+    <string name="consents_data_title">Data consent</string>
     <string name="consents_data_description">We use Firebase Analytics, Performance Monitoring, and Crashlytics to improve our app\'s functionality and stability. The data collected is anonymous and used solely for analytical and debugging purposes. Do you consent to the collection of anonymous usage data?</string>
 
     <!-- region Onboarding -->
@@ -102,6 +102,8 @@
     <string name="settings_check_permissions_description">Verify the state of the required permissions</string>
     <string name="settings_check_permissions_granted_description">All the required permissions are granted</string>
     <string name="settings_check_permissions_not_granted_description">Some of the required permissions are not granted</string>
+
+    <string name="settings_consents_description">Allow anonymous analytics data collection</string>
 
     <string name="settings_experimental_app_sorting_title">Experimental app sorting</string>
     <string name="settings_experimental_app_sorting_description">Try a new way to sort apps. This feature is still experimental and may not work as expected</string>

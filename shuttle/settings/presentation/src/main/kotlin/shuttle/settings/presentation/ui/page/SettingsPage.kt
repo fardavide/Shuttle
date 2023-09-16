@@ -54,9 +54,14 @@ fun SettingsPage(navigationActions: SettingsPage.NavigationActions) {
     val viewModel = getViewModel<SettingsViewModel>()
     val state by viewModel.state.collectAsStateLifecycleAware()
 
-    val actions = navigationActions.toActions(toggleExperimentalAppSorting = { enable ->
-        viewModel.submit(SettingsAction.ToggleExperimentalAppSorting(enable))
-    })
+    val actions = navigationActions.toActions(
+        toggleConsents = { enable ->
+            viewModel.submit(SettingsAction.SetIsDataCollectionEnabled(enable))
+        },
+        toggleExperimentalAppSorting = { enable ->
+            viewModel.submit(SettingsAction.ToggleExperimentalAppSorting(enable))
+        }
+    )
 
     ConsumableLaunchedEffect(effect = state.openOnboardingEffect) {
         actions.toOnboarding()
@@ -115,6 +120,7 @@ private fun SettingsContent(
                 StatisticsItem(actions.toStatistics)
             }
         }
+        item { ConsentsItem(state.isDataCollectionEnabled, actions.toggleConsents) }
 
         item { InfoSection() }
         item { RestartOnboardingItem(resetOnboardingShown) }
@@ -189,6 +195,17 @@ private fun StatisticsItem(toDataSettings: () -> Unit) {
         description = stringResource(id = string.settings_statistics_description)
     )
     SettingsItem(item = uiModel, onClick = toDataSettings)
+}
+
+@Composable
+private fun ConsentsItem(isDataCollectionEnabled: Boolean, toggleConsents: (Boolean) -> Unit) {
+    val uiModel = SettingsItemUiModel(
+        title = stringResource(id = string.consents_data_title),
+        description = stringResource(id = string.settings_consents_description)
+    )
+    SettingsItem(item = uiModel, onClick = { toggleConsents(!isDataCollectionEnabled) }) {
+        Switch(checked = isDataCollectionEnabled, onCheckedChange = null)
+    }
 }
 
 @Composable
@@ -299,6 +316,7 @@ object SettingsPage {
         val toPermissions: () -> Unit,
         val toStatistics: () -> Unit,
         val toWidgetLayout: () -> Unit,
+        val toggleConsents: (Boolean) -> Unit,
         val toggleExperimentalAppSorting: (Boolean) -> Unit
     ) {
 
@@ -312,6 +330,7 @@ object SettingsPage {
                 toPermissions = {},
                 toStatistics = {},
                 toWidgetLayout = {},
+                toggleConsents = {},
                 toggleExperimentalAppSorting = {}
             )
         }
@@ -327,7 +346,10 @@ object SettingsPage {
         val toWidgetLayout: () -> Unit
     ) {
 
-        internal fun toActions(toggleExperimentalAppSorting: (Boolean) -> Unit) = Actions(
+        internal fun toActions(
+            toggleConsents: (Boolean) -> Unit,
+            toggleExperimentalAppSorting: (Boolean) -> Unit
+        ) = Actions(
             toAbout = toAbout,
             toBlacklist = toBlacklist,
             toIconPacks = toIconPacks,
@@ -335,6 +357,7 @@ object SettingsPage {
             toPermissions = toPermissions,
             toStatistics = toStatistics,
             toWidgetLayout = toWidgetLayout,
+            toggleConsents = toggleConsents,
             toggleExperimentalAppSorting = toggleExperimentalAppSorting
         )
     }
@@ -344,9 +367,10 @@ object SettingsPage {
 @Composable
 private fun SettingsContentPreview() {
     val state = SettingsState(
-        permissions = SettingsState.Permissions.Granted,
         appVersion = "123",
+        isDataCollectionEnabled = true,
         openOnboardingEffect = Effect.empty(),
+        permissions = SettingsState.Permissions.Granted,
         shouldShowConsents = false,
         shouldShowStatisticsItem = true,
         useExperimentalAppSorting = false
