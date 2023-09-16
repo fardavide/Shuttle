@@ -5,7 +5,7 @@ import shuttle.launchers.Launchers
 
 interface LaunchersLogger {
 
-    fun logUnknownLaunchers(packageNames: List<String>)
+    fun logLaunchers(packageNames: List<String>)
 }
 
 @Factory
@@ -13,15 +13,20 @@ internal class RealLaunchersLogger(
     private val analytics: Analytics
 ) : LaunchersLogger {
 
-    override fun logUnknownLaunchers(packageNames: List<String>) {
-        val unknownLaunchers = packageNames.filterNot { it in Launchers.all() }
-        if (unknownLaunchers.isEmpty()) return
-
-        analytics.log(
-            event("unknown_launchers") {
-                "count" withValue unknownLaunchers.size
-                "package_names" withValue unknownLaunchers
-            }
-        )
+    override fun logLaunchers(packageNames: List<String>) {
+        for (launcher in packageNames) {
+            analytics.log(
+                event("installed_launcher") {
+                    "package_name" withValue launcher
+                }
+            )
+        }
+        for (unknownLauncher in packageNames.filterNot { it in Launchers.all() }) {
+            analytics.log(
+                event("unknown_launcher") {
+                    "package_name" withValue unknownLauncher
+                }
+            )
+        }
     }
 }

@@ -60,10 +60,6 @@ private fun Bundle.putAnalyticsString(key: String, value: String): Bundle = appl
 
 @Suppress("NestedBlockDepth")
 private fun Bundle.putAnalyticsCollection(key: String, value: Collection<*>): Bundle = apply {
-    if (value.isEmpty()) {
-        return@apply
-    }
-
     val listAsString = value.joinToString()
     if (listAsString.length <= FirebaseAnalytics.StringLimit) {
         putString(key, listAsString)
