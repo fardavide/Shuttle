@@ -17,14 +17,14 @@ internal class RealLaunchersLogger(
         for (launcher in packageNames) {
             analytics.log(
                 event("installed_launcher") {
-                    "package_name" withValue launcher
+                    "installed_launcher_package" withValue launcher
                 }
             )
         }
         for (unknownLauncher in packageNames.filterNot { it in Launchers.all() }) {
             analytics.log(
                 event("unknown_launcher") {
-                    "package_name" withValue unknownLauncher
+                    "unknown_launcher_package" withValue unknownLauncher
                 }
             )
         }
