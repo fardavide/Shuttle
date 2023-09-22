@@ -7,7 +7,7 @@ import android.content.pm.PackageManager
 import android.content.res.Resources
 import androidx.work.WorkManager
 import co.touchlab.kermit.Logger
-import co.touchlab.kermit.LoggerConfig
+import co.touchlab.kermit.StaticConfig
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -36,7 +36,7 @@ class AppModule {
     fun coroutineScope() = CoroutineScope(Job() + Dispatchers.Default)
 
     @Single
-    fun logger() = Logger(LoggerConfig.default)
+    fun logger() = Logger(StaticConfig())
 
     @Factory
     fun packageManager(context: Context): PackageManager = context.packageManager
