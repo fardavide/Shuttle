@@ -20,7 +20,7 @@ jobs:
           java-version: '19'
 
       - name: Download Release archive
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: archive
           path: app/build/outputs
