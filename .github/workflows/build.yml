@@ -20,7 +20,7 @@ jobs:
 
       - name: Cache Android build
         id: cache-build
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             ~/.gradle/caches
